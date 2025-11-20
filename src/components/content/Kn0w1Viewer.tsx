@@ -76,73 +76,113 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Hero Image */}
-      <div className="relative h-[60vh] bg-gradient-to-b from-purple-900 via-blue-900 to-black">
-        <img
-          src={activeItem.image}
-          alt={activeItem.title}
-          className="w-full h-full object-cover opacity-80"
-        />
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-        
-        {/* Badge */}
-        {activeItem.badge && (
-          <div className="absolute top-6 right-6 px-3 py-1 bg-cyan-500/20 border border-cyan-500 rounded text-sm text-cyan-400">
-            {activeItem.badge}
-          </div>
-        )}
-        
-        {/* Play Button Center */}
-        <button 
-          onClick={() => setIsFullscreen(true)}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-cyan-500/30 border-2 border-cyan-400 flex items-center justify-center group hover:scale-110 transition-all"
-        >
-          <Play className="h-8 w-8 text-cyan-400 ml-1" fill="currentColor" />
-        </button>
-
-        {/* Fullscreen Button */}
-        <button
-          onClick={() => setIsFullscreen(true)}
-          className="absolute top-6 left-6 p-2 bg-black/50 hover:bg-black/70 rounded-lg text-white transition-colors"
-        >
-          <Maximize2 className="h-5 w-5" />
-        </button>
-        
-        {/* Title and Controls Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-8">
-          <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
-            {activeItem.title}
-          </h2>
+      {/* Hero Section */}
+      <div className="flex h-[60vh]">
+        {/* Left Hero - Original Size */}
+        <div className="relative flex-1 bg-gradient-to-b from-purple-900 via-blue-900 to-black">
+          <img
+            src={activeItem.image}
+            alt={activeItem.title}
+            className="w-full h-full object-cover opacity-80"
+          />
           
-          <div className="flex gap-4">
-            <Button
-              onClick={() => setMode('read')}
-              variant={mode === 'read' ? 'default' : 'outline'}
-              className={cn(
-                "gap-2",
-                mode === 'read' 
-                  ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
-                  : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-              )}
-            >
-              <BookOpen className="h-4 w-4" />
-              Read
-            </Button>
-            <Button
-              onClick={() => setMode('watch')}
-              variant={mode === 'watch' ? 'default' : 'outline'}
-              className={cn(
-                "gap-2",
-                mode === 'watch' 
-                  ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
-                  : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-              )}
-            >
-              <Play className="h-4 w-4" />
-              Watch
-            </Button>
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+          
+          {/* Badge */}
+          {activeItem.badge && (
+            <div className="absolute top-4 right-4 px-2 py-1 bg-cyan-500/20 border border-cyan-500 rounded text-xs text-cyan-400">
+              {activeItem.badge}
+            </div>
+          )}
+          
+          {/* Play Button Center */}
+          <button 
+            onClick={() => setIsFullscreen(true)}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-cyan-500/30 border-2 border-cyan-400 flex items-center justify-center group hover:scale-110 transition-all"
+          >
+            <Play className="h-6 w-6 text-cyan-400 ml-1" fill="currentColor" />
+          </button>
+
+          {/* Fullscreen Button */}
+          <button
+            onClick={() => setIsFullscreen(true)}
+            className="absolute top-4 left-4 p-2 bg-black/50 hover:bg-black/70 rounded-lg text-white transition-colors"
+          >
+            <Maximize2 className="h-4 w-4" />
+          </button>
+          
+          {/* Title and Controls Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-3">
+              {activeItem.title}
+            </h2>
+            
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setMode('read')}
+                variant={mode === 'read' ? 'default' : 'outline'}
+                size="sm"
+                className={cn(
+                  "gap-2",
+                  mode === 'read' 
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
+                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
+                )}
+              >
+                <BookOpen className="h-3 w-3" />
+                Read
+              </Button>
+              <Button
+                onClick={() => setMode('watch')}
+                variant={mode === 'watch' ? 'default' : 'outline'}
+                size="sm"
+                className={cn(
+                  "gap-2",
+                  mode === 'watch' 
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
+                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
+                )}
+              >
+                <Play className="h-3 w-3" />
+                Watch
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
+              >
+                <Play className="h-3 w-3" />
+                Listen
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Hero - Double Width */}
+        <div className="relative flex-[2] bg-gradient-to-b from-purple-900 via-blue-900 to-black">
+          <img
+            src={activeItem.image}
+            alt={activeItem.title}
+            className="w-full h-full object-cover opacity-80"
+          />
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+          
+          {/* Play Button Center */}
+          <button 
+            onClick={() => setIsFullscreen(true)}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-cyan-500/30 border-2 border-cyan-400 flex items-center justify-center group hover:scale-110 transition-all"
+          >
+            <Play className="h-10 w-10 text-cyan-400 ml-1" fill="currentColor" />
+          </button>
+          
+          {/* Title Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-8">
+            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+              {activeItem.title}
+            </h2>
           </div>
         </div>
       </div>
@@ -150,7 +190,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
       {/* Featured Content Carousel */}
       <div className="relative px-8 py-6 bg-[#0a1628]">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-semibold text-white">Featured Content</h3>
+          <h3 className="text-base font-semibold text-white">Featured Content</h3>
           <div className="flex gap-2">
             <Button
               variant="ghost"
@@ -195,7 +235,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
                 </div>
               )}
               <div className="absolute bottom-2 left-2 right-2">
-                <p className="text-sm font-medium text-white line-clamp-2">{item.title}</p>
+                <p className="text-xs font-medium text-white line-clamp-2">{item.title}</p>
               </div>
             </button>
           ))}
