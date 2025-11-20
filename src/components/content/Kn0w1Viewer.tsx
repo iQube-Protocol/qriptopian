@@ -129,14 +129,14 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
         </div>
         
         {/* Icon Buttons in Bottom Right */}
-        <div className="absolute bottom-8 right-8 flex gap-2">
-          <button className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
+        <div className="absolute bottom-8 right-8 flex gap-2 items-end">
+          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
             <BookOpen className="h-4 w-4" />
           </button>
-          <button className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
+          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
             <Play className="h-4 w-4" />
           </button>
-          <button className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
+          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
             <Headphones className="h-4 w-4" />
           </button>
         </div>
