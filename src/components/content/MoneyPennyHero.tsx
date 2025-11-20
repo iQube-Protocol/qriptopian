@@ -77,21 +77,10 @@ export function MoneyPennyHero() {
           </div>
         </div>
 
-        {/* Blurb Section */}
-        <div className="w-full bg-[#050f1f] py-16 px-8 border-t border-[#17243a]">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-lg text-[#d0f6ff] leading-relaxed">
-              Explore multi-modal content from across the quantum-ready internet. 
-              Discover signals, stories, and strategies that shape the future of decentralized systems, 
-              blockchain technology, and the evolving digital landscape.
-            </p>
-          </div>
-        </div>
-
         {/* Carousel Content Section */}
         <div className="w-full bg-[#071327] py-12 px-8">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-[#d0f6ff] mb-8 text-center">Latest News</h2>
+            <h2 className="text-3xl font-bold text-[#d0f6ff] mb-8 text-left">Latest News</h2>
             <Carousel className="w-full">
               <CarouselContent className="-ml-4">
                 <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
