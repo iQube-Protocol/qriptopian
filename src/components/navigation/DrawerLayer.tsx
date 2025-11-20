@@ -143,22 +143,18 @@ export function DrawerLayer({
 
   return (
     <>
-      {/* Backdrop with gradient */}
+      {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 animate-fade-in"
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 animate-fade-in"
         onClick={onClose}
-        style={{
-          background: 'linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.4))'
-        }}
       />
       
       {/* Drawer */}
       <div 
         className={cn(
           "fixed top-0 right-0 h-screen z-50",
-          "bg-black/40 backdrop-blur-xl border-l border-white/5",
+          "bg-[#0a1628] border-l border-[#1a2942]",
           "animate-slide-in-right overflow-hidden flex flex-col",
-          "shadow-[-20px_0_60px_rgba(0,0,0,0.5)]",
           widthClasses[width]
         )}
       >

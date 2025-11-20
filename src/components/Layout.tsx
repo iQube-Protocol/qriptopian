@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconBar, Domain } from "@/components/navigation/IconBar";
+import { MoneyPennyNav, Domain } from "@/components/navigation/MoneyPennyNav";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
 import { MythosDrawer } from "@/components/navigation/drawers/MythosDrawer";
 import { LogosDrawer } from "@/components/navigation/drawers/LogosDrawer";
@@ -16,8 +16,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-background via-background to-background/95">
-      <IconBar activeDomain={activeDomain} onDomainClick={handleDomainClick} />
+    <div className="flex h-screen bg-[#0a1628]">
+      <MoneyPennyNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
       
       <main className="flex-1 overflow-auto ml-16">
         {children}

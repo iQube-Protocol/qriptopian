@@ -1,9 +1,31 @@
 import { DrawerLayer } from "../DrawerLayer";
+import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 
 interface MythosDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const mythosContent = [
+  {
+    id: '1',
+    title: 'The Awakening: Chapter 1',
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=800&fit=crop',
+    badge: 'COMIC'
+  },
+  {
+    id: '2',
+    title: 'Chronicles of the Quantum Realm',
+    image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=1200&h=800&fit=crop',
+    badge: 'STORY'
+  },
+  {
+    id: '3',
+    title: 'Voices from the Digital Frontier',
+    image: 'https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=1200&h=800&fit=crop',
+    badge: 'SERIES'
+  },
+];
 
 export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
   const tabs = [
@@ -22,36 +44,7 @@ export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
       width="full"
       tabs={tabs}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div
-            key={i}
-            className="group cursor-pointer"
-          >
-            <div className="relative aspect-[3/4] rounded-xl overflow-hidden mb-3">
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-              <div className="absolute top-3 right-3">
-                <div className="px-2 py-1 bg-purple-500/20 border border-purple-500 rounded text-xs text-purple-500">
-                  COMIC
-                </div>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h4 className="font-bold text-white group-hover:text-cyan-500 transition-colors">
-                  Chapter {i}: The Awakening
-                </h4>
-              </div>
-            </div>
-            
-            {/* Logos Sidebar */}
-            <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs">
-              <div className="font-semibold text-blue-400 mb-1">WHAT THIS MEANS</div>
-              <div className="text-white/70">
-                This story illustrates DIDQube identity verification in action.
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Kn0w1Viewer items={mythosContent} domain="mythos" />
     </DrawerLayer>
   );
 }

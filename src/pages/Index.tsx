@@ -1,11 +1,7 @@
-import { Hero } from "@/components/Hero";
+import { MoneyPennyHero } from "@/components/content/MoneyPennyHero";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      <Hero />
-    </div>
-  );
+  return <MoneyPennyHero />;
 };
 
 export default Index;
