@@ -49,7 +49,7 @@ export function MoneyPennyNav({
   onDomainClick
 }: MoneyPennyNavProps) {
   return <TooltipProvider delayDuration={0}>
-      <aside className="fixed right-8 bottom-32 w-16 bg-[#020818] border border-[#17243a] rounded-2xl flex flex-col items-center py-6 z-50">
+      <aside className="fixed right-8 bottom-40 w-16 bg-[#020818]/70 backdrop-blur-md border border-[#17243a]/50 rounded-2xl flex flex-col items-center py-6 z-50">
         {/* Navigation Icons */}
         <nav className="flex flex-col gap-2 w-full px-2">
           {navItems.map(item => {
