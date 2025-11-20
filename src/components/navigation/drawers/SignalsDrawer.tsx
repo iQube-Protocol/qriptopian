@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { BookOpen, Play, Headphones } from "lucide-react";
+import { BookOpen, Play, Headphones, Maximize2, X } from "lucide-react";
 interface SignalsDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -61,6 +62,8 @@ export function SignalsDrawer({
   isOpen,
   onClose
 }: SignalsDrawerProps) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  
   const tabs = [{
     id: 'current',
     label: 'Current'
@@ -68,6 +71,28 @@ export function SignalsDrawer({
     id: 'archive',
     label: 'Archive'
   }];
+  
+  if (isFullscreen) {
+    return (
+      <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
+        <button
+          onClick={() => setIsFullscreen(false)}
+          className="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 transition-colors"
+        >
+          <X className="h-6 w-6" />
+        </button>
+        
+        <div className="relative w-full h-full flex items-center justify-center">
+          <img
+            src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&h=1080&fit=crop"
+            alt="Market Overview"
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      </div>
+    );
+  }
+  
   return <DrawerLayer isOpen={isOpen} onClose={onClose} title="Signals" subtitle="What's happening now" columns={3} tabs={tabs}>
       <div className="col-span-3">
         <div className="grid grid-cols-3 gap-6">
@@ -81,6 +106,14 @@ export function SignalsDrawer({
             <div className="relative h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-cyan-900 via-blue-900 to-purple-900">
               <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=600&fit=crop" alt="Market Overview" className="w-full h-full object-cover opacity-60" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              
+              {/* Fullscreen Button */}
+              <button
+                onClick={() => setIsFullscreen(true)}
+                className="absolute top-6 left-6 p-2 bg-black/50 hover:bg-black/70 rounded-lg text-white transition-colors"
+              >
+                <Maximize2 className="h-5 w-5" />
+              </button>
               
               {/* Icon Buttons in Bottom Right */}
               <div className="absolute bottom-6 right-6 flex gap-3 items-end">
