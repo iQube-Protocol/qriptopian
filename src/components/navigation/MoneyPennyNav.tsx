@@ -40,7 +40,7 @@ export function MoneyPennyNav({
   onDomainClick
 }: MoneyPennyNavProps) {
   return <TooltipProvider delayDuration={0}>
-      <aside className="fixed left-0 top-0 bottom-0 w-16 bg-[#0a1628] border-r border-[#1a2942] flex flex-col items-center py-6 z-50">
+      <aside className="fixed left-0 top-[88px] bottom-0 w-16 bg-[#0a1628] border-r border-[#1a2942] flex flex-col items-center py-6 z-50">
         {/* Logo */}
         <div className="mb-8 cursor-pointer group">
           

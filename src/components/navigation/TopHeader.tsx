@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export function TopHeader() {
   return (
-    <header className="fixed top-0 left-16 right-0 h-[88px] bg-[#0a1628] border-b border-[#1a2942] z-40 px-8 flex items-start pt-6">
+    <header className="fixed top-0 left-0 right-0 h-[88px] bg-[#0a1628] border-b border-[#1a2942] z-40 px-8 flex items-start pt-6">
       <div className="flex-1">
         <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
           The Qriptopian
