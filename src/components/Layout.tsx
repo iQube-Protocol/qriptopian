@@ -8,7 +8,7 @@ import { MarketsDrawer } from "@/components/navigation/drawers/MarketsDrawer";
 import { BuildersDrawer } from "@/components/navigation/drawers/BuildersDrawer";
 import { CityDrawer } from "@/components/navigation/drawers/CityDrawer";
 import { DispatchesDrawer } from "@/components/navigation/drawers/DispatchesDrawer";
-import { AIOverlay } from "@/components/AIOverlay";
+import { AigentDrawer } from "@/components/navigation/drawers/AigentDrawer";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
@@ -43,8 +43,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <CityDrawer isOpen={activeDomain === 'city'} onClose={() => setActiveDomain(null)} />
       <DispatchesDrawer isOpen={activeDomain === 'dispatches'} onClose={() => setActiveDomain(null)} />
       
-      {/* AI Overlay */}
-      <AIOverlay isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
+      {/* Aigent Drawer */}
+      <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
     </div>
   );
 }

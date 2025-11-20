@@ -42,7 +42,7 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
               {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               {/* Tabs */}
               {tabs && tabs.length > 0 && (
                 <div className="flex gap-2">
@@ -66,7 +66,7 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="flex-shrink-0 text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                className="flex-shrink-0 text-muted-foreground hover:text-foreground hover:bg-accent/50 ml-4"
               >
                 <X className="h-5 w-5" />
               </Button>
