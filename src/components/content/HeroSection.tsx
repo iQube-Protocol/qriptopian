@@ -90,7 +90,7 @@ export function HeroSection() {
       {/* Watch Mode Overlay */}
       {activeMode === 'watch' && <div className="absolute inset-0 bg-black/95 flex items-center justify-center">
           <div className="relative w-full h-full flex items-center justify-center">
-            <div className="absolute top-6 right-6 z-10">
+            <div className="absolute top-6 right-24 z-10">
               <button onClick={() => setActiveMode(null)} className="text-white hover:text-cyan-400 text-xl bg-black/50 rounded-full w-10 h-10 flex items-center justify-center">
                 ×
               </button>
