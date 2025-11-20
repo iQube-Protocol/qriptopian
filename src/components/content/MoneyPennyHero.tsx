@@ -56,11 +56,10 @@ export function MoneyPennyHero() {
   };
 
   return (
-    <div className="h-full w-full bg-[#0a1628] flex items-center justify-center">
-      {/* Contained Modal - Full Width */}
-      <div className="w-full h-full bg-[#0f1e33] border-y border-[#1a2942] shadow-2xl flex flex-col overflow-hidden">
+    <div className="h-full w-full flex items-stretch">
+      <div className="w-full max-w-6xl mx-auto my-4 flex flex-col bg-[#050f1f] border border-[#17243a] rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.7)] overflow-hidden">
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto px-8 pt-8 pb-4 space-y-6">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -79,10 +78,10 @@ export function MoneyPennyHero() {
                 className={`max-w-2xl rounded-lg p-4 ${
                   message.type === 'user'
                     ? 'bg-cyan-500/10 border border-cyan-500/20'
-                    : 'bg-[#1a2942] border border-[#2a3952]'
+                    : 'bg-[#071327] border border-[#1e2b40]'
                 }`}
               >
-                <p className="text-gray-200">{message.content}</p>
+                <p className="text-[#d0f6ff]">{message.content}</p>
               </div>
             </div>
           ))}
@@ -90,18 +89,19 @@ export function MoneyPennyHero() {
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-[#1a2942] p-6 bg-[#0a1628]">
+        <div className="border-t border-[#17243a] bg-[#050f1f] px-6 py-4">
           <form onSubmit={handleSubmit}>
-            <div className="flex gap-4 items-center">
+            <div className="flex items-center gap-3 bg-[#020b18] border border-[#1e2b40] rounded-full px-4 py-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask for hero images or explore content..."
-                className="flex-1 bg-[#1a2942] border-[#2a3952] text-gray-200 placeholder:text-gray-500 focus:border-cyan-500/50"
+                placeholder="Ask The Qriptopian about trades, stories, or strategies..."
+                className="flex-1 bg-transparent border-0 text-sm text-[#d0f6ff] placeholder:text-[#4d6b83] focus-visible:ring-0 focus-visible:ring-offset-0"
               />
               <Button
                 type="submit"
-                className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white"
+                size="icon"
+                className="h-9 w-9 rounded-full bg-[#00c4ff] hover:bg-[#00e0ff] text-[#001320] shadow-[0_0_16px_rgba(0,196,255,0.6)]"
               >
                 <Send className="h-4 w-4" />
               </Button>

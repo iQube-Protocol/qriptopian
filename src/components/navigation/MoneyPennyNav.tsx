@@ -40,14 +40,14 @@ export function MoneyPennyNav({
   onDomainClick
 }: MoneyPennyNavProps) {
   return <TooltipProvider delayDuration={0}>
-      <aside className="fixed left-0 top-[88px] bottom-0 w-16 bg-[#0a1628] border-r border-[#1a2942] flex flex-col items-center py-6 z-50">
+      <aside className="fixed left-0 top-[88px] bottom-0 w-16 bg-[#020818] border-r border-[#17243a] flex flex-col items-center py-6 z-40">
         {/* Logo */}
         <div className="mb-8 cursor-pointer group">
           
         </div>
 
         {/* Navigation Icons */}
-        <nav className="flex-1 flex flex-col gap-2 w-full px-2">
+        <nav className="flex-1 flex flex-col gap-2 w-full px-2 justify-center">
           {domains.map(domain => {
           const Icon = domain.icon;
           const isActive = activeDomain === domain.id;
@@ -58,7 +58,7 @@ export function MoneyPennyNav({
                     <Icon className="h-5 w-5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="right" className="bg-[#1a2942] text-white border-[#2a3952]">
+                <TooltipContent side="right" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
                   {domain.label}
                 </TooltipContent>
               </Tooltip>;
@@ -73,7 +73,7 @@ export function MoneyPennyNav({
                 <Settings className="h-5 w-5" />
               </button>
             </TooltipTrigger>
-            <TooltipContent side="right" className="bg-[#1a2942] text-white border-[#2a3952]">
+            <TooltipContent side="right" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
               Settings
             </TooltipContent>
           </Tooltip>
