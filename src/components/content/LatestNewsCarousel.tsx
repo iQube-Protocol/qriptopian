@@ -1,0 +1,192 @@
+import { Lock, Crown } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
+
+export function LatestNewsCarousel() {
+  return (
+    <div className="w-full bg-[#071327] py-12 px-8">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-[#d0f6ff] mb-8 text-left">Latest News</h2>
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-4">
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                <img 
+                  src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop" 
+                  alt="Quantum Signals" 
+                  className="w-full h-48 object-cover" 
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Quantum Signals</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Real-time insights and analytics from the quantum computing frontier
+                  </p>
+                  <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                    Explore →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                <img 
+                  src="https://images.unsplash.com/photo-1639322537228-f710d846310a?w=400&h=300&fit=crop" 
+                  alt="Blockchain Stories" 
+                  className="w-full h-48 object-cover" 
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Blockchain Stories</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Deep dives into the decentralized future of the internet
+                  </p>
+                  <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                    Explore →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                <img 
+                  src="https://images.unsplash.com/photo-1622186477895-f2af6a0f5a97?w=400&h=300&fit=crop" 
+                  alt="City Dispatches" 
+                  className="w-full h-48 object-cover" 
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">City Dispatches</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Updates and stories from quantum-ready urban centers
+                  </p>
+                  <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                    Explore →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                <img 
+                  src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop" 
+                  alt="Markets Watch" 
+                  className="w-full h-48 object-cover" 
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Markets Watch</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Tracking trends in crypto, quantum tech, and emerging markets
+                  </p>
+                  <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                    Explore →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="relative bg-[#020b18] border border-amber-500/30 rounded-lg overflow-hidden hover:border-amber-500/50 transition-colors">
+                <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+                  <Crown className="h-4 w-4 text-amber-400" />
+                  <Badge variant="default" className="bg-amber-500/20 text-amber-400 border-amber-500/30">
+                    Premium
+                  </Badge>
+                </div>
+                <div className="relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop" 
+                    alt="Quantum Trading" 
+                    className="w-full h-48 object-cover opacity-60" 
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Lock className="h-12 w-12 text-amber-400" />
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-2">Quantum Trading Algorithms</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Advanced strategies using quantum computing for market predictions
+                  </p>
+                  <button className="text-amber-400 text-sm hover:text-amber-300 transition-colors font-semibold">
+                    Unlock with 100 QCT →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                <img 
+                  src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop" 
+                  alt="AI & Machine Learning" 
+                  className="w-full h-48 object-cover" 
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">AI & Machine Learning</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Breakthroughs in artificial intelligence and neural networks
+                  </p>
+                  <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                    Explore →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="relative bg-[#020b18] border border-amber-500/30 rounded-lg overflow-hidden hover:border-amber-500/50 transition-colors">
+                <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+                  <Crown className="h-4 w-4 text-amber-400" />
+                  <Badge variant="default" className="bg-amber-500/20 text-amber-400 border-amber-500/30">
+                    Premium
+                  </Badge>
+                </div>
+                <div className="relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=400&h=300&fit=crop" 
+                    alt="DeFi Strategies" 
+                    className="w-full h-48 object-cover opacity-60" 
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Lock className="h-12 w-12 text-amber-400" />
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-2">Advanced DeFi Strategies</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Exclusive insights into yield farming and liquidity pool optimization
+                  </p>
+                  <button className="text-amber-400 text-sm hover:text-amber-300 transition-colors font-semibold">
+                    Unlock with 150 QCT →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                <img 
+                  src="https://images.unsplash.com/photo-1639762681057-408e52192e55?w=400&h=300&fit=crop" 
+                  alt="Cybersecurity" 
+                  className="w-full h-48 object-cover" 
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Cybersecurity Updates</h3>
+                  <p className="text-[#8fb3c0] text-sm mb-4">
+                    Quantum-resistant encryption and security protocols
+                  </p>
+                  <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                    Explore →
+                  </button>
+                </div>
+              </div>
+            </CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious className="left-0 bg-[#020b18]/80 border-[#1e2b40] text-cyan-400 hover:bg-[#020b18] hover:text-cyan-300" />
+          <CarouselNext className="right-0 bg-[#020b18]/80 border-[#1e2b40] text-cyan-400 hover:bg-[#020b18] hover:text-cyan-300" />
+        </Carousel>
+      </div>
+    </div>
+  );
+}
