@@ -83,7 +83,7 @@ export function SignalsDrawer({
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               
               {/* Icon Buttons in Bottom Right */}
-              <div className="absolute bottom-6 right-6 flex gap-3">
+              <div className="absolute bottom-6 right-6 flex gap-2">
                 <button className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
                   <BookOpen className="h-5 w-5" />
                 </button>
