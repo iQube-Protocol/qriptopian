@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
+import heroImage from "@/assets/qriptopian-hero.jpg";
 interface Message {
   id: string;
   type: 'user' | 'assistant';
@@ -49,17 +50,13 @@ export function MoneyPennyHero() {
   };
   return <div className="h-full w-full flex items-stretch">
       <div className="w-full h-full flex flex-col bg-[#050f1f] border-l border-r-0 border-t-0 border-b-0 border-[#17243a] shadow-[0_0_40px_rgba(0,0,0,0.7)] overflow-hidden">
-        {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto px-8 pt-8 pb-4 space-y-6">
-          {messages.map(message => <div key={message.id} className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'}`}>
-              {message.imageUrl && <div className="w-full max-w-3xl mb-4 rounded-lg overflow-hidden">
-                  <img src={message.imageUrl} alt="Content" className="w-full h-auto" />
-                </div>}
-              <div className={`max-w-2xl rounded-lg p-4 ${message.type === 'user' ? 'bg-cyan-500/10 border border-cyan-500/20' : 'bg-[#071327] border border-[#1e2b40]'}`}>
-                
-              </div>
-            </div>)}
-          <div ref={messagesEndRef} />
+        {/* Hero Image */}
+        <div className="w-full h-full flex-1 overflow-hidden">
+          <img 
+            src={heroImage} 
+            alt="The Qriptopian - Quantum-Ready Internet" 
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* Input Area */}
