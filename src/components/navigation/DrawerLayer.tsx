@@ -1,165 +1,82 @@
-import { ReactNode } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DrawerLayerProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
+  title: string;
   subtitle?: string;
-  width?: 'sm' | 'md' | 'lg' | 'full';
+  columns?: 1 | 2 | 3;
   tabs?: { id: string; label: string }[];
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-const widthClasses = {
-  sm: 'w-96',
-  md: 'w-[480px]',
-  lg: 'w-[720px]',
-  full: 'w-full max-w-7xl',
-};
+export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, children }: DrawerLayerProps) {
+  const [activeTab, setActiveTab] = useState(tabs?.[0]?.id || '');
 
-export function DrawerLayer({
-  isOpen,
-  onClose,
-  title,
-  subtitle,
-  width = 'lg',
-  tabs,
-  children,
-}: DrawerLayerProps) {
   if (!isOpen) return null;
 
-  const content = tabs && tabs.length > 0 ? (
-    <Tabs defaultValue={tabs[0]?.id} className="h-full flex flex-col">
-      {/* Header with gradient backdrop */}
-      <div className="relative p-8 border-b border-white/5">
-        {/* Gradient glow */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-        
-        <div className="relative flex items-start justify-between mb-4">
-          <div>
-            {title && (
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-primary via-foreground to-foreground bg-clip-text text-transparent">
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p className="text-sm text-muted-foreground mt-2 font-light tracking-wide">{subtitle}</p>
-            )}
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className={cn(
-              "text-muted-foreground hover:text-foreground",
-              "hover:bg-white/5 rounded-xl transition-all duration-300",
-              "hover:scale-110"
-            )}
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-
-        {/* Tabs with luxury styling */}
-        <TabsList className={cn(
-          "grid w-full bg-white/5 p-1 rounded-xl border border-white/5 relative mt-4",
-          tabs.length === 2 && "grid-cols-2",
-          tabs.length === 3 && "grid-cols-3",
-          tabs.length === 4 && "grid-cols-4",
-          tabs.length > 4 && "grid-cols-5"
-        )}>
-          {tabs.map((tab) => (
-            <TabsTrigger 
-              key={tab.id} 
-              value={tab.id}
-              className={cn(
-                "data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary/20 data-[state=active]:to-secondary/20",
-                "data-[state=active]:text-primary data-[state=active]:shadow-[0_0_20px_rgba(94,234,212,0.2)]",
-                "transition-all duration-300 rounded-lg font-medium"
-              )}
-            >
-              {tab.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </div>
-
-      {/* Content with custom scrollbar */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent hover:scrollbar-thumb-white/20">
-        {tabs.map((tab) => (
-          <TabsContent 
-            key={tab.id} 
-            value={tab.id} 
-            className="p-8 mt-0 animate-fade-in h-full"
-          >
-            {children}
-          </TabsContent>
-        ))}
-      </div>
-    </Tabs>
-  ) : (
-    <>
-      {/* Header with gradient backdrop */}
-      <div className="relative p-8 border-b border-white/5">
-        {/* Gradient glow */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-        
-        <div className="relative flex items-start justify-between">
-          <div>
-            {title && (
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-primary via-foreground to-foreground bg-clip-text text-transparent">
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p className="text-sm text-muted-foreground mt-2 font-light tracking-wide">{subtitle}</p>
-            )}
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className={cn(
-              "text-muted-foreground hover:text-foreground",
-              "hover:bg-white/5 rounded-xl transition-all duration-300",
-              "hover:scale-110"
-            )}
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-      </div>
-
-      {/* Content with custom scrollbar */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent hover:scrollbar-thumb-white/20 p-8 animate-fade-in">
-        {children}
-      </div>
-    </>
-  );
+  const columnClasses = {
+    1: 'grid-cols-1',
+    2: 'grid-cols-1 md:grid-cols-2',
+    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+  };
 
   return (
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 animate-fade-in"
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity"
         onClick={onClose}
       />
       
-      {/* Drawer */}
-      <div 
-        className={cn(
-          "fixed right-0 z-50",
-          "top-[88px] h-[calc(100vh-88px)]",
-          "bg-[#0a1628] border-l border-[#1a2942]",
-          "animate-slide-in-right overflow-hidden flex flex-col",
-          widthClasses[width]
-        )}
-      >
-        {content}
+      {/* Drawer - slides from right, positioned between screen edge and nav */}
+      <div className={`fixed right-[80px] top-[88px] h-[calc(100vh-88px)] w-[calc(100vw-160px)] bg-background/80 backdrop-blur-xl border-l border-border/30 shadow-[0_0_60px_rgba(0,0,0,0.5)] z-50 overflow-hidden flex flex-col transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        
+        {/* Header */}
+        <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
+          <div className="p-6 flex items-start justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground mb-1">{title}</h2>
+              {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="text-muted-foreground hover:text-foreground hover:bg-accent/50"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+          
+          {/* Tabs */}
+          {tabs && tabs.length > 0 && (
+            <div className="px-6 pb-4 flex gap-2 overflow-x-auto">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+                    activeTab === tab.id
+                      ? 'bg-primary/20 text-primary border border-primary/30'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Content with column support */}
+        <div className="flex-1 overflow-y-auto p-6">
+          <div className={`grid ${columnClasses[columns]} gap-6`}>
+            {children}
+          </div>
+        </div>
       </div>
     </>
   );

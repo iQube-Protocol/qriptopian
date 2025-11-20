@@ -40,7 +40,7 @@ export function SignalsDrawer({ isOpen, onClose }: SignalsDrawerProps) {
       onClose={onClose}
       title="Signals"
       subtitle="What's happening now"
-      width="full"
+      columns={3}
       tabs={tabs}
     >
       <Kn0w1Viewer items={signalsContent} domain="signals" />
