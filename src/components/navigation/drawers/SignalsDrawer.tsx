@@ -30,7 +30,6 @@ const signalsContent = [
 export function SignalsDrawer({ isOpen, onClose }: SignalsDrawerProps) {
   const tabs = [
     { id: 'today', label: 'Today' },
-    { id: 'week', label: 'Week' },
     { id: 'archive', label: 'Archive' },
   ];
 

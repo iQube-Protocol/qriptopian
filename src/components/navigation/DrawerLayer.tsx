@@ -36,39 +36,40 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
         
         {/* Header */}
         <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
-          <div className="p-6 flex items-start justify-between">
-            <div>
+          <div className="p-6 flex items-center justify-between gap-4">
+            <div className="flex-shrink-0">
               <h2 className="text-2xl font-bold text-foreground mb-1">{title}</h2>
               {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
             </div>
+            
+            {/* Tabs */}
+            {tabs && tabs.length > 0 && (
+              <div className="flex gap-2 overflow-x-auto">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+                      activeTab === tab.id
+                        ? 'bg-primary/20 text-primary border border-primary/30'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            )}
+            
             <Button
               variant="ghost"
               size="icon"
               onClick={onClose}
-              className="text-muted-foreground hover:text-foreground hover:bg-accent/50"
+              className="flex-shrink-0 text-muted-foreground hover:text-foreground hover:bg-accent/50"
             >
               <X className="h-5 w-5" />
             </Button>
           </div>
-          
-          {/* Tabs */}
-          {tabs && tabs.length > 0 && (
-            <div className="px-6 pb-4 flex gap-2 overflow-x-auto">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
-                    activeTab === tab.id
-                      ? 'bg-primary/20 text-primary border border-primary/30'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Content with column support */}
