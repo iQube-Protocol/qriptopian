@@ -47,83 +47,126 @@ export function SignalsDrawer({ isOpen, onClose }: SignalsDrawerProps) {
         <Kn0w1Viewer items={signalsContent} domain="signals" />
       </div>
 
-      {/* Column 2: Market Metrics */}
-      <div className="space-y-4">
-        <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-foreground mb-3">Market Metrics</h3>
-          <div className="space-y-3">
-            <div>
-              <p className="text-sm text-muted-foreground">Q¢ Volume (24h)</p>
-              <p className="text-2xl font-bold text-cyan-400">$2.4M</p>
+      {/* Column 2 & 3: Hero Image and Thumbnails */}
+      <div className="col-span-2 space-y-4">
+        {/* Hero Image Section */}
+        <div className="relative h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-cyan-900 via-blue-900 to-purple-900">
+          <img
+            src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=600&fit=crop"
+            alt="Market Overview"
+            className="w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          <div className="absolute bottom-6 left-6 right-6">
+            <div className="inline-block px-3 py-1 bg-cyan-500/20 border border-cyan-500 rounded text-sm text-cyan-400 mb-3">
+              LIVE ANALYSIS
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Active Traders</p>
-              <p className="text-2xl font-bold text-cyan-400">1,247</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">HFT Rate</p>
-              <p className="text-2xl font-bold text-cyan-400">98.7%</p>
-            </div>
+            <h2 className="text-3xl font-bold text-white mb-2">Q¢ Market Intelligence</h2>
+            <p className="text-lg text-gray-300">Real-time insights across all major protocols</p>
           </div>
         </div>
 
-        <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-foreground mb-3">Network Activity</h3>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Ethereum</span>
-              <span className="text-sm font-semibold text-green-400">+12.5%</span>
+        {/* Thumbnail Content Panels */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
+            <div className="aspect-video relative">
+              <img
+                src="https://images.unsplash.com/photo-1639322537228-f710d846310a?w=400&h=300&fit=crop"
+                alt="DeFi Protocols"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute top-2 left-2">
+                <span className="px-2 py-1 bg-orange-500/20 border border-orange-500 rounded text-xs text-orange-400">HOT</span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Solana</span>
-              <span className="text-sm font-semibold text-green-400">+8.3%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Polygon</span>
-              <span className="text-sm font-semibold text-red-400">-2.1%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Column 3: Recent Alerts */}
-      <div className="space-y-4">
-        <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-foreground mb-3">Recent Alerts</h3>
-          <div className="space-y-3">
-            <div className="border-l-2 border-cyan-500 pl-3">
-              <p className="text-sm font-medium text-foreground">Price Spike Detected</p>
-              <p className="text-xs text-muted-foreground">2 minutes ago</p>
-            </div>
-            <div className="border-l-2 border-orange-500 pl-3">
-              <p className="text-sm font-medium text-foreground">Volume Surge Alert</p>
-              <p className="text-xs text-muted-foreground">8 minutes ago</p>
-            </div>
-            <div className="border-l-2 border-yellow-500 pl-3">
-              <p className="text-sm font-medium text-foreground">Whale Movement</p>
-              <p className="text-xs text-muted-foreground">15 minutes ago</p>
-            </div>
-            <div className="border-l-2 border-cyan-500 pl-3">
-              <p className="text-sm font-medium text-foreground">Cross-Chain Bridge</p>
-              <p className="text-xs text-muted-foreground">23 minutes ago</p>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-foreground mb-1">DeFi Protocol Monitor</h4>
+              <p className="text-xs text-muted-foreground">Track governance changes</p>
             </div>
           </div>
-        </div>
 
-        <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-foreground mb-3">Protocol Status</h3>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">DeFi TVL</span>
-              <span className="px-2 py-1 bg-green-500/20 border border-green-500 rounded text-xs text-green-400">HEALTHY</span>
+          <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
+            <div className="aspect-video relative">
+              <img
+                src="https://images.unsplash.com/photo-1642790551116-18e150f248e4?w=400&h=300&fit=crop"
+                alt="Cross-Chain Activity"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute top-2 left-2">
+                <span className="px-2 py-1 bg-cyan-500/20 border border-cyan-500 rounded text-xs text-cyan-400">LIVE</span>
+              </div>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Gas Prices</span>
-              <span className="px-2 py-1 bg-yellow-500/20 border border-yellow-500 rounded text-xs text-yellow-400">ELEVATED</span>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-foreground mb-1">Cross-Chain Flows</h4>
+              <p className="text-xs text-muted-foreground">Multi-chain analytics</p>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Network Load</span>
-              <span className="px-2 py-1 bg-green-500/20 border border-green-500 rounded text-xs text-green-400">NORMAL</span>
+          </div>
+
+          <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
+            <div className="aspect-video relative">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop"
+                alt="Market Sentiment"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute top-2 left-2">
+                <span className="px-2 py-1 bg-green-500/20 border border-green-500 rounded text-xs text-green-400">NEW</span>
+              </div>
+            </div>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-foreground mb-1">Sentiment Analysis</h4>
+              <p className="text-xs text-muted-foreground">AI-powered insights</p>
+            </div>
+          </div>
+
+          <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
+            <div className="aspect-video relative">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
+                alt="Volume Metrics"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            </div>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-foreground mb-1">Volume Tracker</h4>
+              <p className="text-xs text-muted-foreground">24h trading volume</p>
+            </div>
+          </div>
+
+          <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
+            <div className="aspect-video relative">
+              <img
+                src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=400&h=300&fit=crop"
+                alt="Whale Activity"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute top-2 left-2">
+                <span className="px-2 py-1 bg-yellow-500/20 border border-yellow-500 rounded text-xs text-yellow-400">ALERT</span>
+              </div>
+            </div>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-foreground mb-1">Whale Movements</h4>
+              <p className="text-xs text-muted-foreground">Large transactions</p>
+            </div>
+          </div>
+
+          <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
+            <div className="aspect-video relative">
+              <img
+                src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=400&h=300&fit=crop"
+                alt="Gas Tracker"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            </div>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-foreground mb-1">Gas Price Monitor</h4>
+              <p className="text-xs text-muted-foreground">Network fee trends</p>
             </div>
           </div>
         </div>
