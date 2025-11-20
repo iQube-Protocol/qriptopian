@@ -28,14 +28,16 @@ const systemItems = [
 export function IconBar({ activeDomain, onDomainClick }: IconBarProps) {
   return (
     <TooltipProvider delayDuration={0}>
-      <div className="fixed left-0 top-0 bottom-0 w-14 bg-[#0f1729] border-r border-white/5 flex flex-col items-center py-4 z-50">
+      <div className="fixed left-0 top-0 bottom-0 w-16 bg-black/40 backdrop-blur-xl border-r border-white/5 flex flex-col items-center py-6 z-50">
         {/* Logo */}
-        <div className="mb-6">
-          <div className="h-8 w-8 rounded bg-gradient-to-br from-primary to-secondary" />
+        <div className="mb-8 group cursor-pointer">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-secondary relative overflow-hidden transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(94,234,212,0.4)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
         </div>
 
         {/* Primary Domains */}
-        <div className="flex-1 flex flex-col gap-2">
+        <div className="flex-1 flex flex-col gap-3">
           {domains.map((domain) => {
             const Icon = domain.icon;
             const isActive = activeDomain === domain.id;
@@ -46,32 +48,49 @@ export function IconBar({ activeDomain, onDomainClick }: IconBarProps) {
                   <button
                     onClick={() => onDomainClick(domain.id)}
                     className={cn(
-                      "relative w-10 h-10 rounded-lg flex items-center justify-center transition-all",
-                      "hover:bg-white/5",
-                      isActive && "bg-white/10",
-                      isActive && domain.color,
-                      !isActive && "text-white/60 hover:text-white/90"
+                      "group relative w-12 h-12 rounded-xl flex items-center justify-center",
+                      "transition-all duration-300",
+                      "hover:scale-110",
+                      isActive 
+                        ? "bg-gradient-to-br from-primary/20 to-secondary/20 text-primary shadow-[0_0_20px_rgba(94,234,212,0.3)]" 
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                     )}
                   >
+                    {/* Glow effect on hover */}
+                    <div className={cn(
+                      "absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                      "bg-gradient-to-br from-primary/10 to-secondary/10"
+                    )} />
+                    
+                    {/* Active indicator */}
                     {isActive && (
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-current rounded-r" />
+                      <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
                     )}
-                    <Icon className="h-5 w-5" />
+                    
+                    <Icon className={cn(
+                      "h-5 w-5 relative z-10 transition-all duration-300",
+                      isActive && "drop-shadow-[0_0_8px_rgba(94,234,212,0.6)]"
+                    )} />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="right" className="bg-surface border-white/10">
-                  {domain.label}
+                <TooltipContent 
+                  side="right" 
+                  className="bg-card/95 backdrop-blur-sm text-foreground border-white/10 shadow-elevated"
+                >
+                  <span className="font-medium">{domain.label}</span>
                 </TooltipContent>
               </Tooltip>
             );
           })}
         </div>
 
+        {/* Divider */}
+        <div className="w-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-3" />
+        
         {/* System Items */}
-        <div className="flex flex-col gap-2 pt-4 border-t border-white/5">
+        <div className="flex flex-col gap-3">
           {systemItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeDomain === item.id;
             
             return (
               <Tooltip key={item.id}>
@@ -79,17 +98,20 @@ export function IconBar({ activeDomain, onDomainClick }: IconBarProps) {
                   <button
                     onClick={() => onDomainClick(item.id)}
                     className={cn(
-                      "w-10 h-10 rounded-lg flex items-center justify-center transition-all",
-                      "hover:bg-white/5",
-                      isActive && "bg-white/10 text-cyan-500",
-                      !isActive && "text-white/60 hover:text-white/90"
+                      "group relative w-12 h-12 rounded-xl flex items-center justify-center",
+                      "text-muted-foreground hover:text-foreground hover:bg-white/5",
+                      "transition-all duration-300 hover:scale-110"
                     )}
                   >
-                    <Icon className="h-5 w-5" />
+                    <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/5" />
+                    <Icon className="h-5 w-5 relative z-10" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="right" className="bg-surface border-white/10">
-                  {item.label}
+                <TooltipContent 
+                  side="right" 
+                  className="bg-card/95 backdrop-blur-sm text-foreground border-white/10 shadow-elevated"
+                >
+                  <span className="font-medium">{item.label}</span>
                 </TooltipContent>
               </Tooltip>
             );
