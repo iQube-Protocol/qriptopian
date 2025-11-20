@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, BookOpen, Maximize2, X } from "lucide-react";
+import { Play, BookOpen, Maximize2, X, Headphones } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -17,7 +17,7 @@ interface Kn0w1ViewerProps {
 
 export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [mode, setMode] = useState<'read' | 'watch'>('watch');
+  const [mode, setMode] = useState<'read' | 'watch' | 'listen'>('watch');
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const activeItem = items[activeIndex];
@@ -111,32 +111,48 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
           </h2>
           
           <div className="flex items-center gap-4">
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               <Button
                 onClick={() => setMode('read')}
                 variant={mode === 'read' ? 'default' : 'outline'}
+                size="sm"
                 className={cn(
-                  "gap-2",
+                  "gap-1.5",
                   mode === 'read' 
                     ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
                     : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
                 )}
               >
-                <BookOpen className="h-4 w-4" />
+                <BookOpen className="h-3.5 w-3.5" />
                 Read
               </Button>
               <Button
                 onClick={() => setMode('watch')}
                 variant={mode === 'watch' ? 'default' : 'outline'}
+                size="sm"
                 className={cn(
-                  "gap-2",
+                  "gap-1.5",
                   mode === 'watch' 
                     ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
                     : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
                 )}
               >
-                <Play className="h-4 w-4" />
+                <Play className="h-3.5 w-3.5" />
                 Watch
+              </Button>
+              <Button
+                onClick={() => setMode('listen')}
+                variant={mode === 'listen' ? 'default' : 'outline'}
+                size="sm"
+                className={cn(
+                  "gap-1.5",
+                  mode === 'listen' 
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
+                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
+                )}
+              >
+                <Headphones className="h-3.5 w-3.5" />
+                Listen
               </Button>
             </div>
             
