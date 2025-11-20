@@ -3,6 +3,7 @@ import { X, Send, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface AigentDrawerProps {
   isOpen: boolean;
@@ -83,30 +84,45 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
               </div>
 
               {/* View Mode Toggle */}
-              <div className="flex items-center gap-2 bg-background/20 backdrop-blur-md rounded-lg p-1 border border-border/20">
-                <button
-                  onClick={() => setViewMode('metavatar')}
-                  className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
-                    viewMode === 'metavatar'
-                      ? 'bg-primary/20 text-primary backdrop-blur-sm border border-primary/30'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
-                  }`}
-                >
-                  <User className="h-3 w-3 inline mr-1" />
-                  metaVatar
-                </button>
-                <button
-                  onClick={() => setViewMode('chat')}
-                  className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
-                    viewMode === 'chat'
-                      ? 'bg-primary/20 text-primary backdrop-blur-sm border border-primary/30'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
-                  }`}
-                >
-                  <MessageSquare className="h-3 w-3 inline mr-1" />
-                  Text
-                </button>
-              </div>
+              <TooltipProvider>
+                <div className="flex items-center gap-2 bg-background/20 backdrop-blur-md rounded-lg p-1 border border-border/20">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => setViewMode('metavatar')}
+                        className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                          viewMode === 'metavatar'
+                            ? 'bg-primary/20 text-primary backdrop-blur-sm border border-primary/30'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
+                        }`}
+                      >
+                        <User className="h-4 w-4" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>metaVatar Mode</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => setViewMode('chat')}
+                        className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                          viewMode === 'chat'
+                            ? 'bg-primary/20 text-primary backdrop-blur-sm border border-primary/30'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
+                        }`}
+                      >
+                        <MessageSquare className="h-4 w-4" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Text Mode</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </TooltipProvider>
               
               <Button
                 variant="ghost"
