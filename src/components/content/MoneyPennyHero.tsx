@@ -3,6 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import heroImage from "@/assets/qriptopian-hero.jpg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 interface Message {
   id: string;
   type: 'user' | 'assistant';
@@ -81,62 +88,129 @@ export function MoneyPennyHero() {
           </div>
         </div>
 
-        {/* Three Column Content Grid */}
+        {/* Carousel Content Section */}
         <div className="w-full bg-[#071327] py-12 px-8">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Column 1 */}
-            <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-              <img 
-                src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop" 
-                alt="Quantum Signals" 
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Quantum Signals</h3>
-                <p className="text-[#8fb3c0] text-sm mb-4">
-                  Real-time insights and analytics from the quantum computing frontier
-                </p>
-                <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
-                  Explore →
-                </button>
-              </div>
-            </div>
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#d0f6ff] mb-8 text-center">Latest News</h2>
+            <Carousel className="w-full">
+              <CarouselContent className="-ml-4">
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                    <img 
+                      src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop" 
+                      alt="Quantum Signals" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Quantum Signals</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Real-time insights and analytics from the quantum computing frontier
+                      </p>
+                      <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                        Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
 
-            {/* Column 2 */}
-            <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-              <img 
-                src="https://images.unsplash.com/photo-1639322537228-f710d846310a?w=400&h=300&fit=crop" 
-                alt="Blockchain Stories" 
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Blockchain Stories</h3>
-                <p className="text-[#8fb3c0] text-sm mb-4">
-                  Narratives and mythos from the decentralized revolution
-                </p>
-                <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
-                  Explore →
-                </button>
-              </div>
-            </div>
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                    <img 
+                      src="https://images.unsplash.com/photo-1639322537228-f710d846310a?w=400&h=300&fit=crop" 
+                      alt="Blockchain Stories" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Blockchain Stories</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Narratives and mythos from the decentralized revolution
+                      </p>
+                      <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                        Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
 
-            {/* Column 3 */}
-            <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-              <img 
-                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop" 
-                alt="Market Intelligence" 
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Market Intelligence</h3>
-                <p className="text-[#8fb3c0] text-sm mb-4">
-                  Strategic analysis and trading insights for the crypto markets
-                </p>
-                <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
-                  Explore →
-                </button>
-              </div>
-            </div>
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                    <img 
+                      src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop" 
+                      alt="Market Intelligence" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Market Intelligence</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Strategic analysis and trading insights for the crypto markets
+                      </p>
+                      <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                        Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                    <img 
+                      src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=300&fit=crop" 
+                      alt="DeFi Protocols" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">DeFi Protocols</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Deep dives into decentralized finance mechanisms and innovations
+                      </p>
+                      <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                        Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                    <img 
+                      src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop" 
+                      alt="Tech Infrastructure" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Tech Infrastructure</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Building blocks of the next-generation internet architecture
+                      </p>
+                      <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                        Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                    <img 
+                      src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=300&fit=crop" 
+                      alt="Crypto Economics" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Crypto Economics</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Economic models and tokenomics shaping the digital economy
+                      </p>
+                      <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                        Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious className="left-4" />
+              <CarouselNext className="right-4" />
+            </Carousel>
           </div>
         </div>
 
