@@ -1,6 +1,7 @@
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { BookOpen, Play, Headphones } from "lucide-react";
 interface SignalsDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -80,6 +81,20 @@ export function SignalsDrawer({
             <div className="relative h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-cyan-900 via-blue-900 to-purple-900">
               <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=600&fit=crop" alt="Market Overview" className="w-full h-full object-cover opacity-60" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              
+              {/* Icon Buttons in Top Right */}
+              <div className="absolute top-6 right-6 flex gap-3">
+                <button className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
+                  <BookOpen className="h-5 w-5" />
+                </button>
+                <button className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
+                  <Play className="h-5 w-5" />
+                </button>
+                <button className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
+                  <Headphones className="h-5 w-5" />
+                </button>
+              </div>
+              
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="inline-block px-3 py-1 bg-cyan-500/20 border border-cyan-500 rounded text-sm text-cyan-400 mb-3">
                   LIVE ANALYSIS
