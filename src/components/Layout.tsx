@@ -1,46 +1,36 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
-import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
 import { useState } from "react";
+import { IconBar, Domain } from "@/components/navigation/IconBar";
+import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
+import { MythosDrawer } from "@/components/navigation/drawers/MythosDrawer";
+import { LogosDrawer } from "@/components/navigation/drawers/LogosDrawer";
+import { MarketsDrawer } from "@/components/navigation/drawers/MarketsDrawer";
+import { BuildersDrawer } from "@/components/navigation/drawers/BuildersDrawer";
+import { CityDrawer } from "@/components/navigation/drawers/CityDrawer";
+import { DispatchesDrawer } from "@/components/navigation/drawers/DispatchesDrawer";
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const [isDark, setIsDark] = useState(false);
+  const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle("dark");
+  const handleDomainClick = (domain: Domain) => {
+    setActiveDomain(activeDomain === domain ? null : domain);
   };
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <AppSidebar />
+    <div className="flex h-screen bg-background">
+      <IconBar activeDomain={activeDomain} onDomainClick={handleDomainClick} />
+      
+      <main className="flex-1 overflow-auto ml-14">
+        {children}
+      </main>
 
-        <div className="flex-1 flex flex-col">
-          <header className="h-14 flex items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
-            <SidebarTrigger className="mr-2" />
-            
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                {isDark ? (
-                  <Sun className="h-5 w-5" />
-                ) : (
-                  <Moon className="h-5 w-5" />
-                )}
-              </Button>
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
-              <Button size="sm" className="bg-gradient-to-r from-primary to-secondary">
-                Subscribe
-              </Button>
-            </div>
-          </header>
-
-          <main className="flex-1 overflow-auto">{children}</main>
-        </div>
-      </div>
-    </SidebarProvider>
+      {/* Domain Drawers */}
+      <SignalsDrawer isOpen={activeDomain === 'signals'} onClose={() => setActiveDomain(null)} />
+      <MythosDrawer isOpen={activeDomain === 'mythos'} onClose={() => setActiveDomain(null)} />
+      <LogosDrawer isOpen={activeDomain === 'logos'} onClose={() => setActiveDomain(null)} />
+      <MarketsDrawer isOpen={activeDomain === 'markets'} onClose={() => setActiveDomain(null)} />
+      <BuildersDrawer isOpen={activeDomain === 'builders'} onClose={() => setActiveDomain(null)} />
+      <CityDrawer isOpen={activeDomain === 'city'} onClose={() => setActiveDomain(null)} />
+      <DispatchesDrawer isOpen={activeDomain === 'dispatches'} onClose={() => setActiveDomain(null)} />
+    </div>
   );
 }
