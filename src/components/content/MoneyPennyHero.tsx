@@ -56,9 +56,9 @@ export function MoneyPennyHero() {
   };
 
   return (
-    <div className="h-full w-full bg-[#0a1628] p-6 flex items-center justify-center">
+    <div className="h-full w-full bg-[#0a1628] pl-8 pr-24 py-6 flex items-center">
       {/* Contained Modal */}
-      <div className="w-full max-w-6xl h-full bg-[#0f1e33] rounded-lg border border-[#1a2942] shadow-2xl flex flex-col overflow-hidden">
+      <div className="w-full h-full bg-[#0f1e33] rounded-lg border border-[#1a2942] shadow-2xl flex flex-col overflow-hidden">
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {messages.map((message) => (
