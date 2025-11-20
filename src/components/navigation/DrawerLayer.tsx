@@ -152,7 +152,8 @@ export function DrawerLayer({
       {/* Drawer */}
       <div 
         className={cn(
-          "fixed top-0 right-0 h-screen z-50",
+          "fixed right-0 z-50",
+          "top-[88px] h-[calc(100vh-88px)]",
           "bg-[#0a1628] border-l border-[#1a2942]",
           "animate-slide-in-right overflow-hidden flex flex-col",
           widthClasses[width]

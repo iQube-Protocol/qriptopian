@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MoneyPennyNav, Domain } from "@/components/navigation/MoneyPennyNav";
+import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
 import { MythosDrawer } from "@/components/navigation/drawers/MythosDrawer";
 import { LogosDrawer } from "@/components/navigation/drawers/LogosDrawer";
@@ -18,8 +19,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen bg-[#0a1628]">
       <MoneyPennyNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
+      <TopHeader />
       
-      <main className="flex-1 overflow-auto ml-16">
+      <main className="flex-1 ml-16 mt-[88px] overflow-hidden">
         {children}
       </main>
 
