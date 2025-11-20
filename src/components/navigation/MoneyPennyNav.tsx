@@ -1,10 +1,11 @@
-import { Zap, BookOpen, Cog, DollarSign, Wrench, Building2, Mail, Settings } from "lucide-react";
+import { Zap, BookOpen, Cog, DollarSign, Wrench, Building2, Mail, Settings, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 export type Domain = 'signals' | 'mythos' | 'logos' | 'markets' | 'builders' | 'city' | 'dispatches';
 interface MoneyPennyNavProps {
   activeDomain: Domain | null;
   onDomainClick: (domain: Domain) => void;
+  onAIClick: () => void;
 }
 const domains = [{
   id: 'signals' as Domain,
@@ -46,7 +47,8 @@ const navItems = [
 ];
 export function MoneyPennyNav({
   activeDomain,
-  onDomainClick
+  onDomainClick,
+  onAIClick
 }: MoneyPennyNavProps) {
   return <TooltipProvider delayDuration={0}>
       <aside className="fixed right-8 bottom-40 w-16 flex flex-col items-center py-6 z-50">
@@ -72,6 +74,23 @@ export function MoneyPennyNav({
                 </TooltipContent>
               </Tooltip>;
         })}
+          
+          {/* AI Assistant Icon */}
+          <div className="mt-4 pt-4 border-t border-[#1e2b40]">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={onAIClick}
+                  className="w-full h-12 rounded-lg flex items-center justify-center transition-all text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
+                >
+                  <Bot className="h-5 w-5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
+                AI Assistant
+              </TooltipContent>
+            </Tooltip>
+          </div>
         </nav>
       </aside>
     </TooltipProvider>;
