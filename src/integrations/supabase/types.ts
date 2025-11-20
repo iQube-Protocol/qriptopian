@@ -227,6 +227,81 @@ export type Database = {
         }
         Relationships: []
       }
+      content: {
+        Row: {
+          author_id: string | null
+          author_type: string | null
+          content: Json
+          created_at: string | null
+          domain: string
+          event_data: Json | null
+          excerpt: string | null
+          format: string
+          id: string
+          logos_sidebar: Json | null
+          market_data: Json | null
+          published_at: string | null
+          related_content: string[] | null
+          slug: string | null
+          status: string | null
+          tags: string[] | null
+          thumbnail: string | null
+          title: string
+          type: string
+          updated_at: string | null
+          verification_did: string | null
+          verification_proof: Json | null
+        }
+        Insert: {
+          author_id?: string | null
+          author_type?: string | null
+          content?: Json
+          created_at?: string | null
+          domain: string
+          event_data?: Json | null
+          excerpt?: string | null
+          format: string
+          id?: string
+          logos_sidebar?: Json | null
+          market_data?: Json | null
+          published_at?: string | null
+          related_content?: string[] | null
+          slug?: string | null
+          status?: string | null
+          tags?: string[] | null
+          thumbnail?: string | null
+          title: string
+          type: string
+          updated_at?: string | null
+          verification_did?: string | null
+          verification_proof?: Json | null
+        }
+        Update: {
+          author_id?: string | null
+          author_type?: string | null
+          content?: Json
+          created_at?: string | null
+          domain?: string
+          event_data?: Json | null
+          excerpt?: string | null
+          format?: string
+          id?: string
+          logos_sidebar?: Json | null
+          market_data?: Json | null
+          published_at?: string | null
+          related_content?: string[] | null
+          slug?: string | null
+          status?: string | null
+          tags?: string[] | null
+          thumbnail?: string | null
+          title?: string
+          type?: string
+          updated_at?: string | null
+          verification_did?: string | null
+          verification_proof?: Json | null
+        }
+        Relationships: []
+      }
       content_assets: {
         Row: {
           bytes: number | null
