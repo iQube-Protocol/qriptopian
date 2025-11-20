@@ -2,6 +2,7 @@ import { Lock, Crown } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 export function LatestNewsCarousel() {
   const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -39,10 +40,15 @@ export function LatestNewsCarousel() {
             </button>
           </div>
         </div>
-        <Carousel setApi={setApi} className="w-full" opts={{
-        align: "start",
-        loop: true
-      }}>
+        <Carousel 
+          setApi={setApi} 
+          className="w-full" 
+          opts={{
+            align: "start",
+            loop: true
+          }}
+          plugins={[WheelGesturesPlugin()]}
+        >
           <CarouselContent className="-ml-4">
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
               <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">

@@ -3,6 +3,7 @@ import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { BookOpen, Play, Headphones, Maximize2, X } from "lucide-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 interface SignalsDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -141,10 +142,14 @@ export function SignalsDrawer({
 
         {/* Full Width Carousel Below */}
         <div className="mt-6">
-          <Carousel opts={{
-          align: "start",
-          loop: true
-        }} className="w-full">
+          <Carousel 
+            opts={{
+              align: "start",
+              loop: true
+            }} 
+            plugins={[WheelGesturesPlugin()]}
+            className="w-full"
+          >
             <CarouselContent className="-ml-4">
               {thumbnailContent.map(item => <CarouselItem key={item.id} className="pl-4 basis-1/3">
                   <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
