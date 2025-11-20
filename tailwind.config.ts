@@ -57,6 +57,12 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        qripto: {
+          cyan: "hsl(var(--qripto-cyan))",
+          purple: "hsl(var(--qripto-purple))",
+          dark: "hsl(var(--qripto-dark))",
+          darker: "hsl(var(--qripto-darker))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
