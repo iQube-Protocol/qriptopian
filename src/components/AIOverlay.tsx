@@ -39,30 +39,40 @@ export function AIOverlay({ isOpen, onClose }: AIOverlayProps) {
   if (!isOpen) return null;
 
   return (
-    <div 
-      className={`fixed bottom-0 right-0 w-full md:w-[600px] h-[33vh] z-40 transition-transform duration-300 ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}
-    >
-      {/* Overlay Content */}
-      <div className="h-full bg-[#0a1628]/70 backdrop-blur-md border-l border-t border-[#1e2b40]/50 shadow-[0_0_60px_rgba(0,196,255,0.2)] flex flex-col">
+    <>
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity"
+        onClick={onClose}
+      />
+      
+      {/* AI Drawer - matches other drawer positioning */}
+      <div 
+        className={`fixed right-[80px] top-[88px] h-[calc(100vh-88px)] w-[600px] bg-background/80 backdrop-blur-xl border-l border-border/30 shadow-[0_0_60px_rgba(0,0,0,0.5)] z-50 flex flex-col transition-transform duration-300 ease-out ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
         {/* Header Section */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e2b40]/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center shadow-[0_0_20px_rgba(0,196,255,0.5)]">
-              <span className="text-lg font-bold text-[#020b18]">AI</span>
+        <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
+          <div className="p-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-[0_0_20px_rgba(94,234,212,0.5)]">
+                <span className="text-lg font-bold text-background">AI</span>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Qriptopian AI</h3>
+                <p className="text-xs text-muted-foreground">Ask me anything</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-lg font-bold text-[#d0f6ff]">Qriptopian AI</h3>
-              <p className="text-xs text-[#8fb3c0]">Ask me anything</p>
-            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="text-muted-foreground hover:text-foreground hover:bg-accent/50 relative z-10"
+            >
+              <X className="h-5 w-5" />
+            </Button>
           </div>
-          <button
-            onClick={onClose}
-            className="text-[#8fb3c0] hover:text-[#d0f6ff] transition-colors"
-          >
-            <X className="h-5 w-5" />
-          </button>
         </div>
 
         {/* Messages */}
@@ -72,14 +82,14 @@ export function AIOverlay({ isOpen, onClose }: AIOverlayProps) {
               <div
                 className={`inline-block max-w-[85%] px-4 py-3 rounded-xl ${
                   msg.role === 'user'
-                    ? 'bg-gradient-to-br from-cyan-500/30 to-cyan-600/20 text-[#d0f6ff] ml-auto float-right clear-both border border-cyan-500/30'
-                    : 'bg-[#1a2537]/90 text-[#b8cfe0] border border-[#2a3a52]'
+                    ? 'bg-gradient-to-br from-primary/30 to-primary/20 text-foreground ml-auto float-right clear-both border border-primary/30'
+                    : 'bg-card/90 text-foreground border border-border/50'
                 }`}
               >
                 <p className="text-sm leading-relaxed">{msg.content}</p>
               </div>
               {msg.timestamp && (
-                <div className={`text-xs text-[#4d6b83] ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                <div className={`text-xs text-muted-foreground ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                   {msg.timestamp}
                 </div>
               )}
@@ -89,38 +99,42 @@ export function AIOverlay({ isOpen, onClose }: AIOverlayProps) {
         </div>
 
         {/* Input Area */}
-        <div className="px-6 py-4 border-t border-[#1e2b40]/50">
+        <div className="flex-shrink-0 px-6 py-4 border-t border-border/30 bg-background/60 backdrop-blur-sm">
           <form onSubmit={handleSubmit}>
-            <div className="flex items-center gap-2 bg-[#1a2537]/80 border border-[#2a3a52] rounded-lg px-4 py-2.5">
+            <div className="flex items-center gap-2 bg-card/50 border border-border/30 rounded-lg px-4 py-2.5">
               <button
                 type="button"
-                className="text-[#8fb3c0] hover:text-cyan-400 transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Search className="h-4 w-4" />
               </button>
+              
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Search content with natural language..."
-                className="flex-1 bg-transparent border-0 text-sm text-[#d0f6ff] placeholder:text-[#4d6b83] focus-visible:ring-0 focus-visible:ring-offset-0"
+                placeholder="Ask anything about The Qriptopian..."
+                className="flex-1 border-0 bg-transparent text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
               />
-              <button
-                type="button"
-                className="text-[#8fb3c0] hover:text-cyan-400 transition-colors"
-              >
-                <Mic className="h-4 w-4" />
-              </button>
-              <Button
-                type="submit"
-                size="icon"
-                className="h-9 w-9 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-600 hover:from-cyan-500 hover:to-cyan-700 text-[#020b18] shadow-[0_0_20px_rgba(0,196,255,0.6)] transition-all"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
+              
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Mic className="h-4 w-4" />
+                </button>
+                <Button
+                  type="submit"
+                  size="icon"
+                  className="h-8 w-8 bg-gradient-to-br from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-background shadow-[0_0_15px_rgba(94,234,212,0.4)]"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
