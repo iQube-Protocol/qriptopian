@@ -21,7 +21,7 @@ const domains = [
 export function FloatingNav({ activeDomain, onDomainClick }: FloatingNavProps) {
   return (
     <TooltipProvider delayDuration={0}>
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+      <div className="fixed right-8 bottom-6 z-50 flex flex-col gap-3">
         {domains.map((domain) => {
           const Icon = domain.icon;
           const isActive = activeDomain === domain.id;
