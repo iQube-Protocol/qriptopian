@@ -8,54 +8,65 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 15% 15%;
+    --background: 220 20% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card: 220 18% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover: 220 18% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 180 85% 40%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 180 80% 55%;
+    --primary-foreground: 220 20% 8%;
 
-    --secondary: 270 65% 55%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 280 80% 60%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 15% 96%;
-    --muted-foreground: 220 15% 40%;
+    --muted: 220 15% 20%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 270 75% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 180 80% 55%;
+    --accent-foreground: 220 20% 8%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 180 85% 40%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 180 80% 55%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     /* The Qriptopian brand colors */
-    --qripto-cyan: 180 85% 40%;
-    --qripto-purple: 270 65% 55%;
-    --qripto-light: 0 0% 98%;
-    --qripto-lighter: 0 0% 100%;
-
+    --qripto-cyan: 180 80% 55%;
+    --qripto-purple: 280 80% 60%;
+    --qripto-pink: 330 80% 65%;
+    --qripto-blue: 220 80% 60%;
+    
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(180 85% 40%), hsl(270 65% 55%));
-    --gradient-light: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 15% 98%));
+    --gradient-primary: linear-gradient(135deg, hsl(180 80% 55% / 0.2), hsl(280 80% 60% / 0.2));
+    --gradient-secondary: linear-gradient(135deg, hsl(280 80% 60% / 0.15), hsl(330 80% 65% / 0.15));
+    --gradient-accent: linear-gradient(180deg, transparent, hsl(220 20% 8% / 0.8));
+    --gradient-glow: radial-gradient(circle at center, hsl(180 80% 55% / 0.15), transparent 70%);
+    
+    /* Shadows & Effects */
+    --shadow-elevated: 0 8px 32px hsl(220 20% 0% / 0.4);
+    --shadow-glow: 0 0 40px hsl(180 80% 55% / 0.3);
+    --blur-glass: blur(12px);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    --sidebar-background: 220 15% 98%;
-    --sidebar-foreground: 220 15% 15%;
-    --sidebar-primary: 180 85% 40%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 94%;
-    --sidebar-accent-foreground: 220 15% 15%;
-    --sidebar-border: 220 15% 90%;
-    --sidebar-ring: 180 85% 40%;
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 180 80% 55%;
+    --sidebar-primary-foreground: 220 20% 8%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 180 80% 55%;
   }
 
   .dark {

@@ -16,10 +16,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-gradient-to-br from-background via-background to-background/95">
       <IconBar activeDomain={activeDomain} onDomainClick={handleDomainClick} />
       
-      <main className="flex-1 overflow-auto ml-14">
+      <main className="flex-1 overflow-auto ml-16">
         {children}
       </main>
 
