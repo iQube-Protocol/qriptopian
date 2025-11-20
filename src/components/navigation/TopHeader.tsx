@@ -23,7 +23,7 @@ export function TopHeader() {
         <Button variant="outline" size="sm" className="border-cyan-500/20 text-cyan-400 hover:bg-cyan-500/10">
           Feed
         </Button>
-        <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white hover:from-cyan-600 hover:to-teal-600">
+        <Button size="sm" className="bg-white/5 backdrop-blur-md border border-white/10 text-gray-300 hover:bg-white/10 hover:border-cyan-500/20 hover:text-cyan-300 transition-all">
           Connect Wallet
         </Button>
       </div>
