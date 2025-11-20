@@ -106,7 +106,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
         
         {/* Title and Dot Navigation Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-8">
-          <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
+          <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
             {activeItem.title}
           </h2>
           
