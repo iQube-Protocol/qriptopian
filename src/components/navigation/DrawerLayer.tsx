@@ -47,17 +47,17 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
               {tabs && tabs.length > 0 && (
                 <div className="flex gap-2">
                   {tabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
-                        activeTab === tab.id
-                          ? 'bg-primary/20 text-primary border border-primary/30'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-4 py-2 text-sm font-medium transition-all whitespace-nowrap border-b-2 ${
+                      activeTab === tab.id
+                        ? 'text-primary border-primary'
+                        : 'text-muted-foreground border-transparent hover:text-foreground'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
                   ))}
                 </div>
               )}
