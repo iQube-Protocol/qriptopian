@@ -52,11 +52,14 @@ export function LatestNewsCarousel() {
           <CarouselContent className="-ml-4">
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
               <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop" alt="Quantum Signals" className="w-full h-48 object-cover" />
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop" alt="Mythos: The Awakening" className="w-full h-48 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Quantum Signals</h3>
+                  <Badge variant="default" className="bg-purple-500/20 text-purple-400 border-purple-500/30 mb-2">
+                    COMIC
+                  </Badge>
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Mythos: The Awakening</h3>
                   <p className="text-[#8fb3c0] text-sm mb-4">
-                    Real-time insights and analytics from the quantum computing frontier
+                    Chapter 1 - The quantum realm opens, and the first agents emerge
                   </p>
                   <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
                     Explore →
@@ -67,11 +70,14 @@ export function LatestNewsCarousel() {
 
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
               <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1639322537228-f710d846310a?w=400&h=300&fit=crop" alt="Blockchain Stories" className="w-full h-48 object-cover" />
+                <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=400&h=300&fit=crop" alt="Chronicles of the Quantum Realm" className="w-full h-48 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Blockchain Stories</h3>
+                  <Badge variant="default" className="bg-purple-500/20 text-purple-400 border-purple-500/30 mb-2">
+                    STORY
+                  </Badge>
+                  <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Chronicles of the Quantum Realm</h3>
                   <p className="text-[#8fb3c0] text-sm mb-4">
-                    Deep dives into the decentralized future of the internet
+                    Tales from the digital frontier where data becomes legend
                   </p>
                   <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
                     Explore →

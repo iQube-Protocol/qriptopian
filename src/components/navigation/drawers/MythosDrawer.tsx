@@ -1,5 +1,8 @@
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { useState } from "react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 
 interface MythosDrawerProps {
   isOpen: boolean;
@@ -25,9 +28,29 @@ const mythosContent = [
     image: 'https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=1200&h=800&fit=crop',
     badge: 'SERIES'
   },
+  {
+    id: '4',
+    title: 'The Rise of the Agent Network',
+    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=800&fit=crop',
+    badge: 'COMIC'
+  },
+  {
+    id: '5',
+    title: 'Legends of the Blockchain',
+    image: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1200&h=800&fit=crop',
+    badge: 'STORY'
+  },
+  {
+    id: '6',
+    title: 'The iQube Chronicles',
+    image: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=1200&h=800&fit=crop',
+    badge: 'SERIES'
+  },
 ];
 
 export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  
   const tabs = [
     { id: 'stories', label: 'Stories' },
     { id: 'chronicles', label: 'Chronicles' },
@@ -44,7 +67,63 @@ export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
       columns={2}
       tabs={tabs}
     >
-      <Kn0w1Viewer items={mythosContent} domain="mythos" />
+      <div className="col-span-full space-y-6">
+        {/* Main Carousel with Large Cards */}
+        <Carousel 
+          className="w-full"
+          opts={{
+            align: "start",
+            loop: true
+          }}
+          plugins={[WheelGesturesPlugin()]}
+        >
+          <CarouselContent>
+            {mythosContent.map((item, index) => (
+              <CarouselItem key={item.id} className="md:basis-1/2">
+                <div 
+                  onClick={() => setSelectedItemIndex(index)}
+                  className="cursor-pointer"
+                >
+                  <Kn0w1Viewer items={[item]} domain="mythos" />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+
+        {/* Thumbnail Scrolling Layer */}
+        <div className="border-t border-border/30 pt-4">
+          <Carousel
+            className="w-full"
+            opts={{
+              align: "start",
+              dragFree: true
+            }}
+            plugins={[WheelGesturesPlugin()]}
+          >
+            <CarouselContent className="-ml-2">
+              {mythosContent.map((item, index) => (
+                <CarouselItem key={`thumb-${item.id}`} className="basis-1/6 pl-2">
+                  <button
+                    onClick={() => setSelectedItemIndex(index)}
+                    className={`w-full aspect-video rounded-lg overflow-hidden border-2 transition-all hover:border-primary/50 ${
+                      selectedItemIndex === index 
+                        ? 'border-primary ring-2 ring-primary/20' 
+                        : 'border-border/30'
+                    }`}
+                  >
+                    <img 
+                      src={item.image} 
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </div>
+      </div>
     </DrawerLayer>
   );
 }
