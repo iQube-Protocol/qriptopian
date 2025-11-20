@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <div className="flex w-full pt-[88px]">
         <MoneyPennyNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
         
-        <main className="flex-1 overflow-hidden">
+        <main className="flex-1 overflow-hidden pr-8">
           {children}
         </main>
       </div>
