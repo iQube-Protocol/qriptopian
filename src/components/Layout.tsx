@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MoneyPennyNav, Domain } from "@/components/navigation/MoneyPennyNav";
+import { FloatingNav, Domain } from "@/components/navigation/FloatingNav";
 import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
 import { MythosDrawer } from "@/components/navigation/drawers/MythosDrawer";
@@ -18,10 +18,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen bg-[#0a1628]">
-      <MoneyPennyNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
+      <FloatingNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
       <TopHeader />
       
-      <main className="flex-1 ml-16 mt-[88px] overflow-hidden">
+      <main className="flex-1 mt-[88px] overflow-hidden">
         {children}
       </main>
 
