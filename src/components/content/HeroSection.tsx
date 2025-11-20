@@ -12,7 +12,7 @@ const articles = [{
   watchProgress: 0
 }, {
   id: 2,
-  title: "Quantum Market Intelligence",
+  title: "Quantum Market Intel",
   subtitle: "Real-time insights across all major protocols",
   image: quantumTechImage,
   readContent: "The quantum market represents a paradigm shift in how we understand financial networks and trading algorithms. With the integration of quantum computing capabilities into market analysis...",
