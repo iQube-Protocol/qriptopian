@@ -89,9 +89,9 @@ export function MoneyPennyHero() {
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-[#17243a] bg-[#050f1f] pl-6 pr-[46px] py-4">
+        <div className="border-t border-[#17243a] bg-[#050f1f] py-4">
           <form onSubmit={handleSubmit}>
-            <div className="flex items-center gap-3 bg-[#020b18] border border-[#1e2b40] rounded-full px-4 py-2">
+            <div className="flex items-center gap-3 bg-[#020b18] border-x-0 border-t border-b border-[#1e2b40] px-8 py-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
