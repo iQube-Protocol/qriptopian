@@ -56,55 +56,58 @@ export function MoneyPennyHero() {
   };
 
   return (
-    <div className="h-full w-full bg-[#0a1628] flex flex-col">
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'}`}
-          >
-            {message.imageUrl && (
-              <div className="w-full max-w-4xl mb-4 rounded-lg overflow-hidden">
-                <img 
-                  src={message.imageUrl} 
-                  alt="Content" 
-                  className="w-full h-auto"
-                />
-              </div>
-            )}
+    <div className="h-full w-full bg-[#0a1628] p-6 flex items-center justify-center">
+      {/* Contained Modal */}
+      <div className="w-full max-w-6xl h-full bg-[#0f1e33] rounded-lg border border-[#1a2942] shadow-2xl flex flex-col overflow-hidden">
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {messages.map((message) => (
             <div
-              className={`max-w-2xl rounded-lg p-4 ${
-                message.type === 'user'
-                  ? 'bg-cyan-500/10 border border-cyan-500/20'
-                  : 'bg-[#1a2942] border border-[#2a3952]'
-              }`}
+              key={message.id}
+              className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'}`}
             >
-              <p className="text-gray-200">{message.content}</p>
+              {message.imageUrl && (
+                <div className="w-full max-w-3xl mb-4 rounded-lg overflow-hidden">
+                  <img 
+                    src={message.imageUrl} 
+                    alt="Content" 
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
+              <div
+                className={`max-w-2xl rounded-lg p-4 ${
+                  message.type === 'user'
+                    ? 'bg-cyan-500/10 border border-cyan-500/20'
+                    : 'bg-[#1a2942] border border-[#2a3952]'
+                }`}
+              >
+                <p className="text-gray-200">{message.content}</p>
+              </div>
             </div>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
 
-      {/* Input Area */}
-      <div className="border-t border-[#1a2942] p-6">
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
-          <div className="flex gap-4 items-center">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask for hero images or explore content..."
-              className="flex-1 bg-[#1a2942] border-[#2a3952] text-gray-200 placeholder:text-gray-500 focus:border-cyan-500/50"
-            />
-            <Button
-              type="submit"
-              className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </form>
+        {/* Input Area */}
+        <div className="border-t border-[#1a2942] p-6 bg-[#0a1628]">
+          <form onSubmit={handleSubmit}>
+            <div className="flex gap-4 items-center">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask for hero images or explore content..."
+                className="flex-1 bg-[#1a2942] border-[#2a3952] text-gray-200 placeholder:text-gray-500 focus:border-cyan-500/50"
+              />
+              <Button
+                type="submit"
+                className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
