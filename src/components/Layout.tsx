@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FloatingNav, Domain } from "@/components/navigation/FloatingNav";
+import { MoneyPennyNav, Domain } from "@/components/navigation/MoneyPennyNav";
 import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
 import { MythosDrawer } from "@/components/navigation/drawers/MythosDrawer";
@@ -17,13 +17,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen bg-[#0a1628]">
-      <FloatingNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
+    <div className="flex h-screen bg-[#020818]">
       <TopHeader />
       
-      <main className="flex-1 mt-[88px] overflow-hidden">
-        {children}
-      </main>
+      <div className="flex w-full pt-[88px]">
+        <MoneyPennyNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
+        
+        <main className="flex-1 overflow-hidden px-6 pb-6">
+          {children}
+        </main>
+      </div>
 
       {/* Domain Drawers */}
       <SignalsDrawer isOpen={activeDomain === 'signals'} onClose={() => setActiveDomain(null)} />
