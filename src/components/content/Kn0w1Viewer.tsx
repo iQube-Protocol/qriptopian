@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, BookOpen, Maximize2, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Play, BookOpen, Maximize2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -47,27 +47,21 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
             className="max-w-full max-h-full object-contain"
           />
           
-          {/* Fullscreen Controls */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handlePrevious}
-              className="bg-black/50 hover:bg-black/70 text-white"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
-            <div className="bg-black/50 px-4 py-2 rounded-lg text-white text-sm">
-              {activeIndex + 1} / {items.length}
-            </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleNext}
-              className="bg-black/50 hover:bg-black/70 text-white"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </Button>
+          {/* Fullscreen Dot Navigation */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+            {items.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveIndex(index)}
+                className={cn(
+                  "transition-all rounded-full",
+                  activeIndex === index 
+                    ? "w-12 h-3 bg-cyan-400" 
+                    : "w-3 h-3 bg-white/50 hover:bg-white/70"
+                )}
+                aria-label={`Go to ${item.title}`}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -75,9 +69,9 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full">
       {/* Hero Image */}
-      <div className="relative h-[60vh] bg-gradient-to-b from-purple-900 via-blue-900 to-black">
+      <div className="relative h-[400px] bg-gradient-to-b from-purple-900 via-blue-900 to-black rounded-lg overflow-hidden">
         <img
           src={activeItem.image}
           alt={activeItem.title}
@@ -110,95 +104,59 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
           <Maximize2 className="h-5 w-5" />
         </button>
         
-        {/* Title and Controls Overlay */}
+        {/* Title and Dot Navigation Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-8">
           <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
             {activeItem.title}
           </h2>
           
-          <div className="flex gap-4">
-            <Button
-              onClick={() => setMode('read')}
-              variant={mode === 'read' ? 'default' : 'outline'}
-              className={cn(
-                "gap-2",
-                mode === 'read' 
-                  ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
-                  : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-              )}
-            >
-              <BookOpen className="h-4 w-4" />
-              Read
-            </Button>
-            <Button
-              onClick={() => setMode('watch')}
-              variant={mode === 'watch' ? 'default' : 'outline'}
-              className={cn(
-                "gap-2",
-                mode === 'watch' 
-                  ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
-                  : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-              )}
-            >
-              <Play className="h-4 w-4" />
-              Watch
-            </Button>
+          <div className="flex items-center gap-4">
+            <div className="flex gap-4">
+              <Button
+                onClick={() => setMode('read')}
+                variant={mode === 'read' ? 'default' : 'outline'}
+                className={cn(
+                  "gap-2",
+                  mode === 'read' 
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
+                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
+                )}
+              >
+                <BookOpen className="h-4 w-4" />
+                Read
+              </Button>
+              <Button
+                onClick={() => setMode('watch')}
+                variant={mode === 'watch' ? 'default' : 'outline'}
+                className={cn(
+                  "gap-2",
+                  mode === 'watch' 
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
+                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
+                )}
+              >
+                <Play className="h-4 w-4" />
+                Watch
+              </Button>
+            </div>
+            
+            {/* Dot Navigation */}
+            <div className="flex gap-2 ml-4">
+              {items.map((item, index) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveIndex(index)}
+                  className={cn(
+                    "transition-all rounded-full",
+                    activeIndex === index 
+                      ? "w-8 h-2 bg-cyan-400" 
+                      : "w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50"
+                  )}
+                  aria-label={`Go to ${item.title}`}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </div>
-
-      {/* Featured Content Carousel */}
-      <div className="relative px-8 py-6 bg-[#0a1628]">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-semibold text-white">Featured Content</h3>
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handlePrevious}
-              className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleNext}
-              className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-        
-        <div className="grid grid-cols-3 gap-4">
-          {items.slice(0, 3).map((item, index) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveIndex(index)}
-              className={cn(
-                "relative aspect-[3/2] rounded-lg overflow-hidden group cursor-pointer transition-all",
-                activeIndex === index 
-                  ? "ring-2 ring-cyan-400 scale-105" 
-                  : "hover:scale-105"
-              )}
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-              {item.badge && (
-                <div className="absolute top-2 left-2 px-2 py-1 bg-orange-500/20 border border-orange-500 rounded text-xs text-orange-400">
-                  {item.badge}
-                </div>
-              )}
-              <div className="absolute bottom-2 left-2 right-2">
-                <p className="text-sm font-medium text-white line-clamp-2">{item.title}</p>
-              </div>
-            </button>
-          ))}
         </div>
       </div>
     </div>
