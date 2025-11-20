@@ -51,66 +51,68 @@ export function HeroSection() {
       {/* Main Content */}
       <div className="absolute inset-0 flex items-end pb-16">
         <div className="px-8 max-w-2xl">
+          {/* Action Icons and Navigation Dots */}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')}
+                className={`p-2 rounded-lg transition-all ${
+                  activeMode === 'read' 
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' 
+                    : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'
+                }`}
+                aria-label="Read"
+              >
+                <BookOpen className="h-4 w-4" />
+              </button>
+              <button 
+                onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')}
+                className={`p-2 rounded-lg transition-all ${
+                  activeMode === 'watch' 
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' 
+                    : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'
+                }`}
+                aria-label="Watch"
+              >
+                <Play className="h-4 w-4" />
+              </button>
+              <button 
+                onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')}
+                className={`p-2 rounded-lg transition-all ${
+                  activeMode === 'listen' 
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' 
+                    : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'
+                }`}
+                aria-label="Listen"
+              >
+                <Headphones className="h-4 w-4" />
+              </button>
+            </div>
+            
+            {/* Navigation Dots */}
+            <div className="flex gap-2">
+              {articles.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveArticle(index)}
+                  className={`transition-all ${
+                    index === activeArticle 
+                      ? 'w-8 h-2 bg-cyan-400 rounded-full' 
+                      : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
+                  }`}
+                  aria-label={`Article ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+          
           <h1 className="text-6xl font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)]">
             {currentArticle.title}
           </h1>
-          <p className="text-xl text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] mb-6">
+          <p className="text-xl text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
             {currentArticle.subtitle}
           </p>
-          
-          {/* Action Icons */}
-          <div className="flex gap-3 mb-6">
-            <button 
-              onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')}
-              className={`p-2 rounded-lg transition-all ${
-                activeMode === 'read' 
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' 
-                  : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'
-              }`}
-              aria-label="Read"
-            >
-              <BookOpen className="h-5 w-5" />
-            </button>
-            <button 
-              onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')}
-              className={`p-2 rounded-lg transition-all ${
-                activeMode === 'watch' 
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' 
-                  : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'
-              }`}
-              aria-label="Watch"
-            >
-              <Play className="h-5 w-5" />
-            </button>
-            <button 
-              onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')}
-              className={`p-2 rounded-lg transition-all ${
-                activeMode === 'listen' 
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' 
-                  : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'
-              }`}
-              aria-label="Listen"
-            >
-              <Headphones className="h-5 w-5" />
-            </button>
-          </div>
         </div>
-      </div>
-
-      {/* Navigation Dots */}
-      <div className="absolute bottom-6 right-8 flex gap-2">
-        {articles.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setActiveArticle(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === activeArticle 
-                ? 'bg-cyan-400' 
-                : 'bg-white/30 hover:bg-white/50'
-            }`}
-            aria-label={`Article ${index + 1}`}
-          />
-        ))}
       </div>
 
       {/* Read Mode Overlay */}
