@@ -1,5 +1,6 @@
-import { Bell } from "lucide-react";
+import { Bell, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PersonaSelector } from "@/components/PersonaSelector";
 export function TopHeader() {
   return <header className="fixed top-0 left-0 right-0 h-[88px] bg-[#0a1628] border-b border-[#1a2942] z-40 px-8 flex items-start pt-6">
       <div className="flex-1">
@@ -16,6 +17,7 @@ export function TopHeader() {
           <Bell className="h-5 w-5" />
         </Button>
         
+        <PersonaSelector />
         
         <Button size="sm" className="bg-white/5 backdrop-blur-md border border-white/10 text-gray-300 hover:bg-white/10 hover:border-cyan-500/20 hover:text-cyan-300 transition-all">
           Connect Wallet
