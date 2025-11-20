@@ -93,7 +93,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
           onClick={() => setIsFullscreen(true)}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-cyan-500/30 border-2 border-cyan-400 flex items-center justify-center group hover:scale-110 transition-all"
         >
-          <Play className="h-8 w-8 text-cyan-400 ml-1" fill="currentColor" />
+          <Play className="h-6 w-6 text-cyan-400 ml-1" fill="currentColor" />
         </button>
 
         {/* Fullscreen Button */}
