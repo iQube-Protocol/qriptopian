@@ -169,17 +169,6 @@ export function MoneyPennyHero() {
           </div>
         </div>
 
-        {/* Input Area */}
-        <div className="border-t border-[#17243a] bg-[#050f1f] py-4">
-          <form onSubmit={handleSubmit}>
-            <div className="flex items-center gap-3 bg-[#020b18] border-x-0 border-t border-b border-[#1e2b40] px-4 py-2">
-              <Input value={input} onChange={e => setInput(e.target.value)} placeholder="Ask The Qriptopian about trades, stories, or strategies..." className="flex-1 bg-transparent border-0 text-sm text-[#d0f6ff] placeholder:text-[#4d6b83] focus-visible:ring-0 focus-visible:ring-offset-0" />
-              <Button type="submit" size="icon" className="h-9 w-9 rounded-full bg-[#00c4ff] hover:bg-[#00e0ff] text-[#001320] shadow-[0_0_16px_rgba(0,196,255,0.6)]">
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </form>
-        </div>
       </div>
     </div>;
 }

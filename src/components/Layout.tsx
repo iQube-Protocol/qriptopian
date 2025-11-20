@@ -8,9 +8,11 @@ import { MarketsDrawer } from "@/components/navigation/drawers/MarketsDrawer";
 import { BuildersDrawer } from "@/components/navigation/drawers/BuildersDrawer";
 import { CityDrawer } from "@/components/navigation/drawers/CityDrawer";
 import { DispatchesDrawer } from "@/components/navigation/drawers/DispatchesDrawer";
+import { AIOverlay } from "@/components/AIOverlay";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
+  const [isAIOpen, setIsAIOpen] = useState(false);
 
   const handleDomainClick = (domain: Domain) => {
     setActiveDomain(activeDomain === domain ? null : domain);
@@ -26,7 +28,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
-      <MoneyPennyNav activeDomain={activeDomain} onDomainClick={handleDomainClick} />
+      <MoneyPennyNav 
+        activeDomain={activeDomain} 
+        onDomainClick={handleDomainClick}
+        onAIClick={() => setIsAIOpen(true)}
+      />
 
       {/* Domain Drawers */}
       <SignalsDrawer isOpen={activeDomain === 'signals'} onClose={() => setActiveDomain(null)} />
@@ -36,6 +42,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <BuildersDrawer isOpen={activeDomain === 'builders'} onClose={() => setActiveDomain(null)} />
       <CityDrawer isOpen={activeDomain === 'city'} onClose={() => setActiveDomain(null)} />
       <DispatchesDrawer isOpen={activeDomain === 'dispatches'} onClose={() => setActiveDomain(null)} />
+      
+      {/* AI Overlay */}
+      <AIOverlay isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
     </div>
   );
 }
