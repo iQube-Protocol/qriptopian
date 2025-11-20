@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <TopHeader />
       
       <div className="flex w-full pt-[88px]">
-        <main className="flex-1 overflow-hidden">
+        <main className="flex-1">
           {children}
         </main>
       </div>
