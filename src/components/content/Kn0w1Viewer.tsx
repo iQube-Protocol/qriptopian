@@ -35,7 +35,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
       <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
         <button
           onClick={() => setIsFullscreen(false)}
-          className="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 transition-colors"
+          className="absolute top-4 right-24 z-10 text-white hover:text-cyan-400 transition-colors"
         >
           <X className="h-6 w-6" />
         </button>
