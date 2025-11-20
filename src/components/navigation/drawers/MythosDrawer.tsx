@@ -41,7 +41,7 @@ export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
       onClose={onClose}
       title="Mythos"
       subtitle="Stories from the Quantum-Ready Internet"
-      width="full"
+      columns={2}
       tabs={tabs}
     >
       <Kn0w1Viewer items={mythosContent} domain="mythos" />
