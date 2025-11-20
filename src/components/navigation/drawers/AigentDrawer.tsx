@@ -21,10 +21,12 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
   ]);
 
   const tabs = [
-    { id: 'nakamoto', label: 'Nakamoto' },
-    { id: 'know1', label: 'KNOW1' },
-    { id: 'moneypenny', label: 'MoneyPenny' },
+    { id: 'nakamoto', label: 'Nakamoto', description: 'Qripto and blockchain intelligence specialist' },
+    { id: 'know1', label: 'KNOW1', description: 'Knowledge and research intelligence specialist' },
+    { id: 'moneypenny', label: 'MoneyPenny', description: 'COYN and Q¢ financial specialist' },
   ];
+
+  const activeAgentData = tabs.find(t => t.id === activeTab);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,37 +60,11 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
         <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
           <div className="p-6 flex items-center justify-between gap-4">
             <div className="flex-shrink-0">
-              <h2 className="text-2xl font-bold text-foreground mb-1">Aigent Intelligence</h2>
-              <p className="text-sm text-muted-foreground">AI-powered insights and assistance</p>
+              <h2 className="text-2xl font-bold text-foreground mb-1">{activeAgentData?.label}</h2>
+              <p className="text-sm text-muted-foreground">{activeAgentData?.description}</p>
             </div>
             
             <div className="flex items-center gap-6">
-              {/* View Mode Toggle */}
-              <div className="flex items-center gap-2 bg-muted/30 rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('metavatar')}
-                  className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
-                    viewMode === 'metavatar'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <User className="h-3 w-3 inline mr-1" />
-                  metaVatar
-                </button>
-                <button
-                  onClick={() => setViewMode('chat')}
-                  className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
-                    viewMode === 'chat'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <MessageSquare className="h-3 w-3 inline mr-1" />
-                  Text Chat
-                </button>
-              </div>
-
               {/* Tabs */}
               <div className="flex gap-2">
                 {tabs.map((tab) => (
@@ -104,6 +80,32 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                     {tab.label}
                   </button>
                 ))}
+              </div>
+
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-2 bg-background/20 backdrop-blur-md rounded-lg p-1 border border-border/20">
+                <button
+                  onClick={() => setViewMode('metavatar')}
+                  className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
+                    viewMode === 'metavatar'
+                      ? 'bg-primary/20 text-primary backdrop-blur-sm border border-primary/30'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
+                  }`}
+                >
+                  <User className="h-3 w-3 inline mr-1" />
+                  metaVatar
+                </button>
+                <button
+                  onClick={() => setViewMode('chat')}
+                  className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
+                    viewMode === 'chat'
+                      ? 'bg-primary/20 text-primary backdrop-blur-sm border border-primary/30'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
+                  }`}
+                >
+                  <MessageSquare className="h-3 w-3 inline mr-1" />
+                  Text Chat
+                </button>
               </div>
               
               <Button
