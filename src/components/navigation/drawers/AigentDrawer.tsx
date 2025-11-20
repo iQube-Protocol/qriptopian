@@ -104,7 +104,7 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                   }`}
                 >
                   <MessageSquare className="h-3 w-3 inline mr-1" />
-                  Text Chat
+                  Text
                 </button>
               </div>
               
