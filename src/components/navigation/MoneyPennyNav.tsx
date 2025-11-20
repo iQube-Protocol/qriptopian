@@ -35,49 +35,44 @@ const domains = [{
   icon: Mail,
   label: 'Dispatches'
 }];
+
+const navItems = [
+  ...domains,
+  {
+    id: 'settings' as const,
+    icon: Settings,
+    label: 'Settings'
+  }
+];
 export function MoneyPennyNav({
   activeDomain,
   onDomainClick
 }: MoneyPennyNavProps) {
   return <TooltipProvider delayDuration={0}>
-      <aside className="fixed left-0 top-[88px] bottom-0 w-16 bg-[#020818] border-r border-[#17243a] flex flex-col items-center py-6 z-40">
-        {/* Logo */}
-        <div className="mb-8 cursor-pointer group">
-          
-        </div>
-
+      <aside className="fixed right-8 bottom-24 w-16 bg-[#020818] border border-[#17243a] rounded-2xl flex flex-col items-center py-6 z-50">
         {/* Navigation Icons */}
-        <nav className="flex-1 flex flex-col gap-2 w-full px-2 justify-center">
-          {domains.map(domain => {
-          const Icon = domain.icon;
-          const isActive = activeDomain === domain.id;
-          return <Tooltip key={domain.id}>
+        <nav className="flex flex-col gap-2 w-full px-2">
+          {navItems.map(item => {
+          const Icon = item.icon;
+          const isActive = activeDomain === item.id;
+          const isSettings = item.id === 'settings';
+          
+          return <Tooltip key={item.id}>
                 <TooltipTrigger asChild>
-                  <button onClick={() => onDomainClick(domain.id)} className={cn("w-full h-12 rounded-lg flex items-center justify-center transition-all relative group", isActive ? "bg-cyan-500/20 text-cyan-400" : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10")}>
-                    {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-r" />}
+                  <button 
+                    onClick={() => !isSettings && onDomainClick(item.id as Domain)} 
+                    className={cn("w-full h-12 rounded-lg flex items-center justify-center transition-all relative group", isActive ? "bg-cyan-500/20 text-cyan-400" : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10")}
+                  >
+                    {isActive && !isSettings && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-r" />}
                     <Icon className="h-5 w-5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="right" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
-                  {domain.label}
+                <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
+                  {item.label}
                 </TooltipContent>
               </Tooltip>;
         })}
         </nav>
-
-        {/* Bottom Settings */}
-        <div className="w-full px-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button className="w-full h-12 rounded-lg flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all">
-                <Settings className="h-5 w-5" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="right" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
-              Settings
-            </TooltipContent>
-          </Tooltip>
-        </div>
       </aside>
     </TooltipProvider>;
 }
