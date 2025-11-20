@@ -110,68 +110,21 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
             {activeItem.title}
           </h2>
           
-          <div className="flex items-center gap-4">
-            <div className="flex gap-2">
-              <Button
-                onClick={() => setMode('read')}
-                variant={mode === 'read' ? 'default' : 'outline'}
-                size="sm"
+          {/* Dot Navigation */}
+          <div className="flex gap-2">
+            {items.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveIndex(index)}
                 className={cn(
-                  "gap-1.5",
-                  mode === 'read' 
-                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
-                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
+                  "transition-all rounded-full",
+                  activeIndex === index 
+                    ? "w-8 h-2 bg-cyan-400" 
+                    : "w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50"
                 )}
-              >
-                <BookOpen className="h-3.5 w-3.5" />
-                Read
-              </Button>
-              <Button
-                onClick={() => setMode('watch')}
-                variant={mode === 'watch' ? 'default' : 'outline'}
-                size="sm"
-                className={cn(
-                  "gap-1.5",
-                  mode === 'watch' 
-                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
-                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-                )}
-              >
-                <Play className="h-3.5 w-3.5" />
-                Watch
-              </Button>
-              <Button
-                onClick={() => setMode('listen')}
-                variant={mode === 'listen' ? 'default' : 'outline'}
-                size="sm"
-                className={cn(
-                  "gap-1.5",
-                  mode === 'listen' 
-                    ? "bg-cyan-500 hover:bg-cyan-600 text-white" 
-                    : "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-                )}
-              >
-                <Headphones className="h-3.5 w-3.5" />
-                Listen
-              </Button>
-            </div>
-            
-            {/* Dot Navigation */}
-            <div className="flex gap-2 ml-4">
-              {items.map((item, index) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveIndex(index)}
-                  className={cn(
-                    "transition-all rounded-full",
-                    activeIndex === index 
-                      ? "w-8 h-2 bg-cyan-400" 
-                      : "w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50"
-                  )}
-                  aria-label={`Go to ${item.title}`}
-                />
-              ))}
-            </div>
+                aria-label={`Go to ${item.title}`}
+              />
+            ))}
           </div>
         </div>
       </div>
