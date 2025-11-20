@@ -129,7 +129,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
         </div>
         
         {/* Icon Buttons in Bottom Right */}
-        <div className="absolute bottom-8 right-8 flex gap-2 items-end">
+        <div className="absolute bottom-8 right-8 flex gap-3 items-end">
           <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
             <BookOpen className="h-4 w-4" />
           </button>
