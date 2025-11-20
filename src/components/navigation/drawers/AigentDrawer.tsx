@@ -92,7 +92,7 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                         onClick={() => setViewMode('metavatar')}
                         className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
                           viewMode === 'metavatar'
-                            ? 'text-green-500'
+                            ? 'text-cyan-400'
                             : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
                         }`}
                       >
@@ -110,7 +110,7 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                         onClick={() => setViewMode('chat')}
                         className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
                           viewMode === 'chat'
-                            ? 'text-green-500'
+                            ? 'text-cyan-400'
                             : 'text-muted-foreground hover:text-foreground hover:bg-background/10'
                         }`}
                       >
