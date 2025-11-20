@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import { Send, Lock, Crown } from "lucide-react";
 import heroImage from "@/assets/qriptopian-hero.jpg";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
 interface Message {
   id: string;
   type: 'user' | 'assistant';
@@ -158,6 +159,78 @@ export function MoneyPennyHero() {
                       </p>
                       <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
                         Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+
+                {/* Premium Content - Token Gated */}
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-amber-500/30 rounded-lg overflow-hidden hover:border-amber-500/50 transition-colors relative">
+                    <div className="absolute top-3 right-3 z-10">
+                      <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/50 flex items-center gap-1">
+                        <Crown className="h-3 w-3" />
+                        Premium
+                      </Badge>
+                    </div>
+                    <div className="relative">
+                      <img src="https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=400&h=300&fit=crop" alt="Quantum Trading Algorithms" className="w-full h-48 object-cover opacity-60" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Lock className="h-12 w-12 text-amber-400" />
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Quantum Trading Algorithms</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Exclusive insights into quantum-powered algorithmic trading strategies
+                      </p>
+                      <button className="text-amber-400 text-sm hover:text-amber-300 transition-colors flex items-center gap-2">
+                        <Lock className="h-3 w-3" />
+                        Unlock with 100 QCT →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+
+                {/* Regular Content */}
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop" alt="AI & Machine Learning" className="w-full h-48 object-cover" />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">AI & Machine Learning</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        The convergence of artificial intelligence and blockchain technology
+                      </p>
+                      <button className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+                        Explore →
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+
+                {/* Premium Content - Token Gated */}
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-[#020b18] border border-amber-500/30 rounded-lg overflow-hidden hover:border-amber-500/50 transition-colors relative">
+                    <div className="absolute top-3 right-3 z-10">
+                      <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/50 flex items-center gap-1">
+                        <Crown className="h-3 w-3" />
+                        Premium
+                      </Badge>
+                    </div>
+                    <div className="relative">
+                      <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=400&h=300&fit=crop" alt="Advanced DeFi Strategies" className="w-full h-48 object-cover opacity-60" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Lock className="h-12 w-12 text-amber-400" />
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Advanced DeFi Strategies</h3>
+                      <p className="text-[#8fb3c0] text-sm mb-4">
+                        Master-level strategies for yield optimization and liquidity management
+                      </p>
+                      <button className="text-amber-400 text-sm hover:text-amber-300 transition-colors flex items-center gap-2">
+                        <Lock className="h-3 w-3" />
+                        Unlock with 150 QCT →
                       </button>
                     </div>
                   </div>
