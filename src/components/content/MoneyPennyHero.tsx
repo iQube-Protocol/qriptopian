@@ -52,7 +52,7 @@ export function MoneyPennyHero() {
   return <div className="h-full w-full flex items-stretch">
       <div className="w-full h-full flex flex-col bg-[#050f1f] border-l border-r-0 border-t-0 border-b-0 border-[#17243a] shadow-[0_0_40px_rgba(0,0,0,0.7)] overflow-y-auto">
         {/* Hero Image with Title Overlay */}
-        <div className="w-full h-[70vh] relative flex-shrink-0">
+        <div className="w-full h-[calc(100vh-88px)] relative flex-shrink-0">
           <img src={heroImage} alt="The Qriptopian - Quantum-Ready Internet" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
           <div className="absolute inset-0 flex items-end justify-center pb-16">
