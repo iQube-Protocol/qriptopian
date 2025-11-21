@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BookOpen, Play, Headphones } from "lucide-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import heroImage from "@/assets/qriptopian-hero.jpg";
 import quantumTechImage from "@/assets/quantum-tech-hero.jpg";
+
 const articles = [{
   id: 1,
   title: "The Qriptopian",
@@ -27,48 +30,85 @@ const articles = [{
   duration: "15 min read",
   watchProgress: 0
 }];
+
 export function HeroSection() {
   const [activeArticle, setActiveArticle] = useState(0);
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | null>(null);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  
   const currentArticle = articles[activeArticle];
-  return <div className="w-full h-[calc(100vh-88px)] relative flex-shrink-0">
-      <img src={currentArticle.image} alt={currentArticle.title} className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
-      
-      {/* Main Content */}
-      <div className="absolute inset-0 flex items-end pb-16">
-        <div className="px-8 max-w-2xl">
-          {/* Action Icons and Navigation Dots */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex gap-3">
-              <button onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} aria-label="Read">
-                <BookOpen className="h-4 w-4" />
-              </button>
-              <button onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} aria-label="Watch">
-                <Play className="h-4 w-4" />
-              </button>
-              <button onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} aria-label="Listen">
-                <Headphones className="h-4 w-4" />
-              </button>
-            </div>
+
+  useEffect(() => {
+    if (!carouselApi) return;
+    
+    carouselApi.on("select", () => {
+      setActiveArticle(carouselApi.selectedScrollSnap());
+    });
+  }, [carouselApi]);
+
+  const handleDotClick = (index: number) => {
+    setActiveArticle(index);
+    carouselApi?.scrollTo(index);
+  };
+
+  return (
+    <Carousel 
+      setApi={setCarouselApi}
+      opts={{ loop: true, dragFree: false }}
+      plugins={[WheelGesturesPlugin()]}
+      className="w-full h-[calc(100vh-88px)] relative flex-shrink-0"
+    >
+      <CarouselContent className="h-[calc(100vh-88px)]">
+        {articles.map((article) => (
+          <CarouselItem key={article.id} className="h-[calc(100vh-88px)] relative">
+            <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
             
-            {/* Navigation Dots */}
-            <div className="flex gap-2">
-              {articles.map((_, index) => <button key={index} onClick={() => setActiveArticle(index)} className={`transition-all ${index === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} aria-label={`Article ${index + 1}`} />)}
+            {/* Main Content */}
+            <div className="absolute inset-0 flex items-end pb-16">
+              <div className="px-8 max-w-2xl">
+                {/* Action Icons and Navigation Dots */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex gap-3">
+                    <button onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} aria-label="Read">
+                      <BookOpen className="h-4 w-4" />
+                    </button>
+                    <button onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} aria-label="Watch">
+                      <Play className="h-4 w-4" />
+                    </button>
+                    <button onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} aria-label="Listen">
+                      <Headphones className="h-4 w-4" />
+                    </button>
+                  </div>
+                  
+                  {/* Navigation Dots */}
+                  <div className="flex gap-2">
+                    {articles.map((_, idx) => (
+                      <button 
+                        key={idx} 
+                        onClick={() => handleDotClick(idx)} 
+                        className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
+                        aria-label={`Article ${idx + 1}`} 
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-5xl">
+                  {article.title}
+                </h1>
+                <p className="text-xl text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                  {article.subtitle}
+                </p>
+              </div>
             </div>
-          </div>
-          
-          <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-5xl">
-            {currentArticle.title}
-          </h1>
-          <p className="text-xl text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
-            {currentArticle.subtitle}
-          </p>
-        </div>
-      </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
 
       {/* Read Mode Overlay */}
-      {activeMode === 'read' && <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-8">
+      {activeMode === 'read' && (
+        <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-8 z-50">
           <div className="max-w-4xl w-full bg-[#0a1528]/95 rounded-lg border border-cyan-500/20 p-8 max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-start mb-6">
               <div>
@@ -85,10 +125,12 @@ export function HeroSection() {
               </p>
             </div>
           </div>
-        </div>}
+        </div>
+      )}
 
       {/* Watch Mode Overlay */}
-      {activeMode === 'watch' && <div className="absolute inset-0 bg-black/95 flex items-center justify-center">
+      {activeMode === 'watch' && (
+        <div className="absolute inset-0 bg-black/95 flex items-center justify-center z-50">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute top-6 right-24 z-10">
               <button onClick={() => setActiveMode(null)} className="text-white hover:text-cyan-400 text-xl bg-black/50 rounded-full w-10 h-10 flex items-center justify-center">
@@ -111,13 +153,16 @@ export function HeroSection() {
                   <span>{currentArticle.duration}</span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div className="bg-cyan-400 h-2 rounded-full transition-all" style={{
-                width: `${currentArticle.watchProgress}%`
-              }} />
+                  <div 
+                    className="bg-cyan-400 h-2 rounded-full transition-all" 
+                    style={{ width: `${currentArticle.watchProgress}%` }} 
+                  />
                 </div>
               </div>
             </div>
           </div>
-        </div>}
-    </div>;
+        </div>
+      )}
+    </Carousel>
+  );
 }
