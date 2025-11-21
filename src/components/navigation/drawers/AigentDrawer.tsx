@@ -11,7 +11,6 @@ interface AigentDrawerProps {
 }
 
 export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
-  const [activeTab, setActiveTab] = useState('nakamoto');
   const [viewMode, setViewMode] = useState<'metavatar' | 'chat'>('chat');
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
@@ -20,14 +19,6 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
       content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
     }
   ]);
-
-  const tabs = [
-    { id: 'nakamoto', label: 'Nakamoto', description: 'Qripto and blockchain intelligence specialist' },
-    { id: 'know1', label: 'KNOW1', description: 'Knowledge and research intelligence specialist' },
-    { id: 'moneypenny', label: 'MoneyPenny', description: 'COYN and Q¢ financial specialist' },
-  ];
-
-  const activeAgentData = tabs.find(t => t.id === activeTab);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,27 +52,11 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
         <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
           <div className="p-6 flex items-center justify-between gap-4">
             <div className="flex-shrink-0">
-              <h2 className="text-2xl font-bold text-foreground mb-1">{activeAgentData?.label}</h2>
-              <p className="text-sm text-muted-foreground">{activeAgentData?.description}</p>
+              <h2 className="text-2xl font-bold text-foreground mb-1">Aigent MoneyPenny</h2>
+              <p className="text-sm text-muted-foreground">COYN and Q¢ financial specialist</p>
             </div>
             
             <div className="flex items-center gap-6">
-              {/* Tabs */}
-              <div className="flex gap-2">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`px-4 py-2 text-sm font-medium transition-all whitespace-nowrap border-b-2 ${
-                      activeTab === tab.id
-                        ? 'text-primary border-primary'
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
 
               {/* View Mode Toggle */}
               <TooltipProvider>
@@ -145,7 +120,7 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                   <User className="h-24 w-24 text-muted-foreground/30" />
                 </div>
                 <p className="text-muted-foreground">metaVatar embed will be placed here</p>
-                <p className="text-sm text-muted-foreground/60 mt-2">Active: {tabs.find(t => t.id === activeTab)?.label}</p>
+                <p className="text-sm text-muted-foreground/60 mt-2">MoneyPenny - COYN & Q¢ Specialist</p>
               </div>
             </div>
           ) : (
@@ -179,7 +154,7 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                     <Input
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      placeholder={`Ask ${tabs.find(t => t.id === activeTab)?.label}...`}
+                      placeholder="Ask MoneyPenny..."
                       className="flex-1 bg-muted/30 border-border/30"
                     />
                     <Button type="submit" size="icon" disabled={!input.trim()}>

@@ -1,40 +1,35 @@
-import { Zap, BookOpen, Cog, DollarSign, Wrench, Building2, Mail, Settings, Bot } from "lucide-react";
+import { Zap, BookOpen, Droplets, Code2, TrendingUp, Settings, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-export type Domain = 'signals' | 'mythos' | 'logos' | 'markets' | 'builders' | 'city' | 'dispatches';
-interface MoneyPennyNavProps {
+
+export type Domain = 'signals' | 'pennydrops' | 'kn0wdz' | 'knytrise' | 'staybull';
+
+interface QriptopianNavProps {
   activeDomain: Domain | null;
   onDomainClick: (domain: Domain) => void;
   onAIClick: () => void;
 }
+
 const domains = [{
   id: 'signals' as Domain,
   icon: Zap,
   label: 'Signals'
 }, {
-  id: 'mythos' as Domain,
+  id: 'pennydrops' as Domain,
+  icon: Droplets,
+  label: 'Penny Drops'
+}, {
+  id: 'kn0wdz' as Domain,
+  icon: Code2,
+  label: '21 Kn0wdZ'
+}, {
+  id: 'knytrise' as Domain,
   icon: BookOpen,
-  label: 'Mythos'
+  label: 'KNYT Rise'
 }, {
-  id: 'logos' as Domain,
-  icon: Cog,
-  label: 'Logos'
-}, {
-  id: 'markets' as Domain,
-  icon: DollarSign,
-  label: 'Markets'
-}, {
-  id: 'builders' as Domain,
-  icon: Wrench,
-  label: 'Builders'
-}, {
-  id: 'city' as Domain,
-  icon: Building2,
-  label: 'City'
-}, {
-  id: 'dispatches' as Domain,
-  icon: Mail,
-  label: 'Dispatches'
+  id: 'staybull' as Domain,
+  icon: TrendingUp,
+  label: 'StayBull'
 }];
 
 const navItems = [
@@ -45,11 +40,12 @@ const navItems = [
     label: 'Settings'
   }
 ];
-export function MoneyPennyNav({
+
+export function QriptopianNav({
   activeDomain,
   onDomainClick,
   onAIClick
-}: MoneyPennyNavProps) {
+}: QriptopianNavProps) {
   return <TooltipProvider delayDuration={0}>
       <aside className="fixed right-0 top-1/2 -translate-y-1/2 w-16 flex flex-col items-center py-6 z-50">
         {/* Navigation Icons */}

@@ -4,12 +4,12 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import { useState } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 
-interface MythosDrawerProps {
+interface KnytRiseDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const mythosContent = [
+const knytRiseContent = [
   {
     id: '1',
     title: 'The Awakening: Chapter 1',
@@ -48,22 +48,19 @@ const mythosContent = [
   },
 ];
 
-export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
+export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   
   const tabs = [
-    { id: 'stories', label: 'Stories' },
-    { id: 'chronicles', label: 'Chronicles' },
-    { id: 'voices', label: 'Voices' },
-    { id: 'culture', label: 'Culture' },
+    { id: 'stories', label: 'Stories' }
   ];
 
   return (
     <DrawerLayer
       isOpen={isOpen}
       onClose={onClose}
-      title="Mythos"
-      subtitle="Stories from the Quantum-Ready Internet"
+      title="KNYT Rise"
+      subtitle="Chronicles from the Quantum-Ready Internet"
       columns={2}
       tabs={tabs}
     >
@@ -78,13 +75,13 @@ export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
           plugins={[WheelGesturesPlugin()]}
         >
           <CarouselContent>
-            {mythosContent.map((item, index) => (
+            {knytRiseContent.map((item, index) => (
               <CarouselItem key={item.id} className="md:basis-1/2">
                 <div 
                   onClick={() => setSelectedItemIndex(index)}
                   className="cursor-pointer"
                 >
-                  <Kn0w1Viewer items={[item]} domain="mythos" />
+                  <Kn0w1Viewer items={[item]} domain="knytrise" />
                 </div>
               </CarouselItem>
             ))}
@@ -102,7 +99,7 @@ export function MythosDrawer({ isOpen, onClose }: MythosDrawerProps) {
             plugins={[WheelGesturesPlugin()]}
           >
             <CarouselContent className="-ml-2">
-              {mythosContent.map((item, index) => (
+              {knytRiseContent.map((item, index) => (
                 <CarouselItem key={`thumb-${item.id}`} className="basis-1/6 pl-2">
                   <button
                     onClick={() => setSelectedItemIndex(index)}
