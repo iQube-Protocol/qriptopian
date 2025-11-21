@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Send, User, MessageSquare, RefreshCw } from "lucide-react";
+import { X, Send, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -58,37 +58,25 @@ export function AigentDrawer({
 
               <TooltipProvider>
                 {/* Refresh Button - Only visible in metavatar mode */}
-                {viewMode === 'metavatar' && (
-                  <Tooltip>
+                {viewMode === 'metavatar' && <Tooltip>
                     <TooltipTrigger asChild>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          console.log('[AigentDrawer] MetaAvatar refresh clicked');
-                          setAvatarRefreshKey((k) => k + 1);
-                        }}
-                        className={`p-1 rounded-full transition-colors ${
-                          viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'
-                        }`}
-                      >
-                        <RefreshCw className="h-5 w-5" />
+                      <button type="button" onClick={() => {
+                    console.log('[AigentDrawer] MetaAvatar refresh clicked');
+                    setAvatarRefreshKey(k => k + 1);
+                  }} className={`p-1 rounded-full transition-colors ${viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'}`}>
+                        
                       </button>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Refresh MetaVatar</p>
                     </TooltipContent>
-                  </Tooltip>
-                )}
+                  </Tooltip>}
 
                 {/* View Mode Toggle */}
                 <div className="flex items-center gap-2 bg-background/20 backdrop-blur-md rounded-lg p-1 border border-border/20">
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button
-                        type="button"
-                        onClick={() => setViewMode('metavatar')}
-                        className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'metavatar' ? 'text-cyan-400' : 'text-white hover:text-cyan-400 hover:bg-background/10'}`}
-                      >
+                      <button type="button" onClick={() => setViewMode('metavatar')} className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'metavatar' ? 'text-cyan-400' : 'text-white hover:text-cyan-400 hover:bg-background/10'}`}>
                         <User className="h-4 w-4" />
                       </button>
                     </TooltipTrigger>
@@ -99,11 +87,7 @@ export function AigentDrawer({
                   
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button
-                        type="button"
-                        onClick={() => setViewMode('chat')}
-                        className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'chat' ? 'text-cyan-400' : 'text-white hover:text-cyan-400 hover:bg-background/10'}`}
-                      >
+                      <button type="button" onClick={() => setViewMode('chat')} className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'chat' ? 'text-cyan-400' : 'text-white hover:text-cyan-400 hover:bg-background/10'}`}>
                         <MessageSquare className="h-4 w-4" />
                       </button>
                     </TooltipTrigger>
