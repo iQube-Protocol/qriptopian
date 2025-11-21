@@ -71,7 +71,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
       {/* Right: 2 columns split - code snippet area + resources */}
       <div className="col-span-2 grid grid-cols-2 gap-6">
         {/* Code Snippet Area */}
-        <div className="col-span-1 space-y-4">
+        <div className="col-span-1 h-[400px] overflow-y-auto space-y-4">
           <div className="bg-[#0a1628] border border-green-500/20 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <Terminal className="h-5 w-5 text-green-400" />
@@ -122,8 +122,8 @@ const tx = await qiri.send({
         </div>
 
         {/* Resources Sidebar */}
-        <div className="col-span-1 space-y-4">
-          <div className="bg-[#0a1628] border border-blue-500/20 rounded-xl p-6">
+        <div className="col-span-1 h-[400px]">
+          <div className="bg-[#0a1628] border border-blue-500/20 rounded-xl p-6 h-full overflow-y-auto">
             <div className="flex items-center gap-2 mb-4">
               <Book className="h-5 w-5 text-blue-400" />
               <h3 className="text-lg font-bold text-blue-400">Resources</h3>
