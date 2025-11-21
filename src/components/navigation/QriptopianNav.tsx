@@ -19,13 +19,13 @@ const domains = [{
   icon: Droplets,
   label: 'Penny Drops'
 }, {
-  id: 'kn0wdz' as Domain,
-  icon: Code2,
-  label: '21 Kn0wdZ'
-}, {
   id: 'knytrise' as Domain,
   icon: BookOpen,
   label: 'KNYT Rise'
+}, {
+  id: 'kn0wdz' as Domain,
+  icon: Code2,
+  label: '21 Kn0wdZ'
 }, {
   id: 'staybull' as Domain,
   icon: TrendingUp,
