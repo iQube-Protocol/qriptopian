@@ -63,7 +63,10 @@ export function AigentDrawer({
                     <TooltipTrigger asChild>
                       <button
                         type="button"
-                        onClick={() => setAvatarRefreshKey((k) => k + 1)}
+                        onClick={() => {
+                          console.log('[AigentDrawer] MetaAvatar refresh clicked');
+                          setAvatarRefreshKey((k) => k + 1);
+                        }}
                         className={`p-1 rounded-full transition-colors ${
                           viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'
                         }`}
