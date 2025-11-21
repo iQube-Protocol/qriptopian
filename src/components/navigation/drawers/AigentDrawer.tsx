@@ -22,6 +22,7 @@ export function AigentDrawer({
     role: 'assistant',
     content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
   }]);
+  const [avatarRefreshKey, setAvatarRefreshKey] = useState(0);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -62,8 +63,10 @@ export function AigentDrawer({
                     <TooltipTrigger asChild>
                       <button
                         type="button"
-                        onClick={() => window.dispatchEvent(new Event('metaAvatarRefresh'))}
-                        className="p-1 rounded-full text-white hover:text-cyan-400 transition-colors"
+                        onClick={() => setAvatarRefreshKey((k) => k + 1)}
+                        className={`p-1 rounded-full transition-colors ${
+                          viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'
+                        }`}
                       >
                         <RefreshCw className="h-5 w-5" />
                       </button>
@@ -119,7 +122,7 @@ export function AigentDrawer({
         <div className="flex-1 flex flex-col overflow-hidden">
           {viewMode === 'metavatar' ? <div className="flex-1 p-6">
               <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
-                <MetaAvatar />
+                <MetaAvatar key={avatarRefreshKey} />
               </div>
             </div> : <>
               {/* Chat Messages */}
