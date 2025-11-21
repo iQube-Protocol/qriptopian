@@ -95,14 +95,6 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
         >
           <Play className="h-6 w-6 text-cyan-400 ml-1" fill="currentColor" />
         </button>
-
-        {/* Fullscreen Button */}
-        <button
-          onClick={() => setIsFullscreen(true)}
-          className="absolute top-6 left-6 p-2 bg-black/50 hover:bg-black/70 rounded-lg text-white transition-colors"
-        >
-          <Maximize2 className="h-5 w-5" />
-        </button>
         
         {/* Title and Dot Navigation Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -128,7 +120,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
           </div>
         </div>
         
-        {/* Icon Buttons in Bottom Right */}
+        {/* Media Controls - Bottom Right */}
         <div className="absolute bottom-8 right-8 flex gap-3 items-end">
           <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
             <BookOpen className="h-4 w-4" />
@@ -138,6 +130,13 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
           </button>
           <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
             <Headphones className="h-4 w-4" />
+          </button>
+          <button 
+            onClick={() => setIsFullscreen(true)}
+            className="text-cyan-400 hover:text-cyan-300 transition-colors" 
+            aria-label="Fullscreen"
+          >
+            <Maximize2 className="h-4 w-4" />
           </button>
         </div>
       </div>
