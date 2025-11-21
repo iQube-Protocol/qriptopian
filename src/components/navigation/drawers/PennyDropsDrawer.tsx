@@ -1,6 +1,7 @@
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { MetaAvatar } from "@/components/MetaAvatar";
 import { useState } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
@@ -95,46 +96,23 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
         <Kn0w1Viewer items={pennyDropsContent} domain="pennydrops" />
       </div>
 
-      {/* Right: 1 column sidebar with featured use case */}
+      {/* Right: 1 column sidebar with MoneyPenny MetaAvatar */}
       <div className="col-span-1">
-        <div className="relative h-[400px] rounded-xl overflow-hidden group">
-          <img 
-            src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=1200&fit=crop"
-            alt="Featured Use Case"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-          
-          {/* Content Overlay */}
-          <div className="absolute inset-0 p-6 flex flex-col bg-black/20 backdrop-blur-sm">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">
-              The Penny Drop Effect
-            </h3>
-            <div className="inline-block self-start px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30 mb-4">
-              FEATURED Q¢ CASE
+        <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-b from-[#0a1628] to-[#071327] border border-cyan-500/20">
+          <div className="absolute inset-0 p-4 flex flex-col">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+                Ask MoneyPenny
+              </h3>
+              <div className="px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30">
+                AI ASSISTANT
+              </div>
             </div>
-            <p className="text-gray-300 text-sm flex-grow">
-              How micropayments are changing everyday commerce
+            <p className="text-gray-400 text-sm mb-4">
+              Your AI guide to Q¢ micropayments
             </p>
-
-            {/* Media Controls - Bottom Right */}
-            <div className="flex gap-3 items-end justify-end mt-auto">
-              <button 
-                onClick={() => setIsFullscreen(true)}
-                className="text-cyan-400 hover:text-cyan-300 transition-colors"
-                aria-label="Fullscreen"
-              >
-                <Maximize2 className="h-4 w-4" />
-              </button>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
-                <BookOpen className="h-4 w-4" />
-              </button>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
-                <Play className="h-4 w-4" />
-              </button>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
-                <Headphones className="h-4 w-4" />
-              </button>
+            <div className="flex-grow relative rounded-lg overflow-hidden bg-black/20">
+              <MetaAvatar />
             </div>
           </div>
         </div>
