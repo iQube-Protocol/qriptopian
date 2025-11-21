@@ -21,7 +21,7 @@ const domains = [{
 }, {
   id: 'knytrise' as Domain,
   icon: BookOpen,
-  label: 'KNYT Rise'
+  label: 'KNYT Scrolls'
 }, {
   id: 'kn0wdz' as Domain,
   icon: Code2,
