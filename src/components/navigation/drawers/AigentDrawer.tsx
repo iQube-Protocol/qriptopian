@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { MetaAvatar } from "@/components/MetaAvatar";
 
 interface AigentDrawerProps {
   isOpen: boolean;
@@ -114,13 +115,9 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
         {/* Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {viewMode === 'metavatar' ? (
-            <div className="flex-1 flex items-center justify-center p-6">
-              <div className="text-center">
-                <div className="w-64 h-64 bg-muted/20 rounded-lg border border-border/30 flex items-center justify-center mb-4">
-                  <User className="h-24 w-24 text-muted-foreground/30" />
-                </div>
-                <p className="text-muted-foreground">metaVatar embed will be placed here</p>
-                <p className="text-sm text-muted-foreground/60 mt-2">MoneyPenny - COYN & Q¢ Specialist</p>
+            <div className="flex-1 p-6">
+              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+                <MetaAvatar />
               </div>
             </div>
           ) : (
