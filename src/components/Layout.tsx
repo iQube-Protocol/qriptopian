@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { MoneyPennyNav, Domain } from "@/components/navigation/MoneyPennyNav";
+import { QriptopianNav, Domain } from "@/components/navigation/QriptopianNav";
 import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
-import { MythosDrawer } from "@/components/navigation/drawers/MythosDrawer";
-import { LogosDrawer } from "@/components/navigation/drawers/LogosDrawer";
-import { MarketsDrawer } from "@/components/navigation/drawers/MarketsDrawer";
-import { BuildersDrawer } from "@/components/navigation/drawers/BuildersDrawer";
-import { CityDrawer } from "@/components/navigation/drawers/CityDrawer";
-import { DispatchesDrawer } from "@/components/navigation/drawers/DispatchesDrawer";
+import { PennyDropsDrawer } from "@/components/navigation/drawers/PennyDropsDrawer";
+import { Kn0wdZDrawer } from "@/components/navigation/drawers/Kn0wdZDrawer";
+import { KnytRiseDrawer } from "@/components/navigation/drawers/KnytRiseDrawer";
+import { StayBullDrawer } from "@/components/navigation/drawers/StayBullDrawer";
 import { AigentDrawer } from "@/components/navigation/drawers/AigentDrawer";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -28,7 +26,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
-      <MoneyPennyNav 
+      <QriptopianNav 
         activeDomain={activeDomain} 
         onDomainClick={handleDomainClick}
         onAIClick={() => setIsAIOpen(true)}
@@ -36,12 +34,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Domain Drawers */}
       <SignalsDrawer isOpen={activeDomain === 'signals'} onClose={() => setActiveDomain(null)} />
-      <MythosDrawer isOpen={activeDomain === 'mythos'} onClose={() => setActiveDomain(null)} />
-      <LogosDrawer isOpen={activeDomain === 'logos'} onClose={() => setActiveDomain(null)} />
-      <MarketsDrawer isOpen={activeDomain === 'markets'} onClose={() => setActiveDomain(null)} />
-      <BuildersDrawer isOpen={activeDomain === 'builders'} onClose={() => setActiveDomain(null)} />
-      <CityDrawer isOpen={activeDomain === 'city'} onClose={() => setActiveDomain(null)} />
-      <DispatchesDrawer isOpen={activeDomain === 'dispatches'} onClose={() => setActiveDomain(null)} />
+      <PennyDropsDrawer isOpen={activeDomain === 'pennydrops'} onClose={() => setActiveDomain(null)} />
+      <Kn0wdZDrawer isOpen={activeDomain === 'kn0wdz'} onClose={() => setActiveDomain(null)} />
+      <KnytRiseDrawer isOpen={activeDomain === 'knytrise'} onClose={() => setActiveDomain(null)} />
+      <StayBullDrawer isOpen={activeDomain === 'staybull'} onClose={() => setActiveDomain(null)} />
       
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />

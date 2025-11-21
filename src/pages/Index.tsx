@@ -1,9 +1,9 @@
-import { MoneyPennyHero } from "@/components/content/MoneyPennyHero";
+import { QriptopianHero } from "@/components/content/QriptopianHero";
 
 const Index = () => {
   return (
     <div className="h-full">
-      <MoneyPennyHero />
+      <QriptopianHero />
     </div>
   );
 };

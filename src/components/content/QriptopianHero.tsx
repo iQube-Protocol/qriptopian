@@ -2,7 +2,7 @@ import { HeroSection } from "./HeroSection";
 import { LatestNewsCarousel } from "./LatestNewsCarousel";
 import { SecondHeroSection } from "./SecondHeroSection";
 
-export function MoneyPennyHero() {
+export function QriptopianHero() {
 
   return (
     <div className="h-full w-full flex items-stretch">
