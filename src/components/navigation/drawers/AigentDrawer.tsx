@@ -12,7 +12,7 @@ interface AigentDrawerProps {
 }
 
 export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
-  const [viewMode, setViewMode] = useState<'metavatar' | 'chat'>('chat');
+  const [viewMode, setViewMode] = useState<'metavatar' | 'chat'>('metavatar');
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
     {
@@ -53,7 +53,7 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
         <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
           <div className="p-6 flex items-center justify-between gap-4">
             <div className="flex-shrink-0">
-              <h2 className="text-2xl font-bold text-foreground mb-1">Aigent MoneyPenny</h2>
+              <h2 className="text-xl font-bold text-cyan-400 mb-1">Aigent MoneyPenny</h2>
               <p className="text-sm text-muted-foreground">COYN and Q¢ financial specialist</p>
             </div>
             
