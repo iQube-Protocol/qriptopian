@@ -55,12 +55,34 @@ export function AigentDrawer({
             
             <div className="flex items-center gap-6">
 
-              {/* View Mode Toggle */}
               <TooltipProvider>
+                {/* Refresh Button - Only visible in metavatar mode */}
+                {viewMode === 'metavatar' && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        onClick={() => window.dispatchEvent(new Event('metaAvatarRefresh'))}
+                        className="p-1 rounded-full text-white hover:text-cyan-400 transition-colors"
+                      >
+                        <RefreshCw className="h-5 w-5" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Refresh MetaVatar</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+
+                {/* View Mode Toggle */}
                 <div className="flex items-center gap-2 bg-background/20 backdrop-blur-md rounded-lg p-1 border border-border/20">
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button onClick={() => setViewMode('metavatar')} className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'metavatar' ? 'text-cyan-400' : 'text-muted-foreground hover:text-foreground hover:bg-background/10'}`}>
+                      <button
+                        type="button"
+                        onClick={() => setViewMode('metavatar')}
+                        className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'metavatar' ? 'text-cyan-400' : 'text-white hover:text-cyan-400 hover:bg-background/10'}`}
+                      >
                         <User className="h-4 w-4" />
                       </button>
                     </TooltipTrigger>
@@ -71,7 +93,11 @@ export function AigentDrawer({
                   
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button onClick={() => setViewMode('chat')} className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'chat' ? 'text-cyan-400' : 'text-muted-foreground hover:text-foreground hover:bg-background/10'}`}>
+                      <button
+                        type="button"
+                        onClick={() => setViewMode('chat')}
+                        className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${viewMode === 'chat' ? 'text-cyan-400' : 'text-white hover:text-cyan-400 hover:bg-background/10'}`}
+                      >
                         <MessageSquare className="h-4 w-4" />
                       </button>
                     </TooltipTrigger>
@@ -80,25 +106,6 @@ export function AigentDrawer({
                     </TooltipContent>
                   </Tooltip>
                 </div>
-
-                {/* Refresh Button - Only visible in metavatar mode */}
-                {viewMode === 'metavatar' && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => window.dispatchEvent(new Event('metaAvatarRefresh'))}
-                        className="flex-shrink-0 text-cyan-400 hover:text-cyan-300 hover:bg-accent/50"
-                      >
-                        <RefreshCw className="h-5 w-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Refresh MetaVatar</p>
-                    </TooltipContent>
-                  </Tooltip>
-                )}
               </TooltipProvider>
               
               <Button variant="ghost" size="icon" onClick={onClose} className="flex-shrink-0 text-muted-foreground hover:text-foreground hover:bg-accent/50 ml-4">
