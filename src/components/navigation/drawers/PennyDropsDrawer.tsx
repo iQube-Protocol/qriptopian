@@ -97,7 +97,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
 
       {/* Right: 1 column sidebar with featured use case */}
       <div className="col-span-1">
-        <div className="relative h-[600px] rounded-xl overflow-hidden group">
+        <div className="relative h-[400px] rounded-xl overflow-hidden group">
           <img 
             src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=1200&fit=crop"
             alt="Featured Use Case"
