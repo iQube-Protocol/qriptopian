@@ -7,7 +7,9 @@ export function MetaAvatar() {
 
   useEffect(() => {
     const init = () => {
-      const containerId = containerIdRef.current = `did-avatar-container-${Math.random().toString(36).slice(2)}`;
+      const containerId = (containerIdRef.current = `did-avatar-container-${Math.random().toString(36).slice(2)}`);
+
+      console.log("[MetaAvatar] init", { containerId, ts: new Date().toISOString() });
 
       // Remove any previously injected D-ID artifacts
       document.querySelectorAll('script[src*="agent.d-id.com"]').forEach((s) => s.remove());
