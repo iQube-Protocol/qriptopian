@@ -23,9 +23,17 @@ export function MetaAvatar() {
         containerRef.current.innerHTML = '';
       }
 
-      // Get credentials from environment
-      const clientKey = import.meta.env.VITE_DID_CLIENT_KEY || 'Z29vZ2xlLW9hdXRoMnwxMDcyNjU3ODI2NjQ5ODgyODU4MDk6YkoxSDdROEp5S2Q1Mk1CbEx0ODE2';
-      const agentId = import.meta.env.VITE_DID_AGENT_ID || 'v2_agt_dY78cKv2';
+      // Get credentials from environment (must be provided by the host app)
+      const clientKey = import.meta.env.VITE_DID_CLIENT_KEY;
+      const agentId = import.meta.env.VITE_DID_AGENT_ID;
+
+      if (!clientKey || !agentId) {
+        console.error("[MetaAvatar] Missing D-ID credentials. Set VITE_DID_CLIENT_KEY and VITE_DID_AGENT_ID.", {
+          hasClientKey: !!clientKey,
+          hasAgentId: !!agentId,
+        });
+        return;
+      }
 
       // Create fresh script element
       const script = document.createElement('script');
