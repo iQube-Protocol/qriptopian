@@ -106,7 +106,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
           
           {/* Content Overlay */}
-          <div className="absolute inset-0 p-6 flex flex-col">
+          <div className="absolute inset-0 p-6 flex flex-col bg-black/20 backdrop-blur-sm">
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">
               The Penny Drop Effect
             </h3>
