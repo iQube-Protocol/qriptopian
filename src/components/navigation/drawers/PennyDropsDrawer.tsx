@@ -106,19 +106,19 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
           
           {/* Content Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 space-y-4">
-            <div className="inline-block px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30">
-              FEATURED Q¢ CASE
-            </div>
-            <h3 className="text-2xl font-bold text-white">
+          <div className="absolute inset-0 p-6 flex flex-col">
+            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">
               The Penny Drop Effect
             </h3>
-            <p className="text-gray-300 text-sm">
+            <div className="inline-block self-start px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30 mb-4">
+              FEATURED Q¢ CASE
+            </div>
+            <p className="text-gray-300 text-sm flex-grow">
               How micropayments are changing everyday commerce
             </p>
 
             {/* Media Controls - Bottom Right */}
-            <div className="absolute bottom-6 right-6 flex gap-3 items-end">
+            <div className="flex gap-3 items-end justify-end mt-auto">
               <button 
                 onClick={() => setIsFullscreen(true)}
                 className="text-cyan-400 hover:text-cyan-300 transition-colors"
