@@ -108,15 +108,12 @@ export function SignalsDrawer({
               <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=600&fit=crop" alt="Market Overview" className="w-full h-full object-cover opacity-60" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               
-              {/* Fullscreen Button */}
-              <button
-                onClick={() => setIsFullscreen(true)}
-                className="absolute top-6 left-6 p-2 bg-black/50 hover:bg-black/70 rounded-lg text-white transition-colors"
-              >
-                <Maximize2 className="h-5 w-5" />
-              </button>
+              {/* Badge */}
+              <div className="absolute top-6 right-6 px-3 py-1 bg-cyan-500/20 border border-cyan-500 rounded text-sm text-cyan-400">
+                LIVE ANALYSIS
+              </div>
               
-              {/* Icon Buttons in Bottom Right */}
+              {/* Media Controls - Bottom Right */}
               <div className="absolute bottom-6 right-6 flex gap-3 items-end">
                 <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
                   <BookOpen className="h-4 w-4" />
@@ -127,12 +124,16 @@ export function SignalsDrawer({
                 <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
                   <Headphones className="h-4 w-4" />
                 </button>
+                <button
+                  onClick={() => setIsFullscreen(true)}
+                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  aria-label="Fullscreen"
+                >
+                  <Maximize2 className="h-4 w-4" />
+                </button>
               </div>
               
               <div className="absolute bottom-6 left-6">
-                <div className="inline-block px-3 py-1 bg-cyan-500/20 border border-cyan-500 rounded text-sm text-cyan-400 mb-3">
-                  LIVE ANALYSIS
-                </div>
                 <h2 className="font-bold text-white mb-2 text-2xl">Q¢ Market Intelligence</h2>
                 <p className="text-gray-300 text-base">Real-time insights across all major protocols</p>
               </div>
