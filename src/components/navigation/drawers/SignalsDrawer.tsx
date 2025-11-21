@@ -115,6 +115,13 @@ export function SignalsDrawer({
               
               {/* Media Controls - Bottom Right */}
               <div className="absolute bottom-6 right-6 flex gap-3 items-end">
+                <button
+                  onClick={() => setIsFullscreen(true)}
+                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  aria-label="Fullscreen"
+                >
+                  <Maximize2 className="h-4 w-4" />
+                </button>
                 <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
                   <BookOpen className="h-4 w-4" />
                 </button>
@@ -123,13 +130,6 @@ export function SignalsDrawer({
                 </button>
                 <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
                   <Headphones className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => setIsFullscreen(true)}
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
-                  aria-label="Fullscreen"
-                >
-                  <Maximize2 className="h-4 w-4" />
                 </button>
               </div>
               
