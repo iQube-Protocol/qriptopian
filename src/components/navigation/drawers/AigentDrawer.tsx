@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Send, User, MessageSquare } from "lucide-react";
+import { X, Send, User, MessageSquare, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -80,6 +80,25 @@ export function AigentDrawer({
                     </TooltipContent>
                   </Tooltip>
                 </div>
+
+                {/* Refresh Button - Only visible in metavatar mode */}
+                {viewMode === 'metavatar' && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => window.dispatchEvent(new Event('metaAvatarRefresh'))}
+                        className="flex-shrink-0 text-cyan-400 hover:text-cyan-300 hover:bg-accent/50"
+                      >
+                        <RefreshCw className="h-5 w-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Refresh MetaVatar</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )}
               </TooltipProvider>
               
               <Button variant="ghost" size="icon" onClick={onClose} className="flex-shrink-0 text-muted-foreground hover:text-foreground hover:bg-accent/50 ml-4">
