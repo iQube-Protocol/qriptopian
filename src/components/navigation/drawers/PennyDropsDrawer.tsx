@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
-import { MetaAvatar } from "@/components/MetaAvatar";
 
 interface PennyDropsDrawerProps {
   isOpen: boolean;
@@ -60,7 +59,7 @@ const thumbnailContent = [
 
 export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const { requestAvatar, releaseAvatar, avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
+  const { requestAvatar, releaseAvatar } = useMetaAvatar();
 
   // Request/release avatar based on drawer state
   useEffect(() => {
@@ -123,14 +122,8 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
             <p className="text-gray-400 text-sm mb-4">
               Your AI guide to Q¢ micropayments
             </p>
-            {/* MetaAvatar anchored inside the MoneyPenny card */}
-            <div className="flex-grow relative rounded-lg overflow-hidden bg-black/20">
-              {avatarInitialized && activeContainer === 'pennydrops' && (
-                <div className="absolute inset-0">
-                  <MetaAvatar key={`pennydrops-${avatarRefreshKey}`} />
-                </div>
-              )}
-            </div>
+            {/* Placeholder for MetaAvatar (actual avatar is rendered globally in Layout) */}
+            <div className="flex-grow relative rounded-lg overflow-hidden bg-black/20" />
           </div>
         </div>
       </div>
