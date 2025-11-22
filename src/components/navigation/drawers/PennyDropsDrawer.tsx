@@ -59,20 +59,22 @@ const thumbnailContent = [
 
 export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'stories' | 'metavatar'>('stories');
   const { requestAvatar, releaseAvatar } = useMetaAvatar();
 
-  // Request/release avatar based on drawer state
+  // Request/release avatar based on drawer and tab state
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && activeTab === 'metavatar') {
       requestAvatar('pennydrops');
     } else {
       releaseAvatar();
     }
     return () => releaseAvatar();
-  }, [isOpen, requestAvatar, releaseAvatar]);
+  }, [isOpen, activeTab, requestAvatar, releaseAvatar]);
 
   const tabs = [
-    { id: 'stories', label: 'Stories' }
+    { id: 'stories', label: 'Stories' },
+    { id: 'metavatar', label: 'MetaAvatar' }
   ];
 
   if (isFullscreen) {
@@ -101,6 +103,8 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
       subtitle="Q¢ use cases - fun, practical, irreverent"
       columns={3}
       tabs={tabs}
+      activeTab={activeTab}
+      onTabChange={(tabId) => setActiveTab(tabId as 'stories' | 'metavatar')}
     >
       {/* Left: 2 columns of Kn0w1Viewer cards */}
       <div className="col-span-2">
