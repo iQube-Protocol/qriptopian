@@ -45,15 +45,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Global Persistent MetaAvatar */}
-      {avatarInitialized && (
-        <div 
-          className={`fixed transition-all duration-300 ${
-            activeContainer === 'aigent' 
-              ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[110]'
-              : 'opacity-0 pointer-events-none -z-10'
-          }`}
-        >
+      {/* Global Persistent MetaAvatar - Only mount for Aigent */}
+      {avatarInitialized && activeContainer === 'aigent' && (
+        <div className="fixed right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] z-[110]">
           <div className="h-full w-full p-6">
             <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
               <MetaAvatar key={`aigent-${avatarRefreshKey}`} />
