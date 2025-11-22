@@ -8,35 +8,32 @@ export function useIsAdmin() {
   useEffect(() => {
     async function checkAdmin() {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
         
+        if (userError) {
+          console.error('Error getting user:', userError);
+          setIsAdmin(false);
+          setLoading(false);
+          return;
+        }
+
         if (!user) {
           setIsAdmin(false);
           setLoading(false);
           return;
         }
 
-        const { data, error } = await supabase
-          .from('user_roles')
-          .select(`
-            id,
-            role_id,
-            roles!inner(name)
-          `)
-          .eq('user_id', user.id);
+        // Use the server-side function to check admin status
+        const { data, error } = await supabase.rpc('has_admin_role');
 
         if (error) {
-          console.error('Error fetching user roles:', error);
+          console.error('Error calling has_admin_role:', error);
           setIsAdmin(false);
         } else {
-          const roles = (data as any[]) || [];
-          const hasAdminRole = roles.some((row) =>
-            typeof row?.roles?.name === 'string' && row.roles.name.toLowerCase() === 'admin'
-          );
-          setIsAdmin(hasAdminRole);
+          setIsAdmin(Boolean(data));
         }
       } catch (error) {
-        console.error('Error checking admin status:', error);
+        console.error('Unexpected error checking admin status:', error);
         setIsAdmin(false);
       } finally {
         setLoading(false);
