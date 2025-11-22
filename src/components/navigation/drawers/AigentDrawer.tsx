@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X, Send, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
+import { MetaAvatar } from "@/components/MetaAvatar";
 
 interface AigentDrawerProps {
   isOpen: boolean;
@@ -24,17 +24,14 @@ export function AigentDrawer({
     role: 'assistant',
     content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
   }]);
-  const { requestAvatar, releaseAvatar, refreshAvatar } = useMetaAvatar();
-
-  // Request/release avatar based on drawer and view mode state
-  useEffect(() => {
-    if (isOpen && viewMode === 'metavatar') {
-      requestAvatar('aigent');
-    } else {
-      releaseAvatar('aigent');
+  const handleRefreshMetaAvatar = () => {
+    try {
+      window.dispatchEvent(new Event('metaAvatarRefresh'));
+      console.log('[AigentDrawer] MetaAvatar refresh event dispatched');
+    } catch (error) {
+      console.error('[AigentDrawer] Failed to dispatch MetaAvatar refresh event', error);
     }
-    return () => releaseAvatar('aigent');
-  }, [isOpen, viewMode, requestAvatar, releaseAvatar]);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,10 +70,7 @@ export function AigentDrawer({
                 {/* Refresh Button - Only visible in metavatar mode */}
                 {viewMode === 'metavatar' && <Tooltip>
                     <TooltipTrigger asChild>
-                      <button type="button" onClick={() => {
-                    console.log('[AigentDrawer] MetaAvatar refresh clicked');
-                    refreshAvatar();
-                  }} className={`p-1 rounded-full transition-colors ${viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'}`}>
+                      <button type="button" onClick={handleRefreshMetaAvatar} className={`p-1 rounded-full transition-colors ${viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
                           <path d="M21 3v5h-5"/>
@@ -159,9 +153,10 @@ export function AigentDrawer({
               </div>
             </>
           ) : (
-            // Placeholder for MetaAvatar (actual avatar is rendered globally in Layout)
             <div className="flex-1 p-6">
-              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10" />
+              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+                <MetaAvatar />
+              </div>
             </div>
           )}
         </div>
