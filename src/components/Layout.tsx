@@ -52,7 +52,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             activeContainer === 'aigent' 
               ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
               : activeContainer === 'pennydrops'
-              ? 'right-[84px] top-[216px] w-[calc((100vw-84px)/3-40px)] h-[400px] opacity-100 z-[100] rounded-lg overflow-hidden'
+              ? 'right-[92px] top-[216px] w-[calc((100vw-92px)/3-40px)] h-[400px] opacity-100 z-[100] rounded-lg overflow-hidden'
               : 'opacity-0 pointer-events-none -z-10'
           }`}
         >
