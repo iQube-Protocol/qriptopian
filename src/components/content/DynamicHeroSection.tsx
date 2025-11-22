@@ -131,11 +131,11 @@ export function DynamicHeroSection() {
                   </div>
                 </div>
                 
-                <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-5xl">
+                <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-4xl">
                   {article.title}
                 </h1>
                 {article.excerpt && (
-                  <p className="text-xl text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                  <p className="text-lg text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
                     {article.excerpt}
                   </p>
                 )}
