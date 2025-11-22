@@ -9,11 +9,22 @@ interface DrawerLayerProps {
   subtitle?: string;
   columns?: 1 | 2 | 3;
   tabs?: { id: string; label: string }[];
+  activeTab?: string;
+  onTabChange?: (tabId: string) => void;
   children: React.ReactNode;
 }
 
-export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, children }: DrawerLayerProps) {
-  const [activeTab, setActiveTab] = useState(tabs?.[0]?.id || '');
+export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, activeTab: controlledActiveTab, onTabChange, children }: DrawerLayerProps) {
+  const [internalActiveTab, setInternalActiveTab] = useState(tabs?.[0]?.id || '');
+  const activeTab = controlledActiveTab ?? internalActiveTab;
+  
+  const handleTabClick = (tabId: string) => {
+    if (onTabChange) {
+      onTabChange(tabId);
+    } else {
+      setInternalActiveTab(tabId);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -49,7 +60,7 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
                   {tabs.map((tab) => (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
+                    onClick={() => handleTabClick(tab.id)}
                     className={`px-4 py-2 text-sm font-medium transition-all whitespace-nowrap border-b-2 ${
                       activeTab === tab.id
                         ? 'text-primary border-primary'
