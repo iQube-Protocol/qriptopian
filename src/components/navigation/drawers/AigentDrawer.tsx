@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Send, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { MetaAvatar } from "@/components/MetaAvatar";
+import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 
 interface AigentDrawerProps {
   isOpen: boolean;
@@ -24,6 +25,23 @@ export function AigentDrawer({
     role: 'assistant',
     content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
   }]);
+  
+  const { requestAvatar, releaseAvatar } = useMetaAvatar();
+
+  // Request avatar when drawer is open and in metavatar mode
+  useEffect(() => {
+    if (isOpen && viewMode === 'metavatar') {
+      console.log('[AigentDrawer] Requesting avatar for aigent');
+      requestAvatar('aigent');
+    }
+    return () => {
+      if (viewMode === 'metavatar') {
+        console.log('[AigentDrawer] Releasing avatar from aigent');
+        releaseAvatar('aigent');
+      }
+    };
+  }, [isOpen, viewMode, requestAvatar, releaseAvatar]);
+
   const handleRefreshMetaAvatar = () => {
     try {
       window.dispatchEvent(new Event('metaAvatarRefresh'));
