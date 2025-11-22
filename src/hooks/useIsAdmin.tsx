@@ -23,15 +23,17 @@ export function useIsAdmin() {
             role_id,
             roles!inner(name)
           `)
-          .eq('user_id', user.id)
-          .maybeSingle();
+          .eq('user_id', user.id);
 
         if (error) {
-          console.error('Error fetching user role:', error);
+          console.error('Error fetching user roles:', error);
           setIsAdmin(false);
         } else {
-          const roleName = (data as any)?.roles?.name;
-          setIsAdmin(!!roleName && roleName.toLowerCase() === 'admin');
+          const roles = (data as any[]) || [];
+          const hasAdminRole = roles.some((row) =>
+            typeof row?.roles?.name === 'string' && row.roles.name.toLowerCase() === 'admin'
+          );
+          setIsAdmin(hasAdminRole);
         }
       } catch (error) {
         console.error('Error checking admin status:', error);
