@@ -16,16 +16,23 @@ export function useIsAdmin() {
           return;
         }
 
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('user_roles')
           .select(`
+            id,
             role_id,
             roles!inner(name)
           `)
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
 
-        setIsAdmin(data?.roles?.name === 'admin');
+        if (error) {
+          console.error('Error fetching user role:', error);
+          setIsAdmin(false);
+        } else {
+          const roleName = (data as any)?.roles?.name;
+          setIsAdmin(!!roleName && roleName.toLowerCase() === 'admin');
+        }
       } catch (error) {
         console.error('Error checking admin status:', error);
         setIsAdmin(false);
