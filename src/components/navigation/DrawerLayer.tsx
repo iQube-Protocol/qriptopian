@@ -33,14 +33,20 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
   };
 
   const toggleMetaAvatar = () => {
-    setShowMetaAvatar(prev => !prev);
+    setShowMetaAvatar(prev => {
+      console.log('[DrawerLayer] MetaAvatar toggle:', !prev, 'container:', metaAvatarContainer);
+      return !prev;
+    });
   };
 
   // Request/release avatar based on drawer and metavatar state
   useEffect(() => {
+    console.log('[DrawerLayer] Effect:', { isOpen, showMetaAvatar, metaAvatarContainer });
     if (isOpen && showMetaAvatar && metaAvatarContainer) {
+      console.log('[DrawerLayer] Requesting avatar for:', metaAvatarContainer);
       requestAvatar(metaAvatarContainer);
     } else if (metaAvatarContainer) {
+      console.log('[DrawerLayer] Releasing avatar for:', metaAvatarContainer);
       releaseAvatar(metaAvatarContainer);
     }
     return () => {
