@@ -31,9 +31,9 @@ export function AigentDrawer({
     if (isOpen && viewMode === 'metavatar') {
       requestAvatar('aigent');
     } else {
-      releaseAvatar();
+      releaseAvatar('aigent');
     }
-    return () => releaseAvatar();
+    return () => releaseAvatar('aigent');
   }, [isOpen, viewMode, requestAvatar, releaseAvatar]);
 
   const handleSubmit = (e: React.FormEvent) => {
