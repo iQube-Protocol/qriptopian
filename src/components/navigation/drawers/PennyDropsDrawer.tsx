@@ -66,9 +66,9 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
     if (isOpen) {
       requestAvatar('pennydrops');
     } else {
-      releaseAvatar();
+      releaseAvatar('pennydrops');
     }
-    return () => releaseAvatar();
+    return () => releaseAvatar('pennydrops');
   }, [isOpen, requestAvatar, releaseAvatar]);
 
   const tabs = [

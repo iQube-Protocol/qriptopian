@@ -6,7 +6,7 @@ interface MetaAvatarContextType {
   avatarInitialized: boolean;
   activeContainer: ContainerType;
   requestAvatar: (container: Exclude<ContainerType, null>) => void;
-  releaseAvatar: () => void;
+  releaseAvatar: (container?: Exclude<ContainerType, null>) => void;
   avatarRefreshKey: number;
   refreshAvatar: () => void;
 }
@@ -19,14 +19,23 @@ export function MetaAvatarProvider({ children }: { children: ReactNode }) {
   const [avatarRefreshKey, setAvatarRefreshKey] = useState(0);
 
   const requestAvatar = (container: Exclude<ContainerType, null>) => {
+    console.log(`[MetaAvatar] Requesting avatar for: ${container}`);
     if (!avatarInitialized) {
       setAvatarInitialized(true);
     }
     setActiveContainer(container);
   };
 
-  const releaseAvatar = () => {
-    setActiveContainer(null);
+  const releaseAvatar = (container?: Exclude<ContainerType, null>) => {
+    setActiveContainer(current => {
+      // Only release if the caller is the current active container
+      if (container && current !== container) {
+        console.log(`[MetaAvatar] ${container} tried to release, but ${current} is active - ignoring`);
+        return current;
+      }
+      console.log(`[MetaAvatar] Releasing avatar from: ${container || 'unknown'}`);
+      return null;
+    });
   };
 
   const refreshAvatar = () => {
