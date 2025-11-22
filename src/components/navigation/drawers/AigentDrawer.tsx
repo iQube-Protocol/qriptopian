@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { MetaAvatar } from "@/components/MetaAvatar";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 
 interface AigentDrawerProps {
@@ -172,8 +171,8 @@ export function AigentDrawer({
             </>
           ) : (
             <div className="flex-1 p-6">
-              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
-                <MetaAvatar />
+              <div className="h-full w-full flex items-center justify-center text-muted-foreground/40">
+                {/* MetaAvatar renders globally in Layout.tsx and overlays here */}
               </div>
             </div>
           )}
