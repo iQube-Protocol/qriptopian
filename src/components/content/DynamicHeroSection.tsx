@@ -77,14 +77,23 @@ export function DynamicHeroSection() {
       className="w-full h-[calc(100vh-88px)] relative flex-shrink-0"
     >
       <CarouselContent className="h-[calc(100vh-88px)]">
-        {articles.map((article) => (
-          <CarouselItem key={article.id} className="h-[calc(100vh-88px)] relative">
-            <img 
-              src={article.thumbnail || heroImage} 
-              alt={article.title} 
-              className="w-full h-full object-cover" 
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
+        {articles.map((article) => {
+          const placement = article.placement as any || {};
+          const imagePosition = placement.imagePosition || 'center';
+          const imageScale = placement.imageScale || 100;
+          
+          return (
+            <CarouselItem key={article.id} className="h-[calc(100vh-88px)] relative">
+              <img 
+                src={article.thumbnail || heroImage} 
+                alt={article.title} 
+                className="w-full h-full object-cover"
+                style={{
+                  objectPosition: imagePosition,
+                  transform: `scale(${imageScale / 100})`
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
             
             <div className="absolute inset-0 flex items-end pb-16">
               <div className="px-8 max-w-2xl">
@@ -142,7 +151,8 @@ export function DynamicHeroSection() {
               </div>
             </div>
           </CarouselItem>
-        ))}
+          );
+        })}
       </CarouselContent>
 
       {activeMode === 'read' && currentArticle && currentModalities?.read && (
