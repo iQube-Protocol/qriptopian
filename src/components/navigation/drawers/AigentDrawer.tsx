@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Send, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +23,15 @@ export function AigentDrawer({
     content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
   }]);
   const [avatarRefreshKey, setAvatarRefreshKey] = useState(0);
+  const [avatarInitialized, setAvatarInitialized] = useState(false);
+
+  // Initialize avatar on first view of metavatar mode
+  useEffect(() => {
+    if (isOpen && viewMode === 'metavatar' && !avatarInitialized) {
+      setAvatarInitialized(true);
+    }
+  }, [isOpen, viewMode, avatarInitialized]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -106,12 +115,9 @@ export function AigentDrawer({
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {viewMode === 'metavatar' ? <div className="flex-1 p-6">
-              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
-                <MetaAvatar key={avatarRefreshKey} />
-              </div>
-            </div> : <>
+        <div className="flex-1 flex flex-col overflow-hidden relative">
+          {/* Chat Mode - Only visible when viewMode is 'chat' */}
+          {viewMode === 'chat' && <>
               {/* Chat Messages */}
               <ScrollArea className="flex-1 p-6">
                 <div className="space-y-4 max-w-4xl mx-auto">
@@ -135,6 +141,21 @@ export function AigentDrawer({
                 </form>
               </div>
             </>}
+
+          {/* Persistent MetaAvatar Container - Uses opacity for visibility */}
+          {avatarInitialized && (
+            <div 
+              className={`absolute inset-0 transition-opacity duration-300 ${
+                viewMode === 'metavatar' ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <div className="flex-1 p-6 h-full">
+                <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+                  <MetaAvatar key={avatarRefreshKey} />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>;

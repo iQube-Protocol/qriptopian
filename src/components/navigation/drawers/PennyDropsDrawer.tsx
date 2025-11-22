@@ -2,7 +2,7 @@ import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { MetaAvatar } from "@/components/MetaAvatar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 
@@ -59,6 +59,14 @@ const thumbnailContent = [
 
 export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [avatarInitialized, setAvatarInitialized] = useState(false);
+
+  // Initialize avatar when drawer opens
+  useEffect(() => {
+    if (isOpen && !avatarInitialized) {
+      setAvatarInitialized(true);
+    }
+  }, [isOpen, avatarInitialized]);
 
   const tabs = [
     { id: 'stories', label: 'Stories' }
@@ -112,7 +120,14 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
               Your AI guide to Q¢ micropayments
             </p>
             <div className="flex-grow relative rounded-lg overflow-hidden bg-black/20">
-              <MetaAvatar />
+              {/* Persistent MetaAvatar - stays mounted once initialized */}
+              {avatarInitialized && (
+                <div className={`absolute inset-0 transition-opacity duration-300 ${
+                  isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}>
+                  <MetaAvatar />
+                </div>
+              )}
             </div>
           </div>
         </div>
