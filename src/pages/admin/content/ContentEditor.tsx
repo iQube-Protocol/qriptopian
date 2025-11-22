@@ -165,7 +165,8 @@ export default function ContentEditor() {
         format: 'article',
         type: 'article',
         content: {},
-        issue_ref: issueRef
+        issue_ref: issueRef,
+        author_type: 'agent' as const
       } as const;
 
       if (id && id !== 'new') {
