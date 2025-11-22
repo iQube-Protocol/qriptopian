@@ -11,11 +11,10 @@ interface DrawerLayerProps {
   tabs?: { id: string; label: string }[];
   activeTab?: string;
   onTabChange?: (tabId: string) => void;
-  headerActions?: React.ReactNode;
   children: React.ReactNode;
 }
 
-export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, activeTab: controlledActiveTab, onTabChange, headerActions, children }: DrawerLayerProps) {
+export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, activeTab: controlledActiveTab, onTabChange, children }: DrawerLayerProps) {
   const [internalActiveTab, setInternalActiveTab] = useState(tabs?.[0]?.id || '');
   const activeTab = controlledActiveTab ?? internalActiveTab;
   
@@ -71,13 +70,6 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
                     {tab.label}
                   </button>
                   ))}
-                </div>
-              )}
-              
-              {/* Header Actions */}
-              {headerActions && (
-                <div className="flex items-center gap-2">
-                  {headerActions}
                 </div>
               )}
               
