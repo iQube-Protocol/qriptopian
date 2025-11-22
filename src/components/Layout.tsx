@@ -8,12 +8,13 @@ import { KnytRiseDrawer } from "@/components/navigation/drawers/KnytRiseDrawer";
 import { StayBullDrawer } from "@/components/navigation/drawers/StayBullDrawer";
 import { AigentDrawer } from "@/components/navigation/drawers/AigentDrawer";
 import { MetaAvatarProvider, useMetaAvatar } from "@/contexts/MetaAvatarContext";
-import { MetaAvatar } from "@/components/MetaAvatar";
+import { AigentAvatar } from "@/components/AigentAvatar";
+import { PennyDropsAvatar } from "@/components/PennyDropsAvatar";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
-  const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
+  const { avatarInitialized, activeContainer } = useMetaAvatar();
 
   // Mutual exclusion: close AI Assistant when PennyDrops opens
   useEffect(() => {
@@ -59,20 +60,31 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Global Persistent MetaAvatar - repositions based on activeContainer */}
+      {/* Aigent Avatar - Full Screen */}
       {avatarInitialized && (
         <div 
-          className={`fixed transition-all duration-300 ${
-            activeContainer === 'aigent' 
-              ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
-              : activeContainer === 'pennydrops'
-              ? 'right-[120px] top-[188px] w-[352px] h-[400px] opacity-100 z-[200]'
-              : 'opacity-0 pointer-events-none -z-10'
+          className={`fixed right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] transition-opacity duration-300 z-[100] ${
+            activeContainer === 'aigent' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
         >
-          <div className={`h-full w-full ${activeContainer === 'pennydrops' ? '' : 'p-6'}`}>
-            <div className={`h-full w-full overflow-hidden ${activeContainer === 'pennydrops' ? '' : 'rounded-lg border border-border/30 bg-muted/10'}`}>
-              <MetaAvatar key={avatarRefreshKey} />
+          <div className="h-full w-full p-6">
+            <div className="h-full w-full overflow-hidden rounded-lg border border-border/30 bg-muted/10">
+              <AigentAvatar />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PennyDrops Avatar - Embedded Box */}
+      {avatarInitialized && (
+        <div 
+          className={`fixed right-[120px] top-[188px] w-[352px] h-[400px] transition-opacity duration-300 z-[200] ${
+            activeContainer === 'pennydrops' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <div className="h-full w-full">
+            <div className="h-full w-full overflow-hidden">
+              <PennyDropsAvatar />
             </div>
           </div>
         </div>
