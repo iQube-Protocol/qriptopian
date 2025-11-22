@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
+import { MetaAvatar } from "@/components/MetaAvatar";
 
 interface PennyDropsDrawerProps {
   isOpen: boolean;
@@ -59,7 +60,7 @@ const thumbnailContent = [
 
 export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const { requestAvatar, releaseAvatar } = useMetaAvatar();
+  const { requestAvatar, releaseAvatar, avatarRefreshKey } = useMetaAvatar();
 
   useEffect(() => {
     if (isOpen) {
@@ -101,9 +102,11 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
         <Kn0w1Viewer items={pennyDropsContent} domain="pennydrops" />
       </div>
 
-      {/* Right: 1 column spacer where global MetaAvatar will appear */}
+      {/* Right: 1 column with embedded MetaAvatar */}
       <div className="col-span-1">
-        <div className="relative h-[400px]" />
+        <div className="relative h-[400px]">
+          <MetaAvatar key={avatarRefreshKey} />
+        </div>
       </div>
 
       {/* Full-width thumbnail carousel */}
