@@ -52,12 +52,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             activeContainer === 'aigent' 
               ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
               : activeContainer === 'pennydrops'
-              ? 'right-[104px] top-[244px] w-[352px] h-[calc(100vh-268px)] opacity-100 z-[100]'
+              ? 'right-[104px] top-[220px] w-[calc((100vw-104px)/3-32px)] h-[calc(100vh-236px)] opacity-100 z-[100]'
               : 'opacity-0 pointer-events-none -z-10'
           }`}
         >
-          <div className="h-full w-full p-6">
-            <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+          <div className={`h-full w-full ${activeContainer === 'aigent' ? 'p-6' : 'p-0'}`}>
+            <div className={`h-full w-full overflow-hidden ${activeContainer === 'aigent' ? 'rounded-lg border border-border/30 bg-muted/10' : ''}`}>
               <MetaAvatar key={avatarRefreshKey} />
             </div>
           </div>
