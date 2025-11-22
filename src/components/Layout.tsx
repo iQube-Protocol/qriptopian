@@ -48,29 +48,19 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Global Persistent MetaAvatar */}
       {avatarInitialized && (
         <div 
-          className={`fixed transition-all duration-300 border-2 border-red-500 ${
+          className={`fixed transition-all duration-300 ${
             activeContainer === 'aigent' 
-              ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[110]' 
+              ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
               : activeContainer === 'pennydrops'
-              ? 'right-[calc(80px+24px)] top-[calc(88px+84px+24px)] w-[calc((100vw-160px-48px)/3-16px-32px)] h-[calc(400px-32px-68px)] opacity-100 z-[110]'
+              ? 'right-[104px] top-[244px] w-[352px] h-[calc(100vh-268px)] opacity-100 z-[100]'
               : 'opacity-0 pointer-events-none -z-10'
           }`}
-          style={activeContainer === 'pennydrops' ? {
-            transform: 'translate(calc(-66.666% - 8px), 0)'
-          } : undefined}
         >
-          {activeContainer === 'aigent' && (
-            <div className="h-full w-full p-6">
-              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
-                <MetaAvatar key={`aigent-${avatarRefreshKey}`} />
-              </div>
+          <div className="h-full w-full p-6">
+            <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+              <MetaAvatar key={avatarRefreshKey} />
             </div>
-          )}
-          {activeContainer === 'pennydrops' && (
-            <div className="h-full w-full">
-              <MetaAvatar key={`pennydrops-${avatarRefreshKey}`} />
-            </div>
-          )}
+          </div>
         </div>
       )}
     </div>
