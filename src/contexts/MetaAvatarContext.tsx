@@ -16,13 +16,16 @@ export function MetaAvatarProvider({ children }: { children: ReactNode }) {
   const [activeContainer, setActiveContainer] = useState<ContainerType>(null);
 
   const requestAvatar = (container: Exclude<ContainerType, null>) => {
+    console.log('[MetaAvatarContext] requestAvatar called', { container, avatarInitialized });
     if (!avatarInitialized) {
+      console.log('[MetaAvatarContext] Setting avatarInitialized to true');
       setAvatarInitialized(true);
     }
     setActiveContainer(container);
   };
 
   const releaseAvatar = () => {
+    console.log('[MetaAvatarContext] releaseAvatar called');
     setActiveContainer(null);
   };
 
