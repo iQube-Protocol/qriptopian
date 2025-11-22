@@ -59,19 +59,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Global Persistent MetaAvatar */}
-      {avatarInitialized && (
+      {avatarInitialized && activeContainer === 'aigent' && (
         <div 
-          className={`fixed transition-all duration-300 ${
-            activeContainer === 'aigent' 
-              ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
-              : activeContainer === 'pennydrops'
-              ? 'right-[120px] top-[188px] w-[352px] h-[400px] opacity-100 z-[200]'
-              : 'opacity-0 pointer-events-none -z-10'
-          }`}
+          className="fixed right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100] transition-all duration-300"
         >
-          <div className={`h-full w-full ${activeContainer === 'pennydrops' ? '' : 'p-6'}`}>
-            <div className={`h-full w-full overflow-hidden ${activeContainer === 'pennydrops' ? '' : 'rounded-lg border border-border/30 bg-muted/10'}`}>
+          <div className="h-full w-full p-6">
+            <div className="h-full w-full overflow-hidden rounded-lg border border-border/30 bg-muted/10">
               <MetaAvatar key={avatarRefreshKey} />
             </div>
           </div>
