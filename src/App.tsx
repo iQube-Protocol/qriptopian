@@ -10,6 +10,12 @@ import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/Dashboard";
 import HomeHeroManager from "./pages/admin/content/HomeHeroManager";
 import ContentEditor from "./pages/admin/content/ContentEditor";
+import LatestNewsManager from "./pages/admin/content/LatestNewsManager";
+import SecondHeroManager from "./pages/admin/content/SecondHeroManager";
+import PennyDropsManager from "./pages/admin/content/PennyDropsManager";
+import KnytRiseManager from "./pages/admin/content/KnytRiseManager";
+import KnowdZManager from "./pages/admin/content/KnowdZManager";
+import StayBullManager from "./pages/admin/content/StayBullManager";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +33,12 @@ const App = () => (
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/content/home-hero" element={<HomeHeroManager />} />
+          <Route path="/admin/content/latest-news" element={<LatestNewsManager />} />
+          <Route path="/admin/content/second-hero" element={<SecondHeroManager />} />
+          <Route path="/admin/content/pennydrops" element={<PennyDropsManager />} />
+          <Route path="/admin/content/knytrise" element={<KnytRiseManager />} />
+          <Route path="/admin/content/21knowdz" element={<KnowdZManager />} />
+          <Route path="/admin/content/staybull" element={<StayBullManager />} />
           <Route path="/admin/content/edit/:id" element={<ContentEditor />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

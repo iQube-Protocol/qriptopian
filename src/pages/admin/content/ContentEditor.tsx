@@ -180,12 +180,12 @@ export default function ContentEditor() {
       // Navigate to the appropriate section manager
       const sectionRoutes: Record<ContentSection, string> = {
         'home-hero': '/admin/content/home-hero',
-        'latest-news': '/admin',
-        'second-hero': '/admin',
-        'pennydrops': '/admin',
-        'knytrise': '/admin',
-        '21knowdz': '/admin',
-        'staybull': '/admin'
+        'latest-news': '/admin/content/latest-news',
+        'second-hero': '/admin/content/second-hero',
+        'pennydrops': '/admin/content/pennydrops',
+        'knytrise': '/admin/content/knytrise',
+        '21knowdz': '/admin/content/21knowdz',
+        'staybull': '/admin/content/staybull'
       };
       navigate(sectionRoutes[section] || '/admin');
     } catch (error) {
