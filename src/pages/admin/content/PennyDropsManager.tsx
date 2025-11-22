@@ -4,7 +4,7 @@ import { contentService, Content } from '@/services/contentService';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Plus, Eye, EyeOff, Pencil, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Eye, Pencil, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function PennyDropsManager() {
@@ -127,24 +127,22 @@ export default function PennyDropsManager() {
                       <Button
                         variant="outline"
                         size="sm"
+                        onClick={() => window.open('/', '_blank')}
+                        title="Preview on site"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant={item.status === 'published' ? 'secondary' : 'default'}
+                        size="sm"
                         onClick={() => handleToggleStatus(item)}
                       >
-                        {item.status === 'published' ? (
-                          <>
-                            <EyeOff className="h-4 w-4 mr-2" />
-                            Unpublish
-                          </>
-                        ) : (
-                          <>
-                            <Eye className="h-4 w-4 mr-2" />
-                            Publish
-                          </>
-                        )}
+                        {item.status === 'published' ? 'Unpublish' : 'Publish'}
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => navigate(`/admin/content/edit/${item.id}`)}
+                        onClick={() => navigate(`/admin/content/edit/${item.id}?section=pennydrops`)}
                       >
                         <Pencil className="h-4 w-4 mr-2" />
                         Edit

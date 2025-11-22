@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Save, Upload } from 'lucide-react';
+import { ArrowLeft, Save, Upload, Eye, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function ContentEditor() {
@@ -135,7 +135,7 @@ export default function ContentEditor() {
     }
   }
 
-  async function handleSave() {
+  async function handleSave(publish = false) {
     if (!title) {
       toast.error('Title is required');
       return;
@@ -160,7 +160,7 @@ export default function ContentEditor() {
         thumbnail,
         modalities,
         placement: { section },
-        status: 'draft' as const,
+        status: publish ? ('published' as const) : ('draft' as const),
         domain: 'qriptopian',
         format: 'article',
         type: 'article',
@@ -171,10 +171,10 @@ export default function ContentEditor() {
 
       if (id && id !== 'new') {
         await contentService.updateContent(id, contentData);
-        toast.success('Content updated');
+        toast.success(publish ? 'Content published' : 'Content saved as draft');
       } else {
         await contentService.createContent(contentData);
-        toast.success('Content created');
+        toast.success(publish ? 'Content published' : 'Content saved as draft');
       }
 
       // Navigate to the appropriate section manager
@@ -194,6 +194,10 @@ export default function ContentEditor() {
     } finally {
       setSaving(false);
     }
+  }
+
+  function handlePreview() {
+    window.open('/', '_blank');
   }
 
   if (loading) {
@@ -222,10 +226,20 @@ export default function ContentEditor() {
               <p className="text-muted-foreground">Section: {section}</p>
             </div>
           </div>
-          <Button onClick={handleSave} disabled={saving}>
-            <Save className="h-4 w-4 mr-2" />
-            {saving ? 'Saving...' : 'Save'}
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handlePreview}>
+              <Eye className="h-4 w-4 mr-2" />
+              Preview on Site
+            </Button>
+            <Button variant="outline" onClick={() => handleSave(false)} disabled={saving}>
+              <Save className="h-4 w-4 mr-2" />
+              {saving ? 'Saving...' : 'Save Draft'}
+            </Button>
+            <Button onClick={() => handleSave(true)} disabled={saving}>
+              <CheckCircle className="h-4 w-4 mr-2" />
+              {saving ? 'Publishing...' : 'Publish'}
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
