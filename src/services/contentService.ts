@@ -30,6 +30,23 @@ export interface ContentModalities {
 }
 
 export const contentService = {
+  async getAllContentBySection(section: ContentSection, options?: { tab?: 'dev' | 'creative' }) {
+    let query = supabase
+      .from('content')
+      .select('*')
+      .contains('placement', { section });
+
+    if (options?.tab) {
+      query = query.contains('placement', { tab: options.tab });
+    }
+
+    const { data, error } = await query
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data as Content[];
+  },
+
   async getContentBySection(section: ContentSection, options?: { tab?: 'dev' | 'creative' }) {
     let query = supabase
       .from('content')
