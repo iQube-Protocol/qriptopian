@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/Dashboard";
 import HomeHeroManager from "./pages/admin/content/HomeHeroManager";
 import ContentEditor from "./pages/admin/content/ContentEditor";
@@ -21,6 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Layout><Index /></Layout>} />
           <Route path="/console" element={<Layout><Index /></Layout>} />
+          <Route path="/auth" element={<Auth />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
