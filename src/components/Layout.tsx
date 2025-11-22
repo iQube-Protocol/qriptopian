@@ -61,7 +61,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
       {/* Global Persistent MetaAvatar */}
-      {avatarInitialized && activeContainer && (
+      {(() => {
+        console.log('[Layout] Avatar render check:', { avatarInitialized, activeContainer });
+        return avatarInitialized && activeContainer;
+      })() && (
         <Draggable
           handle=".drag-handle"
           bounds="parent"
