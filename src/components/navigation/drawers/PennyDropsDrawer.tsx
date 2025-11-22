@@ -95,41 +95,42 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   }
 
   return (
-    <DrawerLayer
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Penny Drops"
-      subtitle="Q¢ use cases - fun, practical, irreverent"
-      columns={3}
-      tabs={tabs}
-      headerActions={
-        <div className="flex gap-2">
+    <>
+      <DrawerLayer
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Penny Drops"
+        subtitle="Q¢ use cases - fun, practical, irreverent"
+        columns={3}
+        tabs={tabs}
+      >
+        {/* Tab Buttons Row */}
+        <div className="col-span-full flex justify-end gap-2 -mt-2 mb-4">
           <button
             onClick={() => setActiveTab('stories')}
-            className={`p-2 rounded-lg transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
               activeTab === 'stories'
                 ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
                 : 'bg-background/50 text-muted-foreground hover:bg-background/80 border border-border/30'
             }`}
-            title="Stories"
           >
             <BookOpen className="w-4 h-4" />
+            <span className="text-sm font-medium">Stories</span>
           </button>
           <button
             onClick={() => setActiveTab('metavatar')}
-            className={`p-2 rounded-lg transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
               activeTab === 'metavatar'
                 ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
                 : 'bg-background/50 text-muted-foreground hover:bg-background/80 border border-border/30'
             }`}
-            title="Ask MoneyPenny"
           >
             <User className="w-4 h-4" />
+            <span className="text-sm font-medium">Ask MoneyPenny</span>
           </button>
         </div>
-      }
-    >
-      {/* Left: 2 columns of Kn0w1Viewer cards */}
+
+        {/* Left: 2 columns of Kn0w1Viewer cards */}
       <div className="col-span-2">
         <Kn0w1Viewer items={pennyDropsContent} domain="pennydrops" />
       </div>
