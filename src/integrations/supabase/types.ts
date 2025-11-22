@@ -240,6 +240,7 @@ export type Database = {
           excerpt: string | null
           format: string
           id: string
+          issue_ref: string | null
           layout_type: string | null
           logos_sidebar: Json | null
           market_data: Json | null
@@ -269,6 +270,7 @@ export type Database = {
           excerpt?: string | null
           format: string
           id?: string
+          issue_ref?: string | null
           layout_type?: string | null
           logos_sidebar?: Json | null
           market_data?: Json | null
@@ -298,6 +300,7 @@ export type Database = {
           excerpt?: string | null
           format?: string
           id?: string
+          issue_ref?: string | null
           layout_type?: string | null
           logos_sidebar?: Json | null
           market_data?: Json | null

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { contentService, type Content, type ContentSection } from '@/services/contentService';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -27,6 +28,8 @@ export default function ContentEditor() {
   const [watchDuration, setWatchDuration] = useState('');
   const [listenUrl, setListenUrl] = useState('');
   const [listenDuration, setListenDuration] = useState('');
+  const [issueRef, setIssueRef] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (id && id !== 'new') {
@@ -42,6 +45,7 @@ export default function ContentEditor() {
       setTitle(content.title);
       setExcerpt(content.excerpt || '');
       setThumbnail(content.thumbnail || '');
+      setIssueRef(content.issue_ref || '');
 
       const modalities = content.modalities as any || {};
       if (modalities.read) {
@@ -61,6 +65,40 @@ export default function ContentEditor() {
       toast.error('Failed to load content');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleFileUpload(file: File, type: 'thumbnail' | 'video' | 'audio') {
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `${type}s/${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('content-media')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('content-media')
+        .getPublicUrl(filePath);
+
+      if (type === 'thumbnail') {
+        setThumbnail(publicUrl);
+      } else if (type === 'video') {
+        setWatchUrl(publicUrl);
+      } else if (type === 'audio') {
+        setListenUrl(publicUrl);
+      }
+
+      toast.success('File uploaded successfully');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast.error('Failed to upload file');
+    } finally {
+      setUploading(false);
     }
   }
 
@@ -93,7 +131,8 @@ export default function ContentEditor() {
         domain: 'qriptopian',
         format: 'article',
         type: 'article',
-        content: {}
+        content: {},
+        issue_ref: issueRef
       } as const;
 
       if (id && id !== 'new') {
@@ -171,6 +210,16 @@ export default function ContentEditor() {
                 </div>
 
                 <div>
+                  <Label htmlFor="issueRef">Issue Reference</Label>
+                  <Input
+                    id="issueRef"
+                    value={issueRef}
+                    onChange={(e) => setIssueRef(e.target.value)}
+                    placeholder="e.g., #0, #1, Issue 1"
+                  />
+                </div>
+
+                <div>
                   <Label htmlFor="thumbnail">Thumbnail URL</Label>
                   <div className="flex gap-2">
                     <Input
@@ -180,7 +229,22 @@ export default function ContentEditor() {
                       placeholder="https://..."
                       className="flex-1"
                     />
-                    <Button type="button" variant="outline" size="icon">
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      size="icon"
+                      disabled={uploading}
+                      onClick={() => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.onchange = (e) => {
+                          const file = (e.target as HTMLInputElement).files?.[0];
+                          if (file) handleFileUpload(file, 'thumbnail');
+                        };
+                        input.click();
+                      }}
+                    >
                       <Upload className="h-4 w-4" />
                     </Button>
                   </div>
@@ -230,7 +294,22 @@ export default function ContentEditor() {
                         placeholder="YouTube, Vimeo, or direct video URL"
                         className="flex-1"
                       />
-                      <Button type="button" variant="outline" size="icon">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="icon"
+                        disabled={uploading}
+                        onClick={() => {
+                          const input = document.createElement('input');
+                          input.type = 'file';
+                          input.accept = 'video/*';
+                          input.onchange = (e) => {
+                            const file = (e.target as HTMLInputElement).files?.[0];
+                            if (file) handleFileUpload(file, 'video');
+                          };
+                          input.click();
+                        }}
+                      >
                         <Upload className="h-4 w-4" />
                       </Button>
                     </div>
@@ -257,7 +336,22 @@ export default function ContentEditor() {
                         placeholder="Direct audio file URL or podcast link"
                         className="flex-1"
                       />
-                      <Button type="button" variant="outline" size="icon">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="icon"
+                        disabled={uploading}
+                        onClick={() => {
+                          const input = document.createElement('input');
+                          input.type = 'file';
+                          input.accept = 'audio/*';
+                          input.onchange = (e) => {
+                            const file = (e.target as HTMLInputElement).files?.[0];
+                            if (file) handleFileUpload(file, 'audio');
+                          };
+                          input.click();
+                        }}
+                      >
                         <Upload className="h-4 w-4" />
                       </Button>
                     </div>
