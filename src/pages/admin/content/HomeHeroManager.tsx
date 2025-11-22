@@ -127,14 +127,18 @@ export default function HomeHeroManager() {
                         <Button
                           size="sm"
                           variant="outline"
+                          onClick={() => window.open('/', '_blank')}
+                          title="Preview on site"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={item.status === 'published' ? 'secondary' : 'default'}
                           onClick={() => handleToggleStatus(item)}
                           title={item.status === 'published' ? 'Unpublish' : 'Publish'}
                         >
-                          {item.status === 'published' ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
+                          {item.status === 'published' ? 'Unpublish' : 'Publish'}
                         </Button>
                         <Button
                           size="sm"
