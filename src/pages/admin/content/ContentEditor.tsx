@@ -30,6 +30,8 @@ export default function ContentEditor() {
   const [listenDuration, setListenDuration] = useState('');
   const [issueRef, setIssueRef] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [imagePosition, setImagePosition] = useState('center');
+  const [imageScale, setImageScale] = useState(100);
 
   useEffect(() => {
     if (id && id !== 'new') {
@@ -46,6 +48,10 @@ export default function ContentEditor() {
       setExcerpt(content.excerpt || '');
       setThumbnail(content.thumbnail || '');
       setIssueRef(content.issue_ref || '');
+      
+      const placement = content.placement as any || {};
+      setImagePosition(placement.imagePosition || 'center');
+      setImageScale(placement.imageScale || 100);
 
       const modalities = content.modalities as any || {};
       if (modalities.read) {
@@ -159,7 +165,7 @@ export default function ContentEditor() {
         excerpt,
         thumbnail,
         modalities,
-        placement: { section },
+        placement: { section, imagePosition, imageScale },
         status: publish ? ('published' as const) : ('draft' as const),
         domain: 'qriptopian',
         format: 'article',
@@ -436,27 +442,87 @@ export default function ContentEditor() {
             </Card>
           </div>
 
-          <div>
+          <div className="space-y-6">
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Preview</h3>
-              {thumbnail && (
-                <img
-                  src={thumbnail}
-                  alt={title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-              )}
-              {title && <h4 className="font-bold text-lg mb-2">{title}</h4>}
-              {excerpt && <p className="text-sm text-muted-foreground mb-4">{excerpt}</p>}
-              <div className="flex gap-2">
+              <h3 className="text-lg font-semibold mb-4">Image Positioning</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="imagePosition">Image Position</Label>
+                  <select
+                    id="imagePosition"
+                    value={imagePosition}
+                    onChange={(e) => setImagePosition(e.target.value)}
+                    className="w-full px-3 py-2 border border-input bg-background rounded-md"
+                  >
+                    <option value="top">Top</option>
+                    <option value="center">Center</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="imageScale">Image Scale ({imageScale}%)</Label>
+                  <input
+                    type="range"
+                    id="imageScale"
+                    min="50"
+                    max="200"
+                    step="5"
+                    value={imageScale}
+                    onChange={(e) => setImageScale(Number(e.target.value))}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Live Preview</h3>
+              <div className="relative w-full aspect-video bg-[#050f1f] rounded-lg overflow-hidden">
+                {thumbnail ? (
+                  <>
+                    <img
+                      src={thumbnail}
+                      alt={title}
+                      className="w-full h-full"
+                      style={{
+                        objectFit: 'cover',
+                        objectPosition: imagePosition,
+                        transform: `scale(${imageScale / 100})`
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
+                    <div className="absolute inset-0 flex items-end p-4">
+                      <div>
+                        {title && (
+                          <h4 className="font-bold text-[#d0f6ff] text-lg mb-1 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)]">
+                            {title}
+                          </h4>
+                        )}
+                        {excerpt && (
+                          <p className="text-sm text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                            {excerpt}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-muted-foreground">
+                    No thumbnail uploaded
+                  </div>
+                )}
+              </div>
+              <div className="flex gap-2 mt-4">
                 {readText && (
-                  <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Read</span>
+                  <span className="px-2 py-1 bg-cyan-500/20 text-cyan-400 text-xs rounded">Read</span>
                 )}
                 {watchUrl && (
-                  <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Watch</span>
+                  <span className="px-2 py-1 bg-cyan-500/20 text-cyan-400 text-xs rounded">Watch</span>
                 )}
                 {listenUrl && (
-                  <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Listen</span>
+                  <span className="px-2 py-1 bg-cyan-500/20 text-cyan-400 text-xs rounded">Listen</span>
                 )}
               </div>
             </Card>
