@@ -107,26 +107,8 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
         <Kn0w1Viewer items={pennyDropsContent} domain="pennydrops" />
       </div>
 
-      {/* Right: 1 column sidebar with MoneyPenny MetaAvatar */}
-      <div className="col-span-1">
-        <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-b from-[#0a1628] to-[#071327] border border-cyan-500/20">
-          <div className="absolute inset-0 p-4 flex flex-col">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-                Ask MoneyPenny
-              </h3>
-              <div className="px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30">
-                AI ASSISTANT
-              </div>
-            </div>
-            <p className="text-gray-400 text-sm mb-4">
-              Your AI guide to Q¢ micropayments
-            </p>
-            {/* Placeholder for MetaAvatar (actual avatar is rendered globally in Layout) */}
-            <div className="flex-grow relative rounded-lg overflow-hidden bg-black/20" />
-          </div>
-        </div>
-      </div>
+      {/* Right: 1 column for MetaAvatar iframe (rendered globally in Layout) */}
+      <div className="col-span-1" />
 
       {/* Full-width thumbnail carousel */}
       <div className="col-span-full border-t border-border/30 pt-6">
