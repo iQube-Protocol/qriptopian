@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 
 interface DrawerLayerProps {
   isOpen: boolean;
@@ -12,11 +14,15 @@ interface DrawerLayerProps {
   activeTab?: string;
   onTabChange?: (tabId: string) => void;
   children: React.ReactNode;
+  enableMetaAvatar?: boolean;
+  metaAvatarContainer?: 'pennydrops' | 'aigent';
 }
 
-export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, activeTab: controlledActiveTab, onTabChange, children }: DrawerLayerProps) {
+export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, activeTab: controlledActiveTab, onTabChange, children, enableMetaAvatar = false, metaAvatarContainer }: DrawerLayerProps) {
   const [internalActiveTab, setInternalActiveTab] = useState(tabs?.[0]?.id || '');
   const activeTab = controlledActiveTab ?? internalActiveTab;
+  const [showMetaAvatar, setShowMetaAvatar] = useState(false);
+  const { requestAvatar, releaseAvatar } = useMetaAvatar();
   
   const handleTabClick = (tabId: string) => {
     if (onTabChange) {
@@ -25,6 +31,24 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
       setInternalActiveTab(tabId);
     }
   };
+
+  const toggleMetaAvatar = () => {
+    setShowMetaAvatar(prev => !prev);
+  };
+
+  // Request/release avatar based on drawer and metavatar state
+  useEffect(() => {
+    if (isOpen && showMetaAvatar && metaAvatarContainer) {
+      requestAvatar(metaAvatarContainer);
+    } else if (metaAvatarContainer) {
+      releaseAvatar(metaAvatarContainer);
+    }
+    return () => {
+      if (metaAvatarContainer) {
+        releaseAvatar(metaAvatarContainer);
+      }
+    };
+  }, [isOpen, showMetaAvatar, metaAvatarContainer, requestAvatar, releaseAvatar]);
 
   if (!isOpen) return null;
 
@@ -71,6 +95,30 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
                   </button>
                   ))}
                 </div>
+              )}
+
+              {/* MetaAvatar Toggle */}
+              {enableMetaAvatar && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        onClick={toggleMetaAvatar}
+                        className={`p-2 rounded-lg transition-all ${
+                          showMetaAvatar 
+                            ? 'text-cyan-400 bg-cyan-400/10 border border-cyan-400/30' 
+                            : 'text-muted-foreground hover:text-cyan-400 hover:bg-accent/50'
+                        }`}
+                      >
+                        <User className="h-4 w-4" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{showMetaAvatar ? 'Hide' : 'Show'} MetaAvatar</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               )}
               
               <Button
