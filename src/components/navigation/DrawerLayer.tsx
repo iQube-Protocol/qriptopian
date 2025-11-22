@@ -39,6 +39,16 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
     });
   };
 
+  // Ensure MetaAvatar defaults to visible when drawer opens
+  useEffect(() => {
+    if (!enableMetaAvatar) return;
+    if (isOpen) {
+      setShowMetaAvatar(true);
+    } else {
+      setShowMetaAvatar(false);
+    }
+  }, [isOpen, enableMetaAvatar]);
+
   // Request/release avatar based on drawer and metavatar state
   useEffect(() => {
     console.log('[DrawerLayer] Effect:', { isOpen, showMetaAvatar, metaAvatarContainer });
