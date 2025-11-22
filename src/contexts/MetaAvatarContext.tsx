@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type ContainerType = 'aigent' | 'pennydrops' | null;
+type ContainerType = 'pennydrops' | null;
 
 interface MetaAvatarContextType {
   avatarInitialized: boolean;

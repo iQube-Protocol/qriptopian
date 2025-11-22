@@ -15,7 +15,7 @@ interface DrawerLayerProps {
   onTabChange?: (tabId: string) => void;
   children: React.ReactNode;
   enableMetaAvatar?: boolean;
-  metaAvatarContainer?: 'pennydrops' | 'aigent';
+  metaAvatarContainer?: 'pennydrops';
 }
 
 export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, activeTab: controlledActiveTab, onTabChange, children, enableMetaAvatar = false, metaAvatarContainer }: DrawerLayerProps) {

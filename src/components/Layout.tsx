@@ -16,21 +16,17 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [isAIOpen, setIsAIOpen] = useState(false);
   const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
   
-  const getDefaultPosition = (container: string) => {
-    const saved = localStorage.getItem(`avatar-position-${container}`);
+  const getDefaultPosition = () => {
+    const saved = localStorage.getItem('avatar-position-pennydrops');
     if (saved) {
       return JSON.parse(saved);
     }
-    return container === 'aigent' 
-      ? { x: 0, y: 0 }
-      : { x: 0, y: 0 };
+    return { x: 0, y: 0 };
   };
 
-  const [avatarPosition, setAvatarPosition] = useState(
-    activeContainer ? getDefaultPosition(activeContainer) : { x: 0, y: 0 }
-  );
-
   const handleDomainClick = (domain: Domain) => {
+    // Close AI drawer when any domain drawer is opened
+    setIsAIOpen(false);
     setActiveDomain(activeDomain === domain ? null : domain);
   };
 
@@ -47,7 +43,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <QriptopianNav 
         activeDomain={activeDomain} 
         onDomainClick={handleDomainClick}
-        onAIClick={() => setIsAIOpen(true)}
+        onAIClick={() => {
+          // Close any domain drawer before opening AI
+          setActiveDomain(null);
+          setIsAIOpen(true);
+        }}
       />
 
       {/* Domain Drawers */}
@@ -60,30 +60,18 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Global Persistent MetaAvatar */}
-      {(() => {
-        console.log('[Layout] Avatar render check:', { avatarInitialized, activeContainer });
-        return avatarInitialized && activeContainer;
-      })() && (
+      {/* Floating MetaAvatar - Penny Drops only */}
+      {avatarInitialized && activeContainer === 'pennydrops' && (
         <Draggable
           handle=".drag-handle"
           bounds="parent"
-          defaultPosition={getDefaultPosition(activeContainer)}
+          defaultPosition={getDefaultPosition()}
           onStop={(e, data) => {
             const position = { x: data.x, y: data.y };
-            setAvatarPosition(position);
-            localStorage.setItem(`avatar-position-${activeContainer}`, JSON.stringify(position));
+            localStorage.setItem('avatar-position-pennydrops', JSON.stringify(position));
           }}
         >
-          <div 
-            className={`fixed transition-opacity duration-300 ${
-              activeContainer === 'aigent' 
-                ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
-                : activeContainer === 'pennydrops'
-                ? 'right-[104px] top-[244px] w-[352px] h-[calc(100vh-268px)] opacity-100 z-[100]'
-                : 'opacity-0 pointer-events-none -z-10'
-            }`}
-          >
+          <div className="fixed right-[104px] top-[244px] w-[352px] h-[calc(100vh-268px)] opacity-100 z-[100]">
             <div className="h-full w-full p-6">
               <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden relative">
                 <div className="drag-handle absolute top-0 left-0 right-0 h-8 bg-muted/20 cursor-move flex items-center justify-center z-10 border-b border-border/20">
