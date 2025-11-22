@@ -1,9 +1,10 @@
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
+import { Maximize2, BookOpen, Play, Headphones, MessageCircle } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 
 interface PennyDropsDrawerProps {
@@ -59,19 +60,24 @@ const thumbnailContent = [
 
 export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'stories' | 'moneypenny'>('stories');
   const { requestAvatar, releaseAvatar } = useMetaAvatar();
 
-  // Request/release avatar based on drawer state
+  // Request/release avatar based on tab selection
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && activeTab === 'moneypenny') {
       requestAvatar('pennydrops');
     } else {
       releaseAvatar('pennydrops');
     }
-    return () => releaseAvatar('pennydrops');
-  }, [isOpen, requestAvatar, releaseAvatar]);
+  }, [isOpen, activeTab, requestAvatar, releaseAvatar]);
 
-  const tabs = [
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => releaseAvatar('pennydrops');
+  }, [releaseAvatar]);
+
+  const drawerTabs = [
     { id: 'stories', label: 'Stories' }
   ];
 
@@ -100,30 +106,55 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
       title="Penny Drops"
       subtitle="Q¢ use cases - fun, practical, irreverent"
       columns={3}
-      tabs={tabs}
+      tabs={drawerTabs}
     >
+      {/* Tabs for Stories and Ask MoneyPenny */}
+      <div className="col-span-full mb-4">
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'stories' | 'moneypenny')}>
+          <TabsList>
+            <TabsTrigger value="stories">
+              <BookOpen className="w-4 h-4 mr-2" />
+              Stories
+            </TabsTrigger>
+            <TabsTrigger value="moneypenny">
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Ask MoneyPenny
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
       {/* Left: 2 columns of Kn0w1Viewer cards */}
       <div className="col-span-2">
         <Kn0w1Viewer items={pennyDropsContent} domain="pennydrops" />
       </div>
 
-      {/* Right: 1 column sidebar with MoneyPenny MetaAvatar */}
+      {/* Right: 1 column sidebar with article content */}
       <div className="col-span-1">
-        <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-b from-[#0a1628] to-[#071327] border border-cyan-500/20">
-          <div className="absolute inset-0 p-4 flex flex-col">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-                Ask MoneyPenny
-              </h3>
-              <div className="px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30">
-                AI ASSISTANT
-              </div>
+        <div className="relative rounded-xl overflow-hidden bg-gradient-to-b from-muted/50 to-muted/20 border border-border/30 p-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded border border-yellow-500/30">
+                FEATURED
+              </span>
+              <span className="text-xs text-muted-foreground">5 min read</span>
             </div>
-            <p className="text-gray-400 text-sm mb-4">
-              Your AI guide to Q¢ micropayments
+            <h3 className="text-xl font-bold text-foreground">
+              The Future of Micropayments
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Q¢ is revolutionizing how we think about small transactions. From tipping content creators 
+              to paying for individual articles, micropayments are enabling new business models that were 
+              previously impossible.
             </p>
-            {/* Placeholder for MetaAvatar (actual avatar is rendered globally in Layout) */}
-            <div className="flex-grow relative rounded-lg overflow-hidden bg-black/20" />
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Learn how Q¢'s innovative approach is making every penny count in the digital economy, 
+              empowering creators and consumers alike with frictionless, instant transactions.
+            </p>
+            <div className="pt-4 border-t border-border/30">
+              <button className="text-sm text-primary hover:underline font-medium">
+                Read full article →
+              </button>
+            </div>
           </div>
         </div>
       </div>
