@@ -68,6 +68,35 @@ export default function ContentEditor() {
     }
   }
 
+  function calculateReadDuration(text: string): string {
+    const wordsPerMinute = 200;
+    const words = text.trim().split(/\s+/).length;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return `${minutes} min read`;
+  }
+
+  async function extractMediaDuration(file: File, type: 'video' | 'audio'): Promise<string> {
+    return new Promise((resolve) => {
+      const url = URL.createObjectURL(file);
+      const media = type === 'video' ? document.createElement('video') : document.createElement('audio');
+      
+      media.onloadedmetadata = () => {
+        const duration = media.duration;
+        const minutes = Math.floor(duration / 60);
+        const seconds = Math.floor(duration % 60);
+        URL.revokeObjectURL(url);
+        resolve(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+      };
+      
+      media.onerror = () => {
+        URL.revokeObjectURL(url);
+        resolve('');
+      };
+      
+      media.src = url;
+    });
+  }
+
   async function handleFileUpload(file: File, type: 'thumbnail' | 'video' | 'audio') {
     setUploading(true);
     try {
@@ -89,8 +118,12 @@ export default function ContentEditor() {
         setThumbnail(publicUrl);
       } else if (type === 'video') {
         setWatchUrl(publicUrl);
+        const duration = await extractMediaDuration(file, 'video');
+        if (duration) setWatchDuration(duration);
       } else if (type === 'audio') {
         setListenUrl(publicUrl);
+        const duration = await extractMediaDuration(file, 'audio');
+        if (duration) setListenDuration(duration);
       }
 
       toast.success('File uploaded successfully');
@@ -267,18 +300,24 @@ export default function ContentEditor() {
                     <Textarea
                       id="readText"
                       value={readText}
-                      onChange={(e) => setReadText(e.target.value)}
+                      onChange={(e) => {
+                        setReadText(e.target.value);
+                        if (e.target.value.trim()) {
+                          setReadDuration(calculateReadDuration(e.target.value));
+                        }
+                      }}
                       placeholder="Full article text..."
                       rows={10}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="readDuration">Read Duration</Label>
+                    <Label htmlFor="readDuration">Read Duration (auto-calculated)</Label>
                     <Input
                       id="readDuration"
                       value={readDuration}
                       onChange={(e) => setReadDuration(e.target.value)}
                       placeholder="e.g., 12 min read"
+                      disabled
                     />
                   </div>
                 </TabsContent>
@@ -315,12 +354,13 @@ export default function ContentEditor() {
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="watchDuration">Watch Duration</Label>
+                    <Label htmlFor="watchDuration">Watch Duration (auto-detected)</Label>
                     <Input
                       id="watchDuration"
                       value={watchDuration}
                       onChange={(e) => setWatchDuration(e.target.value)}
                       placeholder="e.g., 15:30"
+                      disabled
                     />
                   </div>
                 </TabsContent>
@@ -357,12 +397,13 @@ export default function ContentEditor() {
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="listenDuration">Listen Duration</Label>
+                    <Label htmlFor="listenDuration">Listen Duration (auto-detected)</Label>
                     <Input
                       id="listenDuration"
                       value={listenDuration}
                       onChange={(e) => setListenDuration(e.target.value)}
                       placeholder="e.g., 10:45"
+                      disabled
                     />
                   </div>
                 </TabsContent>
