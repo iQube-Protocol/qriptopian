@@ -13,7 +13,7 @@ import { MetaAvatar } from "@/components/MetaAvatar";
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
-  const { avatarInitialized, activeContainer, avatarRefreshKey, releaseAvatar } = useMetaAvatar();
+  const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
 
   const handleDomainClick = (domain: Domain) => {
     setActiveDomain(activeDomain === domain ? null : domain);
@@ -56,16 +56,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
               : 'opacity-0 pointer-events-none -z-10'
           }`}
         >
-          <div className="h-full w-full p-6 relative">
-            {activeContainer === 'pennydrops' && (
-              <button
-                onClick={() => releaseAvatar('pennydrops')}
-                className="absolute top-8 right-8 z-[101] text-foreground/70 hover:text-foreground bg-background/80 hover:bg-background rounded-full p-2 transition-colors"
-                aria-label="Close MoneyPenny"
-              >
-                ✕
-              </button>
-            )}
+          <div className="h-full w-full p-6">
             <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
               <MetaAvatar key={avatarRefreshKey} />
             </div>
