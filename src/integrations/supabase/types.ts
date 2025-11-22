@@ -2072,6 +2072,7 @@ export type Database = {
       }
     }
     Functions: {
+      assign_admin_role: { Args: { user_email: string }; Returns: undefined }
       days_until_fio_expiration: {
         Args: { expiration: string }
         Returns: number
