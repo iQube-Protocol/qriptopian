@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
-import { MetaAvatar } from "@/components/MetaAvatar";
 
 interface PennyDropsDrawerProps {
   isOpen: boolean;
@@ -60,23 +59,17 @@ const thumbnailContent = [
 
 export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'stories' | 'metavatar'>('stories');
   const { requestAvatar, releaseAvatar } = useMetaAvatar();
 
-  // Request/release avatar based on drawer and tab state
+  // Request avatar when drawer opens
   useEffect(() => {
-    if (isOpen && activeTab === 'metavatar') {
+    if (isOpen) {
       requestAvatar('pennydrops');
     } else {
       releaseAvatar();
     }
     return () => releaseAvatar();
-  }, [isOpen, activeTab, requestAvatar, releaseAvatar]);
-
-  const tabs = [
-    { id: 'stories', label: 'Stories' },
-    { id: 'metavatar', label: 'MetaAvatar' }
-  ];
+  }, [isOpen, requestAvatar, releaseAvatar]);
 
   if (isFullscreen) {
     return (
@@ -103,9 +96,6 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
       title="Penny Drops"
       subtitle="Q¢ use cases - fun, practical, irreverent"
       columns={3}
-      tabs={tabs}
-      activeTab={activeTab}
-      onTabChange={(tabId) => setActiveTab(tabId as 'stories' | 'metavatar')}
     >
       {/* Left: 2 columns of Kn0w1Viewer cards */}
       <div className="col-span-2">
@@ -115,7 +105,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
       {/* Right: 1 column sidebar with MoneyPenny MetaAvatar */}
       <div className="col-span-1">
         <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-b from-[#0a1628] to-[#071327] border border-cyan-500/20">
-          <MetaAvatar />
+          {/* Global MetaAvatar overlay will appear here */}
         </div>
       </div>
 
