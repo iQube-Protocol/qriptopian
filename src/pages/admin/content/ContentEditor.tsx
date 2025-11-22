@@ -160,7 +160,7 @@ export default function ContentEditor() {
         thumbnail,
         modalities,
         placement: { section },
-        status: 'published' as const,
+        status: 'draft' as const,
         domain: 'qriptopian',
         format: 'article',
         type: 'article',
@@ -177,7 +177,17 @@ export default function ContentEditor() {
         toast.success('Content created');
       }
 
-      navigate(-1);
+      // Navigate to the appropriate section manager
+      const sectionRoutes: Record<ContentSection, string> = {
+        'home-hero': '/admin/content/home-hero',
+        'latest-news': '/admin',
+        'second-hero': '/admin',
+        'pennydrops': '/admin',
+        'knytrise': '/admin',
+        '21knowdz': '/admin',
+        'staybull': '/admin'
+      };
+      navigate(sectionRoutes[section] || '/admin');
     } catch (error) {
       console.error('Error saving content:', error);
       toast.error('Failed to save content');
