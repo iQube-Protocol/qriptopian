@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QriptopianNav, Domain } from "@/components/navigation/QriptopianNav";
 import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
@@ -14,6 +14,20 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
   const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
+
+  // Mutual exclusion: close AI Assistant when PennyDrops opens
+  useEffect(() => {
+    if (activeDomain === 'pennydrops' && isAIOpen) {
+      setIsAIOpen(false);
+    }
+  }, [activeDomain, isAIOpen]);
+
+  // Mutual exclusion: close PennyDrops when AI Assistant opens
+  useEffect(() => {
+    if (isAIOpen && activeDomain === 'pennydrops') {
+      setActiveDomain(null);
+    }
+  }, [isAIOpen, activeDomain]);
 
   const handleDomainClick = (domain: Domain) => {
     setActiveDomain(activeDomain === domain ? null : domain);
