@@ -16,6 +16,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [isAIOpen, setIsAIOpen] = useState(false);
   const { avatarInitialized, activeContainer } = useMetaAvatar();
 
+  // Debug logging
+  useEffect(() => {
+    console.log('[Layout] Avatar state changed', { avatarInitialized, activeContainer });
+  }, [avatarInitialized, activeContainer]);
+
   // Mutual exclusion: close AI Assistant when PennyDrops opens
   useEffect(() => {
     if (activeDomain === 'pennydrops' && isAIOpen) {
