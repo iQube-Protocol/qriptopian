@@ -1,0 +1,134 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { contentService, type Content } from '@/services/contentService';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Plus, Edit, Trash2, ArrowLeft } from 'lucide-react';
+import { toast } from 'sonner';
+
+export default function HomeHeroManager() {
+  const navigate = useNavigate();
+  const [content, setContent] = useState<Content[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadContent();
+  }, []);
+
+  async function loadContent() {
+    try {
+      const data = await contentService.getContentBySection('home-hero');
+      setContent(data.slice(0, 3)); // Only show first 3
+    } catch (error) {
+      console.error('Error loading content:', error);
+      toast.error('Failed to load content');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm('Are you sure you want to delete this article?')) return;
+
+    try {
+      await contentService.deleteContent(id);
+      toast.success('Article deleted');
+      loadContent();
+    } catch (error) {
+      console.error('Error deleting content:', error);
+      toast.error('Failed to delete article');
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading content...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button variant="outline" onClick={() => navigate('/admin')}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Home Hero Articles</h1>
+              <p className="text-muted-foreground">Manage the 3 main hero articles</p>
+            </div>
+          </div>
+          <Button onClick={() => navigate('/admin/content/edit/new?section=home-hero')}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Article
+          </Button>
+        </div>
+
+        {content.length === 0 ? (
+          <Card className="p-12 text-center">
+            <p className="text-muted-foreground mb-4">No hero articles yet</p>
+            <Button onClick={() => navigate('/admin/content/edit/new?section=home-hero')}>
+              Create First Article
+            </Button>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 gap-6">
+            {content.map((item, index) => (
+              <Card key={item.id} className="p-6">
+                <div className="flex gap-6">
+                  <img
+                    src={item.thumbnail || ''}
+                    alt={item.title}
+                    className="w-48 h-32 object-cover rounded-lg"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <span className="text-sm text-muted-foreground">Position {index + 1}</span>
+                        <h3 className="text-xl font-semibold">{item.title}</h3>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => navigate(`/admin/content/edit/${item.id}`)}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="text-muted-foreground mb-4">{item.excerpt}</p>
+                    <div className="flex gap-2">
+                      {contentService.hasModality(item, 'read') && (
+                        <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Read</span>
+                      )}
+                      {contentService.hasModality(item, 'watch') && (
+                        <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Watch</span>
+                      )}
+                      {contentService.hasModality(item, 'listen') && (
+                        <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Listen</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
