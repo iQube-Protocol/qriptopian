@@ -123,7 +123,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
           <CarouselContent className="-ml-4">
             {thumbnailContent.map((item) => (
               <CarouselItem key={item.id} className="basis-1/4 pl-4">
-                <div className="relative aspect-[16/8] rounded-lg overflow-hidden group cursor-pointer">
+                <div className="relative aspect-[47/20] rounded-lg overflow-hidden group cursor-pointer">
                   <img 
                     src={item.image} 
                     alt={item.title}
