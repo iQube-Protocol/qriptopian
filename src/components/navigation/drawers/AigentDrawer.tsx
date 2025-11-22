@@ -24,16 +24,16 @@ export function AigentDrawer({
     role: 'assistant',
     content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
   }]);
-  const { requestAvatar, releaseAvatar } = useMetaAvatar();
+  const { requestAvatar, releaseAvatar, refreshAvatar } = useMetaAvatar();
 
   // Request/release avatar based on drawer and view mode state
   useEffect(() => {
     if (isOpen && viewMode === 'metavatar') {
       requestAvatar('aigent');
     } else {
-      releaseAvatar();
+      releaseAvatar('aigent');
     }
-    return () => releaseAvatar();
+    return () => releaseAvatar('aigent');
   }, [isOpen, viewMode, requestAvatar, releaseAvatar]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -70,6 +70,24 @@ export function AigentDrawer({
             <div className="flex items-center gap-6">
 
               <TooltipProvider>
+                {/* Refresh Button - Only visible in metavatar mode */}
+                {viewMode === 'metavatar' && <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button type="button" onClick={() => {
+                    console.log('[AigentDrawer] MetaAvatar refresh clicked');
+                    refreshAvatar();
+                  }} className={`p-1 rounded-full transition-colors ${viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'}`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                          <path d="M21 3v5h-5"/>
+                        </svg>
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Refresh MetaVatar</p>
+                    </TooltipContent>
+                  </Tooltip>}
+
                 {/* View Mode Toggle */}
                 <div className="flex items-center gap-2 bg-background/20 backdrop-blur-md rounded-lg p-1 border border-border/20">
                   <Tooltip>

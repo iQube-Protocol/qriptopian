@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { QriptopianNav, Domain } from "@/components/navigation/QriptopianNav";
 import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
@@ -8,32 +8,12 @@ import { KnytRiseDrawer } from "@/components/navigation/drawers/KnytRiseDrawer";
 import { StayBullDrawer } from "@/components/navigation/drawers/StayBullDrawer";
 import { AigentDrawer } from "@/components/navigation/drawers/AigentDrawer";
 import { MetaAvatarProvider, useMetaAvatar } from "@/contexts/MetaAvatarContext";
-import { AigentAvatar } from "@/components/AigentAvatar";
-import { PennyDropsAvatar } from "@/components/PennyDropsAvatar";
+import { MetaAvatar } from "@/components/MetaAvatar";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
-  const { avatarInitialized, activeContainer } = useMetaAvatar();
-
-  // Debug logging
-  useEffect(() => {
-    console.log('[Layout] Avatar state changed', { avatarInitialized, activeContainer });
-  }, [avatarInitialized, activeContainer]);
-
-  // Mutual exclusion: close AI Assistant when PennyDrops opens
-  useEffect(() => {
-    if (activeDomain === 'pennydrops' && isAIOpen) {
-      setIsAIOpen(false);
-    }
-  }, [activeDomain, isAIOpen]);
-
-  // Mutual exclusion: close PennyDrops when AI Assistant opens
-  useEffect(() => {
-    if (isAIOpen && activeDomain === 'pennydrops') {
-      setActiveDomain(null);
-    }
-  }, [isAIOpen, activeDomain]);
+  const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
 
   const handleDomainClick = (domain: Domain) => {
     setActiveDomain(activeDomain === domain ? null : domain);
@@ -65,31 +45,20 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Aigent Avatar - Full Screen */}
+      {/* Global Persistent MetaAvatar */}
       {avatarInitialized && (
         <div 
-          className={`fixed right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] transition-opacity duration-300 z-[100] ${
-            activeContainer === 'aigent' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          className={`fixed transition-all duration-300 ${
+            activeContainer === 'aigent' 
+              ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
+              : activeContainer === 'pennydrops'
+              ? 'right-[104px] top-[244px] w-[352px] h-[calc(100vh-268px)] opacity-100 z-[100]'
+              : 'opacity-0 pointer-events-none -z-10'
           }`}
         >
           <div className="h-full w-full p-6">
-            <div className="h-full w-full overflow-hidden rounded-lg border border-border/30 bg-muted/10">
-              <AigentAvatar />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* PennyDrops Avatar - Embedded Box */}
-      {avatarInitialized && (
-        <div 
-          className={`fixed right-[120px] top-[188px] w-[352px] h-[400px] transition-opacity duration-300 z-[200] ${
-            activeContainer === 'pennydrops' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
-        >
-          <div className="h-full w-full">
-            <div className="h-full w-full overflow-hidden">
-              <PennyDropsAvatar />
+            <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+              <MetaAvatar key={avatarRefreshKey} />
             </div>
           </div>
         </div>
