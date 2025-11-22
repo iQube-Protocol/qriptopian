@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, Save, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function ContentEditor() {
@@ -172,12 +172,18 @@ export default function ContentEditor() {
 
                 <div>
                   <Label htmlFor="thumbnail">Thumbnail URL</Label>
-                  <Input
-                    id="thumbnail"
-                    value={thumbnail}
-                    onChange={(e) => setThumbnail(e.target.value)}
-                    placeholder="https://..."
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      id="thumbnail"
+                      value={thumbnail}
+                      onChange={(e) => setThumbnail(e.target.value)}
+                      placeholder="https://..."
+                      className="flex-1"
+                    />
+                    <Button type="button" variant="outline" size="icon">
+                      <Upload className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -216,12 +222,18 @@ export default function ContentEditor() {
                 <TabsContent value="watch" className="space-y-4 mt-4">
                   <div>
                     <Label htmlFor="watchUrl">Video URL</Label>
-                    <Input
-                      id="watchUrl"
-                      value={watchUrl}
-                      onChange={(e) => setWatchUrl(e.target.value)}
-                      placeholder="YouTube, Vimeo, or direct video URL"
-                    />
+                    <div className="flex gap-2">
+                      <Input
+                        id="watchUrl"
+                        value={watchUrl}
+                        onChange={(e) => setWatchUrl(e.target.value)}
+                        placeholder="YouTube, Vimeo, or direct video URL"
+                        className="flex-1"
+                      />
+                      <Button type="button" variant="outline" size="icon">
+                        <Upload className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                   <div>
                     <Label htmlFor="watchDuration">Watch Duration</Label>
@@ -237,12 +249,18 @@ export default function ContentEditor() {
                 <TabsContent value="listen" className="space-y-4 mt-4">
                   <div>
                     <Label htmlFor="listenUrl">Audio URL</Label>
-                    <Input
-                      id="listenUrl"
-                      value={listenUrl}
-                      onChange={(e) => setListenUrl(e.target.value)}
-                      placeholder="Direct audio file URL or podcast link"
-                    />
+                    <div className="flex gap-2">
+                      <Input
+                        id="listenUrl"
+                        value={listenUrl}
+                        onChange={(e) => setListenUrl(e.target.value)}
+                        placeholder="Direct audio file URL or podcast link"
+                        className="flex-1"
+                      />
+                      <Button type="button" variant="outline" size="icon">
+                        <Upload className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                   <div>
                     <Label htmlFor="listenDuration">Listen Duration</Label>
