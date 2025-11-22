@@ -60,34 +60,50 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Floating MetaAvatar - Penny Drops only */}
-      {avatarInitialized && activeContainer === 'pennydrops' && (
-        <Draggable
-          handle=".drag-handle"
-          bounds="parent"
-          defaultPosition={getDefaultPosition('pennydrops')}
-          onStop={(e, data) => {
-            const position = { x: data.x, y: data.y };
-            localStorage.setItem('avatar-position-pennydrops', JSON.stringify(position));
-          }}
+      {/* Single Persistent MetaAvatar - Repositions Based on Active Container */}
+      {avatarInitialized && activeContainer && (
+        <div 
+          className={`
+            fixed z-[100] transition-all duration-300
+            ${activeContainer === 'pennydrops' 
+              ? 'right-[104px] top-[244px] w-[352px] h-[calc(100vh-268px)]' 
+              : 'right-[calc(50%-280px)] top-[calc(88px+80px)] w-[560px] h-[calc(100vh-88px-80px-48px)]'
+            }
+          `}
         >
-          <div className="fixed right-[104px] top-[244px] w-[352px] h-[calc(100vh-268px)] opacity-100 z-[100]">
-            <div className="h-full w-full p-6">
-              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden relative">
-                <div className="drag-handle absolute top-0 left-0 right-0 h-8 bg-muted/20 cursor-move flex items-center justify-center z-10 border-b border-border/20">
-                  <div className="flex gap-1">
-                    <div className="w-1 h-1 rounded-full bg-muted-foreground/40"></div>
-                    <div className="w-1 h-1 rounded-full bg-muted-foreground/40"></div>
-                    <div className="w-1 h-1 rounded-full bg-muted-foreground/40"></div>
+          {activeContainer === 'pennydrops' ? (
+            <Draggable
+              handle=".drag-handle"
+              bounds="parent"
+              defaultPosition={getDefaultPosition('pennydrops')}
+              onStop={(e, data) => {
+                const position = { x: data.x, y: data.y };
+                localStorage.setItem('avatar-position-pennydrops', JSON.stringify(position));
+              }}
+            >
+              <div className="h-full w-full p-6">
+                <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden relative">
+                  <div className="drag-handle absolute top-0 left-0 right-0 h-8 bg-muted/20 cursor-move flex items-center justify-center z-10 border-b border-border/20">
+                    <div className="flex gap-1">
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground/40"></div>
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground/40"></div>
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground/40"></div>
+                    </div>
+                  </div>
+                  <div className="h-full w-full pt-8">
+                    <MetaAvatar key={avatarRefreshKey} />
                   </div>
                 </div>
-                <div className="h-full w-full pt-8">
-                  <MetaAvatar key={avatarRefreshKey} />
-                </div>
+              </div>
+            </Draggable>
+          ) : (
+            <div className="h-full w-full p-6">
+              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+                <MetaAvatar key={avatarRefreshKey} />
               </div>
             </div>
-          </div>
-        </Draggable>
+          )}
+        </div>
       )}
     </div>
   );
