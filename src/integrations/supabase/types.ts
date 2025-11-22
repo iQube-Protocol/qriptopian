@@ -229,17 +229,22 @@ export type Database = {
       }
       content: {
         Row: {
+          ai_metadata: Json | null
           author_id: string | null
           author_type: string | null
           content: Json
           created_at: string | null
           domain: string
+          duration: string | null
           event_data: Json | null
           excerpt: string | null
           format: string
           id: string
+          layout_type: string | null
           logos_sidebar: Json | null
           market_data: Json | null
+          modalities: Json | null
+          placement: Json | null
           published_at: string | null
           related_content: string[] | null
           slug: string | null
@@ -253,17 +258,22 @@ export type Database = {
           verification_proof: Json | null
         }
         Insert: {
+          ai_metadata?: Json | null
           author_id?: string | null
           author_type?: string | null
           content?: Json
           created_at?: string | null
           domain: string
+          duration?: string | null
           event_data?: Json | null
           excerpt?: string | null
           format: string
           id?: string
+          layout_type?: string | null
           logos_sidebar?: Json | null
           market_data?: Json | null
+          modalities?: Json | null
+          placement?: Json | null
           published_at?: string | null
           related_content?: string[] | null
           slug?: string | null
@@ -277,17 +287,22 @@ export type Database = {
           verification_proof?: Json | null
         }
         Update: {
+          ai_metadata?: Json | null
           author_id?: string | null
           author_type?: string | null
           content?: Json
           created_at?: string | null
           domain?: string
+          duration?: string | null
           event_data?: Json | null
           excerpt?: string | null
           format?: string
           id?: string
+          layout_type?: string | null
           logos_sidebar?: Json | null
           market_data?: Json | null
+          modalities?: Json | null
+          placement?: Json | null
           published_at?: string | null
           related_content?: string[] | null
           slug?: string | null
@@ -349,6 +364,41 @@ export type Database = {
           title?: string | null
         }
         Relationships: []
+      }
+      content_revisions: {
+        Row: {
+          content_id: string | null
+          created_at: string | null
+          created_by: string | null
+          data: Json
+          id: string
+          version: number
+        }
+        Insert: {
+          content_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          data: Json
+          id?: string
+          version: number
+        }
+        Update: {
+          content_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          data?: Json
+          id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_revisions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "content"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       custody_events: {
         Row: {

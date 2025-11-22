@@ -1,0 +1,89 @@
+import { useNavigate } from 'react-router-dom';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import {
+  LayoutGrid,
+  Newspaper,
+  Image,
+  DollarSign,
+  Scroll,
+  BookOpen,
+  TrendingUp
+} from 'lucide-react';
+
+export default function AdminDashboard() {
+  const navigate = useNavigate();
+  const { isAdmin, loading } = useIsAdmin();
+
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-background">
+        <Card className="p-8 max-w-md text-center">
+          <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
+          <p className="text-muted-foreground mb-6">
+            You need administrator privileges to access this area.
+          </p>
+          <Button onClick={() => navigate('/')}>Go Home</Button>
+        </Card>
+      </div>
+    );
+  }
+
+  const sections = [
+    { name: 'Home Hero', path: '/admin/content/home-hero', icon: LayoutGrid, description: '3 main hero articles' },
+    { name: 'Latest News', path: '/admin/content/latest-news', icon: Newspaper, description: 'News carousel' },
+    { name: 'Second Hero', path: '/admin/content/second-hero', icon: Image, description: 'Bottom featured article' },
+    { name: 'PennyDrops', path: '/admin/content/pennydrops', icon: DollarSign, description: 'Financial insights' },
+    { name: 'KNYT Rise', path: '/admin/content/knytrise', icon: TrendingUp, description: 'Community content' },
+    { name: '21 Kn0wdZ', path: '/admin/content/21knowdz', icon: BookOpen, description: 'Dev & Creative resources' },
+    { name: 'StayBull', path: '/admin/content/staybull', icon: Scroll, description: 'Market updates' }
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">Content Management</h1>
+          <p className="text-muted-foreground">
+            Manage content across all sections of the application
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sections.map((section) => {
+            const Icon = section.icon;
+            return (
+              <Card
+                key={section.path}
+                className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => navigate(section.path)}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <Icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold mb-1">{section.name}</h3>
+                    <p className="text-sm text-muted-foreground">{section.description}</p>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
