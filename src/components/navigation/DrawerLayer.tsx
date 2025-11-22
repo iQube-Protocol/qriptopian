@@ -21,7 +21,7 @@ interface DrawerLayerProps {
 export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tabs, activeTab: controlledActiveTab, onTabChange, children, enableMetaAvatar = false, metaAvatarContainer }: DrawerLayerProps) {
   const [internalActiveTab, setInternalActiveTab] = useState(tabs?.[0]?.id || '');
   const activeTab = controlledActiveTab ?? internalActiveTab;
-  const [showMetaAvatar, setShowMetaAvatar] = useState(false);
+  const [showMetaAvatar, setShowMetaAvatar] = useState(true);
   const { requestAvatar, releaseAvatar } = useMetaAvatar();
   
   const handleTabClick = (tabId: string) => {
