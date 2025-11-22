@@ -35,6 +35,9 @@ export default function AdminDashboard() {
           <p className="text-muted-foreground mb-6">
             You need administrator privileges to access this area.
           </p>
+          <p className="text-xs text-muted-foreground mb-4">
+            Debug: isAdmin = {String(isAdmin)}
+          </p>
           <Button onClick={() => navigate('/')}>Go Home</Button>
         </Card>
       </div>

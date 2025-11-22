@@ -2086,6 +2086,7 @@ export type Database = {
           solana_address: string
         }[]
       }
+      has_admin_role: { Args: never; Returns: boolean }
       is_fio_handle_expired: { Args: { expiration: string }; Returns: boolean }
       sync_reputation_from_rqh: {
         Args: {
