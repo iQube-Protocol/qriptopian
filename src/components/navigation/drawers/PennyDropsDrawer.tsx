@@ -95,15 +95,14 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   }
 
   return (
-    <>
-      <DrawerLayer
-        isOpen={isOpen}
-        onClose={onClose}
-        title="Penny Drops"
-        subtitle="Q¢ use cases - fun, practical, irreverent"
-        columns={3}
-        tabs={tabs}
-      >
+    <DrawerLayer
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Penny Drops"
+      subtitle="Q¢ use cases - fun, practical, irreverent"
+      columns={3}
+      tabs={tabs}
+    >
         {/* Tab Buttons Row */}
         <div className="col-span-full flex justify-end gap-2 -mt-2 mb-4">
           <button
@@ -189,7 +188,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
               </CarouselItem>
             ))}
           </CarouselContent>
-        </Carousel>
+      </Carousel>
       </div>
     </DrawerLayer>
   );
