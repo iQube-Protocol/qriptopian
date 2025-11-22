@@ -16,8 +16,8 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [isAIOpen, setIsAIOpen] = useState(false);
   const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
   
-  const getDefaultPosition = () => {
-    const saved = localStorage.getItem('avatar-position-pennydrops');
+  const getDefaultPosition = (container: string) => {
+    const saved = localStorage.getItem(`avatar-position-${container}`);
     if (saved) {
       return JSON.parse(saved);
     }
@@ -65,7 +65,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <Draggable
           handle=".drag-handle"
           bounds="parent"
-          defaultPosition={getDefaultPosition()}
+          defaultPosition={getDefaultPosition('pennydrops')}
           onStop={(e, data) => {
             const position = { x: data.x, y: data.y };
             localStorage.setItem('avatar-position-pennydrops', JSON.stringify(position));
