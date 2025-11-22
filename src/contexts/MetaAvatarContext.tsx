@@ -7,8 +7,6 @@ interface MetaAvatarContextType {
   activeContainer: ContainerType;
   requestAvatar: (container: Exclude<ContainerType, null>) => void;
   releaseAvatar: () => void;
-  avatarRefreshKey: number;
-  refreshAvatar: () => void;
 }
 
 const MetaAvatarContext = createContext<MetaAvatarContextType | undefined>(undefined);
@@ -16,7 +14,6 @@ const MetaAvatarContext = createContext<MetaAvatarContextType | undefined>(undef
 export function MetaAvatarProvider({ children }: { children: ReactNode }) {
   const [avatarInitialized, setAvatarInitialized] = useState(false);
   const [activeContainer, setActiveContainer] = useState<ContainerType>(null);
-  const [avatarRefreshKey, setAvatarRefreshKey] = useState(0);
 
   const requestAvatar = (container: Exclude<ContainerType, null>) => {
     if (!avatarInitialized) {
@@ -29,10 +26,6 @@ export function MetaAvatarProvider({ children }: { children: ReactNode }) {
     setActiveContainer(null);
   };
 
-  const refreshAvatar = () => {
-    setAvatarRefreshKey(prev => prev + 1);
-  };
-
   return (
     <MetaAvatarContext.Provider
       value={{
@@ -40,8 +33,6 @@ export function MetaAvatarProvider({ children }: { children: ReactNode }) {
         activeContainer,
         requestAvatar,
         releaseAvatar,
-        avatarRefreshKey,
-        refreshAvatar,
       }}
     >
       {children}
