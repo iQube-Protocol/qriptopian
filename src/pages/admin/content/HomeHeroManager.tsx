@@ -17,8 +17,8 @@ export default function HomeHeroManager() {
 
   async function loadContent() {
     try {
-      const data = await contentService.getContentBySection('home-hero');
-      setContent(data); // Show all content
+      const data = await contentService.getAllContentBySection('home-hero');
+      setContent(data);
     } catch (error) {
       console.error('Error loading content:', error);
       toast.error('Failed to load content');
@@ -31,12 +31,13 @@ export default function HomeHeroManager() {
     if (!confirm('Are you sure you want to delete this article?')) return;
 
     try {
+      setContent(prev => prev.filter(item => item.id !== id));
       await contentService.deleteContent(id);
       toast.success('Article deleted');
-      loadContent();
     } catch (error) {
       console.error('Error deleting content:', error);
       toast.error('Failed to delete article');
+      loadContent();
     }
   }
 

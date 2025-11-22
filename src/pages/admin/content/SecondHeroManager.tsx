@@ -14,7 +14,7 @@ export default function SecondHeroManager() {
 
   const loadContent = async () => {
     try {
-      const data = await contentService.getContentBySection('second-hero');
+      const data = await contentService.getAllContentBySection('second-hero');
       setContent(data);
     } catch (error) {
       console.error('Error loading content:', error);
@@ -32,12 +32,13 @@ export default function SecondHeroManager() {
     if (!confirm('Are you sure you want to delete this article?')) return;
     
     try {
+      setContent(prev => prev.filter(item => item.id !== id));
       await contentService.deleteContent(id);
       toast.success('Article deleted');
-      loadContent();
     } catch (error) {
       console.error('Error deleting content:', error);
       toast.error('Failed to delete article');
+      loadContent();
     }
   };
 
