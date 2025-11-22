@@ -15,6 +15,20 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
   const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
+  
+  const getDefaultPosition = (container: string) => {
+    const saved = localStorage.getItem(`avatar-position-${container}`);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return container === 'aigent' 
+      ? { x: 0, y: 0 }
+      : { x: 0, y: 0 };
+  };
+
+  const [avatarPosition, setAvatarPosition] = useState(
+    activeContainer ? getDefaultPosition(activeContainer) : { x: 0, y: 0 }
+  );
 
   const handleDomainClick = (domain: Domain) => {
     setActiveDomain(activeDomain === domain ? null : domain);
@@ -51,6 +65,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <Draggable
           handle=".drag-handle"
           bounds="parent"
+          defaultPosition={getDefaultPosition(activeContainer)}
+          onStop={(e, data) => {
+            const position = { x: data.x, y: data.y };
+            setAvatarPosition(position);
+            localStorage.setItem(`avatar-position-${activeContainer}`, JSON.stringify(position));
+          }}
         >
           <div 
             className={`fixed transition-opacity duration-300 ${
