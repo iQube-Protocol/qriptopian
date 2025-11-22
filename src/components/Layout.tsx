@@ -50,16 +50,14 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <div 
           className={`fixed transition-all duration-300 ${
             activeContainer === 'aigent' 
-              ? 'right-[120px] top-[120px] w-[400px] h-[500px] opacity-100 z-[100]' 
+              ? 'right-[104px] top-[196px] w-[400px] h-[500px] opacity-100 z-[100]' 
               : activeContainer === 'pennydrops'
-              ? 'right-[120px] top-[120px] w-[400px] h-[500px] opacity-100 z-[100]'
+              ? 'right-[128px] top-[268px] w-[352px] h-[400px] opacity-100 z-[100]'
               : 'opacity-0 pointer-events-none -z-10'
           }`}
         >
-          <div className="h-full w-full p-4">
-            <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
-              <MetaAvatar key={avatarRefreshKey} />
-            </div>
+          <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+            <MetaAvatar key={avatarRefreshKey} />
           </div>
         </div>
       )}
