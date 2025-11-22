@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { MetaAvatar } from "@/components/MetaAvatar";
+import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
+
 interface AigentDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
 export function AigentDrawer({
   isOpen,
   onClose
@@ -22,15 +24,17 @@ export function AigentDrawer({
     role: 'assistant',
     content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
   }]);
-  const [avatarRefreshKey, setAvatarRefreshKey] = useState(0);
-  const [avatarInitialized, setAvatarInitialized] = useState(false);
+  const { requestAvatar, releaseAvatar, refreshAvatar } = useMetaAvatar();
 
-  // Initialize avatar on first view of metavatar mode
+  // Request/release avatar based on drawer and view mode state
   useEffect(() => {
-    if (isOpen && viewMode === 'metavatar' && !avatarInitialized) {
-      setAvatarInitialized(true);
+    if (isOpen && viewMode === 'metavatar') {
+      requestAvatar('aigent');
+    } else {
+      releaseAvatar();
     }
-  }, [isOpen, viewMode, avatarInitialized]);
+    return () => releaseAvatar();
+  }, [isOpen, viewMode, requestAvatar, releaseAvatar]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,9 +75,12 @@ export function AigentDrawer({
                     <TooltipTrigger asChild>
                       <button type="button" onClick={() => {
                     console.log('[AigentDrawer] MetaAvatar refresh clicked');
-                    setAvatarRefreshKey(k => k + 1);
+                    refreshAvatar();
                   }} className={`p-1 rounded-full transition-colors ${viewMode === 'metavatar' ? 'text-cyan-400 hover:text-cyan-300' : 'text-white hover:text-cyan-400'}`}>
-                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                          <path d="M21 3v5h-5"/>
+                        </svg>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -115,45 +122,46 @@ export function AigentDrawer({
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col overflow-hidden relative">
-          {/* Chat Mode - Only visible when viewMode is 'chat' */}
-          {viewMode === 'chat' && <>
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {viewMode === 'chat' ? (
+            <>
               {/* Chat Messages */}
               <ScrollArea className="flex-1 p-6">
                 <div className="space-y-4 max-w-4xl mx-auto">
-                  {messages.map((message, index) => <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[80%] rounded-lg p-4 ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted/50 text-foreground'}`}>
-                        <p className="text-sm">{message.content}</p>
+                  {messages.map((message, i) => (
+                    <div key={i} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`flex gap-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          {message.role === 'user' ? <User className="w-4 h-4" /> : <MessageSquare className="w-4 h-4" />}
+                        </div>
+                        <div className={`rounded-lg p-4 ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                          {message.content}
+                        </div>
                       </div>
-                    </div>)}
+                    </div>
+                  ))}
                 </div>
               </ScrollArea>
 
               {/* Chat Input */}
-              <div className="flex-shrink-0 border-t border-border/30 bg-background/60 p-6">
-                <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
-                  <div className="flex gap-2">
-                    <Input value={input} onChange={e => setInput(e.target.value)} placeholder="Ask MoneyPenny..." className="flex-1 bg-muted/30 border-border/30" />
-                    <Button type="submit" size="icon" disabled={!input.trim()}>
-                      <Send className="h-4 w-4" />
-                    </Button>
-                  </div>
+              <div className="p-6 border-t border-border/30">
+                <form onSubmit={handleSubmit} className="flex gap-2">
+                  <Input
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Type your message..."
+                    className="flex-1"
+                  />
+                  <Button type="submit" size="icon">
+                    <Send className="w-4 h-4" />
+                  </Button>
                 </form>
               </div>
-            </>}
-
-          {/* Persistent MetaAvatar Container - Uses opacity for visibility */}
-          {avatarInitialized && (
-            <div 
-              className={`absolute inset-0 transition-opacity duration-300 ${
-                viewMode === 'metavatar' ? 'opacity-100' : 'opacity-0 pointer-events-none'
-              }`}
-            >
-              <div className="flex-1 p-6 h-full">
-                <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
-                  <MetaAvatar key={avatarRefreshKey} />
-                </div>
-              </div>
+            </>
+          ) : (
+            // Placeholder for MetaAvatar (actual avatar is rendered globally in Layout)
+            <div className="flex-1 p-6">
+              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10" />
             </div>
           )}
         </div>

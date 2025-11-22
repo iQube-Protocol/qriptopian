@@ -7,10 +7,13 @@ import { Kn0wdZDrawer } from "@/components/navigation/drawers/Kn0wdZDrawer";
 import { KnytRiseDrawer } from "@/components/navigation/drawers/KnytRiseDrawer";
 import { StayBullDrawer } from "@/components/navigation/drawers/StayBullDrawer";
 import { AigentDrawer } from "@/components/navigation/drawers/AigentDrawer";
+import { MetaAvatarProvider, useMetaAvatar } from "@/contexts/MetaAvatarContext";
+import { MetaAvatar } from "@/components/MetaAvatar";
 
-export function Layout({ children }: { children: React.ReactNode }) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
+  const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
 
   const handleDomainClick = (domain: Domain) => {
     setActiveDomain(activeDomain === domain ? null : domain);
@@ -41,6 +44,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
       
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
+
+      {/* Global Persistent MetaAvatar */}
+      {avatarInitialized && (
+        <div 
+          className={`fixed z-[100] transition-all duration-300 ${
+            activeContainer === 'aigent' 
+              ? 'right-0 top-[88px] w-[480px] h-[calc(100vh-88px)] opacity-100' 
+              : activeContainer === 'pennydrops'
+              ? 'right-0 top-[88px] w-[480px] h-[calc(100vh-88px)] opacity-100'
+              : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <div className="h-full w-full p-6">
+            <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10 overflow-hidden">
+              <MetaAvatar key={avatarRefreshKey} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+  );
+}
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <MetaAvatarProvider>
+      <LayoutContent>{children}</LayoutContent>
+    </MetaAvatarProvider>
   );
 }
