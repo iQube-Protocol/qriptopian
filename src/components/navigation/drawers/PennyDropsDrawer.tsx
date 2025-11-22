@@ -3,7 +3,7 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
+import { Maximize2, BookOpen, Play, Headphones, User } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 
 interface PennyDropsDrawerProps {
@@ -59,6 +59,7 @@ const thumbnailContent = [
 
 export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'stories' | 'metavatar'>('stories');
   const { requestAvatar, releaseAvatar } = useMetaAvatar();
 
   // Request/release avatar based on drawer state
@@ -101,6 +102,32 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
       subtitle="Q¢ use cases - fun, practical, irreverent"
       columns={3}
       tabs={tabs}
+      headerActions={
+        <div className="flex gap-2">
+          <button
+            onClick={() => setActiveTab('stories')}
+            className={`p-2 rounded-lg transition-all ${
+              activeTab === 'stories'
+                ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                : 'bg-background/50 text-muted-foreground hover:bg-background/80 border border-border/30'
+            }`}
+            title="Stories"
+          >
+            <BookOpen className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setActiveTab('metavatar')}
+            className={`p-2 rounded-lg transition-all ${
+              activeTab === 'metavatar'
+                ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                : 'bg-background/50 text-muted-foreground hover:bg-background/80 border border-border/30'
+            }`}
+            title="Ask MoneyPenny"
+          >
+            <User className="w-4 h-4" />
+          </button>
+        </div>
+      }
     >
       {/* Left: 2 columns of Kn0w1Viewer cards */}
       <div className="col-span-2">
