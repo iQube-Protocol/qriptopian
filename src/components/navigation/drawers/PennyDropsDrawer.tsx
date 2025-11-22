@@ -102,11 +102,9 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
         <Kn0w1Viewer items={pennyDropsContent} domain="pennydrops" />
       </div>
 
-      {/* Right: 1 column sidebar - Ask MoneyPenny (MetaAvatar overlays here) */}
+      {/* Right: 1 column spacer where global MetaAvatar will appear */}
       <div className="col-span-1">
-        <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-b from-[#0a1628] to-[#071327] border border-cyan-500/20">
-          {/* Global MetaAvatar will overlay here */}
-        </div>
+        <div className="relative h-[400px]" />
       </div>
 
       {/* Full-width thumbnail carousel */}
