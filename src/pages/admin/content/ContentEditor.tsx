@@ -32,6 +32,7 @@ export default function ContentEditor() {
   const [uploading, setUploading] = useState(false);
   const [imagePosition, setImagePosition] = useState('center');
   const [imageScale, setImageScale] = useState(100);
+  const [position, setPosition] = useState(1);
 
   useEffect(() => {
     if (id && id !== 'new') {
@@ -52,6 +53,7 @@ export default function ContentEditor() {
       const placement = content.placement as any || {};
       setImagePosition(placement.imagePosition || 'center');
       setImageScale(placement.imageScale || 100);
+      setPosition(placement.position || 1);
 
       const modalities = content.modalities as any || {};
       if (modalities.read) {
@@ -165,7 +167,7 @@ export default function ContentEditor() {
         excerpt,
         thumbnail,
         modalities,
-        placement: { section, imagePosition, imageScale },
+        placement: { section, imagePosition, imageScale, position },
         status: publish ? ('published' as const) : ('draft' as const),
         domain: 'qriptopian',
         format: 'article',
@@ -281,6 +283,19 @@ export default function ContentEditor() {
                     onChange={(e) => setIssueRef(e.target.value)}
                     placeholder="e.g., #0, #1, Issue 1"
                   />
+                </div>
+
+                <div>
+                  <Label htmlFor="position">Display Position *</Label>
+                  <Input
+                    id="position"
+                    type="number"
+                    min="1"
+                    value={position}
+                    onChange={(e) => setPosition(parseInt(e.target.value) || 1)}
+                    placeholder="1 = first, 2 = second, etc."
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Lower numbers appear first in the section</p>
                 </div>
 
                 <div>

@@ -44,7 +44,13 @@ export const contentService = {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data as Content[];
+    
+    // Sort by position if available, otherwise by created_at
+    return (data as Content[]).sort((a, b) => {
+      const posA = (a.placement as any)?.position || 999;
+      const posB = (b.placement as any)?.position || 999;
+      return posA - posB;
+    });
   },
 
   async getContentBySection(section: ContentSection, options?: { tab?: 'dev' | 'creative' }) {
@@ -62,7 +68,13 @@ export const contentService = {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data as Content[];
+    
+    // Sort by position if available, otherwise by created_at
+    return (data as Content[]).sort((a, b) => {
+      const posA = (a.placement as any)?.position || 999;
+      const posB = (b.placement as any)?.position || 999;
+      return posA - posB;
+    });
   },
 
   async getContent(id: string) {
