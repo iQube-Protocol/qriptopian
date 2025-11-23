@@ -32,6 +32,8 @@ export default function ContentEditor() {
   const [uploading, setUploading] = useState(false);
   const [imagePosition, setImagePosition] = useState('center');
   const [imageScale, setImageScale] = useState(100);
+  const [imageX, setImageX] = useState(50);
+  const [imageY, setImageY] = useState(50);
   const [position, setPosition] = useState(1);
 
   useEffect(() => {
@@ -53,6 +55,8 @@ export default function ContentEditor() {
       const placement = content.placement as any || {};
       setImagePosition(placement.imagePosition || 'center');
       setImageScale(placement.imageScale || 100);
+      setImageX(placement.imageX || 50);
+      setImageY(placement.imageY || 50);
       setPosition(placement.position || 1);
 
       const modalities = content.modalities as any || {};
@@ -167,7 +171,7 @@ export default function ContentEditor() {
         excerpt,
         thumbnail,
         modalities,
-        placement: { section, imagePosition, imageScale, position },
+        placement: { section, imagePosition, imageScale, imageX, imageY, position },
         status: publish ? ('published' as const) : ('draft' as const),
         domain: 'qriptopian',
         format: 'article',
@@ -489,6 +493,37 @@ export default function ContentEditor() {
                     className="w-full"
                   />
                 </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="imageX">Horizontal ({imageX}%)</Label>
+                    <input
+                      type="range"
+                      id="imageX"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={imageX}
+                      onChange={(e) => setImageX(Number(e.target.value))}
+                      className="w-full"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">0=left, 50=center, 100=right</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="imageY">Vertical ({imageY}%)</Label>
+                    <input
+                      type="range"
+                      id="imageY"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={imageY}
+                      onChange={(e) => setImageY(Number(e.target.value))}
+                      className="w-full"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">0=top, 50=center, 100=bottom</p>
+                  </div>
+                </div>
               </div>
             </Card>
 
@@ -497,14 +532,13 @@ export default function ContentEditor() {
               <div className="relative w-full aspect-video bg-[#050f1f] rounded-lg overflow-hidden">
                 {thumbnail ? (
                   <>
-                    <img
-                      src={thumbnail}
-                      alt={title}
+                    <div
                       className="w-full h-full"
                       style={{
-                        objectFit: 'cover',
-                        objectPosition: imagePosition,
-                        transform: `scale(${imageScale / 100})`
+                        backgroundImage: `url(${thumbnail})`,
+                        backgroundSize: `${imageScale}%`,
+                        backgroundPosition: `${imageX}% ${imageY}%`,
+                        backgroundRepeat: 'no-repeat'
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
