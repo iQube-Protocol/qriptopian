@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Lock, Crown } from "lucide-react";
+import { Lock, Crown, Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -96,13 +96,30 @@ export function DynamicLatestNewsCarousel() {
           <CarouselContent className="-ml-4">
             {articles.map((article) => (
               <CarouselItem key={article.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
+                <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
                   {article.thumbnail && (
-                    <img 
-                      src={article.thumbnail} 
-                      alt={article.title} 
-                      className="w-full h-48 object-cover" 
-                    />
+                    <div className="relative">
+                      <img 
+                        src={article.thumbnail} 
+                        alt={article.title} 
+                        className="w-full h-48 object-cover" 
+                      />
+                      {/* Action Menu */}
+                      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                          <Maximize2 className="h-3 w-3" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                          <BookOpen className="h-3 w-3" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                          <Play className="h-3 w-3" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                          <Headphones className="h-3 w-3" />
+                        </button>
+                      </div>
+                    </div>
                   )}
                   <div className="p-6">
                     {article.tags && article.tags.length > 0 && (
