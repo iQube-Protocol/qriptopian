@@ -97,7 +97,7 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
         </button>
         
         {/* Right Panel - Title and Navigation */}
-        <div className="absolute bottom-8 right-8 flex flex-col gap-4 items-end">
+        <div className="absolute bottom-8 right-8 flex flex-col gap-4 items-start">
           {/* Title */}
           <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
             {activeItem.title}
