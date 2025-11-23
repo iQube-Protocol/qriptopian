@@ -1,4 +1,4 @@
-import { Lock, Crown } from "lucide-react";
+import { Lock, Crown, Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
@@ -51,8 +51,25 @@ export function LatestNewsCarousel() {
         >
           <CarouselContent className="-ml-4">
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop" alt="Mythos: The Awakening" className="w-full h-48 object-cover" />
+              <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
+                <div className="relative">
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop" alt="Mythos: The Awakening" className="w-full h-48 object-cover" />
+                  {/* Action Menu */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                      <Maximize2 className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                      <Play className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                      <Headphones className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
                 <div className="p-6">
                   <Badge variant="default" className="bg-purple-500/20 text-purple-400 border-purple-500/30 mb-2">
                     COMIC
@@ -69,8 +86,25 @@ export function LatestNewsCarousel() {
             </CarouselItem>
 
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=400&h=300&fit=crop" alt="Chronicles of the Quantum Realm" className="w-full h-48 object-cover" />
+              <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
+                <div className="relative">
+                  <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=400&h=300&fit=crop" alt="Chronicles of the Quantum Realm" className="w-full h-48 object-cover" />
+                  {/* Action Menu */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                      <Maximize2 className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                      <Play className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                      <Headphones className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
                 <div className="p-6">
                   <Badge variant="default" className="bg-purple-500/20 text-purple-400 border-purple-500/30 mb-2">
                     STORY
@@ -87,8 +121,25 @@ export function LatestNewsCarousel() {
             </CarouselItem>
 
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1622186477895-f2af6a0f5a97?w=400&h=300&fit=crop" alt="City Dispatches" className="w-full h-48 object-cover" />
+              <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
+                <div className="relative">
+                  <img src="https://images.unsplash.com/photo-1622186477895-f2af6a0f5a97?w=400&h=300&fit=crop" alt="City Dispatches" className="w-full h-48 object-cover" />
+                  {/* Action Menu */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                      <Maximize2 className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                      <Play className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                      <Headphones className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">City Dispatches</h3>
                   <p className="text-[#8fb3c0] text-sm mb-4">
@@ -102,8 +153,25 @@ export function LatestNewsCarousel() {
             </CarouselItem>
 
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop" alt="Markets Watch" className="w-full h-48 object-cover" />
+              <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
+                <div className="relative">
+                  <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop" alt="Markets Watch" className="w-full h-48 object-cover" />
+                  {/* Action Menu */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                      <Maximize2 className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                      <Play className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                      <Headphones className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Markets Watch</h3>
                   <p className="text-[#8fb3c0] text-sm mb-4">
@@ -143,8 +211,25 @@ export function LatestNewsCarousel() {
             </CarouselItem>
 
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop" alt="AI & Machine Learning" className="w-full h-48 object-cover" />
+              <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
+                <div className="relative">
+                  <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop" alt="AI & Machine Learning" className="w-full h-48 object-cover" />
+                  {/* Action Menu */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                      <Maximize2 className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                      <Play className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                      <Headphones className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">AI & Machine Learning</h3>
                   <p className="text-[#8fb3c0] text-sm mb-4">
@@ -184,8 +269,25 @@ export function LatestNewsCarousel() {
             </CarouselItem>
 
             <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors">
-                <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55?w=400&h=300&fit=crop" alt="Cybersecurity" className="w-full h-48 object-cover" />
+              <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
+                <div className="relative">
+                  <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55?w=400&h=300&fit=crop" alt="Cybersecurity" className="w-full h-48 object-cover" />
+                  {/* Action Menu */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                      <Maximize2 className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                      <Play className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                      <Headphones className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-[#d0f6ff] mb-2">Cybersecurity Updates</h3>
                   <p className="text-[#8fb3c0] text-sm mb-4">

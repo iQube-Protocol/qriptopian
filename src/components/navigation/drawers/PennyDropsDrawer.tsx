@@ -130,12 +130,29 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                     className="w-full h-full object-cover transition-transform group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    {item.badge && (
-                      <span className="inline-block px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold rounded mb-1 border border-yellow-500/30">
+                  {item.badge && (
+                    <div className="absolute top-2 left-2">
+                      <span className="inline-block px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold rounded border border-yellow-500/30">
                         {item.badge}
                       </span>
-                    )}
+                    </div>
+                  )}
+                  {/* Action Menu */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                      <Maximize2 className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                      <Play className="h-3 w-3" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                      <Headphones className="h-3 w-3" />
+                    </button>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
                     <h4 className="text-sm font-semibold text-white">{item.title}</h4>
                     <p className="text-xs text-gray-400">{item.subtitle}</p>
                   </div>

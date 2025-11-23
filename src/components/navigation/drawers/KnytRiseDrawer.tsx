@@ -3,6 +3,7 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 
 interface KnytRiseDrawerProps {
   isOpen: boolean;
@@ -101,20 +102,37 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
             <CarouselContent className="-ml-2">
               {knytRiseContent.map((item, index) => (
                 <CarouselItem key={`thumb-${item.id}`} className="basis-1/6 pl-2">
-                  <button
-                    onClick={() => setSelectedItemIndex(index)}
-                    className={`w-full aspect-video rounded-lg overflow-hidden border-2 transition-all hover:border-primary/50 ${
-                      selectedItemIndex === index 
-                        ? 'border-primary ring-2 ring-primary/20' 
-                        : 'border-border/30'
-                    }`}
-                  >
-                    <img 
-                      src={item.image} 
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
+                  <div className="relative group">
+                    <button
+                      onClick={() => setSelectedItemIndex(index)}
+                      className={`w-full aspect-video rounded-lg overflow-hidden border-2 transition-all hover:border-primary/50 ${
+                        selectedItemIndex === index 
+                          ? 'border-primary ring-2 ring-primary/20' 
+                          : 'border-border/30'
+                      }`}
+                    >
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                    {/* Action Menu */}
+                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                        <Maximize2 className="h-2.5 w-2.5" />
+                      </button>
+                      <button className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                        <BookOpen className="h-2.5 w-2.5" />
+                      </button>
+                      <button className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                        <Play className="h-2.5 w-2.5" />
+                      </button>
+                      <button className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                        <Headphones className="h-2.5 w-2.5" />
+                      </button>
+                    </div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
