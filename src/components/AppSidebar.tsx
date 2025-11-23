@@ -67,7 +67,7 @@ export function AppSidebar() {
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     Content: true,
     Publishing: true,
-    System: false,
+    System: true,
   });
 
   // Auto-expand System group for admins
