@@ -109,6 +109,21 @@ export function SignalsDrawer({
                             {item.badge}
                           </span>
                         </div>}
+                      {/* Action Menu */}
+                      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
+                          <Maximize2 className="h-3 w-3" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                          <BookOpen className="h-3 w-3" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                          <Play className="h-3 w-3" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                          <Headphones className="h-3 w-3" />
+                        </button>
+                      </div>
                     </div>
                     <div className="p-3">
                       <h4 className="text-sm font-semibold text-foreground mb-1">{item.title}</h4>
