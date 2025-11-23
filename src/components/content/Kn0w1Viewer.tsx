@@ -96,50 +96,51 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
           <Play className="h-6 w-6 text-cyan-400 ml-1" fill="currentColor" />
         </button>
         
-        {/* Title Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-8">
+        {/* Right Panel - Title and Navigation */}
+        <div className="absolute bottom-8 right-8 flex flex-col gap-4 items-end">
+          {/* Title */}
           <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
             {activeItem.title}
           </h2>
-        </div>
-        
-        {/* Right Panel - Dot Navigation and Media Controls */}
-        <div className="absolute bottom-8 right-8 flex flex-col gap-4 items-end">
-          {/* Dot Navigation */}
-          <div className="flex gap-2">
-            {items.map((item, index) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveIndex(index)}
-                className={cn(
-                  "transition-all rounded-full",
-                  activeIndex === index 
-                    ? "w-8 h-2 bg-cyan-400" 
-                    : "w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50"
-                )}
-                aria-label={`Go to ${item.title}`}
-              />
-            ))}
-          </div>
           
-          {/* Media Controls */}
-          <div className="flex gap-3">
-            <button 
-              onClick={() => setIsFullscreen(true)}
-              className="text-cyan-400 hover:text-cyan-300 transition-colors" 
-              aria-label="Fullscreen"
-            >
-              <Maximize2 className="h-4 w-4" />
-            </button>
-            <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
-              <BookOpen className="h-4 w-4" />
-            </button>
-            <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
-              <Play className="h-4 w-4" />
-            </button>
-            <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
-              <Headphones className="h-4 w-4" />
-            </button>
+          {/* Navigation Row - Dots and Media Controls */}
+          <div className="flex gap-6 items-center">
+            {/* Dot Navigation */}
+            <div className="flex gap-2">
+              {items.map((item, index) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveIndex(index)}
+                  className={cn(
+                    "transition-all rounded-full",
+                    activeIndex === index 
+                      ? "w-8 h-2 bg-cyan-400" 
+                      : "w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50"
+                  )}
+                  aria-label={`Go to ${item.title}`}
+                />
+              ))}
+            </div>
+            
+            {/* Media Controls */}
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setIsFullscreen(true)}
+                className="text-cyan-400 hover:text-cyan-300 transition-colors" 
+                aria-label="Fullscreen"
+              >
+                <Maximize2 className="h-4 w-4" />
+              </button>
+              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
+                <BookOpen className="h-4 w-4" />
+              </button>
+              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
+                <Play className="h-4 w-4" />
+              </button>
+              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
+                <Headphones className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
