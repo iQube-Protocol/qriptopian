@@ -96,12 +96,15 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
           <Play className="h-6 w-6 text-cyan-400 ml-1" fill="currentColor" />
         </button>
         
-        {/* Title and Dot Navigation Overlay */}
+        {/* Title Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-8">
-          <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
+          <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
             {activeItem.title}
           </h2>
-          
+        </div>
+        
+        {/* Right Panel - Dot Navigation and Media Controls */}
+        <div className="absolute bottom-8 right-8 flex flex-col gap-4 items-end">
           {/* Dot Navigation */}
           <div className="flex gap-2">
             {items.map((item, index) => (
@@ -118,26 +121,26 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
               />
             ))}
           </div>
-        </div>
-        
-        {/* Media Controls - Bottom Right */}
-        <div className="absolute bottom-8 right-8 flex gap-3 items-end">
-          <button 
-            onClick={() => setIsFullscreen(true)}
-            className="text-cyan-400 hover:text-cyan-300 transition-colors" 
-            aria-label="Fullscreen"
-          >
-            <Maximize2 className="h-4 w-4" />
-          </button>
-          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
-            <BookOpen className="h-4 w-4" />
-          </button>
-          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
-            <Play className="h-4 w-4" />
-          </button>
-          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
-            <Headphones className="h-4 w-4" />
-          </button>
+          
+          {/* Media Controls */}
+          <div className="flex gap-3">
+            <button 
+              onClick={() => setIsFullscreen(true)}
+              className="text-cyan-400 hover:text-cyan-300 transition-colors" 
+              aria-label="Fullscreen"
+            >
+              <Maximize2 className="h-4 w-4" />
+            </button>
+            <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
+              <BookOpen className="h-4 w-4" />
+            </button>
+            <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
+              <Play className="h-4 w-4" />
+            </button>
+            <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
+              <Headphones className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
