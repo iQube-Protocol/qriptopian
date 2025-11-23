@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
@@ -69,6 +69,13 @@ export function AppSidebar() {
     Publishing: true,
     System: false,
   });
+
+  // Auto-expand System group for admins
+  useEffect(() => {
+    if (!loading && isAdmin) {
+      setOpenGroups((prev) => ({ ...prev, System: true }));
+    }
+  }, [isAdmin, loading]);
 
   const toggleGroup = (title: string) => {
     setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
