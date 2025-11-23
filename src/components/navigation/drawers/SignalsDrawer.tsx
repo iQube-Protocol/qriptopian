@@ -91,9 +91,7 @@ export function SignalsDrawer({
           </div>
 
           {/* Column 3: Hero Image */}
-          <div>
-            
-          </div>
+          
         </div>
 
         {/* Full Width Carousel Below */}
