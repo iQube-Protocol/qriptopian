@@ -85,13 +85,13 @@ export function SignalsDrawer({
   return <DrawerLayer isOpen={isOpen} onClose={onClose} title="Signals" subtitle="What's happening now" columns={3} tabs={tabs}>
       <div className="col-span-3">
         <div className="grid grid-cols-3 gap-6">
-          {/* Column 1: Main Signal Viewer */}
-          <div className="h-full">
+          {/* Column 1 & 2: Main Signal Viewer */}
+          <div className="h-full col-span-2">
             <Kn0w1Viewer items={signalsContent} domain="signals" />
           </div>
 
-          {/* Column 2 & 3: Hero Image */}
-          <div className="col-span-2">
+          {/* Column 3: Hero Image */}
+          <div>
             
           </div>
         </div>
