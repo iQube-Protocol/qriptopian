@@ -59,10 +59,14 @@ export function DynamicSecondHeroSection() {
 
   return (
     <div className="w-full h-[60vh] relative flex-shrink-0 bg-[#050f1f]">
-      <img 
-        src={article.thumbnail || quantumTechHero} 
-        alt={article.title} 
-        className="w-full h-full object-cover" 
+      <div 
+        className="w-full h-full"
+        style={{
+          backgroundImage: `url(${article.thumbnail || quantumTechHero})`,
+          backgroundSize: `${(article.placement as any)?.imageScale || 100}%`,
+          backgroundPosition: `${(article.placement as any)?.imageX || 50}% ${(article.placement as any)?.imageY || 50}%`,
+          backgroundRepeat: 'no-repeat'
+        }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#050f1f] via-transparent to-transparent" />
       <div className="absolute inset-0 flex items-center justify-center">

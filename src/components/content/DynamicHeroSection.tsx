@@ -79,18 +79,19 @@ export function DynamicHeroSection() {
       <CarouselContent className="h-[calc(100vh-88px)]">
         {articles.map((article) => {
           const placement = article.placement as any || {};
-          const imagePosition = placement.imagePosition || 'center';
           const imageScale = placement.imageScale || 100;
+          const imageX = placement.imageX || 50;
+          const imageY = placement.imageY || 50;
           
           return (
             <CarouselItem key={article.id} className="h-[calc(100vh-88px)] relative">
-              <img 
-                src={article.thumbnail || heroImage} 
-                alt={article.title} 
-                className="w-full h-full object-cover"
+              <div 
+                className="w-full h-full"
                 style={{
-                  objectPosition: imagePosition,
-                  transform: `scale(${imageScale / 100})`
+                  backgroundImage: `url(${article.thumbnail || heroImage})`,
+                  backgroundSize: `${imageScale}%`,
+                  backgroundPosition: `${imageX}% ${imageY}%`,
+                  backgroundRepeat: 'no-repeat'
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
@@ -156,23 +157,62 @@ export function DynamicHeroSection() {
       </CarouselContent>
 
       {activeMode === 'read' && currentArticle && currentModalities?.read && (
-        <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-8 z-50">
-          <div className="max-w-4xl w-full bg-[#0a1528]/95 rounded-lg border border-cyan-500/20 p-8 max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h2 className="text-3xl font-bold text-[#d0f6ff] mb-2">{currentArticle.title}</h2>
+        <div className="absolute inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 z-50">
+          <div className="max-w-4xl w-full bg-gradient-to-br from-[#0a1628] via-[#0f1c2e] to-[#0a1628] rounded-2xl border border-qripto-cyan/20 shadow-[0_0_80px_rgba(0,196,255,0.15)] p-6 sm:p-12 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-8">
+              <div className="flex-1">
+                <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-white via-qripto-cyan to-white bg-clip-text text-transparent leading-tight mb-3">
+                  {currentArticle.title}
+                </h2>
+                {currentArticle.excerpt && (
+                  <p className="text-lg text-qripto-cyan/80 italic font-light mb-2">
+                    {currentArticle.excerpt}
+                  </p>
+                )}
                 {currentModalities.read.duration && (
-                  <p className="text-cyan-400">{currentModalities.read.duration}</p>
+                  <p className="text-qripto-cyan/60 text-sm font-light tracking-wider uppercase">
+                    {currentModalities.read.duration}
+                  </p>
                 )}
               </div>
-              <button onClick={() => setActiveMode(null)} className="text-cyan-400 hover:text-cyan-300 text-xl">
+              <button 
+                onClick={() => setActiveMode(null)} 
+                className="text-qripto-cyan hover:text-white text-3xl ml-4 transition-colors leading-none"
+              >
                 ×
               </button>
             </div>
-            <div className="prose prose-cyan max-w-none">
-              <p className="text-gray-300 leading-relaxed text-lg">
-                {currentModalities.read.text}
-              </p>
+            
+            <div className="h-px bg-gradient-to-r from-transparent via-qripto-cyan/30 to-transparent mb-10"></div>
+            
+            <article className="space-y-8">
+              {currentModalities.read.text.split('\n\n').map((paragraph, idx) => {
+                if (paragraph.startsWith('#')) {
+                  const text = paragraph.replace(/^#+\s*/, '');
+                  return (
+                    <h3 key={idx} className="text-2xl sm:text-3xl font-bold text-white mt-12 mb-6 pb-4 border-b border-qripto-cyan/20">
+                      <span className="bg-gradient-to-r from-qripto-cyan to-qripto-purple bg-clip-text text-transparent">
+                        {text}
+                      </span>
+                    </h3>
+                  );
+                }
+                
+                return (
+                  <p key={idx} className="text-gray-300 leading-[1.8] text-base sm:text-lg font-light tracking-wide">
+                    {paragraph.split('\n').map((line, lineIdx) => (
+                      <span key={lineIdx}>
+                        {line}
+                        {lineIdx < paragraph.split('\n').length - 1 && <><br /><br /></>}
+                      </span>
+                    ))}
+                  </p>
+                );
+              })}
+            </article>
+            
+            <div className="mt-16 pt-8 border-t border-qripto-cyan/20 flex justify-center">
+              <div className="w-32 h-0.5 bg-gradient-to-r from-transparent via-qripto-cyan to-transparent"></div>
             </div>
           </div>
         </div>
