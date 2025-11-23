@@ -103,45 +103,42 @@ export function Kn0w1Viewer({ items, domain }: Kn0w1ViewerProps) {
             {activeItem.title}
           </h2>
           
-          {/* Navigation Row - Dots and Media Controls */}
-          <div className="flex gap-6 items-center">
-            {/* Dot Navigation */}
-            <div className="flex gap-2">
-              {items.map((item, index) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveIndex(index)}
-                  className={cn(
-                    "transition-all rounded-full",
-                    activeIndex === index 
-                      ? "w-8 h-2 bg-cyan-400" 
-                      : "w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50"
-                  )}
-                  aria-label={`Go to ${item.title}`}
-                />
-              ))}
-            </div>
-            
-            {/* Media Controls */}
-            <div className="flex gap-3">
-              <button 
-                onClick={() => setIsFullscreen(true)}
-                className="text-cyan-400 hover:text-cyan-300 transition-colors" 
-                aria-label="Fullscreen"
-              >
-                <Maximize2 className="h-4 w-4" />
-              </button>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
-                <BookOpen className="h-4 w-4" />
-              </button>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
-                <Play className="h-4 w-4" />
-              </button>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
-                <Headphones className="h-4 w-4" />
-              </button>
-            </div>
+          {/* Dot Navigation */}
+          <div className="flex gap-2">
+            {items.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveIndex(index)}
+                className={cn(
+                  "transition-all rounded-full",
+                  activeIndex === index 
+                    ? "w-8 h-2 bg-cyan-400" 
+                    : "w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50"
+                )}
+                aria-label={`Go to ${item.title}`}
+              />
+            ))}
           </div>
+        </div>
+
+        {/* Right Panel - Media Controls */}
+        <div className="absolute bottom-8 right-8 flex gap-3">
+          <button 
+            onClick={() => setIsFullscreen(true)}
+            className="text-cyan-400 hover:text-cyan-300 transition-colors" 
+            aria-label="Fullscreen"
+          >
+            <Maximize2 className="h-4 w-4" />
+          </button>
+          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
+            <BookOpen className="h-4 w-4" />
+          </button>
+          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
+            <Play className="h-4 w-4" />
+          </button>
+          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
+            <Headphones className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </div>
