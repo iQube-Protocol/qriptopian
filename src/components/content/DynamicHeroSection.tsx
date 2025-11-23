@@ -179,24 +179,28 @@ export function DynamicHeroSection() {
       )}
 
       {activeMode === 'watch' && currentArticle && currentModalities?.watch && (
-        <div className="absolute inset-0 bg-black/95 flex items-center justify-center z-50">
-          <div className="relative w-full h-full flex items-center justify-center">
-            <div className="absolute top-6 right-24 z-10">
-              <button onClick={() => setActiveMode(null)} className="text-white hover:text-cyan-400 text-xl bg-black/50 rounded-full w-10 h-10 flex items-center justify-center">
-                ×
-              </button>
-            </div>
+        <div className="absolute inset-0 bg-black/95 flex items-center justify-center z-50 p-8">
+          <div className="relative w-full max-w-6xl">
+            <button 
+              onClick={() => setActiveMode(null)} 
+              className="absolute -top-4 -right-4 text-white hover:text-cyan-400 text-2xl bg-black/70 hover:bg-black/90 rounded-full w-12 h-12 flex items-center justify-center z-10 transition-colors"
+            >
+              ×
+            </button>
             
-            <div className="text-center max-w-4xl w-full">
-              <div className="w-32 h-32 mx-auto mb-6 bg-cyan-500/20 rounded-full flex items-center justify-center border border-cyan-500">
-                <Play className="h-16 w-16 text-cyan-400" />
-              </div>
-              <h3 className="text-2xl text-white mb-4">{currentArticle.title}</h3>
-              {currentModalities.watch.duration && (
-                <div className="text-cyan-400 mb-6">Duration: {currentModalities.watch.duration}</div>
-              )}
-              <p className="text-gray-400 mb-4">Video URL: {currentModalities.watch.video_url}</p>
-            </div>
+            <video 
+              src={currentModalities.watch.video_url}
+              controls 
+              autoPlay
+              className="w-full h-auto rounded-lg shadow-2xl"
+              poster={currentModalities.watch.thumbnail || currentArticle.thumbnail}
+            >
+              Your browser does not support the video tag.
+            </video>
+            
+            {currentModalities.watch.duration && (
+              <div className="text-cyan-400 mt-4 text-center">Duration: {currentModalities.watch.duration}</div>
+            )}
           </div>
         </div>
       )}
