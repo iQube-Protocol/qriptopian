@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import {
   Sidebar,
   SidebarContent,
@@ -27,6 +28,7 @@ import {
   ChevronRight,
   Folder,
   FolderOpen,
+  ShieldCheck,
 } from "lucide-react";
 
 const menuItems = [
@@ -61,6 +63,7 @@ const menuItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
+  const { isAdmin, loading } = useIsAdmin();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     Content: true,
     Publishing: true,
@@ -128,6 +131,22 @@ export function AppSidebar() {
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}
+                    
+                    {/* Admin link - only visible to admins in System group */}
+                    {group.title === "System" && isAdmin && !loading && (
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                          <NavLink
+                            to="/admin"
+                            className="hover:bg-sidebar-accent rounded-md"
+                            activeClassName="bg-sidebar-accent text-sidebar-primary font-medium border-l-2 border-sidebar-primary"
+                          >
+                            <ShieldCheck className="h-4 w-4" />
+                            {!isCollapsed && <span>Admin</span>}
+                          </NavLink>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    )}
                   </SidebarMenu>
                 </SidebarGroupContent>
               )}
