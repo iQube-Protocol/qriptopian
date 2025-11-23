@@ -23,14 +23,14 @@ export function useIsAdmin() {
           return;
         }
 
-        // Use the server-side function to check admin status
-        const { data, error } = await supabase.rpc('has_admin_role');
+        // Use the edge function to check admin status via Aigent Z roles
+        const { data, error } = await supabase.functions.invoke('check-admin');
 
         if (error) {
-          console.error('Error calling has_admin_role:', error);
+          console.error('Error calling check-admin function:', error);
           setIsAdmin(false);
         } else {
-          setIsAdmin(Boolean(data));
+          setIsAdmin(Boolean(data?.isAdmin));
         }
       } catch (error) {
         console.error('Unexpected error checking admin status:', error);
