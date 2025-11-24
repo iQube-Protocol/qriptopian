@@ -1771,6 +1771,58 @@ export type Database = {
         }
         Relationships: []
       }
+      user_did_mapping: {
+        Row: {
+          created_at: string | null
+          did: string
+          id: string
+          persona_id: string | null
+          updated_at: string | null
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          did: string
+          id?: string
+          persona_id?: string | null
+          updated_at?: string | null
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          did?: string
+          id?: string
+          persona_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_did_mapping_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_did_mapping_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_did_mapping_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_library: {
         Row: {
           added_at: string
