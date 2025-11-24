@@ -104,12 +104,7 @@ export function SignalsDrawer({
                     <div className="aspect-video relative">
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                      {item.badge && <div className="absolute top-2 left-2">
-                          <span className={`px-2 py-1 rounded text-xs ${item.badge === 'HOT' ? 'bg-orange-500/20 border border-orange-500 text-orange-400' : item.badge === 'LIVE' ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400' : item.badge === 'NEW' ? 'bg-green-500/20 border border-green-500 text-green-400' : 'bg-yellow-500/20 border border-yellow-500 text-yellow-400'}`}>
-                            {item.badge}
-                          </span>
-                        </div>}
-                      {/* Action Menu */}
+                      {/* Action Menu - show all for demo purposes */}
                       <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
                           <Maximize2 className="h-3 w-3" />
