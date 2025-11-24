@@ -186,27 +186,62 @@ export function DynamicSecondHeroSection() {
             
             <div className="h-px bg-gradient-to-r from-transparent via-qripto-cyan/30 to-transparent mb-10"></div>
             
-            <article className="space-y-8">
-              {currentModalities.read.text.split('\n\n').map((paragraph, idx) => {
-                if (paragraph.startsWith('#')) {
-                  const text = paragraph.replace(/^#+\s*/, '');
+            <article className="space-y-6">
+              {currentModalities.read.text.split('\n\n').map((block, idx) => {
+                const trimmedBlock = block.trim();
+                
+                // Headings with solid color background
+                if (trimmedBlock.startsWith('#')) {
+                  const text = trimmedBlock.replace(/^#+\s*/, '');
                   return (
-                    <h3 key={idx} className="text-2xl sm:text-3xl font-bold text-white mt-12 mb-6 pb-4 border-b border-qripto-cyan/20">
-                      <span className="bg-gradient-to-r from-qripto-cyan to-qripto-purple bg-clip-text text-transparent">
-                        {text}
-                      </span>
+                    <h3 key={idx} className="text-xl sm:text-2xl font-bold text-white mt-10 mb-4 px-4 py-3 bg-gradient-to-r from-qripto-cyan/20 to-qripto-purple/20 border-l-4 border-qripto-cyan rounded-r-lg">
+                      {text}
                     </h3>
                   );
                 }
                 
+                // Bullet points
+                if (trimmedBlock.startsWith('*') || trimmedBlock.startsWith('-')) {
+                  const items = trimmedBlock.split('\n').filter(line => line.trim());
+                  return (
+                    <ul key={idx} className="space-y-3 ml-4">
+                      {items.map((item, itemIdx) => (
+                        <li key={itemIdx} className="text-gray-300 leading-relaxed text-base sm:text-lg font-light flex items-start">
+                          <span className="text-qripto-cyan mr-3 mt-1.5 flex-shrink-0">•</span>
+                          <span>{item.replace(/^[*-]\s*/, '')}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                }
+                
+                // Sidebars/block quotes
+                if (trimmedBlock.startsWith('>')) {
+                  const text = trimmedBlock.replace(/^>\s*/, '').replace(/\n>/g, '\n');
+                  return (
+                    <div key={idx} className="border-l-4 border-qripto-purple pl-6 py-4 my-6 bg-qripto-purple/5 rounded-r-lg">
+                      <p className="text-gray-300 leading-relaxed text-base sm:text-lg font-light italic">
+                        {text}
+                      </p>
+                    </div>
+                  );
+                }
+                
+                // Regular paragraphs - keep text together, single line breaks stay within paragraph
+                const lines = trimmedBlock.split('\n').filter(line => line.trim());
+                if (lines.length === 1) {
+                  // Single sentence for emphasis
+                  return (
+                    <p key={idx} className="text-gray-200 leading-relaxed text-lg sm:text-xl font-normal tracking-wide">
+                      {lines[0]}
+                    </p>
+                  );
+                }
+                
+                // Multi-line paragraph
                 return (
-                  <p key={idx} className="text-gray-300 leading-[1.8] text-base sm:text-lg font-light tracking-wide">
-                    {paragraph.split('\n').map((line, lineIdx) => (
-                      <span key={lineIdx}>
-                        {line}
-                        {lineIdx < paragraph.split('\n').length - 1 && <><br /><br /></>}
-                      </span>
-                    ))}
+                  <p key={idx} className="text-gray-300 leading-[1.9] text-base sm:text-lg font-light tracking-wide">
+                    {lines.join(' ')}
                   </p>
                 );
               })}
