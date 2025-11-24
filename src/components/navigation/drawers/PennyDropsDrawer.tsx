@@ -130,14 +130,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                     className="w-full h-full object-cover transition-transform group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  {item.badge && (
-                    <div className="absolute top-2 left-2">
-                      <span className="inline-block px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold rounded border border-yellow-500/30">
-                        {item.badge}
-                      </span>
-                    </div>
-                  )}
-                  {/* Action Menu */}
+                  {/* Action Menu - show all for demo purposes */}
                   <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
                       <Maximize2 className="h-3 w-3" />
