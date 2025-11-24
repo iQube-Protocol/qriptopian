@@ -284,17 +284,27 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
             >
               ×
             </button>
-            
-            <video 
-              src={currentModalities.watch.video_url}
-              controls 
-              autoPlay
-              className="w-full h-auto rounded-lg shadow-2xl"
-              poster={currentModalities.watch.thumbnail || currentContent.thumbnail}
-            >
-              Your browser does not support the video tag.
-            </video>
-            
+            {(currentModalities.watch.video_url.includes('youtube.com') || currentModalities.watch.video_url.includes('youtu.be')) ? (
+              <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black">
+                <iframe
+                  src={currentModalities.watch.video_url}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  title={currentContent.title}
+                />
+              </div>
+            ) : (
+              <video 
+                src={currentModalities.watch.video_url}
+                controls 
+                autoPlay
+                className="w-full h-auto rounded-lg shadow-2xl"
+                poster={currentModalities.watch.thumbnail || currentContent.thumbnail}
+              >
+                Your browser does not support the video tag.
+              </video>
+            )}
             {currentModalities.watch.duration && (
               <div className="text-cyan-400 mt-4 text-center">Duration: {currentModalities.watch.duration}</div>
             )}
