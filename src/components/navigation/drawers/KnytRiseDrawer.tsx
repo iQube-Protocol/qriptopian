@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
+import { ArticleRenderer } from "@/components/content/ArticleRenderer";
 
 interface KnytRiseDrawerProps {
   isOpen: boolean;
@@ -89,6 +90,15 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
 
   const currentContent = content[selectedItemIndex];
   const currentModalities = currentContent?.modalities as ContentModalities | null;
+
+  // Listen for close article event from ArticleRenderer
+  useEffect(() => {
+    const handleCloseArticle = () => {
+      setActiveMode(null);
+    };
+    window.addEventListener('closeArticle', handleCloseArticle);
+    return () => window.removeEventListener('closeArticle', handleCloseArticle);
+  }, []);
 
   return (
     <DrawerLayer
@@ -257,101 +267,13 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
       </div>
 
       {/* Read Modal */}
-      {activeMode === 'read' && currentContent && currentModalities?.read && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 z-[100]">
-          <div className="max-w-4xl w-full bg-gradient-to-br from-[#0a1628] via-[#0f1c2e] to-[#0a1628] rounded-2xl border border-qripto-cyan/20 shadow-[0_0_80px_rgba(0,196,255,0.15)] p-6 sm:p-12 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-8">
-              <div className="flex-1">
-                <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-white via-qripto-cyan to-white bg-clip-text text-transparent leading-tight mb-3">
-                  {currentContent.title}
-                </h2>
-                {currentContent.excerpt && (
-                  <p className="text-lg text-qripto-cyan/80 italic font-light mb-2">
-                    {currentContent.excerpt}
-                  </p>
-                )}
-                {currentModalities.read.duration && (
-                  <p className="text-qripto-cyan/60 text-sm font-light tracking-wider uppercase">
-                    {currentModalities.read.duration}
-                  </p>
-                )}
-              </div>
-              <button 
-                onClick={() => setActiveMode(null)} 
-                className="text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center transition-all hover:scale-110 shadow-xl ml-4"
-              >
-                ×
-              </button>
-            </div>
-            
-            <div className="h-px bg-gradient-to-r from-transparent via-qripto-cyan/30 to-transparent mb-10"></div>
-            
-            <article className="space-y-6">
-              {currentModalities.read.text.split('\n\n').map((block, idx) => {
-                const trimmedBlock = block.trim();
-                
-                // Headings with solid color background
-                if (trimmedBlock.startsWith('#')) {
-                  const text = trimmedBlock.replace(/^#+\s*/, '');
-                  return (
-                    <h3 key={idx} className="text-xl sm:text-2xl font-bold text-white mt-10 mb-4 px-4 py-3 bg-gradient-to-r from-qripto-cyan/20 to-qripto-purple/20 border-l-4 border-qripto-cyan rounded-r-lg">
-                      {text}
-                    </h3>
-                  );
-                }
-                
-                // Bullet points
-                if (trimmedBlock.startsWith('*') || trimmedBlock.startsWith('-')) {
-                  const items = trimmedBlock.split('\n').filter(line => line.trim());
-                  return (
-                    <ul key={idx} className="space-y-3 ml-4">
-                      {items.map((item, itemIdx) => (
-                        <li key={itemIdx} className="text-gray-300 leading-relaxed text-base sm:text-lg font-light flex items-start">
-                          <span className="text-qripto-cyan mr-3 mt-1.5 flex-shrink-0">•</span>
-                          <span>{item.replace(/^[*-]\s*/, '')}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  );
-                }
-                
-                // Sidebars/block quotes
-                if (trimmedBlock.startsWith('>')) {
-                  const text = trimmedBlock.replace(/^>\s*/, '').replace(/\n>/g, '\n');
-                  return (
-                    <div key={idx} className="border-l-4 border-qripto-purple pl-6 py-4 my-6 bg-qripto-purple/5 rounded-r-lg">
-                      <p className="text-gray-300 leading-relaxed text-base sm:text-lg font-light italic">
-                        {text}
-                      </p>
-                    </div>
-                  );
-                }
-                
-                // Regular paragraphs - keep text together, single line breaks stay within paragraph
-                const lines = trimmedBlock.split('\n').filter(line => line.trim());
-                if (lines.length === 1) {
-                  // Single sentence for emphasis
-                  return (
-                    <p key={idx} className="text-gray-200 leading-relaxed text-lg sm:text-xl font-normal tracking-wide">
-                      {lines[0]}
-                    </p>
-                  );
-                }
-                
-                // Multi-line paragraph
-                return (
-                  <p key={idx} className="text-gray-300 leading-[1.9] text-base sm:text-lg font-light tracking-wide">
-                    {lines.join(' ')}
-                  </p>
-                );
-              })}
-            </article>
-            
-            <div className="mt-16 pt-8 border-t border-qripto-cyan/20 flex justify-center">
-              <div className="w-32 h-0.5 bg-gradient-to-r from-transparent via-qripto-cyan to-transparent"></div>
-            </div>
-          </div>
-        </div>
+      {activeMode === 'read' && currentModalities?.read && (
+        <ArticleRenderer
+          content={currentModalities.read.text}
+          title={currentContent?.title}
+          excerpt={currentContent?.excerpt}
+          duration={currentModalities.read.duration}
+        />
       )}
 
       {/* Watch Modal */}
