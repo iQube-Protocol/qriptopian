@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { useIsAdminAA } from '@/hooks/useIsAdminAA';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
   LayoutGrid,
   Newspaper,
@@ -9,12 +10,13 @@ import {
   DollarSign,
   Scroll,
   BookOpen,
-  TrendingUp
+  TrendingUp,
+  Shield
 } from 'lucide-react';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const { isAdmin, loading } = useIsAdmin();
+  const { isAdmin, loading, method, did } = useIsAdminAA();
 
   if (loading) {
     return (
@@ -58,10 +60,39 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Content Management</h1>
-          <p className="text-muted-foreground">
-            Manage content across all sections of the application
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-4xl font-bold text-foreground mb-2">Content Management</h1>
+              <p className="text-muted-foreground">
+                Manage content across all sections of the application
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-primary" />
+              <Badge variant={method === 'aa-api' ? 'default' : 'secondary'}>
+                {method === 'aa-api' ? 'AA-API Auth' : 'Legacy Auth'}
+              </Badge>
+              {did && (
+                <Badge variant="outline" className="font-mono text-xs">
+                  {did.substring(0, 20)}...
+                </Badge>
+              )}
+            </div>
+          </div>
+          {method === 'legacy' && (
+            <div className="bg-muted/50 border border-border rounded-lg p-4 mb-4">
+              <p className="text-sm text-muted-foreground">
+                💡 You're using legacy authentication. 
+                <button 
+                  onClick={() => navigate('/admin/setup-did')}
+                  className="ml-2 text-primary hover:underline font-medium"
+                >
+                  Set up DID authentication
+                </button>
+                {' '}for enhanced security with AA-API.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
