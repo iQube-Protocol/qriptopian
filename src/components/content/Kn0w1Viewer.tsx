@@ -50,13 +50,6 @@ export function Kn0w1Viewer({
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         
-        {/* Badge removed - using modality buttons instead */}
-        
-        {/* Play Button Center */}
-        <button onClick={() => setIsFullscreen(true)} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-cyan-500/30 border-2 border-cyan-400 flex items-center justify-center group hover:scale-110 transition-all">
-          
-        </button>
-        
         {/* Left Panel - Title and Navigation */}
         <div className="absolute bottom-8 left-8 flex flex-col gap-4 items-start">
           {/* Title */}
