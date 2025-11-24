@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
-import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { useIsAdminAA } from "@/hooks/useIsAdminAA";
+import { Badge } from "@/components/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -63,7 +64,7 @@ const menuItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
-  const { isAdmin, loading } = useIsAdmin();
+  const { isAdmin, loading, method, did } = useIsAdminAA();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     Content: true,
     Publishing: true,
@@ -136,6 +137,24 @@ export function AppSidebar() {
                             {!isCollapsed && <span>{item.title}</span>}
                           </NavLink>
                         </SidebarMenuButton>
+                        
+                        {/* Admin badge beneath Settings button */}
+                        {group.title === "System" && item.title === "Settings" && isAdmin && !loading && !isCollapsed && (
+                          <div className="pl-8 pr-2 pb-2">
+                            <Badge 
+                              variant="outline" 
+                              className="text-[10px] bg-primary/10 border-primary/30 text-primary hover:bg-primary/20 transition-colors"
+                            >
+                              <ShieldCheck className="h-3 w-3 mr-1" />
+                              Admin {method === 'aa-api' ? '(AA-API)' : '(Legacy)'}
+                            </Badge>
+                            {did && (
+                              <p className="text-[9px] text-muted-foreground mt-1 truncate" title={did}>
+                                DID: {did.substring(0, 12)}...
+                              </p>
+                            )}
+                          </div>
+                        )}
                       </SidebarMenuItem>
                     ))}
                     
