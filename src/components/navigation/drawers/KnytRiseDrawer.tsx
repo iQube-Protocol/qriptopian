@@ -120,9 +120,54 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                   <CarouselItem key={item.id} className="md:basis-1/2">
                     <div 
                       onClick={() => setSelectedItemIndex(index)}
-                      className="cursor-pointer"
+                      className="cursor-pointer relative group"
                     >
                       <Kn0w1Viewer items={[item]} domain="knytrise" />
+                      
+                      {/* Modality Buttons Overlay */}
+                      {content.length > 0 && content[index] && (
+                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                          {contentService.hasModality(content[index], 'read') && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedItemIndex(index);
+                                setActiveMode('read');
+                              }}
+                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                              title="Read"
+                            >
+                              <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                            </button>
+                          )}
+                          {contentService.hasModality(content[index], 'watch') && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedItemIndex(index);
+                                setActiveMode('watch');
+                              }}
+                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110 animate-pulse"
+                              title="Watch"
+                            >
+                              <Play className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                            </button>
+                          )}
+                          {contentService.hasModality(content[index], 'listen') && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedItemIndex(index);
+                                setActiveMode('listen');
+                              }}
+                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                              title="Listen"
+                            >
+                              <Headphones className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </CarouselItem>
                 ))}
@@ -233,7 +278,7 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
               </div>
               <button 
                 onClick={() => setActiveMode(null)} 
-                className="text-qripto-cyan hover:text-white text-3xl ml-4 transition-colors leading-none"
+                className="text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center transition-all hover:scale-110 shadow-xl ml-4"
               >
                 ×
               </button>
@@ -276,16 +321,16 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
 
       {/* Watch Modal */}
       {activeMode === 'watch' && currentContent && currentModalities?.watch && (
-        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-8">
-          <div className="relative w-full max-w-6xl">
+        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4 sm:p-8">
+          <div className="relative w-full max-w-7xl max-h-[90vh]">
             <button 
               onClick={() => setActiveMode(null)} 
-              className="absolute -top-4 -right-4 text-white hover:text-cyan-400 text-2xl bg-black/70 hover:bg-black/90 rounded-full w-12 h-12 flex items-center justify-center z-10 transition-colors"
+              className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center z-10 transition-all hover:scale-110 shadow-xl"
             >
               ×
             </button>
             {(currentModalities.watch.video_url.includes('youtube.com') || currentModalities.watch.video_url.includes('youtu.be')) ? (
-              <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black">
+              <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
                 <iframe
                   src={currentModalities.watch.video_url}
                   className="w-full h-full"
@@ -299,7 +344,7 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                 src={currentModalities.watch.video_url}
                 controls 
                 autoPlay
-                className="w-full h-auto rounded-lg shadow-2xl"
+                className="w-full max-h-[85vh] rounded-lg shadow-2xl"
                 poster={currentModalities.watch.thumbnail || currentContent.thumbnail}
               >
                 Your browser does not support the video tag.
@@ -314,11 +359,11 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
 
       {/* Listen Modal */}
       {activeMode === 'listen' && currentContent && currentModalities?.listen && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[100] p-8">
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[100] p-4 sm:p-8">
           <div className="relative w-full max-w-2xl bg-gradient-to-br from-[#0a1628] via-[#0f1c2e] to-[#0a1628] rounded-2xl border border-qripto-cyan/20 shadow-[0_0_80px_rgba(0,196,255,0.15)] p-8">
             <button 
               onClick={() => setActiveMode(null)} 
-              className="absolute top-4 right-4 text-qripto-cyan hover:text-white text-3xl transition-colors leading-none"
+              className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center transition-all hover:scale-110 shadow-xl"
             >
               ×
             </button>
