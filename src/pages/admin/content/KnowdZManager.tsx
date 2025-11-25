@@ -13,11 +13,13 @@ export default function KnowdZManager() {
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'dev' | 'creative' | 'exec'>('dev');
+  const [contentType, setContentType] = useState<'article' | 'resource'>('article');
 
   const loadContent = async () => {
     try {
       const data = await contentService.getAllContentBySection('21knowdz', { tab: activeTab });
-      setContent(data);
+      const filtered = data.filter(item => item.type === contentType);
+      setContent(filtered);
     } catch (error) {
       console.error('Error loading content:', error);
       toast.error('Failed to load content');
@@ -28,7 +30,7 @@ export default function KnowdZManager() {
 
   useEffect(() => {
     loadContent();
-  }, [activeTab]);
+  }, [activeTab, contentType]);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this article?')) return;
@@ -74,33 +76,43 @@ export default function KnowdZManager() {
           <div className="flex-1">
             <h1 className="text-4xl font-bold text-foreground">Kn0wdZ</h1>
             <p className="text-muted-foreground mt-1">
-              Manage Dev, Creative & Exec resources
+              Manage Dev, Creative & Exec content - articles and resources
             </p>
           </div>
-          <Button onClick={() => navigate(`/admin/content/edit/new?section=21knowdz&tab=${activeTab}`)}>
+          <Button onClick={() => navigate(`/admin/content/edit/new?section=21knowdz&tab=${activeTab}&type=${contentType}`)}>
             <Plus className="h-4 w-4 mr-2" />
-            Add Article
+            Add {contentType === 'article' ? 'Article' : 'Resource'}
           </Button>
         </div>
 
         {/* Tab Navigation */}
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'dev' | 'creative' | 'exec')} className="mb-6">
-          <TabsList>
-            <TabsTrigger value="dev">Dev</TabsTrigger>
-            <TabsTrigger value="creative">Creative</TabsTrigger>
-            <TabsTrigger value="exec">Exec</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="space-y-4 mb-6">
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'dev' | 'creative' | 'exec')}>
+            <TabsList>
+              <TabsTrigger value="dev">Dev</TabsTrigger>
+              <TabsTrigger value="creative">Creative</TabsTrigger>
+              <TabsTrigger value="exec">Exec</TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          {/* Content Type Toggle */}
+          <Tabs value={contentType} onValueChange={(v) => setContentType(v as 'article' | 'resource')}>
+            <TabsList>
+              <TabsTrigger value="article">Articles</TabsTrigger>
+              <TabsTrigger value="resource">Resources</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
 
         {content.length === 0 ? (
           <Card className="p-12 text-center">
-            <h3 className="text-xl font-semibold mb-2">No articles yet</h3>
+            <h3 className="text-xl font-semibold mb-2">No {contentType === 'article' ? 'articles' : 'resources'} yet</h3>
             <p className="text-muted-foreground mb-6">
-              Create your first {activeTab === 'dev' ? 'Dev' : activeTab === 'creative' ? 'Creative' : 'Exec'} article to get started
+              Create your first {activeTab === 'dev' ? 'Dev' : activeTab === 'creative' ? 'Creative' : 'Exec'} {contentType} to get started
             </p>
-            <Button onClick={() => navigate(`/admin/content/edit/new?section=21knowdz&tab=${activeTab}`)}>
+            <Button onClick={() => navigate(`/admin/content/edit/new?section=21knowdz&tab=${activeTab}&type=${contentType}`)}>
               <Plus className="h-4 w-4 mr-2" />
-              Create First Article
+              Create First {contentType === 'article' ? 'Article' : 'Resource'}
             </Button>
           </Card>
         ) : (
@@ -119,11 +131,16 @@ export default function KnowdZManager() {
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
-                        {item.issue_ref && (
-                          <Badge variant="outline" className="mb-2">
-                            Issue #{item.issue_ref}
+                        <div className="flex gap-2 items-center">
+                          <Badge variant="outline">
+                            {item.type === 'resource' ? 'Resource' : 'Article'}
                           </Badge>
-                        )}
+                          {item.issue_ref && (
+                            <Badge variant="outline">
+                              Issue #{item.issue_ref}
+                            </Badge>
+                          )}
+                        </div>
                       </div>
                       <Badge variant={item.status === 'published' ? 'default' : 'secondary'}>
                         {item.status}
@@ -153,7 +170,7 @@ export default function KnowdZManager() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => navigate(`/admin/content/edit/${item.id}?section=21knowdz&tab=${activeTab}`)}
+                        onClick={() => navigate(`/admin/content/edit/${item.id}?section=21knowdz&tab=${activeTab}&type=${item.type}`)}
                       >
                         <Pencil className="h-4 w-4 mr-2" />
                         Edit

@@ -16,6 +16,8 @@ export default function ContentEditor() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const section = searchParams.get('section') as ContentSection;
+  const contentType = searchParams.get('type') as 'article' | 'resource' || 'article';
+  const tab = searchParams.get('tab') || '';
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -179,11 +181,11 @@ export default function ContentEditor() {
         excerpt,
         thumbnail,
         modalities,
-        placement: { section, imagePosition, imageScale, imageX, imageY, position },
+        placement: { section, tab, imagePosition, imageScale, imageX, imageY, position },
         status: publish ? ('published' as const) : ('draft' as const),
         domain: 'qriptopian',
-        format: 'article',
-        type: 'article',
+        format: contentType === 'resource' ? 'link' : 'article',
+        type: contentType,
         content: {},
         issue_ref: issueRef,
         author_type: 'agent' as const,
@@ -242,9 +244,9 @@ export default function ContentEditor() {
             </Button>
             <div>
               <h1 className="text-4xl font-bold text-foreground">
-                {id === 'new' ? 'Create Content' : 'Edit Content'}
+                {id === 'new' ? `Create ${contentType === 'resource' ? 'Resource' : 'Article'}` : `Edit ${contentType === 'resource' ? 'Resource' : 'Article'}`}
               </h1>
-              <p className="text-muted-foreground">Section: {section}</p>
+              <p className="text-muted-foreground">Section: {section} {tab && `| Tab: ${tab}`}</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -273,17 +275,17 @@ export default function ContentEditor() {
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Enter article title"
+                    placeholder={contentType === 'resource' ? 'Enter resource title' : 'Enter article title'}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="excerpt">Excerpt</Label>
+                  <Label htmlFor="excerpt">{contentType === 'resource' ? 'Description' : 'Excerpt'}</Label>
                   <Textarea
                     id="excerpt"
                     value={excerpt}
                     onChange={(e) => setExcerpt(e.target.value)}
-                    placeholder="Short summary or subtitle"
+                    placeholder={contentType === 'resource' ? 'Brief description of the resource' : 'Short summary or subtitle'}
                     rows={3}
                   />
                 </div>
@@ -345,7 +347,25 @@ export default function ContentEditor() {
             </Card>
 
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Content Modalities</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                {contentType === 'resource' ? 'Resource Link' : 'Content Modalities'}
+              </h3>
+              {contentType === 'resource' ? (
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="resourceUrl">Resource URL *</Label>
+                    <Input
+                      id="resourceUrl"
+                      value={readText}
+                      onChange={(e) => setReadText(e.target.value)}
+                      placeholder="https://..."
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      The URL this resource links to
+                    </p>
+                  </div>
+                </div>
+              ) : (
               <Tabs defaultValue="read">
                 <TabsList className="w-full">
                   <TabsTrigger value="read" className="flex-1">Read</TabsTrigger>
@@ -467,6 +487,7 @@ export default function ContentEditor() {
                   </div>
                 </TabsContent>
               </Tabs>
+              )}
             </Card>
           </div>
 
