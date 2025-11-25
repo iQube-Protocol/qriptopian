@@ -50,7 +50,9 @@ export function QriptopianNav({
       <aside className="fixed right-0 top-1/2 -translate-y-1/2 w-16 flex flex-col items-center py-6 z-50">
         {/* Navigation Icons */}
         <nav className="flex flex-col gap-2 w-full px-2">
-          {navItems.map(item => {
+          {navItems
+            .filter(item => !['signals', 'kn0wdz', 'settings'].includes(item.id))
+            .map(item => {
           const Icon = item.icon;
           const isActive = activeDomain === item.id;
           const isSettings = item.id === 'settings';
