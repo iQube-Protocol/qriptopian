@@ -1310,6 +1310,7 @@ export type Database = {
           category: string | null
           content: string
           created_at: string | null
+          doc_type: string | null
           embedding: string | null
           id: string
           is_root: boolean | null
@@ -1325,6 +1326,7 @@ export type Database = {
           category?: string | null
           content: string
           created_at?: string | null
+          doc_type?: string | null
           embedding?: string | null
           id?: string
           is_root?: boolean | null
@@ -1340,6 +1342,7 @@ export type Database = {
           category?: string | null
           content?: string
           created_at?: string | null
+          doc_type?: string | null
           embedding?: string | null
           id?: string
           is_root?: boolean | null
