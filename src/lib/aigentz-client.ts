@@ -231,3 +231,81 @@ export function getCurrentAABase(): string {
 export function isUsingFallback(): boolean {
   return hasFailedPrimary && currentBase === AA_BASE_FALLBACK;
 }
+
+// ============================================================================
+// DiDQube Reputation Helpers
+// ============================================================================
+
+const AIGENT_Z_APP_BASE = import.meta.env.VITE_AIGENTIQ_API_URL || 'https://dev-beta.aigentz.me';
+
+export interface ReputationBucket {
+  bucket: string;
+  score: number;
+  skill_category: string;
+  bucket_level?: number;
+  evidence_count?: number;
+}
+
+export interface ReputationResponse {
+  ok: boolean;
+  data?: ReputationBucket;
+  error?: string;
+}
+
+/**
+ * Fetch a reputation bucket from DiDQube via Aigent Z HTTP routes
+ */
+export async function getReputationBucket(partitionId: string): Promise<ReputationResponse> {
+  try {
+    const url = `${AIGENT_Z_APP_BASE}/api/identity/reputation/bucket?partitionId=${encodeURIComponent(partitionId)}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      return {
+        ok: false,
+        error: `Failed to fetch reputation: ${response.status} ${response.statusText}`,
+      };
+    }
+    
+    const body = await response.json();
+    return body;
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : 'Unknown error fetching reputation',
+    };
+  }
+}
+
+/**
+ * Create an initial reputation bucket in DiDQube via Aigent Z HTTP routes
+ */
+export async function createReputationBucket(params: {
+  partitionId: string;
+  skillCategory: string;
+  initialScore: number;
+}): Promise<ReputationResponse> {
+  try {
+    const url = `${AIGENT_Z_APP_BASE}/api/identity/reputation/bucket`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    
+    if (!response.ok) {
+      return {
+        ok: false,
+        error: `Failed to create reputation bucket: ${response.status} ${response.statusText}`,
+      };
+    }
+    
+    const body = await response.json();
+    return body;
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : 'Unknown error creating reputation bucket',
+    };
+  }
+}
