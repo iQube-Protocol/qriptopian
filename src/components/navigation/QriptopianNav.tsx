@@ -46,11 +46,16 @@ export function QriptopianNav({
   onDomainClick,
   onAIClick
 }: QriptopianNavProps) {
+  // Temporarily hide Signals, StayBull, and Settings for initial launch
+  const visibleItems = navItems.filter(item => 
+    item.id !== 'signals' && item.id !== 'staybull' && item.id !== 'settings'
+  );
+
   return <TooltipProvider delayDuration={0}>
       <aside className="fixed right-0 top-1/2 -translate-y-1/2 w-16 flex flex-col items-center py-6 z-50">
         {/* Navigation Icons */}
         <nav className="flex flex-col gap-2 w-full px-2">
-          {navItems.map(item => {
+          {visibleItems.map(item => {
           const Icon = item.icon;
           const isActive = activeDomain === item.id;
           const isSettings = item.id === 'settings';
