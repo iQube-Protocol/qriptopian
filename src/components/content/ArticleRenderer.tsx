@@ -5,6 +5,7 @@ interface ArticleRendererProps {
   title?: string;
   excerpt?: string;
   duration?: string;
+  onClose?: () => void;
 }
 
 type BlockType = 'h1' | 'h2' | 'h3' | 'ol' | 'ul' | 'quote' | 'code' | 'paragraph' | 'empty';
@@ -19,7 +20,8 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
   content, 
   title, 
   excerpt, 
-  duration 
+  duration,
+  onClose 
 }) => {
   const parseBlocks = (text: string): Block[] => {
     // Normalize line endings and split
@@ -340,10 +342,7 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
           {/* Close Button */}
           <div className="border-t border-gray-800 p-4 flex justify-end">
             <button
-              onClick={() => {
-                const event = new CustomEvent('closeArticle');
-                window.dispatchEvent(event);
-              }}
+              onClick={onClose}
               className="px-6 py-2 bg-qripto-cyan/10 hover:bg-qripto-cyan/20 text-qripto-cyan rounded-lg transition-colors"
             >
               Close
