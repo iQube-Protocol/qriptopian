@@ -52,7 +52,7 @@ export default function AdminDashboard() {
     { name: 'Second Hero', path: '/admin/content/second-hero', icon: Image, description: 'Bottom featured article' },
     { name: 'PennyDrops', path: '/admin/content/pennydrops', icon: DollarSign, description: 'Financial insights' },
     { name: 'KNYT Rise', path: '/admin/content/knytrise', icon: TrendingUp, description: 'Community content' },
-    { name: '21 Kn0wdZ', path: '/admin/content/21knowdz', icon: BookOpen, description: 'Dev & Creative resources' },
+    { name: 'Kn0wdZ', path: '/admin/content/21knowdz', icon: BookOpen, description: 'Dev & Creative resources' },
     { name: 'StayBull', path: '/admin/content/staybull', icon: Scroll, description: 'Market updates' }
   ];
 

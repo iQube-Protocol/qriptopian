@@ -104,7 +104,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
     <DrawerLayer
       isOpen={isOpen}
       onClose={onClose}
-      title="21 Kn0wdZ"
+      title="Kn0wdZ"
       subtitle={isDevTab ? "Builder & Developer Knowledge - How It Works" : "Creative Storytelling & Visual Content"}
       columns={3}
       tabs={tabs}
