@@ -305,7 +305,7 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
   const blocks = parseBlocks(content);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/95 overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] bg-black/95 overflow-y-auto">
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="bg-gray-900/95 backdrop-blur-sm rounded-lg max-w-3xl w-full shadow-2xl border border-gray-800">
           {/* Header */}
