@@ -342,7 +342,11 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
           {/* Close Button */}
           <div className="border-t border-gray-800 p-4 flex justify-end">
             <button
-              onClick={onClose}
+              onClick={() => {
+                if (onClose) onClose();
+                const event = new CustomEvent('closeArticle');
+                window.dispatchEvent(event);
+              }}
               className="px-6 py-2 bg-qripto-cyan/10 hover:bg-qripto-cyan/20 text-qripto-cyan rounded-lg transition-colors"
             >
               Close
