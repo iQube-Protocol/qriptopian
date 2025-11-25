@@ -155,6 +155,14 @@ export default function ContentEditor() {
 
     setSaving(true);
     try {
+      // Get current user for author_id
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('You must be logged in to save content');
+        setSaving(false);
+        return;
+      }
+
       const modalities: any = {};
       if (readText) {
         modalities.read = { text: readText, duration: readDuration };
@@ -178,7 +186,8 @@ export default function ContentEditor() {
         type: 'article',
         content: {},
         issue_ref: issueRef,
-        author_type: 'agent' as const
+        author_type: 'agent' as const,
+        author_id: user.id
       } as const;
 
       if (id && id !== 'new') {
