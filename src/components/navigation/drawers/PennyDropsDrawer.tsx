@@ -30,6 +30,17 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
     return () => releaseAvatar('pennydrops');
   }, [isOpen, requestAvatar, releaseAvatar]);
 
+  // Temporarily hide avatar iframe while media/article modal is active
+  useEffect(() => {
+    if (activeMode) {
+      // Hide avatar when any modal is open
+      releaseAvatar('pennydrops');
+    } else if (isOpen) {
+      // Restore avatar when modals are closed and drawer is still open
+      requestAvatar('pennydrops');
+    }
+  }, [activeMode, isOpen, requestAvatar, releaseAvatar]);
+
   useEffect(() => {
     const loadContent = async () => {
       try {
