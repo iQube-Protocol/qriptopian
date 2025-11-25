@@ -167,6 +167,81 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_history: {
+        Row: {
+          agent_id: string
+          created_at: string
+          franchise_id: string | null
+          id: string
+          messages: Json
+          metadata: Json | null
+          persona_id: string | null
+          session_id: string
+          tenant_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          agent_id?: string
+          created_at?: string
+          franchise_id?: string | null
+          id?: string
+          messages?: Json
+          metadata?: Json | null
+          persona_id?: string | null
+          session_id: string
+          tenant_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          franchise_id?: string | null
+          id?: string
+          messages?: Json
+          metadata?: Json | null
+          persona_id?: string | null
+          session_id?: string
+          tenant_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_history_franchise_id_fkey"
+            columns: ["franchise_id"]
+            isOneToOne: false
+            referencedRelation: "franchises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_history_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_history_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_history_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_history_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       claims: {
         Row: {
           amount_qcent: number
@@ -622,6 +697,39 @@ export type Database = {
           },
         ]
       }
+      event_logs: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          event_type: string
+          id: string
+          persona_id: string | null
+          severity: string
+          tenant_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          event_type: string
+          id?: string
+          persona_id?: string | null
+          severity?: string
+          tenant_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          event_type?: string
+          id?: string
+          persona_id?: string | null
+          severity?: string
+          tenant_id?: string
+        }
+        Relationships: []
+      }
       executions: {
         Row: {
           avg_price: number
@@ -732,6 +840,133 @@ export type Database = {
           handle?: string
           owner_pubkey?: string | null
           raw_response?: Json | null
+        }
+        Relationships: []
+      }
+      franchise_admins: {
+        Row: {
+          created_at: string
+          franchise_id: string
+          id: string
+          persona_id: string
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          franchise_id: string
+          id?: string
+          persona_id: string
+          role: string
+        }
+        Update: {
+          created_at?: string
+          franchise_id?: string
+          id?: string
+          persona_id?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "franchise_admins_franchise_id_fkey"
+            columns: ["franchise_id"]
+            isOneToOne: false
+            referencedRelation: "franchises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "franchise_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "franchise_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "franchise_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      franchise_config: {
+        Row: {
+          created_at: string
+          franchise_id: string
+          id: string
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          franchise_id: string
+          id?: string
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          franchise_id?: string
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "franchise_config_franchise_id_fkey"
+            columns: ["franchise_id"]
+            isOneToOne: false
+            referencedRelation: "franchises"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      franchises: {
+        Row: {
+          active: boolean
+          chains: string[] | null
+          created_at: string
+          description: string | null
+          id: string
+          kb_endpoint: string | null
+          name: string
+          slug: string
+          ui_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          chains?: string[] | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          kb_endpoint?: string | null
+          name: string
+          slug: string
+          ui_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          chains?: string[] | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          kb_endpoint?: string | null
+          name?: string
+          slug?: string
+          ui_url?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -891,6 +1126,92 @@ export type Database = {
           },
         ]
       }
+      iqube_shares: {
+        Row: {
+          access_level: string
+          consent_given_at: string
+          created_at: string
+          id: string
+          iqube_id: string
+          owner_persona_id: string | null
+          revoked_at: string | null
+          shared_with_persona_id: string | null
+          shared_with_tenant_id: string | null
+        }
+        Insert: {
+          access_level: string
+          consent_given_at?: string
+          created_at?: string
+          id?: string
+          iqube_id: string
+          owner_persona_id?: string | null
+          revoked_at?: string | null
+          shared_with_persona_id?: string | null
+          shared_with_tenant_id?: string | null
+        }
+        Update: {
+          access_level?: string
+          consent_given_at?: string
+          created_at?: string
+          id?: string
+          iqube_id?: string
+          owner_persona_id?: string | null
+          revoked_at?: string | null
+          shared_with_persona_id?: string | null
+          shared_with_tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "iqube_shares_owner_persona_id_fkey"
+            columns: ["owner_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_owner_persona_id_fkey"
+            columns: ["owner_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_owner_persona_id_fkey"
+            columns: ["owner_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_shared_with_persona_id_fkey"
+            columns: ["shared_with_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_shared_with_persona_id_fkey"
+            columns: ["shared_with_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_shared_with_persona_id_fkey"
+            columns: ["shared_with_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_shared_with_tenant_id_fkey"
+            columns: ["shared_with_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       iqube_templates: {
         Row: {
           accuracy_score: number
@@ -910,6 +1231,7 @@ export type Database = {
           public_read: boolean
           risk_score: number
           sensitivity_score: number | null
+          tenant_id: string | null
           updated_at: string
           user_id: string | null
           verifiability_score: number
@@ -934,6 +1256,7 @@ export type Database = {
           public_read?: boolean
           risk_score: number
           sensitivity_score?: number | null
+          tenant_id?: string | null
           updated_at?: string
           user_id?: string | null
           verifiability_score: number
@@ -958,6 +1281,7 @@ export type Database = {
           public_read?: boolean
           risk_score?: number
           sensitivity_score?: number | null
+          tenant_id?: string | null
           updated_at?: string
           user_id?: string | null
           verifiability_score?: number
@@ -970,6 +1294,13 @@ export type Database = {
             columns: ["parent_template_id"]
             isOneToOne: false
             referencedRelation: "iqube_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_templates_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -1083,8 +1414,10 @@ export type Database = {
           fio_registered_at: string | null
           fio_registration_status: string | null
           fio_tx_id: string | null
+          franchise_id: string | null
           id: string
           root_id: string | null
+          tenant_id: string | null
           world_id_status: string | null
         }
         Insert: {
@@ -1099,8 +1432,10 @@ export type Database = {
           fio_registered_at?: string | null
           fio_registration_status?: string | null
           fio_tx_id?: string | null
+          franchise_id?: string | null
           id?: string
           root_id?: string | null
+          tenant_id?: string | null
           world_id_status?: string | null
         }
         Update: {
@@ -1115,16 +1450,32 @@ export type Database = {
           fio_registered_at?: string | null
           fio_registration_status?: string | null
           fio_tx_id?: string | null
+          franchise_id?: string | null
           id?: string
           root_id?: string | null
+          tenant_id?: string | null
           world_id_status?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "persona_franchise_id_fkey"
+            columns: ["franchise_id"]
+            isOneToOne: false
+            referencedRelation: "franchises"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "persona_root_id_fkey"
             columns: ["root_id"]
             isOneToOne: false
             referencedRelation: "root_identity"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "persona_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -1583,6 +1934,59 @@ export type Database = {
         }
         Relationships: []
       }
+      tenant_admins: {
+        Row: {
+          created_at: string
+          id: string
+          persona_id: string
+          role: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          persona_id: string
+          role: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          persona_id?: string
+          role?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tenant_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tenant_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tenant_admins_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_api_keys: {
         Row: {
           api_key: string
@@ -1620,37 +2024,52 @@ export type Database = {
       }
       tenants: {
         Row: {
+          active: boolean
           agent_name: string | null
+          chains: string[] | null
           created_at: string
           display_name: string | null
+          franchise_id: string | null
           id: string
+          kb_endpoint: string | null
           metadata: Json | null
           name: string
           parent_project: string | null
+          slug: string | null
           status: string | null
           tenant_id: string | null
           updated_at: string | null
         }
         Insert: {
+          active?: boolean
           agent_name?: string | null
+          chains?: string[] | null
           created_at?: string
           display_name?: string | null
+          franchise_id?: string | null
           id?: string
+          kb_endpoint?: string | null
           metadata?: Json | null
           name: string
           parent_project?: string | null
+          slug?: string | null
           status?: string | null
           tenant_id?: string | null
           updated_at?: string | null
         }
         Update: {
+          active?: boolean
           agent_name?: string | null
+          chains?: string[] | null
           created_at?: string
           display_name?: string | null
+          franchise_id?: string | null
           id?: string
+          kb_endpoint?: string | null
           metadata?: Json | null
           name?: string
           parent_project?: string | null
+          slug?: string | null
           status?: string | null
           tenant_id?: string | null
           updated_at?: string | null
