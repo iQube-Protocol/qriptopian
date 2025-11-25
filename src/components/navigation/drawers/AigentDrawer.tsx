@@ -1,9 +1,15 @@
-import { useState } from "react";
-import { X, Send, User, MessageSquare } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { X, Send, User, MessageSquare, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { 
+  sendChatMessage, 
+  getAgentSystemPrompt,
+  type ChatMessage,
+  type AigentConfig 
+} from "@/lib/aigentiq-client";
 
 interface AigentDrawerProps {
   isOpen: boolean;
@@ -11,13 +17,15 @@ interface AigentDrawerProps {
 }
 
 export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
-  const [activeTab, setActiveTab] = useState('nakamoto');
+  const [activeTab, setActiveTab] = useState<'nakamoto' | 'know1' | 'moneypenny'>('nakamoto');
   const [viewMode, setViewMode] = useState<'metavatar' | 'chat'>('chat');
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
     {
       role: 'assistant',
-      content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
+      content: 'Welcome to Qriptopian! I\'m Nakamoto, your crypto and blockchain intelligence specialist. I can help you discover insights, analyze markets, and explore the world of Web3. How can I assist you today?'
     }
   ]);
 
@@ -29,19 +37,74 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
 
   const activeAgentData = tabs.find(t => t.id === activeTab);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  // Update welcome message when switching agents
+  useEffect(() => {
+    const welcomeMessages: Record<string, string> = {
+      nakamoto: "Welcome to Qriptopian! I'm Nakamoto, your crypto and blockchain intelligence specialist. I can help you discover insights, analyze markets, and explore the world of Web3. How can I assist you today?",
+      know1: "Hello! I'm KNOW1, your knowledge and research intelligence specialist. I can help you discover information, analyze content, and explore ideas. What would you like to learn about?",
+      moneypenny: "Hi there! I'm MoneyPenny, your COYN and Q¢ financial specialist. I can help you understand the Qriptopian token economy and how to participate. What can I help you with?",
+    };
+    
+    setMessages([{
+      role: 'assistant',
+      content: welcomeMessages[activeTab] || welcomeMessages.nakamoto
+    }]);
+  }, [activeTab]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
-    setMessages(prev => [...prev, { role: 'user', content: input }]);
+    const userMessage = input.trim();
     setInput("");
+    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      // Build chat history for context
+      const chatHistory: ChatMessage[] = [
+        { role: 'system', content: getAgentSystemPrompt(activeTab) },
+        ...messages.map(m => ({ role: m.role, content: m.content })),
+        { role: 'user', content: userMessage }
+      ];
+
+      const config: AigentConfig = {
+        agentId: activeTab,
+        tenantId: 'qriptopian',
+      };
+
+      const response = await sendChatMessage(chatHistory, config);
+
+      if (response.success && response.message) {
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: response.message!
+        }]);
+      } else {
+        // Fallback response if API fails
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: response.error 
+            ? `I'm having trouble connecting right now. Error: ${response.error}` 
+            : "I understand your question. Let me help you with that... (Note: Running in offline mode)"
+        }]);
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: 'I understand your question. Let me help you with that...'
+        content: "I'm experiencing some technical difficulties. Please try again in a moment."
       }]);
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -165,10 +228,23 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                             : 'bg-muted/50 text-foreground'
                         }`}
                       >
-                        <p className="text-sm">{message.content}</p>
+                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                       </div>
                     </div>
                   ))}
+                  {isLoading && (
+                    <div className="flex justify-start">
+                      <div className="bg-muted/50 text-foreground rounded-lg p-4">
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          <span className="text-sm text-muted-foreground">
+                            {activeAgentData?.label} is thinking...
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div ref={scrollRef} />
                 </div>
               </ScrollArea>
 
@@ -182,8 +258,8 @@ export function AigentDrawer({ isOpen, onClose }: AigentDrawerProps) {
                       placeholder={`Ask ${tabs.find(t => t.id === activeTab)?.label}...`}
                       className="flex-1 bg-muted/30 border-border/30"
                     />
-                    <Button type="submit" size="icon" disabled={!input.trim()}>
-                      <Send className="h-4 w-4" />
+                    <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
+                      {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                     </Button>
                   </div>
                 </form>
