@@ -206,6 +206,7 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
           title={currentContent?.title}
           excerpt={currentContent?.excerpt}
           duration={currentModalities.read.duration}
+          onClose={() => setActiveMode(null)}
         />
       )}
 

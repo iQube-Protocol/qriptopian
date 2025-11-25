@@ -273,6 +273,7 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
           title={currentContent?.title}
           excerpt={currentContent?.excerpt}
           duration={currentModalities.read.duration}
+          onClose={() => setActiveMode(null)}
         />
       )}
 
