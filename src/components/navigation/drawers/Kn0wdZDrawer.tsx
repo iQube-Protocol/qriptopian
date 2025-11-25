@@ -151,7 +151,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
         isDevTab 
           ? "Builder & Developer Knowledge - How It Works" 
           : isExecTab 
-          ? "Business Development & Operations - Strategic Insights"
+          ? "Impact Imperatives & Business Development - Strategic Insights"
           : "Creative Storytelling & Visual Content"
       }
       columns={3}
@@ -176,19 +176,19 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
               <div className="bg-[#0a1628] border border-orange-500/20 rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Building2 className="h-5 w-5 text-orange-400" />
-                  <h3 className="text-lg font-bold text-orange-400">iQube Strategy</h3>
+                  <h3 className="text-lg font-bold text-orange-400">Strategic Impact & Business Development</h3>
                 </div>
                 <div className="text-sm text-gray-300 space-y-3">
                   <p className="leading-relaxed">
-                    Leverage iQube infrastructure for secure, scalable data monetization and strategic partnerships.
+                    Drive measurable impact through iQube infrastructure while building sustainable business models and strategic partnerships.
                   </p>
                   <div className="bg-orange-500/10 rounded-lg p-3 border border-orange-500/20">
-                    <div className="font-semibold text-orange-300 mb-2">Key Focus Areas</div>
+                    <div className="font-semibold text-orange-300 mb-2">Key Imperatives</div>
                     <div className="text-xs space-y-1">
-                      <div>• Enterprise integration models</div>
-                      <div>• Revenue share frameworks</div>
-                      <div>• Operational scaling strategies</div>
-                      <div>• Market positioning & competitive advantage</div>
+                      <div>• Impact measurement & reporting frameworks</div>
+                      <div>• Enterprise integration & revenue models</div>
+                      <div>• Operational scaling & efficiency</div>
+                      <div>• Market positioning & ecosystem growth</div>
                     </div>
                   </div>
                 </div>
@@ -197,24 +197,24 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
               <div className="bg-[#0a1628] border border-orange-500/20 rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <TrendingUp className="h-5 w-5 text-orange-400" />
-                  <h3 className="text-lg font-bold text-orange-400">Business Development</h3>
+                  <h3 className="text-lg font-bold text-orange-400">Focus Areas</h3>
                 </div>
                 <ul className="space-y-2 text-sm text-gray-300">
                   <li className="flex items-start gap-2">
                     <span className="text-orange-400 mt-1">▹</span>
-                    <span>Partnership Pipeline Management</span>
+                    <span>Social Impact Metrics & ROI</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-orange-400 mt-1">▹</span>
-                    <span>Go-to-Market Strategy</span>
+                    <span>Partnership Pipeline & Go-to-Market</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-orange-400 mt-1">▹</span>
-                    <span>Operational KPIs & Metrics</span>
+                    <span>Operational Excellence & KPIs</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-orange-400 mt-1">▹</span>
-                    <span>Ecosystem Growth Planning</span>
+                    <span>Sustainable Growth & Value Creation</span>
                   </li>
                 </ul>
               </div>
