@@ -3,7 +3,7 @@ import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Code2, Terminal, Book, Palette, Film, MessageSquare, Maximize2, BookOpen, Play, Headphones } from "lucide-react";
+import { Code2, Terminal, Book, Palette, Film, MessageSquare, Maximize2, BookOpen, Play, Headphones, Building2, TrendingUp } from "lucide-react";
 
 interface Kn0wdZDrawerProps {
   isOpen: boolean;
@@ -90,22 +90,70 @@ const creativeThumbnails = [
   }
 ];
 
+const execContent = [
+  {
+    id: '1',
+    title: 'iQube Business Strategy',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=800&fit=crop',
+    badge: 'STRATEGY'
+  }
+];
+
+const execThumbnails = [
+  {
+    id: '1',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=300&fit=crop',
+    title: 'Partnership Frameworks',
+    subtitle: 'Strategic alliance models',
+    badge: 'BIZDEV'
+  },
+  {
+    id: '2',
+    image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=300&fit=crop',
+    title: 'Revenue Models',
+    subtitle: 'Monetization strategies',
+    badge: 'REVENUE'
+  },
+  {
+    id: '3',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+    title: 'Operations Playbook',
+    subtitle: 'Scaling infrastructure',
+    badge: 'OPS'
+  },
+  {
+    id: '4',
+    image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=300&fit=crop',
+    title: 'Market Analysis',
+    subtitle: 'Competitive landscape',
+    badge: 'MARKET'
+  }
+];
+
 export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
   const [activeTab, setActiveTab] = useState('dev');
   
   const tabs = [
     { id: 'dev', label: 'Dev' },
-    { id: 'creative', label: 'Creative' }
+    { id: 'creative', label: 'Creative' },
+    { id: 'exec', label: 'Exec' }
   ];
   
   const isDevTab = activeTab === 'dev';
+  const isExecTab = activeTab === 'exec';
 
   return (
     <DrawerLayer
       isOpen={isOpen}
       onClose={onClose}
       title="Kn0wdZ"
-      subtitle={isDevTab ? "Builder & Developer Knowledge - How It Works" : "Creative Storytelling & Visual Content"}
+      subtitle={
+        isDevTab 
+          ? "Builder & Developer Knowledge - How It Works" 
+          : isExecTab 
+          ? "Business Development & Operations - Strategic Insights"
+          : "Creative Storytelling & Visual Content"
+      }
       columns={3}
       tabs={tabs}
       activeTab={activeTab}
@@ -113,14 +161,65 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
     >
       {/* Left: 1 column large Kn0w1Viewer */}
       <div className="col-span-1">
-        <Kn0w1Viewer items={isDevTab ? devContent : creativeContent} domain="kn0wdz" />
+        <Kn0w1Viewer 
+          items={isDevTab ? devContent : isExecTab ? execContent : creativeContent} 
+          domain="kn0wdz" 
+        />
       </div>
 
       {/* Right: 2 columns split - content area + resources */}
       <div className="col-span-2 grid grid-cols-2 gap-6">
         {/* Content Area */}
         <div className="col-span-1 h-[400px] overflow-y-auto space-y-4">
-          {isDevTab ? (
+          {isExecTab ? (
+            <>
+              <div className="bg-[#0a1628] border border-orange-500/20 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Building2 className="h-5 w-5 text-orange-400" />
+                  <h3 className="text-lg font-bold text-orange-400">iQube Strategy</h3>
+                </div>
+                <div className="text-sm text-gray-300 space-y-3">
+                  <p className="leading-relaxed">
+                    Leverage iQube infrastructure for secure, scalable data monetization and strategic partnerships.
+                  </p>
+                  <div className="bg-orange-500/10 rounded-lg p-3 border border-orange-500/20">
+                    <div className="font-semibold text-orange-300 mb-2">Key Focus Areas</div>
+                    <div className="text-xs space-y-1">
+                      <div>• Enterprise integration models</div>
+                      <div>• Revenue share frameworks</div>
+                      <div>• Operational scaling strategies</div>
+                      <div>• Market positioning & competitive advantage</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-[#0a1628] border border-orange-500/20 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <TrendingUp className="h-5 w-5 text-orange-400" />
+                  <h3 className="text-lg font-bold text-orange-400">Business Development</h3>
+                </div>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-400 mt-1">▹</span>
+                    <span>Partnership Pipeline Management</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-400 mt-1">▹</span>
+                    <span>Go-to-Market Strategy</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-400 mt-1">▹</span>
+                    <span>Operational KPIs & Metrics</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-400 mt-1">▹</span>
+                    <span>Ecosystem Growth Planning</span>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : isDevTab ? (
             <>
               <div className="bg-[#0a1628] border border-green-500/20 rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -233,7 +332,26 @@ const tx = await qiri.send({
               <h3 className="text-lg font-bold text-blue-400">Resources</h3>
             </div>
             <div className="space-y-3">
-              {isDevTab ? (
+              {isExecTab ? (
+                <>
+                  <a href="#" className="block p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-colors">
+                    <div className="text-sm font-semibold text-blue-300">Strategic Playbooks</div>
+                    <div className="text-xs text-gray-400">Business model templates</div>
+                  </a>
+                  <a href="#" className="block p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-colors">
+                    <div className="text-sm font-semibold text-blue-300">Partner Portal</div>
+                    <div className="text-xs text-gray-400">Integration resources</div>
+                  </a>
+                  <a href="#" className="block p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-colors">
+                    <div className="text-sm font-semibold text-blue-300">Ops Dashboard</div>
+                    <div className="text-xs text-gray-400">Metrics & analytics</div>
+                  </a>
+                  <a href="#" className="block p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-colors">
+                    <div className="text-sm font-semibold text-blue-300">Market Intelligence</div>
+                    <div className="text-xs text-gray-400">Competitive insights</div>
+                  </a>
+                </>
+              ) : isDevTab ? (
                 <>
                   <a href="#" className="block p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-colors">
                     <div className="text-sm font-semibold text-blue-300">Documentation</div>
@@ -288,7 +406,7 @@ const tx = await qiri.send({
           plugins={[WheelGesturesPlugin()]}
         >
           <CarouselContent className="-ml-4">
-            {(isDevTab ? devThumbnails : creativeThumbnails).map((item) => (
+            {(isExecTab ? execThumbnails : isDevTab ? devThumbnails : creativeThumbnails).map((item) => (
               <CarouselItem key={item.id} className="basis-1/4 pl-4">
                 <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
                   <img 

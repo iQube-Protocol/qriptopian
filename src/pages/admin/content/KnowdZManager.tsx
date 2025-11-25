@@ -4,6 +4,7 @@ import { contentService, Content } from '@/services/contentService';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Plus, Eye, Pencil, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -11,10 +12,11 @@ export default function KnowdZManager() {
   const navigate = useNavigate();
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'dev' | 'creative' | 'exec'>('dev');
 
   const loadContent = async () => {
     try {
-      const data = await contentService.getAllContentBySection('21knowdz');
+      const data = await contentService.getAllContentBySection('21knowdz', { tab: activeTab });
       setContent(data);
     } catch (error) {
       console.error('Error loading content:', error);
@@ -26,7 +28,7 @@ export default function KnowdZManager() {
 
   useEffect(() => {
     loadContent();
-  }, []);
+  }, [activeTab]);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this article?')) return;
@@ -70,24 +72,33 @@ export default function KnowdZManager() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div className="flex-1">
-            <h1 className="text-4xl font-bold text-foreground">21 Kn0wdZ</h1>
+            <h1 className="text-4xl font-bold text-foreground">Kn0wdZ</h1>
             <p className="text-muted-foreground mt-1">
-              Manage Dev & Creative resources
+              Manage Dev, Creative & Exec resources
             </p>
           </div>
-          <Button onClick={() => navigate('/admin/content/edit/new?section=21knowdz')}>
+          <Button onClick={() => navigate(`/admin/content/edit/new?section=21knowdz&tab=${activeTab}`)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Article
           </Button>
         </div>
 
+        {/* Tab Navigation */}
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'dev' | 'creative' | 'exec')} className="mb-6">
+          <TabsList>
+            <TabsTrigger value="dev">Dev</TabsTrigger>
+            <TabsTrigger value="creative">Creative</TabsTrigger>
+            <TabsTrigger value="exec">Exec</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         {content.length === 0 ? (
           <Card className="p-12 text-center">
             <h3 className="text-xl font-semibold mb-2">No articles yet</h3>
             <p className="text-muted-foreground mb-6">
-              Create your first 21 Kn0wdZ article to get started
+              Create your first {activeTab === 'dev' ? 'Dev' : activeTab === 'creative' ? 'Creative' : 'Exec'} article to get started
             </p>
-            <Button onClick={() => navigate('/admin/content/edit/new?section=21knowdz')}>
+            <Button onClick={() => navigate(`/admin/content/edit/new?section=21knowdz&tab=${activeTab}`)}>
               <Plus className="h-4 w-4 mr-2" />
               Create First Article
             </Button>
@@ -142,7 +153,7 @@ export default function KnowdZManager() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => navigate(`/admin/content/edit/${item.id}?section=21knowdz`)}
+                        onClick={() => navigate(`/admin/content/edit/${item.id}?section=21knowdz&tab=${activeTab}`)}
                       >
                         <Pencil className="h-4 w-4 mr-2" />
                         Edit
