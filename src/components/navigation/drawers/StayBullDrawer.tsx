@@ -211,7 +211,7 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
 
       {/* Watch Modal */}
       {activeMode === 'watch' && currentContent && currentModalities?.watch && (
-        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4 sm:p-8">
+        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] p-4 sm:p-8">
           <div className="relative w-full max-w-7xl max-h-[90vh]">
             <button 
               onClick={() => setActiveMode(null)} 
@@ -249,7 +249,7 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
 
       {/* Listen Modal */}
       {activeMode === 'listen' && currentContent && currentModalities?.listen && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[100] p-4 sm:p-8">
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[9999] p-4 sm:p-8">
           <div className="relative w-full max-w-2xl bg-gradient-to-br from-[#0a1628] via-[#0f1c2e] to-[#0a1628] rounded-2xl border border-qripto-cyan/20 shadow-[0_0_80px_rgba(0,196,255,0.15)] p-8">
             <button 
               onClick={() => setActiveMode(null)} 
