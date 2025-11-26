@@ -111,6 +111,17 @@ export function DynamicSecondHeroSection() {
             <div className="absolute inset-0 flex items-end pb-16">
               <div className="px-8 max-w-2xl">
                 <div className="flex items-center gap-4 mb-6">
+                  <div className="flex gap-2">
+                    {articles.map((_, idx) => (
+                      <button 
+                        key={idx} 
+                        onClick={() => handleDotClick(idx)} 
+                        className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
+                        aria-label={`Article ${idx + 1}`} 
+                      />
+                    ))}
+                  </div>
+                  
                   <div className="flex gap-3">
                     {contentService.hasModality(article, 'read') && (
                       <button 
@@ -139,17 +150,6 @@ export function DynamicSecondHeroSection() {
                         <Headphones className="h-4 w-4" />
                       </button>
                     )}
-                  </div>
-                  
-                  <div className="flex gap-2">
-                    {articles.map((_, idx) => (
-                      <button 
-                        key={idx} 
-                        onClick={() => handleDotClick(idx)} 
-                        className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
-                        aria-label={`Article ${idx + 1}`} 
-                      />
-                    ))}
                   </div>
                 </div>
                 
