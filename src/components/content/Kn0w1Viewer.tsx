@@ -12,11 +12,13 @@ interface Kn0w1ViewerProps {
   items: ContentItem[];
   domain: string;
   onFullscreenChange?: (isFullscreen: boolean) => void;
+  onModeChange?: (mode: 'read' | 'watch' | 'listen') => void;
 }
 export function Kn0w1Viewer({
   items,
   domain,
-  onFullscreenChange
+  onFullscreenChange,
+  onModeChange
 }: Kn0w1ViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mode, setMode] = useState<'read' | 'watch' | 'listen'>('watch');
@@ -75,13 +77,13 @@ export function Kn0w1Viewer({
           <button onClick={() => handleFullscreenToggle(true)} className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Fullscreen">
             <Maximize2 className="h-4 w-4" />
           </button>
-          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
+          <button onClick={() => onModeChange?.('read')} className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
             <BookOpen className="h-4 w-4" />
           </button>
-          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
+          <button onClick={() => onModeChange?.('watch')} className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Watch">
             <Play className="h-4 w-4" />
           </button>
-          <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
+          <button onClick={() => onModeChange?.('listen')} className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Listen">
             <Headphones className="h-4 w-4" />
           </button>
         </div>

@@ -185,13 +185,18 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
       const bPlacement = b.placement as { position?: number } | null;
       return (aPlacement?.position || 0) - (bPlacement?.position || 0);
     })
-    .map(item => ({
-      id: item.id,
-      image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-      title: item.title,
-      subtitle: item.excerpt || '',
-      badge: item.tags?.[0] || item.type?.toUpperCase() || 'ARTICLE'
-    }));
+    .map((item, index) => {
+      // Find the original index in the content array for this item
+      const originalIndex = content.findIndex(c => c.id === item.id);
+      return {
+        id: item.id,
+        originalIndex, // Store the original index for modal access
+        image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
+        title: item.title,
+        subtitle: item.excerpt || '',
+        badge: item.tags?.[0] || item.type?.toUpperCase() || 'ARTICLE'
+      };
+    });
   
   const tabs = [
     { id: 'dev', label: 'Dev' },
@@ -230,6 +235,10 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
             items={featureContent} 
             domain="kn0wdz"
             onFullscreenChange={setIsFullscreen}
+            onModeChange={(mode) => {
+              setSelectedItemIndex(0); // Feature content is at index 0
+              setActiveMode(mode);
+            }}
           />
         ) : (
           <div className="h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
@@ -490,7 +499,7 @@ const tx = await qiri.send({
                   <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(index + 1); // +1 because feature is at index 0
+                        setSelectedItemIndex(item.originalIndex);
                         setActiveMode('read');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
@@ -500,7 +509,7 @@ const tx = await qiri.send({
                     </button>
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(index + 1);
+                        setSelectedItemIndex(item.originalIndex);
                         setActiveMode('watch');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
@@ -510,7 +519,7 @@ const tx = await qiri.send({
                     </button>
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(index + 1);
+                        setSelectedItemIndex(item.originalIndex);
                         setActiveMode('listen');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
@@ -520,7 +529,7 @@ const tx = await qiri.send({
                     </button>
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(index + 1);
+                        setSelectedItemIndex(item.originalIndex);
                         setActiveMode('link');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
