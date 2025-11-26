@@ -11,14 +11,21 @@ interface ContentItem {
 interface Kn0w1ViewerProps {
   items: ContentItem[];
   domain: string;
+  onFullscreenChange?: (isFullscreen: boolean) => void;
 }
 export function Kn0w1Viewer({
   items,
-  domain
+  domain,
+  onFullscreenChange
 }: Kn0w1ViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mode, setMode] = useState<'read' | 'watch' | 'listen'>('watch');
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const handleFullscreenToggle = (value: boolean) => {
+    setIsFullscreen(value);
+    onFullscreenChange?.(value);
+  };
   const activeItem = items[activeIndex];
   const handlePrevious = () => {
     setActiveIndex(prev => prev === 0 ? items.length - 1 : prev - 1);
@@ -28,7 +35,7 @@ export function Kn0w1Viewer({
   };
   if (isFullscreen) {
     return <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
-        <button onClick={() => setIsFullscreen(false)} className="absolute top-4 right-24 z-10 text-white hover:text-cyan-400 transition-colors">
+        <button onClick={() => handleFullscreenToggle(false)} className="absolute top-4 right-24 z-10 text-white hover:text-cyan-400 transition-colors">
           <X className="h-6 w-6" />
         </button>
         
@@ -65,7 +72,7 @@ export function Kn0w1Viewer({
 
         {/* Right Panel - Media Controls */}
         <div className="absolute bottom-8 right-8 flex gap-3">
-          <button onClick={() => setIsFullscreen(true)} className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Fullscreen">
+          <button onClick={() => handleFullscreenToggle(true)} className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Fullscreen">
             <Maximize2 className="h-4 w-4" />
           </button>
           <button className="text-cyan-400 hover:text-cyan-300 transition-colors" aria-label="Read">
