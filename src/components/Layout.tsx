@@ -4,7 +4,7 @@ import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
 import { PennyDropsDrawer } from "@/components/navigation/drawers/PennyDropsDrawer";
 import { Kn0wdZDrawer } from "@/components/navigation/drawers/Kn0wdZDrawer";
-import { KnytRiseDrawer } from "@/components/navigation/drawers/KnytRiseDrawer";
+import { ScrollsDrawer } from "@/components/navigation/drawers/KnytRiseDrawer";
 import { StayBullDrawer } from "@/components/navigation/drawers/StayBullDrawer";
 import { AigentDrawer } from "@/components/navigation/drawers/AigentDrawer";
 import { MetaAvatarProvider, useMetaAvatar } from "@/contexts/MetaAvatarContext";
@@ -39,7 +39,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <SignalsDrawer isOpen={activeDomain === 'signals'} onClose={() => setActiveDomain(null)} />
       <PennyDropsDrawer isOpen={activeDomain === 'pennydrops'} onClose={() => setActiveDomain(null)} />
       <Kn0wdZDrawer isOpen={activeDomain === 'kn0wdz'} onClose={() => setActiveDomain(null)} />
-      <KnytRiseDrawer isOpen={activeDomain === 'knytrise'} onClose={() => setActiveDomain(null)} />
+      <ScrollsDrawer isOpen={activeDomain === 'scrolls'} onClose={() => setActiveDomain(null)} />
       <StayBullDrawer isOpen={activeDomain === 'staybull'} onClose={() => setActiveDomain(null)} />
       
       {/* Aigent Drawer */}

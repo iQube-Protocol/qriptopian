@@ -4,9 +4,9 @@ import { contentService, Content } from '@/services/contentService';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Plus, Eye, Pencil, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function ScrollsManager() {
   const navigate = useNavigate();
@@ -16,8 +16,7 @@ export default function ScrollsManager() {
 
   const loadContent = async () => {
     try {
-      const data = await contentService.getAllContentBySection('knytrise', { tab: activeTab });
-      console.log(`Loaded ${data.length} items for tab=${activeTab}`, data);
+      const data = await contentService.getContentBySection('scrolls', { tab: activeTab });
       setContent(data);
     } catch (error) {
       console.error('Error loading content:', error);
@@ -32,15 +31,15 @@ export default function ScrollsManager() {
   }, [activeTab]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
+    if (!confirm('Are you sure you want to delete this article?')) return;
     
     try {
       setContent(prev => prev.filter(item => item.id !== id));
       await contentService.deleteContent(id);
-      toast.success('Item deleted');
+      toast.success('Article deleted');
     } catch (error) {
       console.error('Error deleting content:', error);
-      toast.error('Failed to delete item');
+      toast.error('Failed to delete article');
       loadContent();
     }
   };
@@ -49,7 +48,7 @@ export default function ScrollsManager() {
     try {
       const newStatus = item.status === 'published' ? 'draft' : 'published';
       await contentService.updateContent(item.id, { status: newStatus });
-      toast.success(`Item ${newStatus === 'published' ? 'published' : 'unpublished'}`);
+      toast.success(`Article ${newStatus === 'published' ? 'published' : 'unpublished'}`);
       loadContent();
     } catch (error) {
       console.error('Error updating status:', error);
@@ -78,31 +77,28 @@ export default function ScrollsManager() {
               Manage metaKnyts & The SynthSims content
             </p>
           </div>
-          <Button onClick={() => navigate(`/admin/content/edit/new?section=knytrise&tab=${activeTab}`)}>
+          <Button onClick={() => navigate(`/admin/content/edit/new?section=scrolls&tab=${activeTab}`)}>
             <Plus className="h-4 w-4 mr-2" />
-            Add Story
+            Add Article
           </Button>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="mb-6">
-          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'metaknyts' | 'synthsims')}>
-            <TabsList>
-              <TabsTrigger value="metaknyts">metaKnyts</TabsTrigger>
-              <TabsTrigger value="synthsims">The SynthSims</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'metaknyts' | 'synthsims')} className="mb-6">
+          <TabsList>
+            <TabsTrigger value="metaknyts">metaKnyts</TabsTrigger>
+            <TabsTrigger value="synthsims">The SynthSims</TabsTrigger>
+          </TabsList>
+        </Tabs>
 
         {content.length === 0 ? (
           <Card className="p-12 text-center">
-            <h3 className="text-xl font-semibold mb-2">No stories yet</h3>
+            <h3 className="text-xl font-semibold mb-2">No articles yet</h3>
             <p className="text-muted-foreground mb-6">
-              Create your first {activeTab === 'metaknyts' ? 'metaKnyt' : 'SynthSim'} story to get started
+              Create your first {activeTab === 'metaknyts' ? 'metaKnyts' : 'SynthSims'} article to get started
             </p>
-            <Button onClick={() => navigate(`/admin/content/edit/new?section=knytrise&tab=${activeTab}`)}>
+            <Button onClick={() => navigate(`/admin/content/edit/new?section=scrolls&tab=${activeTab}`)}>
               <Plus className="h-4 w-4 mr-2" />
-              Create First Story
+              Create First Article
             </Button>
           </Card>
         ) : (
@@ -121,16 +117,11 @@ export default function ScrollsManager() {
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
-                        <div className="flex gap-2 items-center">
-                          <Badge variant="outline">
-                            {item.type}
+                        {item.issue_ref && (
+                          <Badge variant="outline" className="mb-2">
+                            Issue #{item.issue_ref}
                           </Badge>
-                          {item.tags && item.tags.length > 0 && (
-                            <Badge variant="secondary">
-                              {item.tags[0]}
-                            </Badge>
-                          )}
-                        </div>
+                        )}
                       </div>
                       <Badge variant={item.status === 'published' ? 'default' : 'secondary'}>
                         {item.status}
@@ -160,7 +151,7 @@ export default function ScrollsManager() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => navigate(`/admin/content/edit/${item.id}?section=knytrise&tab=${activeTab}`)}
+                        onClick={() => navigate(`/admin/content/edit/${item.id}?section=scrolls&tab=${activeTab}`)}
                       >
                         <Pencil className="h-4 w-4 mr-2" />
                         Edit
