@@ -19,6 +19,8 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
+  const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<any>();
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const tabs = [
     { id: 'stories', label: 'Stories' }
@@ -55,6 +57,17 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
   const thumbnailContent = displayContent.slice(3);
   const currentContent = content[selectedItemIndex];
   const currentModalities = currentContent?.modalities as ContentModalities | null;
+
+  // Track thumbnail carousel slide changes
+  useEffect(() => {
+    if (!thumbnailCarouselApi) return;
+    const updateSlide = () => {
+      setCurrentSlide(thumbnailCarouselApi.selectedScrollSnap());
+    };
+    updateSlide();
+    thumbnailCarouselApi.on("select", updateSlide);
+    return () => thumbnailCarouselApi.off("select", updateSlide);
+  }, [thumbnailCarouselApi]);
 
   return (
     <DrawerLayer
@@ -141,6 +154,7 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
           {thumbnailContent.length > 0 && (
             <div className="col-span-full border-t border-border/30 pt-6 mt-6">
               <Carousel
+                setApi={setThumbnailCarouselApi}
                 className="w-full"
                 opts={{
                   align: "start",
@@ -220,6 +234,24 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
                   })}
                 </CarouselContent>
               </Carousel>
+              
+              {/* Pagination Dots */}
+              <div className="flex items-center justify-center gap-2 mt-4">
+                {thumbnailContent.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      thumbnailCarouselApi?.scrollTo(index);
+                    }}
+                    className={`transition-all ${
+                      index === currentSlide
+                        ? 'w-8 h-2 bg-cyan-400 rounded-full'
+                        : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </>

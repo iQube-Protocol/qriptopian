@@ -141,6 +141,8 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
+  const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<any>();
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -198,10 +200,21 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
         image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
         title: item.title,
         subtitle: item.excerpt || '',
-        badge: item.tags?.[0] || item.type?.toUpperCase() || 'ARTICLE'
-      };
-    });
-  
+      badge: item.tags?.[0] || item.type?.toUpperCase() || 'ARTICLE'
+    };
+  });
+
+  // Track thumbnail carousel slide changes
+  useEffect(() => {
+    if (!thumbnailCarouselApi) return;
+    const updateSlide = () => {
+      setCurrentSlide(thumbnailCarouselApi.selectedScrollSnap());
+    };
+    updateSlide();
+    thumbnailCarouselApi.on("select", updateSlide);
+    return () => thumbnailCarouselApi.off("select", updateSlide);
+  }, [thumbnailCarouselApi]);
+
   const tabs = [
     { id: 'dev', label: 'Dev' },
     { id: 'creative', label: 'Creative' },
@@ -484,6 +497,7 @@ const tx = await qiri.send({
       {/* Full-width thumbnail carousel */}
       <div className="col-span-full border-t border-border/30 pt-6">
         <Carousel
+          setApi={setThumbnailCarouselApi}
           className="w-full"
           opts={{
             align: "start",
@@ -553,6 +567,24 @@ const tx = await qiri.send({
             ))}
           </CarouselContent>
         </Carousel>
+        
+        {/* Pagination Dots */}
+        <div className="flex items-center justify-center gap-2 mt-4">
+          {thumbnailContent.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                thumbnailCarouselApi?.scrollTo(index);
+              }}
+              className={`transition-all ${
+                index === currentSlide
+                  ? 'w-8 h-2 bg-cyan-400 rounded-full'
+                  : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Modality Modals */}
