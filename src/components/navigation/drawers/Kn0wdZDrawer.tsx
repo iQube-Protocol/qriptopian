@@ -167,12 +167,16 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
       const placement = item.placement as { position?: number; section?: string; tab?: string } | null;
       return placement?.position === 1;
     })
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=800&fit=crop',
-      badge: item.tags?.[0] || item.type?.toUpperCase() || 'FEATURE'
-    }));
+    .map(item => {
+      const originalIndex = content.findIndex(c => c.id === item.id);
+      return {
+        id: item.id,
+        originalIndex,
+        title: item.title,
+        image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=800&fit=crop',
+        badge: item.tags?.[0] || item.type?.toUpperCase() || 'FEATURE'
+      };
+    });
 
   // Map database content to thumbnail format (positions 2-5)
   const thumbnailContent = content
@@ -236,8 +240,10 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
             domain="kn0wdz"
             onFullscreenChange={setIsFullscreen}
             onModeChange={(mode) => {
-              setSelectedItemIndex(0); // Feature content is at index 0
-              setActiveMode(mode);
+              if (featureContent[0]?.originalIndex !== undefined) {
+                setSelectedItemIndex(featureContent[0].originalIndex);
+                setActiveMode(mode);
+              }
             }}
           />
         ) : (
