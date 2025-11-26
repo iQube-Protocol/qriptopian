@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Code2, Terminal, Book, Palette, Film, MessageSquare, Maximize2, BookOpen, Play, Headphones, Building2, TrendingUp } from "lucide-react";
+import { Code2, Terminal, Book, Palette, Film, MessageSquare, Maximize2, BookOpen, Play, Headphones, Building2, TrendingUp, ExternalLink } from "lucide-react";
+import { contentService, type Content, ContentModalities } from "@/services/contentService";
+import { ArticleRenderer } from "@/components/content/ArticleRenderer";
+import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
+import { WebsiteViewer } from "@/components/content/WebsiteViewer";
 
 interface Kn0wdZDrawerProps {
   isOpen: boolean;
@@ -132,6 +136,29 @@ const execThumbnails = [
 
 export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
   const [activeTab, setActiveTab] = useState('dev');
+  const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [content, setContent] = useState<Content[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const data = await contentService.getContentBySection('21knowdz', { tab: activeTab as 'dev' | 'creative' | 'exec' });
+        setContent(data);
+      } catch (error) {
+        console.error('Error loading Kn0wdZ content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (isOpen) {
+      setLoading(true);
+      loadContent();
+    }
+  }, [isOpen, activeTab]);
   
   const tabs = [
     { id: 'dev', label: 'Dev' },
@@ -163,7 +190,8 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
       <div className="col-span-1">
         <Kn0w1Viewer 
           items={isDevTab ? devContent : isExecTab ? execContent : creativeContent} 
-          domain="kn0wdz" 
+          domain="kn0wdz"
+          onFullscreenChange={setIsFullscreen}
         />
       </div>
 
@@ -415,19 +443,47 @@ const tx = await qiri.send({
                     className="w-full h-full object-cover transition-transform group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  {/* Action Menu - show all for demo purposes */}
+                   {/* Action Menu */}
                   <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
-                      <Maximize2 className="h-3 w-3" />
-                    </button>
-                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
+                    <button 
+                      onClick={() => {
+                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setActiveMode('read');
+                      }}
+                      className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                      aria-label="Read"
+                    >
                       <BookOpen className="h-3 w-3" />
                     </button>
-                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Watch">
+                    <button 
+                      onClick={() => {
+                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setActiveMode('watch');
+                      }}
+                      className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                      aria-label="Watch"
+                    >
                       <Play className="h-3 w-3" />
                     </button>
-                    <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Listen">
+                    <button 
+                      onClick={() => {
+                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setActiveMode('listen');
+                      }}
+                      className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                      aria-label="Listen"
+                    >
                       <Headphones className="h-3 w-3" />
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setActiveMode('link');
+                      }}
+                      className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                      aria-label="Open Link"
+                    >
+                      <ExternalLink className="h-3 w-3" />
                     </button>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-3">
@@ -440,6 +496,97 @@ const tx = await qiri.send({
           </CarouselContent>
         </Carousel>
       </div>
+
+      {/* Modality Modals */}
+      {activeMode === 'read' && content[selectedItemIndex]?.modalities && (
+        <ArticleRenderer
+          content={(content[selectedItemIndex].modalities as ContentModalities).read?.text || ''}
+          title={content[selectedItemIndex]?.title}
+          excerpt={content[selectedItemIndex]?.excerpt}
+          duration={(content[selectedItemIndex].modalities as ContentModalities).read?.duration}
+          onClose={() => setActiveMode(null)}
+        />
+      )}
+
+      {activeMode === 'watch' && content[selectedItemIndex] && (content[selectedItemIndex].modalities as ContentModalities)?.watch && (
+        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] p-4 sm:p-8">
+          <div className="relative w-full max-w-7xl max-h-[90vh]">
+            <button 
+              onClick={() => setActiveMode(null)} 
+              className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center z-10 transition-all hover:scale-110 shadow-xl"
+            >
+              ×
+            </button>
+            {isYouTubeUrl((content[selectedItemIndex].modalities as ContentModalities).watch!.video_url) ? (
+              <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
+                <iframe
+                  src={getYouTubeEmbedUrl((content[selectedItemIndex].modalities as ContentModalities).watch!.video_url)}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  title={content[selectedItemIndex].title}
+                />
+              </div>
+            ) : (
+              <video 
+                src={(content[selectedItemIndex].modalities as ContentModalities).watch!.video_url}
+                controls 
+                autoPlay
+                className="w-full max-h-[85vh] rounded-lg shadow-2xl"
+                poster={(content[selectedItemIndex].modalities as ContentModalities).watch?.thumbnail || content[selectedItemIndex].thumbnail}
+              >
+                Your browser does not support the video tag.
+              </video>
+            )}
+          </div>
+        </div>
+      )}
+
+      {activeMode === 'listen' && content[selectedItemIndex] && (content[selectedItemIndex].modalities as ContentModalities)?.listen && (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[9999] p-4 sm:p-8">
+          <div className="relative w-full max-w-2xl bg-gradient-to-br from-[#0a1628] via-[#0f1c2e] to-[#0a1628] rounded-2xl border border-qripto-cyan/20 shadow-[0_0_80px_rgba(0,196,255,0.15)] p-8">
+            <button 
+              onClick={() => setActiveMode(null)} 
+              className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center transition-all hover:scale-110 shadow-xl"
+            >
+              ×
+            </button>
+            
+            {(content[selectedItemIndex].modalities as ContentModalities).listen?.cover_image && (
+              <img 
+                src={(content[selectedItemIndex].modalities as ContentModalities).listen!.cover_image} 
+                alt={content[selectedItemIndex].title}
+                className="w-full h-64 object-cover rounded-lg mb-6"
+              />
+            )}
+            
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-qripto-cyan to-white bg-clip-text text-transparent mb-4">
+              {content[selectedItemIndex].title}
+            </h2>
+            
+            {(content[selectedItemIndex].modalities as ContentModalities).listen?.duration && (
+              <p className="text-qripto-cyan/60 text-sm mb-6">Duration: {(content[selectedItemIndex].modalities as ContentModalities).listen!.duration}</p>
+            )}
+            
+            <audio 
+              src={(content[selectedItemIndex].modalities as ContentModalities).listen!.audio_url}
+              controls 
+              autoPlay
+              className="w-full"
+            >
+              Your browser does not support the audio tag.
+            </audio>
+          </div>
+        </div>
+      )}
+
+      {activeMode === 'link' && content[selectedItemIndex] && (content[selectedItemIndex].modalities as ContentModalities)?.link && (
+        <WebsiteViewer
+          url={(content[selectedItemIndex].modalities as ContentModalities).link!.url}
+          title={content[selectedItemIndex].title}
+          onClose={() => setActiveMode(null)}
+        />
+      )}
     </DrawerLayer>
   );
 }

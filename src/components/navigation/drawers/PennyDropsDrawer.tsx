@@ -20,6 +20,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const { requestAvatar, releaseAvatar } = useMetaAvatar();
 
   // Request/release avatar based on drawer state
@@ -32,16 +33,16 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
     return () => releaseAvatar('pennydrops');
   }, [isOpen, requestAvatar, releaseAvatar]);
 
-  // Temporarily hide avatar iframe while media/article modal is active
+  // Temporarily hide avatar iframe while media/article modal or fullscreen is active
   useEffect(() => {
-    if (activeMode) {
-      // Hide avatar when any modal is open
+    if (activeMode || isFullscreen) {
+      // Hide avatar when any modal is open or fullscreen is active
       releaseAvatar('pennydrops');
     } else if (isOpen) {
       // Restore avatar when modals are closed and drawer is still open
       requestAvatar('pennydrops');
     }
-  }, [activeMode, isOpen, requestAvatar, releaseAvatar]);
+  }, [activeMode, isFullscreen, isOpen, requestAvatar, releaseAvatar]);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -102,7 +103,11 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
           <div className="col-span-2">
             {featureContent.length > 0 && (
               <div className="relative group">
-                <Kn0w1Viewer items={featureContent} domain="pennydrops" />
+                <Kn0w1Viewer 
+                  items={featureContent} 
+                  domain="pennydrops"
+                  onFullscreenChange={setIsFullscreen}
+                />
                 {/* Modality Buttons Overlay for Feature */}
                 <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                   {contentService.hasModality(content[0], 'read') && (
