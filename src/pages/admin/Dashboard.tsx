@@ -11,7 +11,8 @@ import {
   Scroll,
   BookOpen,
   TrendingUp,
-  Shield
+  Shield,
+  Upload
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -47,6 +48,7 @@ export default function AdminDashboard() {
   }
 
   const sections = [
+    { name: 'Bulk Import', path: '/admin/content/import', icon: Upload, description: 'Import multiple content items' },
     { name: 'Home Hero', path: '/admin/content/home-hero', icon: LayoutGrid, description: '3 main hero articles' },
     { name: 'Latest News', path: '/admin/content/latest-news', icon: Newspaper, description: 'News carousel' },
     { name: 'Second Hero', path: '/admin/content/second-hero', icon: Image, description: 'Bottom featured article' },

@@ -17,6 +17,7 @@ import PennyDropsManager from "./pages/admin/content/PennyDropsManager";
 import KnytRiseManager from "./pages/admin/content/KnytRiseManager";
 import KnowdZManager from "./pages/admin/content/KnowdZManager";
 import StayBullManager from "./pages/admin/content/StayBullManager";
+import ContentImporter from "./pages/admin/content/ContentImporter";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/setup-did" element={<SetupDID />} />
+          <Route path="/admin/content/import" element={<ContentImporter />} />
           <Route path="/admin/content/home-hero" element={<HomeHeroManager />} />
           <Route path="/admin/content/latest-news" element={<LatestNewsManager />} />
           <Route path="/admin/content/second-hero" element={<SecondHeroManager />} />
