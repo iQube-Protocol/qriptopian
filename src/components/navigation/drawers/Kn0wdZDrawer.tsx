@@ -146,6 +146,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
     const loadContent = async () => {
       try {
         const data = await contentService.getContentBySection('21knowdz', { tab: activeTab as 'dev' | 'creative' | 'exec' });
+        console.log('Loaded Kn0wdZ content:', data);
         setContent(data);
       } catch (error) {
         console.error('Error loading Kn0wdZ content:', error);
@@ -159,6 +160,38 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
       loadContent();
     }
   }, [isOpen, activeTab]);
+
+  // Map database content to Kn0w1Viewer format
+  const featureContent = content
+    .filter(item => {
+      const placement = item.placement as { position?: number; section?: string; tab?: string } | null;
+      return placement?.position === 1;
+    })
+    .map(item => ({
+      id: item.id,
+      title: item.title,
+      image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=800&fit=crop',
+      badge: item.tags?.[0] || item.type?.toUpperCase() || 'FEATURE'
+    }));
+
+  // Map database content to thumbnail format (positions 2-5)
+  const thumbnailContent = content
+    .filter(item => {
+      const placement = item.placement as { position?: number; section?: string; tab?: string } | null;
+      return placement?.position && placement.position > 1;
+    })
+    .sort((a, b) => {
+      const aPlacement = a.placement as { position?: number } | null;
+      const bPlacement = b.placement as { position?: number } | null;
+      return (aPlacement?.position || 0) - (bPlacement?.position || 0);
+    })
+    .map(item => ({
+      id: item.id,
+      image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
+      title: item.title,
+      subtitle: item.excerpt || '',
+      badge: item.tags?.[0] || item.type?.toUpperCase() || 'ARTICLE'
+    }));
   
   const tabs = [
     { id: 'dev', label: 'Dev' },
@@ -188,11 +221,21 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
     >
       {/* Left: 1 column large Kn0w1Viewer */}
       <div className="col-span-1">
-        <Kn0w1Viewer 
-          items={isDevTab ? devContent : isExecTab ? execContent : creativeContent} 
-          domain="kn0wdz"
-          onFullscreenChange={setIsFullscreen}
-        />
+        {loading ? (
+          <div className="h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
+            <p className="text-muted-foreground">Loading content...</p>
+          </div>
+        ) : featureContent.length > 0 ? (
+          <Kn0w1Viewer 
+            items={featureContent} 
+            domain="kn0wdz"
+            onFullscreenChange={setIsFullscreen}
+          />
+        ) : (
+          <div className="h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
+            <p className="text-muted-foreground">No feature content available</p>
+          </div>
+        )}
       </div>
 
       {/* Right: 2 columns split - content area + resources */}
@@ -434,7 +477,7 @@ const tx = await qiri.send({
           plugins={[WheelGesturesPlugin()]}
         >
           <CarouselContent className="-ml-4">
-            {(isExecTab ? execThumbnails : isDevTab ? devThumbnails : creativeThumbnails).map((item) => (
+            {thumbnailContent.map((item, index) => (
               <CarouselItem key={item.id} className="basis-1/4 pl-4">
                 <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
                   <img 
@@ -447,7 +490,7 @@ const tx = await qiri.send({
                   <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setSelectedItemIndex(index + 1); // +1 because feature is at index 0
                         setActiveMode('read');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
@@ -457,7 +500,7 @@ const tx = await qiri.send({
                     </button>
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setSelectedItemIndex(index + 1);
                         setActiveMode('watch');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
@@ -467,7 +510,7 @@ const tx = await qiri.send({
                     </button>
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setSelectedItemIndex(index + 1);
                         setActiveMode('listen');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
@@ -477,7 +520,7 @@ const tx = await qiri.send({
                     </button>
                     <button 
                       onClick={() => {
-                        setSelectedItemIndex(parseInt(item.id) - 1);
+                        setSelectedItemIndex(index + 1);
                         setActiveMode('link');
                       }}
                       className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
