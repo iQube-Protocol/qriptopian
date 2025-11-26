@@ -7,6 +7,7 @@ import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
+import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
 
 interface PennyDropsDrawerProps {
   isOpen: boolean;
@@ -244,10 +245,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
             >
               ×
             </button>
-            {(currentModalities.watch.video_url.includes('youtube.com') || currentModalities.watch.video_url.includes('youtu.be')) ? (
+            {isYouTubeUrl(currentModalities.watch.video_url) ? (
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
                 <iframe
-                  src={currentModalities.watch.video_url}
+                  src={getYouTubeEmbedUrl(currentModalities.watch.video_url)}
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen

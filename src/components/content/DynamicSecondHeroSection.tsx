@@ -5,6 +5,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/com
 import { contentService, Content, ContentModalities } from "@/services/contentService";
 import quantumTechHero from "@/assets/quantum-tech-hero.jpg";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
+import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
 
 export function DynamicSecondHeroSection() {
   const [articles, setArticles] = useState<Content[]>([]);
@@ -186,15 +187,24 @@ export function DynamicSecondHeroSection() {
               ×
             </button>
             
-            <video 
-              src={currentModalities.watch.video_url}
-              controls 
-              autoPlay
-              className="w-full h-auto rounded-lg shadow-2xl"
-              poster={currentModalities.watch.thumbnail || currentArticle.thumbnail}
-            >
-              Your browser does not support the video tag.
-            </video>
+            {isYouTubeUrl(currentModalities.watch.video_url) ? (
+              <iframe
+                src={getYouTubeEmbedUrl(currentModalities.watch.video_url)}
+                className="w-full aspect-video rounded-lg shadow-2xl"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video 
+                src={currentModalities.watch.video_url}
+                controls 
+                autoPlay
+                className="w-full h-auto rounded-lg shadow-2xl"
+                poster={currentModalities.watch.thumbnail || currentArticle.thumbnail}
+              >
+                Your browser does not support the video tag.
+              </video>
+            )}
             
             {currentModalities.watch.duration && (
               <div className="text-cyan-400 mt-4 text-center">Duration: {currentModalities.watch.duration}</div>
