@@ -18,7 +18,11 @@ export default function KnowdZManager() {
   const loadContent = async () => {
     try {
       const data = await contentService.getAllContentBySection('21knowdz', { tab: activeTab });
-      const filtered = data.filter(item => item.type === contentType);
+      // Filter: show articles AND tutorials when 'article' is selected, only resources when 'resource' is selected
+      const filtered = contentType === 'article' 
+        ? data.filter(item => item.type === 'article' || item.type === 'tutorial')
+        : data.filter(item => item.type === 'resource');
+      console.log(`Loaded ${filtered.length} items for tab=${activeTab}, type=${contentType}`, filtered);
       setContent(filtered);
     } catch (error) {
       console.error('Error loading content:', error);
