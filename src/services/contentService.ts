@@ -34,7 +34,7 @@ export interface ContentModalities {
 }
 
 export const contentService = {
-  async getAllContentBySection(section: ContentSection, options?: { tab?: 'dev' | 'creative' | 'exec' }) {
+  async getAllContentBySection(section: ContentSection, options?: { tab?: 'dev' | 'creative' | 'exec' | 'metaknyts' | 'synthsims' }) {
     let query = supabase
       .from('content')
       .select('*')
@@ -57,7 +57,7 @@ export const contentService = {
     });
   },
 
-  async getContentBySection(section: ContentSection, options?: { tab?: 'dev' | 'creative' | 'exec' }) {
+  async getContentBySection(section: ContentSection, options?: { tab?: 'dev' | 'creative' | 'exec' | 'metaknyts' | 'synthsims' }) {
     let query = supabase
       .from('content')
       .select('*')
