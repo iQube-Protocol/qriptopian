@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
       if (!item.domain) errors.push(`Item ${index}: missing domain`);
       if (!item.format) errors.push(`Item ${index}: missing format`);
       if (!item.type) errors.push(`Item ${index}: missing type`);
-      if (!item.content) errors.push(`Item ${index}: missing content`);
+      // content field is optional, defaults to empty object in database
     });
 
     if (errors.length > 0) {
@@ -59,6 +59,7 @@ Deno.serve(async (req) => {
       .from('content')
       .insert(content_items.map(item => ({
         ...item,
+        content: item.content || {}, // Provide default empty object if not present
         author_id: user.id,
         author_type: 'user',
         created_at: new Date().toISOString(),
