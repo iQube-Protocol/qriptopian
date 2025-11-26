@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
         ...item,
         content: item.content || {}, // Provide default empty object if not present
         author_id: user.id,
-        author_type: 'user',
+        // author_type is omitted - it will default to NULL for user-created content
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })))
