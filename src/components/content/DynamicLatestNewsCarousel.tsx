@@ -81,9 +81,9 @@ export function DynamicLatestNewsCarousel() {
   }
 
   return (
-    <div className="w-full bg-[#071327] py-12 px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-8 px-12">
+    <div className="w-full bg-[#071327] py-12 px-4">
+      <div className="max-w-[95%] mx-auto">
+        <div className="flex items-center justify-between mb-8 px-2">
           <h2 className="text-[#d0f6ff] text-2xl font-medium text-left px-0 mx-0">Latest News</h2>
           <div className="flex items-center gap-4">
             <button 
