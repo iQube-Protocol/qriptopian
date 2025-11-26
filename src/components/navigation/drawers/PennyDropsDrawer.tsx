@@ -3,11 +3,12 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
+import { Maximize2, BookOpen, Play, Headphones, ExternalLink } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
 import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
+import { WebsiteViewer } from "@/components/content/WebsiteViewer";
 
 interface PennyDropsDrawerProps {
   isOpen: boolean;
@@ -18,7 +19,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | null>(null);
+  const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
   const { requestAvatar, releaseAvatar } = useMetaAvatar();
 
   // Request/release avatar based on drawer state
@@ -140,6 +141,18 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                       <Headphones className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
                     </button>
                   )}
+                  {contentService.hasModality(content[0], 'link') && (
+                    <button
+                      onClick={() => {
+                        setSelectedItemIndex(0);
+                        setActiveMode('link');
+                      }}
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                      title="Open Link"
+                    >
+                      <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -207,6 +220,18 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                                 aria-label="Listen"
                               >
                                 <Headphones className="h-3 w-3" />
+                              </button>
+                            )}
+                            {contentService.hasModality(content[contentIndex], 'link') && (
+                              <button 
+                                onClick={() => {
+                                  setSelectedItemIndex(contentIndex);
+                                  setActiveMode('link');
+                                }}
+                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                aria-label="Open Link"
+                              >
+                                <ExternalLink className="h-3 w-3" />
                               </button>
                             )}
                           </div>
@@ -310,6 +335,15 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
             </audio>
           </div>
         </div>
+      )}
+
+      {/* Link Modal */}
+      {activeMode === 'link' && currentContent && currentModalities?.link && (
+        <WebsiteViewer
+          url={currentModalities.link.url}
+          title={currentContent.title}
+          onClose={() => setActiveMode(null)}
+        />
       )}
     </DrawerLayer>
   );

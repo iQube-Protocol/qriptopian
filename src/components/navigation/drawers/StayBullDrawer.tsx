@@ -3,10 +3,11 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
+import { Maximize2, BookOpen, Play, Headphones, ExternalLink } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
 import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
+import { WebsiteViewer } from "@/components/content/WebsiteViewer";
 
 interface StayBullDrawerProps {
   isOpen: boolean;
@@ -17,7 +18,7 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | null>(null);
+  const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
 
   const tabs = [
     { id: 'stories', label: 'Stories' }
@@ -118,6 +119,18 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
                         <Headphones className="w-5 h-5 text-cyan-400" />
                       </button>
                     )}
+                    {contentService.hasModality(content[index], 'link') && (
+                      <button
+                        onClick={() => {
+                          setSelectedItemIndex(index);
+                          setActiveMode('link');
+                        }}
+                        className="w-12 h-12 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                        title="Open Link"
+                      >
+                        <ExternalLink className="w-5 h-5 text-cyan-400" />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -183,6 +196,18 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
                                 aria-label="Listen"
                               >
                                 <Headphones className="h-3 w-3" />
+                              </button>
+                            )}
+                            {contentService.hasModality(content[contentIndex], 'link') && (
+                              <button 
+                                onClick={() => {
+                                  setSelectedItemIndex(contentIndex);
+                                  setActiveMode('link');
+                                }}
+                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                aria-label="Open Link"
+                              >
+                                <ExternalLink className="h-3 w-3" />
                               </button>
                             )}
                           </div>
@@ -286,6 +311,15 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
             </audio>
           </div>
         </div>
+      )}
+
+      {/* Link Modal */}
+      {activeMode === 'link' && currentContent && currentModalities?.link && (
+        <WebsiteViewer
+          url={currentModalities.link.url}
+          title={currentContent.title}
+          onClose={() => setActiveMode(null)}
+        />
       )}
     </DrawerLayer>
   );

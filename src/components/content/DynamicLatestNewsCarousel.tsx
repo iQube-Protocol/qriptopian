@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Lock, Crown, Maximize2, BookOpen, Play, Headphones, X } from "lucide-react";
+import { Lock, Crown, Maximize2, BookOpen, Play, Headphones, X, ExternalLink } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { contentService, Content } from "@/services/contentService";
 import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
+import { WebsiteViewer } from "./WebsiteViewer";
 
 export function DynamicLatestNewsCarousel() {
   const [articles, setArticles] = useState<Content[]>([]);
@@ -15,7 +16,7 @@ export function DynamicLatestNewsCarousel() {
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [fullscreenContent, setFullscreenContent] = useState<Content | null>(null);
-  const [activeModality, setActiveModality] = useState<'read' | 'watch' | 'listen' | null>(null);
+  const [activeModality, setActiveModality] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Content | null>(null);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export function DynamicLatestNewsCarousel() {
     setIsFullscreen(true);
   };
 
-  const handleModalityClick = (article: Content, modality: 'read' | 'watch' | 'listen') => {
+  const handleModalityClick = (article: Content, modality: 'read' | 'watch' | 'listen' | 'link') => {
     setSelectedArticle(article);
     setActiveModality(modality);
   };
@@ -161,6 +162,15 @@ export function DynamicLatestNewsCarousel() {
                             <Headphones className="h-3 w-3" />
                           </button>
                         )}
+                        {contentService.hasModality(article, 'link') && (
+                          <button 
+                            onClick={() => handleModalityClick(article, 'link')}
+                            className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                            aria-label="Open Link"
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                          </button>
+                        )}
                       </div>
                     </div>
                   )}
@@ -205,7 +215,7 @@ export function DynamicLatestNewsCarousel() {
       )}
 
       {/* Modality Dialog */}
-      <Dialog open={activeModality !== null} onOpenChange={(open) => !open && closeModal()}>
+      <Dialog open={activeModality !== null && activeModality !== 'link'} onOpenChange={(open) => !open && closeModal()}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-[#020b18] border-[#1e2b40]">
           <DialogHeader>
             <DialogTitle className="text-[#d0f6ff]">{selectedArticle?.title}</DialogTitle>
@@ -256,6 +266,15 @@ export function DynamicLatestNewsCarousel() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Link Modality - uses WebsiteViewer */}
+      {activeModality === 'link' && selectedArticle && (
+        <WebsiteViewer
+          url={(contentService.getModality(selectedArticle, 'link') as { url: string })?.url || ''}
+          title={selectedArticle.title}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 }

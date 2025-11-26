@@ -27,6 +27,10 @@ export interface ContentModalities {
     duration?: string;
     cover_image?: string;
   };
+  link?: {
+    url: string;
+    allow_embed?: boolean;
+  };
 }
 
 export const contentService = {
@@ -88,12 +92,12 @@ export const contentService = {
     return data as Content;
   },
 
-  hasModality(content: Content, type: 'read' | 'watch' | 'listen'): boolean {
+  hasModality(content: Content, type: 'read' | 'watch' | 'listen' | 'link'): boolean {
     const modalities = content.modalities as ContentModalities | null;
     return !!modalities?.[type];
   },
 
-  getModality(content: Content, type: 'read' | 'watch' | 'listen') {
+  getModality(content: Content, type: 'read' | 'watch' | 'listen' | 'link') {
     const modalities = content.modalities as ContentModalities | null;
     return modalities?.[type];
   },
