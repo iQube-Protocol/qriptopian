@@ -58,15 +58,17 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | null>(null);
   const [carouselApi, setCarouselApi] = useState<any>();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeTab, setActiveTab] = useState('metaknyts');
   
   const tabs = [
-    { id: 'stories', label: 'Stories' }
+    { id: 'metaknyts', label: 'metaKnyts' },
+    { id: 'synthsims', label: 'The SynthSims' }
   ];
 
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const data = await contentService.getContentBySection('knytrise');
+        const data = await contentService.getContentBySection('knytrise', { tab: activeTab as 'metaknyts' | 'synthsims' });
         setContent(data);
       } catch (error) {
         console.error('Error loading KNYT Rise content:', error);
@@ -78,7 +80,7 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
     if (isOpen) {
       loadContent();
     }
-  }, [isOpen]);
+  }, [isOpen, activeTab]);
 
   // Map database content to viewer format
   const displayContent = content.length > 0 
@@ -117,10 +119,12 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
     <DrawerLayer
       isOpen={isOpen}
       onClose={onClose}
-      title="KNYT Rise"
+      title="Scrolls"
       subtitle="Chronicles from the Quantum-Ready Internet"
       columns={2}
       tabs={tabs}
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
     >
       <div className="col-span-full space-y-6">
         {loading ? (
