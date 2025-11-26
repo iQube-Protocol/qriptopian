@@ -51,7 +51,7 @@ const knytRiseContent = [
   },
 ];
 
-export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
+export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,10 +68,10 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const data = await contentService.getContentBySection('knytrise', { tab: activeTab as 'metaknyts' | 'synthsims' });
+        const data = await contentService.getContentBySection('scrolls', { tab: activeTab as 'metaknyts' | 'synthsims' });
         setContent(data);
       } catch (error) {
-        console.error('Error loading KNYT Rise content:', error);
+        console.error('Error loading Scrolls content:', error);
       } finally {
         setLoading(false);
       }
@@ -90,7 +90,7 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
         image: item.thumbnail || '',
         badge: item.type?.toUpperCase() || 'STORY'
       }))
-    : knytRiseContent; // Fallback to mock data only if no real content
+    : knytRiseContent;
 
   const currentContent = content[selectedItemIndex];
   const currentModalities = currentContent?.modalities as ContentModalities | null;
@@ -150,7 +150,7 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                       onClick={() => setSelectedItemIndex(index)}
                       className="cursor-pointer relative group"
                     >
-                      <Kn0w1Viewer items={[item]} domain="knytrise" />
+                      <Kn0w1Viewer items={[item]} domain="scrolls" />
                       
                       {/* Modality Buttons Overlay */}
                       {content.length > 0 && content[index] && (

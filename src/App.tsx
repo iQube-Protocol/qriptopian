@@ -14,7 +14,6 @@ import ContentEditor from "./pages/admin/content/ContentEditor";
 import LatestNewsManager from "./pages/admin/content/LatestNewsManager";
 import SecondHeroManager from "./pages/admin/content/SecondHeroManager";
 import PennyDropsManager from "./pages/admin/content/PennyDropsManager";
-import KnytRiseManager from "./pages/admin/content/KnytRiseManager";
 import ScrollsManager from "./pages/admin/content/ScrollsManager";
 import KnowdZManager from "./pages/admin/content/KnowdZManager";
 import StayBullManager from "./pages/admin/content/StayBullManager";
@@ -41,7 +40,6 @@ const App = () => (
           <Route path="/admin/content/latest-news" element={<LatestNewsManager />} />
           <Route path="/admin/content/second-hero" element={<SecondHeroManager />} />
           <Route path="/admin/content/pennydrops" element={<PennyDropsManager />} />
-          <Route path="/admin/content/knytrise" element={<KnytRiseManager />} />
           <Route path="/admin/content/scrolls" element={<ScrollsManager />} />
           <Route path="/admin/content/21knowdz" element={<KnowdZManager />} />
           <Route path="/admin/content/staybull" element={<StayBullManager />} />

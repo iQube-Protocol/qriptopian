@@ -215,7 +215,7 @@ export default function ContentEditor() {
         'latest-news': '/admin/content/latest-news',
         'second-hero': '/admin/content/second-hero',
         'pennydrops': '/admin/content/pennydrops',
-        'knytrise': '/admin/content/knytrise',
+        'scrolls': '/admin/content/scrolls',
         '21knowdz': '/admin/content/21knowdz',
         'staybull': '/admin/content/staybull'
       };

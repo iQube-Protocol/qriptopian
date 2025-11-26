@@ -8,7 +8,7 @@ export type ContentSection =
   | 'latest-news'
   | 'second-hero'
   | 'pennydrops'
-  | 'knytrise'
+  | 'scrolls'
   | '21knowdz'
   | 'staybull';
 

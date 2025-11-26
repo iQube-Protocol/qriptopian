@@ -2,7 +2,7 @@ import { Zap, BookOpen, Droplets, Code2, TrendingUp, Settings, Bot } from "lucid
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-export type Domain = 'signals' | 'pennydrops' | 'kn0wdz' | 'knytrise' | 'staybull';
+export type Domain = 'signals' | 'pennydrops' | 'kn0wdz' | 'scrolls' | 'staybull';
 
 interface QriptopianNavProps {
   activeDomain: Domain | null;
@@ -19,7 +19,7 @@ const domains = [{
   icon: Droplets,
   label: 'Penny Drops'
 }, {
-  id: 'knytrise' as Domain,
+  id: 'scrolls' as Domain,
   icon: BookOpen,
   label: 'Scrolls'
 }, {
