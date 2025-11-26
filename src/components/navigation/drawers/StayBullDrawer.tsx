@@ -6,6 +6,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
+import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
 
 interface StayBullDrawerProps {
   isOpen: boolean;
@@ -220,10 +221,10 @@ export function StayBullDrawer({ isOpen, onClose }: StayBullDrawerProps) {
             >
               ×
             </button>
-            {(currentModalities.watch.video_url.includes('youtube.com') || currentModalities.watch.video_url.includes('youtu.be')) ? (
+            {isYouTubeUrl(currentModalities.watch.video_url) ? (
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
                 <iframe
-                  src={currentModalities.watch.video_url}
+                  src={getYouTubeEmbedUrl(currentModalities.watch.video_url)}
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
