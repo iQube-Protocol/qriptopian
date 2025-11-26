@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Upload, FileJson } from "lucide-react";
+import { ArrowLeft, Upload, FileJson, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +15,25 @@ export default function ContentImporter() {
   const [jsonInput, setJsonInput] = useState("");
   const [previewItems, setPreviewItems] = useState<any[]>([]);
   const [isImporting, setIsImporting] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    setIsAuthenticated(!!session);
+    
+    if (!session) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to import content",
+        variant: "destructive",
+      });
+      navigate("/auth");
+    }
+  };
 
   const handlePreview = () => {
     try {
@@ -41,6 +60,18 @@ export default function ContentImporter() {
         description: "Please preview your content first",
         variant: "destructive",
       });
+      return;
+    }
+
+    // Verify session before importing
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast({
+        title: "Session expired",
+        description: "Please sign in again",
+        variant: "destructive",
+      });
+      navigate("/auth");
       return;
     }
 
@@ -71,6 +102,16 @@ export default function ContentImporter() {
       setIsImporting(false);
     }
   };
+
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-background p-8 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-8">
