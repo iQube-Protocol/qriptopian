@@ -56,6 +56,8 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | null>(null);
+  const [carouselApi, setCarouselApi] = useState<any>();
+  const [currentSlide, setCurrentSlide] = useState(0);
   
   const tabs = [
     { id: 'stories', label: 'Stories' }
@@ -91,6 +93,17 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const currentContent = content[selectedItemIndex];
   const currentModalities = currentContent?.modalities as ContentModalities | null;
 
+  // Track carousel slide changes
+  useEffect(() => {
+    if (!carouselApi) return;
+    const updateSlide = () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    };
+    updateSlide();
+    carouselApi.on("select", updateSlide);
+    return () => carouselApi.off("select", updateSlide);
+  }, [carouselApi]);
+
   // Listen for close article event from ArticleRenderer
   useEffect(() => {
     const handleCloseArticle = () => {
@@ -118,6 +131,7 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
           <>
             {/* Main Carousel with Large Cards */}
             <Carousel 
+              setApi={setCarouselApi}
               className="w-full"
               opts={{
                 align: "start",
@@ -183,6 +197,25 @@ export function KnytRiseDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                 ))}
               </CarouselContent>
             </Carousel>
+
+            {/* Pagination Dots */}
+            <div className="flex items-center justify-center gap-2 mt-4">
+              {displayContent.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setSelectedItemIndex(index);
+                    carouselApi?.scrollTo(index);
+                  }}
+                  className={`transition-all ${
+                    index === currentSlide
+                      ? 'w-8 h-2 bg-cyan-400 rounded-full'
+                      : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
 
             {/* Thumbnail Scrolling Layer */}
             <div className="border-t border-border/30 pt-4">

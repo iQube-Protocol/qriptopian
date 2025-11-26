@@ -14,6 +14,7 @@ export function DynamicLatestNewsCarousel() {
   const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [fullscreenContent, setFullscreenContent] = useState<Content | null>(null);
   const [activeModality, setActiveModality] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
@@ -38,6 +39,7 @@ export function DynamicLatestNewsCarousel() {
     const updateButtons = () => {
       setCanScrollPrev(api.canScrollPrev());
       setCanScrollNext(api.canScrollNext());
+      setCurrentSlide(api.selectedScrollSnap());
     };
     updateButtons();
     api.on("select", updateButtons);
@@ -50,6 +52,7 @@ export function DynamicLatestNewsCarousel() {
 
   const scrollPrev = () => api?.scrollPrev();
   const scrollNext = () => api?.scrollNext();
+  const scrollTo = (index: number) => api?.scrollTo(index);
 
   const handleFullscreen = (article: Content) => {
     setFullscreenContent(article);
@@ -195,6 +198,22 @@ export function DynamicLatestNewsCarousel() {
             ))}
           </CarouselContent>
         </Carousel>
+        
+        {/* Pagination Dots */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {articles.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollTo(index)}
+              className={`transition-all ${
+                index === currentSlide
+                  ? 'w-8 h-2 bg-cyan-400 rounded-full'
+                  : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Fullscreen Modal */}

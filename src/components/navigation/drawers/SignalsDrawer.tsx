@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -64,6 +64,9 @@ export function SignalsDrawer({
   onClose
 }: SignalsDrawerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [carouselApi, setCarouselApi] = useState<any>();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
   const tabs = [{
     id: 'current',
     label: 'Current'
@@ -71,6 +74,17 @@ export function SignalsDrawer({
     id: 'archive',
     label: 'Archive'
   }];
+
+  // Track carousel slide changes
+  useEffect(() => {
+    if (!carouselApi) return;
+    const updateSlide = () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    };
+    updateSlide();
+    carouselApi.on("select", updateSlide);
+    return () => carouselApi.off("select", updateSlide);
+  }, [carouselApi]);
   if (isFullscreen) {
     return <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
         <button onClick={() => setIsFullscreen(false)} className="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 transition-colors">
@@ -94,10 +108,15 @@ export function SignalsDrawer({
 
         {/* Full Width Carousel Below */}
         <div className="mt-6">
-          <Carousel opts={{
-          align: "start",
-          loop: true
-        }} plugins={[WheelGesturesPlugin()]} className="w-full">
+          <Carousel 
+            setApi={setCarouselApi}
+            opts={{
+              align: "start",
+              loop: true
+            }} 
+            plugins={[WheelGesturesPlugin()]} 
+            className="w-full"
+          >
             <CarouselContent className="-ml-4">
               {thumbnailContent.map(item => <CarouselItem key={item.id} className="pl-4 basis-1/3">
                   <div className="relative rounded-lg overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/30 hover:border-cyan-500/50 transition-all">
@@ -130,6 +149,24 @@ export function SignalsDrawer({
             <CarouselPrevious className="left-2" />
             <CarouselNext className="right-2" />
           </Carousel>
+          
+          {/* Pagination Dots */}
+          <div className="flex items-center justify-center gap-2 mt-4">
+            {thumbnailContent.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  carouselApi?.scrollTo(index);
+                }}
+                className={`transition-all ${
+                  index === currentSlide
+                    ? 'w-8 h-2 bg-cyan-400 rounded-full'
+                    : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </DrawerLayer>;
