@@ -117,7 +117,7 @@ export function DynamicLatestNewsCarousel() {
         >
           <CarouselContent className="-ml-4">
             {articles.map((article) => (
-              <CarouselItem key={article.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={article.id} className="pl-4 md:basis-[48%] lg:basis-[30%]">
                 <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
                   {article.thumbnail && (
                     <div className="relative">
