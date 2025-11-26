@@ -30,6 +30,8 @@ export default function ContentEditor() {
   const [watchDuration, setWatchDuration] = useState('');
   const [listenUrl, setListenUrl] = useState('');
   const [listenDuration, setListenDuration] = useState('');
+  const [linkUrl, setLinkUrl] = useState('');
+  const [linkAllowEmbed, setLinkAllowEmbed] = useState(true);
   const [issueRef, setIssueRef] = useState('');
   const [uploading, setUploading] = useState(false);
   const [imagePosition, setImagePosition] = useState('center');
@@ -73,6 +75,10 @@ export default function ContentEditor() {
       if (modalities.listen) {
         setListenUrl(modalities.listen.audio_url || '');
         setListenDuration(modalities.listen.duration || '');
+      }
+      if (modalities.link) {
+        setLinkUrl(modalities.link.url || '');
+        setLinkAllowEmbed(modalities.link.allow_embed !== false);
       }
     } catch (error) {
       console.error('Error loading content:', error);
@@ -174,6 +180,9 @@ export default function ContentEditor() {
       }
       if (listenUrl) {
         modalities.listen = { audio_url: listenUrl, duration: listenDuration };
+      }
+      if (linkUrl) {
+        modalities.link = { url: linkUrl, allow_embed: linkAllowEmbed };
       }
 
       const contentData = {
@@ -371,6 +380,7 @@ export default function ContentEditor() {
                   <TabsTrigger value="read" className="flex-1">Read</TabsTrigger>
                   <TabsTrigger value="watch" className="flex-1">Watch</TabsTrigger>
                   <TabsTrigger value="listen" className="flex-1">Listen</TabsTrigger>
+                  <TabsTrigger value="link" className="flex-1">Link</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="read" className="space-y-4 mt-4">
@@ -485,6 +495,36 @@ export default function ContentEditor() {
                       disabled
                     />
                   </div>
+                </TabsContent>
+
+                <TabsContent value="link" className="space-y-4 mt-4">
+                  <div>
+                    <Label htmlFor="linkUrl">Website URL</Label>
+                    <Input
+                      id="linkUrl"
+                      value={linkUrl}
+                      onChange={(e) => setLinkUrl(e.target.value)}
+                      placeholder="https://example.com/article"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      External website to display or link to
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="linkAllowEmbed"
+                      checked={linkAllowEmbed}
+                      onChange={(e) => setLinkAllowEmbed(e.target.checked)}
+                      className="rounded border-gray-300"
+                    />
+                    <Label htmlFor="linkAllowEmbed" className="cursor-pointer">
+                      Allow embedding in iframe
+                    </Label>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    If unchecked, will open in a new tab instead of embedding
+                  </p>
                 </TabsContent>
               </Tabs>
               )}
