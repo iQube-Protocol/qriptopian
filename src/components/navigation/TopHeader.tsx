@@ -58,7 +58,7 @@ export function TopHeader() {
           <Bell className="h-5 w-5" />
         </Button>
         
-        <PersonaSelector />
+        {/* <PersonaSelector /> */}
         
         {user ? (
           <div className="flex items-center gap-3">
