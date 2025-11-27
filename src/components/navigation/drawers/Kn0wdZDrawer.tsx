@@ -285,7 +285,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               
               {/* Title overlay at bottom */}
-              <div className="absolute bottom-16 left-4 right-4">
+              <div className="absolute bottom-12 left-4 right-4">
                 <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
                   {featureContent[0]?.title}
                 </h2>
