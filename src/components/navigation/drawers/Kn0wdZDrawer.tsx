@@ -354,9 +354,9 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
                               setSelectedItemIndex(item.originalIndex);
                               setActiveMode('read');
                             }}
-                            className="w-5 h-5 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                            className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
                           >
-                            <BookOpen className="h-2 w-2" />
+                            <BookOpen className="h-2.5 w-2.5" />
                           </button>
                           <button 
                             onClick={(e) => {
@@ -364,9 +364,9 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
                               setSelectedItemIndex(item.originalIndex);
                               setActiveMode('link');
                             }}
-                            className="w-5 h-5 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                            className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
                           >
-                            <ExternalLink className="h-2 w-2" />
+                            <ExternalLink className="h-2.5 w-2.5" />
                           </button>
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 p-2">

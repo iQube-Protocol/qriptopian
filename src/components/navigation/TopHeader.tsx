@@ -9,9 +9,10 @@ import type { User } from "@supabase/supabase-js";
 
 interface TopHeaderProps {
   onMobileMenuClick?: () => void;
+  isMobileMenuOpen?: boolean;
 }
 
-export function TopHeader({ onMobileMenuClick }: TopHeaderProps) {
+export function TopHeader({ onMobileMenuClick, isMobileMenuOpen }: TopHeaderProps) {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -58,23 +59,21 @@ export function TopHeader({ onMobileMenuClick }: TopHeaderProps) {
       </div>
       
       <div className="flex items-center gap-2 md:gap-4">
-        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-cyan-400">
+        <button className="p-2 text-gray-400 hover:text-cyan-400 transition-colors">
           <Bell className="h-5 w-5" />
-        </Button>
+        </button>
         
         {/* <PersonaSelector /> */}
         
         {user ? (
           <div className="flex items-center gap-3">
             <span className="hidden md:inline text-sm text-gray-400">{user.email}</span>
-            <Button 
+            <button 
               onClick={handleSignOut}
-              size="sm" 
-              variant="ghost"
-              className="text-gray-400 hover:text-cyan-400"
+              className="p-2 text-gray-400 hover:text-cyan-400 transition-colors"
             >
               <LogOut className="h-4 w-4" />
-            </Button>
+            </button>
           </div>
         ) : (
           <Button 
@@ -87,14 +86,12 @@ export function TopHeader({ onMobileMenuClick }: TopHeaderProps) {
         )}
         
         {/* Mobile Menu Button */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="md:hidden text-gray-400 hover:text-cyan-400 hover:bg-transparent active:text-cyan-400"
+        <button 
+          className={`md:hidden p-2 transition-colors ${isMobileMenuOpen ? 'text-cyan-400' : 'text-gray-400 hover:text-cyan-400'}`}
           onClick={onMobileMenuClick}
         >
           <Menu className="h-5 w-5" />
-        </Button>
+        </button>
       </div>
     </header>
   );
