@@ -267,9 +267,9 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                                         setSelectedItemIndex(index);
                                         setActiveMode('read');
                                       }}
-                                      className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                                      className="w-5 h-5 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
                                     >
-                                      <BookOpen className="h-2.5 w-2.5" />
+                                      <BookOpen className="h-2 w-2" />
                                     </button>
                                   )}
                                   {contentService.hasModality(content[index], 'watch') && (
@@ -279,9 +279,9 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                                         setSelectedItemIndex(index);
                                         setActiveMode('watch');
                                       }}
-                                      className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                                      className="w-5 h-5 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
                                     >
-                                      <Play className="h-2.5 w-2.5" />
+                                      <Play className="h-2 w-2" />
                                     </button>
                                   )}
                                 </div>

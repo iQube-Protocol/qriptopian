@@ -124,7 +124,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                   domain="pennydrops"
                   onFullscreenChange={setIsFullscreen}
                 />
-                {/* Modality Buttons Overlay for Feature */}
+                {/* Modality Buttons Overlay for Feature - hover only */}
                 <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                   {contentService.hasModality(content[0], 'read') && (
                     <button
@@ -132,10 +132,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                         setSelectedItemIndex(0);
                         setActiveMode('read');
                       }}
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
                       title="Read"
                     >
-                      <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                      <BookOpen className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400" />
                     </button>
                   )}
                   {contentService.hasModality(content[0], 'watch') && (
@@ -144,10 +144,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                         setSelectedItemIndex(0);
                         setActiveMode('watch');
                       }}
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
                       title="Watch"
                     >
-                      <Play className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                      <Play className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400" />
                     </button>
                   )}
                   {contentService.hasModality(content[0], 'listen') && (
@@ -156,10 +156,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                         setSelectedItemIndex(0);
                         setActiveMode('listen');
                       }}
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
                       title="Listen"
                     >
-                      <Headphones className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                      <Headphones className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400" />
                     </button>
                   )}
                   {contentService.hasModality(content[0], 'link') && (
@@ -168,10 +168,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                         setSelectedItemIndex(0);
                         setActiveMode('link');
                       }}
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
                       title="Open Link"
                     >
-                      <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                      <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400" />
                     </button>
                   )}
                 </div>
@@ -209,17 +209,17 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                             {/* Action Menu */}
-                            <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                               {contentService.hasModality(content[contentIndex], 'read') && (
                                 <button 
                                   onClick={() => {
                                     setSelectedItemIndex(contentIndex);
                                     setActiveMode('read');
                                   }}
-                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
                                   aria-label="Read"
                                 >
-                                  <BookOpen className="h-3 w-3" />
+                                  <BookOpen className="h-2.5 w-2.5" />
                                 </button>
                               )}
                               {contentService.hasModality(content[contentIndex], 'watch') && (
@@ -228,10 +228,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                                     setSelectedItemIndex(contentIndex);
                                     setActiveMode('watch');
                                   }}
-                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
                                   aria-label="Watch"
                                 >
-                                  <Play className="h-3 w-3" />
+                                  <Play className="h-2.5 w-2.5" />
                                 </button>
                               )}
                               {contentService.hasModality(content[contentIndex], 'listen') && (
@@ -240,10 +240,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                                     setSelectedItemIndex(contentIndex);
                                     setActiveMode('listen');
                                   }}
-                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
                                   aria-label="Listen"
                                 >
-                                  <Headphones className="h-3 w-3" />
+                                  <Headphones className="h-2.5 w-2.5" />
                                 </button>
                               )}
                               {contentService.hasModality(content[contentIndex], 'link') && (
@@ -252,10 +252,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                                     setSelectedItemIndex(contentIndex);
                                     setActiveMode('link');
                                   }}
-                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
                                   aria-label="Open Link"
                                 >
-                                  <ExternalLink className="h-3 w-3" />
+                                  <ExternalLink className="h-2.5 w-2.5" />
                                 </button>
                               )}
                             </div>
@@ -308,7 +308,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                         const contentIndex = index + 1;
                         return (
                           <CarouselItem key={item.id} className="basis-[43%] pl-2">
-                            <div className="relative aspect-[47/20] rounded-lg overflow-hidden group cursor-pointer">
+                            <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
                               <img 
                                 src={item.image} 
                                 alt={item.title}
@@ -323,10 +323,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                                       setSelectedItemIndex(contentIndex);
                                       setActiveMode('read');
                                     }}
-                                    className="w-6 h-6 rounded-full bg-black/70 border border-cyan-500/30 flex items-center justify-center text-cyan-400" 
+                                    className="w-5 h-5 rounded-full bg-black/70 border border-cyan-500/30 flex items-center justify-center text-cyan-400" 
                                     aria-label="Read"
                                   >
-                                    <BookOpen className="h-3 w-3" />
+                                    <BookOpen className="h-2 w-2" />
                                   </button>
                                 )}
                                 {contentService.hasModality(content[contentIndex], 'watch') && (
@@ -335,10 +335,10 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                                       setSelectedItemIndex(contentIndex);
                                       setActiveMode('watch');
                                     }}
-                                    className="w-6 h-6 rounded-full bg-black/70 border border-cyan-500/30 flex items-center justify-center text-cyan-400" 
+                                    className="w-5 h-5 rounded-full bg-black/70 border border-cyan-500/30 flex items-center justify-center text-cyan-400" 
                                     aria-label="Watch"
                                   >
-                                    <Play className="h-3 w-3" />
+                                    <Play className="h-2 w-2" />
                                   </button>
                                 )}
                               </div>
