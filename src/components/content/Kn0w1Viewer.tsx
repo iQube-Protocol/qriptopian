@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Play, BookOpen, Maximize2, X, Headphones, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
+import { BookOpen, Maximize2, X, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 interface ContentItem {
   id: string;
   title: string;
@@ -13,14 +12,12 @@ interface Kn0w1ViewerProps {
   domain: string;
   onFullscreenChange?: (isFullscreen: boolean) => void;
   onModeChange?: (mode: 'read' | 'watch' | 'listen') => void;
-  hideMediaControls?: boolean; // Hide play/listen icons for domains without media content
 }
 export function Kn0w1Viewer({
   items,
   domain,
   onFullscreenChange,
-  onModeChange,
-  hideMediaControls = false
+  onModeChange
 }: Kn0w1ViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mode, setMode] = useState<'read' | 'watch' | 'listen'>('watch');
@@ -73,37 +70,21 @@ export function Kn0w1Viewer({
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         
-        {/* Left Panel - Title and Navigation */}
-        <div className="absolute bottom-4 md:bottom-8 left-4 md:left-8 flex flex-col gap-2 md:gap-4 items-start max-w-[60%]">
-          {/* Title */}
+        {/* Top Right - Action Icons */}
+        <div className="absolute top-4 right-4 md:top-6 md:right-6 flex gap-2">
+          <button onClick={() => onModeChange?.('read')} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Read">
+            <BookOpen className="h-3.5 w-3.5" />
+          </button>
+          <button onClick={() => handleFullscreenToggle(true)} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Fullscreen">
+            <Maximize2 className="h-3.5 w-3.5" />
+          </button>
+        </div>
+        
+        {/* Bottom Left - Title */}
+        <div className="absolute bottom-4 md:bottom-8 left-4 md:left-8 max-w-[80%]">
           <h2 className="text-base md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 truncate w-full">
             {activeItem.title}
           </h2>
-          
-          {/* Dot Navigation */}
-          <div className="flex gap-1.5 md:gap-2">
-            {items.map((item, index) => <button key={item.id} onClick={() => setActiveIndex(index)} className={cn("transition-all rounded-full", activeIndex === index ? "w-6 md:w-8 h-1.5 md:h-2 bg-cyan-400" : "w-1.5 md:w-2 h-1.5 md:h-2 bg-cyan-400/30 hover:bg-cyan-400/50")} aria-label={`Go to ${item.title}`} />)}
-          </div>
-        </div>
-
-        {/* Right Panel - Media Controls - repositioned for mobile */}
-        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex gap-2 md:gap-3">
-          <button onClick={() => handleFullscreenToggle(true)} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Fullscreen">
-            <Maximize2 className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          </button>
-          <button onClick={() => onModeChange?.('read')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Read">
-            <BookOpen className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          </button>
-          {!hideMediaControls && (
-            <>
-              <button onClick={() => onModeChange?.('watch')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Watch">
-                <Play className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </button>
-              <button onClick={() => onModeChange?.('listen')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Listen">
-                <Headphones className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </button>
-            </>
-          )}
         </div>
       </div>
     </div>;

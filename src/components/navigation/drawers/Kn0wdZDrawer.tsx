@@ -255,7 +255,6 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
           <Kn0w1Viewer 
             items={featureContent} 
             domain="kn0wdz"
-            hideMediaControls={true}
             onFullscreenChange={setIsFullscreen}
             onModeChange={(mode) => {
               if (featureContent[0]?.originalIndex !== undefined) {
