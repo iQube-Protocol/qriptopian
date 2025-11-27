@@ -55,10 +55,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Global Persistent MetaAvatar */}
+      {/* Global Persistent MetaAvatar - hidden on mobile */}
       {avatarInitialized && (
         <div 
-          className={`fixed transition-all duration-300 ${
+          className={`hidden md:block fixed transition-all duration-300 ${
             activeContainer === 'aigent' 
               ? 'right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
               : activeContainer === 'pennydrops'

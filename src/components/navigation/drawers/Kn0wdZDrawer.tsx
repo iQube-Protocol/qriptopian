@@ -241,10 +241,10 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
       activeTab={activeTab}
       onTabChange={setActiveTab}
     >
-      {/* Left: 1 column large Kn0w1Viewer */}
-      <div className="col-span-1">
+      {/* Left: 1 column large Kn0w1Viewer - full width on mobile */}
+      <div className="col-span-full md:col-span-1">
         {loading ? (
-          <div className="h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
+          <div className="h-[300px] md:h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
             <p className="text-muted-foreground">Loading content...</p>
           </div>
         ) : featureContent.length > 0 ? (
@@ -260,16 +260,16 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
             }}
           />
         ) : (
-          <div className="h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
+          <div className="h-[300px] md:h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
             <p className="text-muted-foreground">No feature content available</p>
           </div>
         )}
       </div>
 
-      {/* Right: 2 columns split - content area + resources */}
-      <div className="col-span-2 grid grid-cols-2 gap-6">
+      {/* Right: 2 columns split - content area + resources - stacked on mobile */}
+      <div className="col-span-full md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {/* Content Area */}
-        <div className="col-span-1 h-[400px] overflow-y-auto space-y-4">
+        <div className="col-span-1 h-auto md:h-[400px] overflow-y-auto space-y-3 md:space-y-4">
           {isExecTab ? (
             <>
               <div className="bg-[#0a1628] border border-orange-500/20 rounded-xl p-6">
@@ -424,13 +424,13 @@ const tx = await qiri.send({
         </div>
 
         {/* Resources Sidebar */}
-        <div className="col-span-1 h-[400px]">
-          <div className="bg-[#0a1628] border border-blue-500/20 rounded-xl p-6 h-full overflow-y-auto">
-            <div className="flex items-center gap-2 mb-4">
-              <Book className="h-5 w-5 text-blue-400" />
-              <h3 className="text-lg font-bold text-blue-400">Resources</h3>
+        <div className="col-span-1 h-auto md:h-[400px]">
+          <div className="bg-[#0a1628] border border-blue-500/20 rounded-xl p-4 md:p-6 h-full overflow-y-auto">
+            <div className="flex items-center gap-2 mb-3 md:mb-4">
+              <Book className="h-4 w-4 md:h-5 md:w-5 text-blue-400" />
+              <h3 className="text-base md:text-lg font-bold text-blue-400">Resources</h3>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2 md:space-y-3">
               {isExecTab ? (
                 <>
                   <a href="#" className="block p-3 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-colors">
@@ -495,7 +495,7 @@ const tx = await qiri.send({
       </div>
 
       {/* Full-width thumbnail carousel */}
-      <div className="col-span-full border-t border-border/30 pt-6">
+      <div className="col-span-full border-t border-border/30 pt-4 md:pt-6">
         <Carousel
           setApi={setThumbnailCarouselApi}
           className="w-full"
@@ -505,9 +505,9 @@ const tx = await qiri.send({
           }}
           plugins={[WheelGesturesPlugin()]}
         >
-          <CarouselContent className="-ml-4">
+          <CarouselContent className="-ml-2 md:-ml-4">
             {thumbnailContent.map((item, index) => (
-              <CarouselItem key={item.id} className="basis-1/4 pl-4">
+              <CarouselItem key={item.id} className="basis-1/2 md:basis-1/4 pl-2 md:pl-4">
                 <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
                   <img 
                     src={item.image} 
