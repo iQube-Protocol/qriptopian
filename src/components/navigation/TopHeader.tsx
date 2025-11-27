@@ -90,7 +90,7 @@ export function TopHeader({ onMobileMenuClick }: TopHeaderProps) {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="md:hidden text-gray-400 hover:text-cyan-400"
+          className="md:hidden text-gray-400 hover:text-cyan-400 hover:bg-transparent active:text-cyan-400"
           onClick={onMobileMenuClick}
         >
           <Menu className="h-5 w-5" />
