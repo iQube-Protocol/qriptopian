@@ -12,12 +12,14 @@ interface Kn0w1ViewerProps {
   domain: string;
   onFullscreenChange?: (isFullscreen: boolean) => void;
   onModeChange?: (mode: 'read' | 'watch' | 'listen') => void;
+  hideActionIcons?: boolean;
 }
 export function Kn0w1Viewer({
   items,
   domain,
   onFullscreenChange,
-  onModeChange
+  onModeChange,
+  hideActionIcons = false
 }: Kn0w1ViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mode, setMode] = useState<'read' | 'watch' | 'listen'>('watch');
@@ -71,14 +73,16 @@ export function Kn0w1Viewer({
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         
         {/* Top Right - Action Icons */}
-        <div className="absolute top-4 right-4 md:top-6 md:right-6 flex gap-2">
-          <button onClick={() => onModeChange?.('read')} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Read">
-            <BookOpen className="h-3.5 w-3.5" />
-          </button>
-          <button onClick={() => handleFullscreenToggle(true)} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Fullscreen">
-            <Maximize2 className="h-3.5 w-3.5" />
-          </button>
-        </div>
+        {!hideActionIcons && (
+          <div className="absolute top-4 right-4 md:top-6 md:right-6 flex gap-2">
+            <button onClick={() => onModeChange?.('read')} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Read">
+              <BookOpen className="h-3.5 w-3.5" />
+            </button>
+            <button onClick={() => handleFullscreenToggle(true)} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Fullscreen">
+              <Maximize2 className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
         
         {/* Bottom Left - Title */}
         <div className="absolute bottom-4 md:bottom-8 left-4 md:left-8 max-w-[80%]">
