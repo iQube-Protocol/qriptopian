@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { QriptopianNav, Domain } from "@/components/navigation/QriptopianNav";
+import { MobileNav } from "@/components/navigation/MobileNav";
 import { TopHeader } from "@/components/navigation/TopHeader";
 import { SignalsDrawer } from "@/components/navigation/drawers/SignalsDrawer";
 import { PennyDropsDrawer } from "@/components/navigation/drawers/PennyDropsDrawer";
@@ -13,6 +14,7 @@ import { MetaAvatar } from "@/components/MetaAvatar";
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
 
   const handleDomainClick = (domain: Domain) => {
@@ -21,7 +23,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen bg-[#020818]">
-      <TopHeader />
+      <TopHeader onMobileMenuClick={() => setIsMobileNavOpen(true)} />
       
       <div className="flex w-full pt-[88px] md:pr-16">
         <main className="flex-1 overflow-hidden">
@@ -31,6 +33,14 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
       <QriptopianNav 
         activeDomain={activeDomain} 
+        onDomainClick={handleDomainClick}
+        onAIClick={() => setIsAIOpen(true)}
+      />
+
+      <MobileNav 
+        isOpen={isMobileNavOpen}
+        onClose={() => setIsMobileNavOpen(false)}
+        activeDomain={activeDomain}
         onDomainClick={handleDomainClick}
         onAIClick={() => setIsAIOpen(true)}
       />
