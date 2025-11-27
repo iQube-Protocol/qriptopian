@@ -25,7 +25,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen bg-[#020818]">
       <TopHeader onMobileMenuClick={() => setIsMobileNavOpen(true)} />
       
-      <div className="flex w-full pt-[88px] md:pr-16">
+      <div className="flex w-full pt-[88px]">
         <main className="flex-1 overflow-hidden">
           {children}
         </main>

@@ -182,109 +182,192 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
           {/* Right: 1 column for MetaAvatar iframe (rendered globally in Layout) - hidden on mobile */}
           <div className="hidden md:block col-span-1" />
 
-          {/* Thumbnail carousel - show 2.3 items to indicate it's a carousel */}
+          {/* Thumbnail carousel - Desktop: always visible. Mobile: hover-reveal overlay */}
           {thumbnailContent.length > 0 && (
-            <div className="col-span-full border-t border-border/30 pt-4 md:pt-6">
-              <Carousel
-                setApi={setThumbnailCarouselApi}
-                className="w-full"
-                opts={{
-                  align: "start",
-                  dragFree: true
-                }}
-                plugins={[WheelGesturesPlugin()]}
-              >
-                <CarouselContent className="-ml-2 md:-ml-4">
-                  {thumbnailContent.map((item, index) => {
-                    const contentIndex = index + 1; // +1 because first item is feature
-                    return (
-                      <CarouselItem key={item.id} className="basis-[43%] md:basis-1/4 pl-2 md:pl-4">
-                        <div className="relative aspect-[47/20] rounded-lg overflow-hidden group cursor-pointer">
-                          <img 
-                            src={item.image} 
-                            alt={item.title}
-                            className="w-full h-full object-cover transition-transform group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                          {/* Action Menu */}
-                          <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            {contentService.hasModality(content[contentIndex], 'read') && (
-                              <button 
-                                onClick={() => {
-                                  setSelectedItemIndex(contentIndex);
-                                  setActiveMode('read');
-                                }}
-                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                                aria-label="Read"
-                              >
-                                <BookOpen className="h-3 w-3" />
-                              </button>
-                            )}
-                            {contentService.hasModality(content[contentIndex], 'watch') && (
-                              <button 
-                                onClick={() => {
-                                  setSelectedItemIndex(contentIndex);
-                                  setActiveMode('watch');
-                                }}
-                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                                aria-label="Watch"
-                              >
-                                <Play className="h-3 w-3" />
-                              </button>
-                            )}
-                            {contentService.hasModality(content[contentIndex], 'listen') && (
-                              <button 
-                                onClick={() => {
-                                  setSelectedItemIndex(contentIndex);
-                                  setActiveMode('listen');
-                                }}
-                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                                aria-label="Listen"
-                              >
-                                <Headphones className="h-3 w-3" />
-                              </button>
-                            )}
-                            {contentService.hasModality(content[contentIndex], 'link') && (
-                              <button 
-                                onClick={() => {
-                                  setSelectedItemIndex(contentIndex);
-                                  setActiveMode('link');
-                                }}
-                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                                aria-label="Open Link"
-                              >
-                                <ExternalLink className="h-3 w-3" />
-                              </button>
-                            )}
+            <>
+              {/* Desktop Carousel - always visible */}
+              <div className="hidden md:block col-span-full border-t border-border/30 pt-6">
+                <Carousel
+                  setApi={setThumbnailCarouselApi}
+                  className="w-full"
+                  opts={{
+                    align: "start",
+                    dragFree: true
+                  }}
+                  plugins={[WheelGesturesPlugin()]}
+                >
+                  <CarouselContent className="-ml-4">
+                    {thumbnailContent.map((item, index) => {
+                      const contentIndex = index + 1;
+                      return (
+                        <CarouselItem key={item.id} className="basis-1/4 pl-4">
+                          <div className="relative aspect-[47/20] rounded-lg overflow-hidden group cursor-pointer">
+                            <img 
+                              src={item.image} 
+                              alt={item.title}
+                              className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                            {/* Action Menu */}
+                            <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              {contentService.hasModality(content[contentIndex], 'read') && (
+                                <button 
+                                  onClick={() => {
+                                    setSelectedItemIndex(contentIndex);
+                                    setActiveMode('read');
+                                  }}
+                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  aria-label="Read"
+                                >
+                                  <BookOpen className="h-3 w-3" />
+                                </button>
+                              )}
+                              {contentService.hasModality(content[contentIndex], 'watch') && (
+                                <button 
+                                  onClick={() => {
+                                    setSelectedItemIndex(contentIndex);
+                                    setActiveMode('watch');
+                                  }}
+                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  aria-label="Watch"
+                                >
+                                  <Play className="h-3 w-3" />
+                                </button>
+                              )}
+                              {contentService.hasModality(content[contentIndex], 'listen') && (
+                                <button 
+                                  onClick={() => {
+                                    setSelectedItemIndex(contentIndex);
+                                    setActiveMode('listen');
+                                  }}
+                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  aria-label="Listen"
+                                >
+                                  <Headphones className="h-3 w-3" />
+                                </button>
+                              )}
+                              {contentService.hasModality(content[contentIndex], 'link') && (
+                                <button 
+                                  onClick={() => {
+                                    setSelectedItemIndex(contentIndex);
+                                    setActiveMode('link');
+                                  }}
+                                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
+                                  aria-label="Open Link"
+                                >
+                                  <ExternalLink className="h-3 w-3" />
+                                </button>
+                              )}
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 p-3">
+                              <h4 className="text-sm font-semibold text-white">{item.title}</h4>
+                            </div>
                           </div>
-                          <div className="absolute bottom-0 left-0 right-0 p-3">
-                            <h4 className="text-sm font-semibold text-white">{item.title}</h4>
-                          </div>
-                        </div>
-                      </CarouselItem>
-                    );
-                  })}
-                </CarouselContent>
-              </Carousel>
-              
-              {/* Pagination Dots */}
-              <div className="flex items-center justify-center gap-2 mt-4">
-                {thumbnailContent.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      thumbnailCarouselApi?.scrollTo(index);
-                    }}
-                    className={`transition-all ${
-                      index === currentSlide
-                        ? 'w-8 h-2 bg-cyan-400 rounded-full'
-                        : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
+                        </CarouselItem>
+                      );
+                    })}
+                  </CarouselContent>
+                </Carousel>
+                
+                {/* Pagination Dots - Desktop */}
+                <div className="flex items-center justify-center gap-2 mt-4">
+                  {thumbnailContent.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        thumbnailCarouselApi?.scrollTo(index);
+                      }}
+                      className={`transition-all ${
+                        index === currentSlide
+                          ? 'w-8 h-2 bg-cyan-400 rounded-full'
+                          : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+
+              {/* Mobile: Hover-reveal overlay at bottom */}
+              <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 group/mobile-carousel">
+                {/* Trigger zone - invisible but detects hover/touch */}
+                <div className="h-16 w-full" />
+                
+                {/* Carousel overlay - appears on hover */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/95 to-transparent opacity-0 group-hover/mobile-carousel:opacity-100 transition-opacity duration-300 pb-4 pt-8">
+                  <Carousel
+                    className="w-full px-4"
+                    opts={{
+                      align: "start",
+                      dragFree: true
+                    }}
+                    plugins={[WheelGesturesPlugin()]}
+                  >
+                    <CarouselContent className="-ml-2">
+                      {thumbnailContent.map((item, index) => {
+                        const contentIndex = index + 1;
+                        return (
+                          <CarouselItem key={item.id} className="basis-[43%] pl-2">
+                            <div className="relative aspect-[47/20] rounded-lg overflow-hidden group cursor-pointer">
+                              <img 
+                                src={item.image} 
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                              {/* Action Menu on hover */}
+                              <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                {contentService.hasModality(content[contentIndex], 'read') && (
+                                  <button 
+                                    onClick={() => {
+                                      setSelectedItemIndex(contentIndex);
+                                      setActiveMode('read');
+                                    }}
+                                    className="w-6 h-6 rounded-full bg-black/70 border border-cyan-500/30 flex items-center justify-center text-cyan-400" 
+                                    aria-label="Read"
+                                  >
+                                    <BookOpen className="h-3 w-3" />
+                                  </button>
+                                )}
+                                {contentService.hasModality(content[contentIndex], 'watch') && (
+                                  <button 
+                                    onClick={() => {
+                                      setSelectedItemIndex(contentIndex);
+                                      setActiveMode('watch');
+                                    }}
+                                    className="w-6 h-6 rounded-full bg-black/70 border border-cyan-500/30 flex items-center justify-center text-cyan-400" 
+                                    aria-label="Watch"
+                                  >
+                                    <Play className="h-3 w-3" />
+                                  </button>
+                                )}
+                              </div>
+                              <div className="absolute bottom-0 left-0 right-0 p-2">
+                                <h4 className="text-xs font-semibold text-white truncate">{item.title}</h4>
+                              </div>
+                            </div>
+                          </CarouselItem>
+                        );
+                      })}
+                    </CarouselContent>
+                  </Carousel>
+                  
+                  {/* Pagination Dots - Mobile */}
+                  <div className="flex items-center justify-center gap-1.5 mt-3">
+                    {thumbnailContent.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`transition-all ${
+                          index === currentSlide
+                            ? 'w-6 h-1.5 bg-cyan-400 rounded-full'
+                            : 'w-1.5 h-1.5 bg-white/30 rounded-full'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
           )}
         </>
       )}
