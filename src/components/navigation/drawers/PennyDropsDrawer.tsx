@@ -112,8 +112,8 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
         </div>
       ) : (
         <>
-          {/* Mobile: Spacer for MetaAvatar overlay */}
-          <div className="col-span-full h-[200px] md:hidden" />
+          {/* Mobile: MetaAvatar takes top half */}
+          <div className="col-span-full h-[calc(50vh-88px)] md:hidden" />
 
           {/* Left: 2 columns - Large Feature Article on desktop, full width on mobile */}
           <div className="col-span-full md:col-span-2">
@@ -288,13 +288,13 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                 </div>
               </div>
 
-              {/* Mobile: Hover-reveal overlay at bottom */}
+              {/* Mobile: Hover-reveal overlay on top of main article */}
               <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 group/mobile-carousel">
-                {/* Trigger zone - invisible but detects hover/touch */}
-                <div className="h-16 w-full" />
+                {/* Invisible trigger zone at bottom of screen */}
+                <div className="h-20 w-full" />
                 
-                {/* Carousel overlay - appears on hover */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/95 to-transparent opacity-0 group-hover/mobile-carousel:opacity-100 transition-opacity duration-300 pb-4 pt-8">
+                {/* Carousel overlay - appears on hover/touch, layered on top of article */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent opacity-0 group-hover/mobile-carousel:opacity-100 transition-opacity duration-300 pb-6 pt-10">
                   <Carousel
                     className="w-full px-4"
                     opts={{
