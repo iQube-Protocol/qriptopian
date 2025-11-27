@@ -69,7 +69,7 @@ export function DynamicSecondHeroSection() {
         <img src={quantumTechHero} alt="Quantum Technology - The Future of Computing" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#050f1f] via-transparent to-transparent" />
         <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
-          <div className="px-4 md:px-8 max-w-2xl">
+          <div className="px-6 sm:px-8 md:px-8 max-w-2xl">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#d0f6ff] mb-4 md:mb-6 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)]">
               Powering the Quantum Future
             </h1>
@@ -109,7 +109,7 @@ export function DynamicSecondHeroSection() {
               />
             
             <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
-              <div className="px-4 md:px-8 max-w-2xl">
+              <div className="px-6 sm:px-8 md:px-8 max-w-2xl">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="flex gap-2">
                     {articles.map((_, idx) => (
