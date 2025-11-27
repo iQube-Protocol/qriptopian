@@ -299,16 +299,16 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
 
       {/* Watch Modal */}
       {activeMode === 'watch' && currentContent && currentModalities?.watch && (
-        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] p-4 sm:p-8">
+        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] p-4 md:p-8">
           <div className="relative w-full max-w-7xl max-h-[90vh]">
             <button 
               onClick={() => setActiveMode(null)} 
-              className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center z-10 transition-all hover:scale-110 shadow-xl"
+              className="absolute top-2 right-2 md:top-4 md:right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-12 h-12 md:w-14 md:h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center z-10 transition-all hover:scale-110 shadow-xl"
             >
               ×
             </button>
             {isYouTubeUrl(currentModalities.watch.video_url) ? (
-              <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
+              <div className="w-full aspect-[9/16] md:aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
                 <iframe
                   src={getYouTubeEmbedUrl(currentModalities.watch.video_url)}
                   className="w-full h-full"

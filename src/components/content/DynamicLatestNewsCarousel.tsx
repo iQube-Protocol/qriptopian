@@ -85,10 +85,10 @@ export function DynamicLatestNewsCarousel() {
   }
 
   return (
-    <div className="w-full bg-[#071327] py-12 px-4">
+    <div className="w-full bg-[#071327] py-8 md:py-12 px-4">
       <div className="max-w-[95%] mx-auto">
-        <div className="flex items-center justify-between mb-8 px-2">
-          <h2 className="text-[#d0f6ff] text-2xl font-medium text-left px-0 mx-0">Latest News</h2>
+        <div className="flex items-center justify-between mb-6 md:mb-8 px-2">
+          <h2 className="text-[#d0f6ff] text-xl md:text-2xl font-medium text-left px-0 mx-0">Latest News</h2>
           <div className="flex items-center gap-4">
             <button 
               onClick={scrollPrev} 
@@ -121,18 +121,18 @@ export function DynamicLatestNewsCarousel() {
         >
           <CarouselContent className="-ml-4">
             {articles.map((article) => (
-              <CarouselItem key={article.id} className="pl-4 md:basis-[48%] lg:basis-[30%]">
+              <CarouselItem key={article.id} className="pl-4 basis-full md:basis-[48%] lg:basis-[30%]">
                 <div className="relative bg-[#020b18] border border-[#1e2b40] rounded-lg overflow-hidden hover:border-cyan-500/30 transition-colors group">
                   {article.thumbnail && (
                     <div className="relative">
                       <img 
                         src={article.thumbnail} 
                         alt={article.title} 
-                        className="w-full h-48 object-cover" 
+                        className="w-full h-36 md:h-48 object-cover" 
                       />
                     </div>
                   )}
-                  <div className="p-6">
+                  <div className="p-4 md:p-6">
                     {/* Navigation dots and modality buttons */}
                     <div className="flex items-center gap-4 mb-4">
                       <button 
@@ -248,7 +248,7 @@ export function DynamicLatestNewsCarousel() {
 
       {/* Modality Dialog for watch/listen */}
       <Dialog open={(activeModality === 'watch' || activeModality === 'listen') && selectedArticle !== null} onOpenChange={(open) => !open && closeModal()}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-[#020b18] border-[#1e2b40]">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-[#020b18] border-[#1e2b40] p-4 md:p-6">
           <DialogHeader>
             <DialogTitle className="text-[#d0f6ff]">{selectedArticle?.title}</DialogTitle>
           </DialogHeader>
@@ -262,7 +262,7 @@ export function DynamicLatestNewsCarousel() {
                 return (
                   <iframe
                     src={getYouTubeEmbedUrl(videoUrl)}
-                    className="w-full aspect-video rounded-lg"
+                    className="w-full aspect-[9/16] md:aspect-video rounded-lg"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
