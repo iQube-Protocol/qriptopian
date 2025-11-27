@@ -112,6 +112,9 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
         </div>
       ) : (
         <>
+          {/* Mobile: Spacer for MetaAvatar overlay */}
+          <div className="col-span-full h-[200px] md:hidden" />
+
           {/* Left: 2 columns - Large Feature Article on desktop, full width on mobile */}
           <div className="col-span-full md:col-span-2">
             {featureContent.length > 0 && (
@@ -179,7 +182,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
           {/* Right: 1 column for MetaAvatar iframe (rendered globally in Layout) - hidden on mobile */}
           <div className="hidden md:block col-span-1" />
 
-          {/* Full-width thumbnail carousel */}
+          {/* Thumbnail carousel - show 2.3 items to indicate it's a carousel */}
           {thumbnailContent.length > 0 && (
             <div className="col-span-full border-t border-border/30 pt-4 md:pt-6">
               <Carousel
@@ -195,7 +198,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                   {thumbnailContent.map((item, index) => {
                     const contentIndex = index + 1; // +1 because first item is feature
                     return (
-                      <CarouselItem key={item.id} className="basis-1/2 md:basis-1/4 pl-2 md:pl-4">
+                      <CarouselItem key={item.id} className="basis-[43%] md:basis-1/4 pl-2 md:pl-4">
                         <div className="relative aspect-[47/20] rounded-lg overflow-hidden group cursor-pointer">
                           <img 
                             src={item.image} 

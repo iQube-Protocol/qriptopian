@@ -266,6 +266,37 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
         )}
       </div>
 
+      {/* Thumbnail carousel - positioned between main article and content panels on mobile, show 2.3 items */}
+      <div className="col-span-full border-t border-border/30 pt-4 md:hidden">
+        <Carousel
+          setApi={setThumbnailCarouselApi}
+          className="w-full"
+          opts={{
+            align: "start",
+            dragFree: true
+          }}
+          plugins={[WheelGesturesPlugin()]}
+        >
+          <CarouselContent className="-ml-2">
+            {thumbnailContent.map((item, index) => (
+              <CarouselItem key={item.id} className="basis-[43%] pl-2">
+                <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2">
+                    <h4 className="text-xs font-semibold text-white truncate">{item.title}</h4>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
+
       {/* Right: 2 columns split - content area + resources - stacked on mobile */}
       <div className="col-span-full md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {/* Content Area */}
@@ -494,8 +525,8 @@ const tx = await qiri.send({
         </div>
       </div>
 
-      {/* Full-width thumbnail carousel */}
-      <div className="col-span-full border-t border-border/30 pt-4 md:pt-6">
+      {/* Full-width thumbnail carousel - desktop only */}
+      <div className="col-span-full border-t border-border/30 pt-4 md:pt-6 hidden md:block">
         <Carousel
           setApi={setThumbnailCarouselApi}
           className="w-full"
@@ -505,9 +536,9 @@ const tx = await qiri.send({
           }}
           plugins={[WheelGesturesPlugin()]}
         >
-          <CarouselContent className="-ml-2 md:-ml-4">
+          <CarouselContent className="-ml-4">
             {thumbnailContent.map((item, index) => (
-              <CarouselItem key={item.id} className="basis-1/2 md:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem key={item.id} className="basis-1/4 pl-4">
                 <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
                   <img 
                     src={item.image} 
