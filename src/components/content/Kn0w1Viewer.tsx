@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, BookOpen, Maximize2, X, Headphones } from "lucide-react";
+import { Play, BookOpen, Maximize2, X, Headphones, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 interface ContentItem {
@@ -37,9 +37,21 @@ export function Kn0w1Viewer({
   };
   if (isFullscreen) {
     return <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
-        <button onClick={() => handleFullscreenToggle(false)} className="absolute top-4 right-24 z-10 text-white hover:text-cyan-400 transition-colors">
-          <X className="h-6 w-6" />
-        </button>
+        {/* Media player sub menu */}
+        <div className="absolute top-4 right-24 z-10 flex flex-col gap-3">
+          <button onClick={() => handleFullscreenToggle(false)} className="text-white hover:text-cyan-400 transition-colors">
+            <X className="h-6 w-6" />
+          </button>
+          <button onClick={() => setActiveIndex(activeIndex)} className="text-white hover:text-cyan-400 transition-colors">
+            <RotateCcw className="h-4 w-4" />
+          </button>
+          <button onClick={handleNext} className="text-white hover:text-cyan-400 transition-colors">
+            <ChevronRight className="h-4 w-4" />
+          </button>
+          <button onClick={handlePrevious} className="text-white hover:text-cyan-400 transition-colors">
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+        </div>
         
         <div className="relative w-full h-full flex items-center justify-center">
           <img src={activeItem.image} alt={activeItem.title} className="max-w-full max-h-full object-contain" />
