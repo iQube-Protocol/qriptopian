@@ -235,22 +235,24 @@ export function DynamicLatestNewsCarousel() {
         </div>
       )}
 
-      {/* Modality Dialog */}
-      <Dialog open={activeModality !== null && activeModality !== 'link'} onOpenChange={(open) => !open && closeModal()}>
+      {/* Modality Rendering */}
+      {activeModality === 'read' && selectedArticle && (
+        <ArticleRenderer
+          content={(contentService.getModality(selectedArticle, 'read') as { text: string })?.text || ''}
+          title={selectedArticle.title}
+          excerpt={selectedArticle.excerpt || undefined}
+          duration={selectedArticle.duration || undefined}
+          onClose={closeModal}
+        />
+      )}
+
+      {/* Modality Dialog for watch/listen */}
+      <Dialog open={(activeModality === 'watch' || activeModality === 'listen') && selectedArticle !== null} onOpenChange={(open) => !open && closeModal()}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-[#020b18] border-[#1e2b40]">
           <DialogHeader>
             <DialogTitle className="text-[#d0f6ff]">{selectedArticle?.title}</DialogTitle>
           </DialogHeader>
           <div className="mt-4">
-            {activeModality === 'read' && selectedArticle && (
-              <ArticleRenderer
-                content={(contentService.getModality(selectedArticle, 'read') as { text: string })?.text || ''}
-                title={selectedArticle.title}
-                excerpt={selectedArticle.excerpt || undefined}
-                duration={selectedArticle.duration || undefined}
-                onClose={closeModal}
-              />
-            )}
             {activeModality === 'watch' && selectedArticle && (() => {
               const watchModality = contentService.getModality(selectedArticle, 'watch') as { video_url: string } | undefined;
               const videoUrl = watchModality?.video_url;
