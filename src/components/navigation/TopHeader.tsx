@@ -58,15 +58,6 @@ export function TopHeader({ onMobileMenuClick }: TopHeaderProps) {
       </div>
       
       <div className="flex items-center gap-2 md:gap-4">
-        {/* Mobile Menu Button */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="md:hidden text-gray-400 hover:text-cyan-400"
-          onClick={onMobileMenuClick}
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
         <Button variant="ghost" size="icon" className="text-gray-400 hover:text-cyan-400">
           <Bell className="h-5 w-5" />
         </Button>
@@ -94,6 +85,16 @@ export function TopHeader({ onMobileMenuClick }: TopHeaderProps) {
             Sign In
           </Button>
         )}
+        
+        {/* Mobile Menu Button */}
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="md:hidden text-gray-400 hover:text-cyan-400"
+          onClick={onMobileMenuClick}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
       </div>
     </header>
   );
