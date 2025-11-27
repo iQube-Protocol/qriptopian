@@ -112,8 +112,8 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
         </div>
       ) : (
         <>
-          {/* Left: 2 columns - Large Feature Article */}
-          <div className="col-span-2">
+          {/* Left: 2 columns - Large Feature Article on desktop, full width on mobile */}
+          <div className="col-span-full md:col-span-2">
             {featureContent.length > 0 && (
               <div className="relative group">
                 <Kn0w1Viewer 
@@ -176,12 +176,12 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
             )}
           </div>
 
-          {/* Right: 1 column for MetaAvatar iframe (rendered globally in Layout) */}
-          <div className="col-span-1" />
+          {/* Right: 1 column for MetaAvatar iframe (rendered globally in Layout) - hidden on mobile */}
+          <div className="hidden md:block col-span-1" />
 
           {/* Full-width thumbnail carousel */}
           {thumbnailContent.length > 0 && (
-            <div className="col-span-full border-t border-border/30 pt-6">
+            <div className="col-span-full border-t border-border/30 pt-4 md:pt-6">
               <Carousel
                 setApi={setThumbnailCarouselApi}
                 className="w-full"
@@ -191,11 +191,11 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                 }}
                 plugins={[WheelGesturesPlugin()]}
               >
-                <CarouselContent className="-ml-4">
+                <CarouselContent className="-ml-2 md:-ml-4">
                   {thumbnailContent.map((item, index) => {
                     const contentIndex = index + 1; // +1 because first item is feature
                     return (
-                      <CarouselItem key={item.id} className="basis-1/4 pl-4">
+                      <CarouselItem key={item.id} className="basis-1/2 md:basis-1/4 pl-2 md:pl-4">
                         <div className="relative aspect-[47/20] rounded-lg overflow-hidden group cursor-pointer">
                           <img 
                             src={item.image} 
