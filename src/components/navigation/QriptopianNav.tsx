@@ -48,9 +48,9 @@ export function QriptopianNav({
 }: QriptopianNavProps) {
   return (
     <TooltipProvider delayDuration={0}>
-      <aside className="hidden md:flex fixed right-0 top-1/2 -translate-y-1/2 w-16 flex-col items-center py-6 z-50">
-        {/* Navigation Icons */}
-        <nav className="flex flex-col gap-2 w-full px-2">
+      {/* Desktop: Transparent floating sidebar */}
+      <aside className="hidden md:flex fixed right-0 top-1/2 -translate-y-1/2 w-16 flex-col items-center py-6 z-50 pointer-events-auto">
+        <nav className="flex flex-col gap-2 w-full px-2 bg-background/20 backdrop-blur-sm rounded-l-lg border-l border-t border-b border-border/20">
           {navItems
             .filter(item => !['signals', 'staybull', 'settings'].includes(item.id))
             .map(item => {
@@ -84,7 +84,7 @@ export function QriptopianNav({
             })}
           
           {/* AI Assistant Icon */}
-          <div className="mt-4 pt-4 border-t border-[#1e2b40]">
+          <div className="mt-4 pt-4 border-t border-border/30">
             <Tooltip>
               <TooltipTrigger asChild>
                 <button

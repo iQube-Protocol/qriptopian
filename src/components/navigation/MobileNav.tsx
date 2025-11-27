@@ -1,5 +1,6 @@
-import { X, Droplets, Code2, BookOpen, Bot } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Droplets, Code2, BookOpen, Bot } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import type { Domain } from "./QriptopianNav";
 
 interface MobileNavProps {
@@ -11,85 +12,78 @@ interface MobileNavProps {
 }
 
 const domains = [
-  { id: 'pennydrops' as Domain, icon: Droplets, label: 'Penny Drops', description: 'Q¢ use cases' },
-  { id: 'scrolls' as Domain, icon: BookOpen, label: 'Scrolls', description: 'Stories & comics' },
-  { id: 'kn0wdz' as Domain, icon: Code2, label: 'Kn0wdZ', description: 'Knowledge base' }
+  { id: 'pennydrops' as Domain, icon: Droplets, label: 'Penny Drops' },
+  { id: 'scrolls' as Domain, icon: BookOpen, label: 'Scrolls' },
+  { id: 'kn0wdz' as Domain, icon: Code2, label: 'Kn0wdZ' }
 ];
 
 export function MobileNav({ isOpen, onClose, activeDomain, onDomainClick, onAIClick }: MobileNavProps) {
   if (!isOpen) return null;
 
   return (
-    <>
-      {/* Backdrop */}
+    <TooltipProvider delayDuration={0}>
+      {/* Backdrop - tap anywhere to close */}
       <div 
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] md:hidden"
+        className="fixed inset-0 z-[60] md:hidden"
         onClick={onClose}
       />
       
-      {/* Mobile Menu */}
-      <div className="fixed inset-y-0 right-0 w-[280px] bg-[#0a1628] border-l border-[#1a2942] z-[70] md:hidden flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#1a2942]">
-          <h2 className="text-lg font-bold text-cyan-400">Navigation</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="text-gray-400 hover:text-cyan-400"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-
-        {/* Navigation Items */}
-        <nav className="flex-1 overflow-y-auto p-4">
-          <div className="space-y-2">
-            {domains.map((domain) => {
-              const Icon = domain.icon;
-              const isActive = activeDomain === domain.id;
-              
-              return (
-                <button
-                  key={domain.id}
-                  onClick={() => {
-                    onDomainClick(domain.id);
-                    onClose();
-                  }}
-                  className={`w-full flex items-center gap-3 p-4 rounded-lg transition-all ${
-                    isActive 
-                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' 
-                      : 'text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10'
-                  }`}
-                >
-                  <Icon className="h-5 w-5 flex-shrink-0" />
-                  <div className="flex-1 text-left">
-                    <div className="font-medium">{domain.label}</div>
-                    <div className="text-xs opacity-70">{domain.description}</div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+      {/* Mobile: Transparent floating icon menu - positioned on right side */}
+      <aside className="fixed right-4 top-1/2 -translate-y-1/2 z-[70] md:hidden">
+        <nav className="flex flex-col gap-2 p-2 bg-background/30 backdrop-blur-md rounded-lg border border-border/30">
+          {domains.map((domain) => {
+            const Icon = domain.icon;
+            const isActive = activeDomain === domain.id;
+            
+            return (
+              <Tooltip key={domain.id}>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => {
+                      onDomainClick(domain.id);
+                      onClose();
+                    }}
+                    className={cn(
+                      "w-12 h-12 rounded-lg flex items-center justify-center transition-all relative",
+                      isActive 
+                        ? "bg-cyan-500/20 text-cyan-400" 
+                        : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 active:bg-cyan-500/20"
+                    )}
+                  >
+                    {isActive && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-r" />
+                    )}
+                    <Icon className="h-5 w-5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
+                  {domain.label}
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
 
           {/* AI Assistant */}
-          <div className="mt-6 pt-6 border-t border-[#1a2942]">
-            <button
-              onClick={() => {
-                onAIClick();
-                onClose();
-              }}
-              className="w-full flex items-center gap-3 p-4 rounded-lg text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all"
-            >
-              <Bot className="h-5 w-5 flex-shrink-0" />
-              <div className="flex-1 text-left">
-                <div className="font-medium">AI Assistant</div>
-                <div className="text-xs opacity-70">Chat & support</div>
-              </div>
-            </button>
+          <div className="mt-2 pt-2 border-t border-border/30">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => {
+                    onAIClick();
+                    onClose();
+                  }}
+                  className="w-12 h-12 rounded-lg flex items-center justify-center transition-all text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 active:bg-cyan-500/20"
+                >
+                  <Bot className="h-5 w-5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
+                AI Assistant
+              </TooltipContent>
+            </Tooltip>
           </div>
         </nav>
-      </div>
-    </>
+      </aside>
+    </TooltipProvider>
   );
 }
