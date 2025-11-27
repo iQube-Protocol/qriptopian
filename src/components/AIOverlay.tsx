@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { X, Send, Search, Mic } from "lucide-react";
+import { X, Send, Search, Mic, MessageCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface AIOverlayProps {
   isOpen: boolean;
@@ -48,13 +49,20 @@ export function AIOverlay({ isOpen, onClose }: AIOverlayProps) {
       
       {/* AI Drawer - matches other drawer positioning */}
       <div 
-        className={`fixed right-[80px] top-[88px] h-[calc(100vh-88px)] w-[600px] bg-background/80 backdrop-blur-xl border-l border-border/30 shadow-[0_0_60px_rgba(0,0,0,0.5)] z-50 flex flex-col transition-transform duration-300 ease-out ${
+        className={`fixed right-0 md:right-[80px] top-0 md:top-[88px] h-full md:h-[calc(100vh-88px)] w-full md:w-[600px] bg-background/95 md:bg-background/80 backdrop-blur-xl border-l border-border/30 shadow-[0_0_60px_rgba(0,0,0,0.5)] z-50 flex flex-col transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* Header Section */}
+        {/* Header Section with Aigent MoneyPenny Badge */}
         <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
-          <div className="p-6 flex items-center justify-between">
+          {/* MoneyPenny Badge */}
+          <div className="px-4 pt-3 md:px-6 md:pt-4">
+            <Badge className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 text-cyan-400 text-xs px-2 py-0.5">
+              Aigent MoneyPenny
+            </Badge>
+          </div>
+          
+          <div className="p-4 md:p-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-[0_0_20px_rgba(94,234,212,0.5)]">
                 <span className="text-lg font-bold text-background">AI</span>
@@ -64,14 +72,34 @@ export function AIOverlay({ isOpen, onClose }: AIOverlayProps) {
                 <p className="text-xs text-muted-foreground">Ask me anything</p>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="text-muted-foreground hover:text-foreground hover:bg-accent/50 relative z-10"
-            >
-              <X className="h-5 w-5" />
-            </Button>
+            
+            {/* Action icons for mobile - avatar and chat toggle */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden text-muted-foreground hover:text-cyan-400 hover:bg-cyan-500/10"
+                title="Avatar"
+              >
+                <User className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden text-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20"
+                title="Chat"
+              >
+                <MessageCircle className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onClose}
+                className="text-muted-foreground hover:text-foreground hover:bg-accent/50 relative z-10"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
 
