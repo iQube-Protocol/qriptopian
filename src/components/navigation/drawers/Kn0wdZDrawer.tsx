@@ -292,7 +292,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
               </div>
               
               {/* Action icons */}
-              <div className="absolute bottom-16 left-4 flex gap-2">
+              <div className="absolute bottom-32 left-4 flex gap-2">
                 <button 
                   onClick={() => handleFullscreenToggle(true)}
                   className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
