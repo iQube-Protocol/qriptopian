@@ -42,15 +42,15 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
         onClick={onClose}
       />
       
-      {/* Drawer - slides from right, positioned between screen edge and nav */}
-      <div className={`fixed right-[80px] top-[88px] h-[calc(100vh-88px)] w-[calc(100vw-160px)] bg-background/80 backdrop-blur-xl border-l border-border/30 shadow-[0_0_60px_rgba(0,0,0,0.5)] z-50 overflow-hidden flex flex-col transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* Drawer - full-screen on mobile, positioned between screen edge and nav on desktop */}
+      <div className={`fixed inset-0 md:right-[80px] md:top-[88px] md:left-auto md:h-[calc(100vh-88px)] md:w-[calc(100vw-160px)] bg-background/95 md:bg-background/80 backdrop-blur-xl md:border-l border-border/30 shadow-[0_0_60px_rgba(0,0,0,0.5)] z-50 overflow-hidden flex flex-col transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         
         {/* Header */}
         <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
-          <div className="p-6 flex items-center justify-between gap-4">
-            <div className="flex-shrink-0">
-              <h2 className="text-2xl font-bold text-foreground mb-1">{title}</h2>
-              {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+          <div className="p-4 md:p-6 flex items-center justify-between gap-2 md:gap-4">
+            <div className="flex-shrink min-w-0">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-1 truncate">{title}</h2>
+              {subtitle && <p className="text-xs md:text-sm text-muted-foreground hidden sm:block">{subtitle}</p>}
             </div>
             
             <div className="flex items-center gap-6">
@@ -86,8 +86,8 @@ export function DrawerLayer({ isOpen, onClose, title, subtitle, columns = 2, tab
         </div>
 
         {/* Content with column support */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <div className={`grid ${columnClasses[columns]} gap-6`}>
+        <div className="flex-1 overflow-y-auto p-4 md:p-6">
+          <div className={`grid ${columnClasses[columns]} gap-4 md:gap-6`}>
             {children}
           </div>
         </div>

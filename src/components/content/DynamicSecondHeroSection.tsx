@@ -178,11 +178,11 @@ export function DynamicSecondHeroSection() {
       )}
 
       {activeMode === 'watch' && currentArticle && currentModalities?.watch && (
-        <div className="absolute inset-0 bg-black/95 flex items-center justify-center z-50 p-8">
+        <div className="absolute inset-0 bg-black/95 flex items-center justify-center z-50 p-4 md:p-8">
           <div className="relative w-full max-w-6xl">
             <button 
               onClick={() => setActiveMode(null)} 
-              className="absolute -top-4 -right-4 text-white hover:text-cyan-400 text-2xl bg-black/70 hover:bg-black/90 rounded-full w-12 h-12 flex items-center justify-center z-10 transition-colors"
+              className="absolute top-2 right-2 md:-top-4 md:-right-4 text-white hover:text-cyan-400 text-2xl bg-black/70 hover:bg-black/90 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center z-10 transition-colors"
             >
               ×
             </button>
@@ -190,7 +190,7 @@ export function DynamicSecondHeroSection() {
             {isYouTubeUrl(currentModalities.watch.video_url) ? (
               <iframe
                 src={getYouTubeEmbedUrl(currentModalities.watch.video_url)}
-                className="w-full aspect-video rounded-lg shadow-2xl"
+                className="w-full aspect-[9/16] md:aspect-video rounded-lg shadow-2xl"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
