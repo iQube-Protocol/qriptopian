@@ -57,6 +57,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [loading, setLoading] = useState(true);
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | null>(null);
   const [carouselApi, setCarouselApi] = useState<any>();
+  const [mobileHeroApi, setMobileHeroApi] = useState<any>();
   const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<any>();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [thumbnailSlide, setThumbnailSlide] = useState(0);
@@ -121,6 +122,23 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
     return () => thumbnailCarouselApi.off("select", updateSlide);
   }, [thumbnailCarouselApi]);
 
+  // Track mobile hero carousel and sync with selectedItemIndex
+  useEffect(() => {
+    if (!mobileHeroApi) return;
+    const updateSlide = () => {
+      setSelectedItemIndex(mobileHeroApi.selectedScrollSnap());
+    };
+    mobileHeroApi.on("select", updateSlide);
+    return () => mobileHeroApi.off("select", updateSlide);
+  }, [mobileHeroApi]);
+
+  // Sync mobile hero carousel when selectedItemIndex changes externally
+  useEffect(() => {
+    if (mobileHeroApi) {
+      mobileHeroApi.scrollTo(selectedItemIndex);
+    }
+  }, [selectedItemIndex, mobileHeroApi]);
+
   // Listen for close article event from ArticleRenderer
   useEffect(() => {
     const handleCloseArticle = () => {
@@ -174,59 +192,72 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
           <>
             {/* Mobile: Full portrait hero with hover-reveal thumbnails */}
             <div className="md:hidden relative">
-              {/* Full height portrait hero image */}
+              {/* Full height portrait hero carousel - swipeable */}
               <div className="relative h-[calc(100vh-180px)] rounded-lg overflow-hidden">
-                {displayContent[selectedItemIndex] && (
-                  <>
-                    <img 
-                      src={displayContent[selectedItemIndex].image} 
-                      alt={displayContent[selectedItemIndex].title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                    
-                    {/* Action icons */}
-                    <div className="absolute bottom-28 left-4 flex gap-2">
-                      <button 
-                        onClick={() => setIsFullscreen(true)}
-                        className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                      >
-                        <Maximize2 className="h-3.5 w-3.5" />
-                      </button>
-                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'read') && (
-                        <button 
-                          onClick={() => setActiveMode('read')}
-                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                        >
-                          <BookOpen className="h-3.5 w-3.5" />
-                        </button>
-                      )}
-                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'watch') && (
-                        <button 
-                          onClick={() => setActiveMode('watch')}
-                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                        >
-                          <Play className="h-3.5 w-3.5" />
-                        </button>
-                      )}
-                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'listen') && (
-                        <button 
-                          onClick={() => setActiveMode('listen')}
-                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                        >
-                          <Headphones className="h-3.5 w-3.5" />
-                        </button>
-                      )}
-                    </div>
-                    
-                    {/* Title overlay at bottom */}
-                    <div className="absolute bottom-12 left-4 right-4">
-                      <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-                        {displayContent[selectedItemIndex].title}
-                      </h2>
-                    </div>
-                  </>
-                )}
+                <Carousel
+                  setApi={setMobileHeroApi}
+                  className="w-full h-full"
+                  opts={{
+                    align: "start",
+                    loop: true
+                  }}
+                >
+                  <CarouselContent className="h-full -ml-0">
+                    {displayContent.map((item, index) => (
+                      <CarouselItem key={`mobile-hero-${item.id}`} className="h-full pl-0">
+                        <div className="relative w-full h-full">
+                          <img 
+                            src={item.image} 
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                          
+                          {/* Action icons */}
+                          <div className="absolute bottom-28 left-4 flex gap-2">
+                            <button 
+                              onClick={() => setIsFullscreen(true)}
+                              className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                            >
+                              <Maximize2 className="h-3.5 w-3.5" />
+                            </button>
+                            {content[index] && contentService.hasModality(content[index], 'read') && (
+                              <button 
+                                onClick={() => setActiveMode('read')}
+                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                              >
+                                <BookOpen className="h-3.5 w-3.5" />
+                              </button>
+                            )}
+                            {content[index] && contentService.hasModality(content[index], 'watch') && (
+                              <button 
+                                onClick={() => setActiveMode('watch')}
+                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                              >
+                                <Play className="h-3.5 w-3.5" />
+                              </button>
+                            )}
+                            {content[index] && contentService.hasModality(content[index], 'listen') && (
+                              <button 
+                                onClick={() => setActiveMode('listen')}
+                                className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                              >
+                                <Headphones className="h-3.5 w-3.5" />
+                              </button>
+                            )}
+                          </div>
+                          
+                          {/* Title overlay at bottom */}
+                          <div className="absolute bottom-12 left-4 right-4">
+                            <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+                              {item.title}
+                            </h2>
+                          </div>
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
                 
                 {/* Hover-reveal thumbnail carousel overlay */}
                 <div className="fixed bottom-0 left-0 right-0 group/thumbnails z-50">
