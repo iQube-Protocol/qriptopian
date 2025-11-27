@@ -57,7 +57,9 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [loading, setLoading] = useState(true);
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | null>(null);
   const [carouselApi, setCarouselApi] = useState<any>();
+  const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<any>();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [thumbnailSlide, setThumbnailSlide] = useState(0);
   const [activeTab, setActiveTab] = useState('metaknyts');
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mediaKey, setMediaKey] = useState(0);
@@ -107,6 +109,17 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
     carouselApi.on("select", updateSlide);
     return () => carouselApi.off("select", updateSlide);
   }, [carouselApi]);
+
+  // Track thumbnail carousel slide changes (mobile)
+  useEffect(() => {
+    if (!thumbnailCarouselApi) return;
+    const updateSlide = () => {
+      setThumbnailSlide(thumbnailCarouselApi.selectedScrollSnap());
+    };
+    updateSlide();
+    thumbnailCarouselApi.on("select", updateSlide);
+    return () => thumbnailCarouselApi.off("select", updateSlide);
+  }, [thumbnailCarouselApi]);
 
   // Listen for close article event from ArticleRenderer
   useEffect(() => {
@@ -159,16 +172,159 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
           </div>
         ) : (
           <>
-            {/* Main Carousel with Large Cards */}
-            <Carousel 
-              setApi={setCarouselApi}
-              className="w-full"
-              opts={{
-                align: "start",
-                loop: true
-              }}
-              plugins={[WheelGesturesPlugin()]}
-            >
+            {/* Mobile: Full portrait hero with hover-reveal thumbnails */}
+            <div className="md:hidden relative">
+              {/* Full height portrait hero image */}
+              <div className="relative h-[calc(100vh-180px)] rounded-lg overflow-hidden">
+                {displayContent[selectedItemIndex] && (
+                  <>
+                    <img 
+                      src={displayContent[selectedItemIndex].image} 
+                      alt={displayContent[selectedItemIndex].title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    
+                    {/* Action icons */}
+                    <div className="absolute bottom-28 left-4 flex gap-2">
+                      <button 
+                        onClick={() => setIsFullscreen(true)}
+                        className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                      >
+                        <Maximize2 className="h-3.5 w-3.5" />
+                      </button>
+                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'read') && (
+                        <button 
+                          onClick={() => setActiveMode('read')}
+                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                        >
+                          <BookOpen className="h-3.5 w-3.5" />
+                        </button>
+                      )}
+                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'watch') && (
+                        <button 
+                          onClick={() => setActiveMode('watch')}
+                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                        >
+                          <Play className="h-3.5 w-3.5" />
+                        </button>
+                      )}
+                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'listen') && (
+                        <button 
+                          onClick={() => setActiveMode('listen')}
+                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                        >
+                          <Headphones className="h-3.5 w-3.5" />
+                        </button>
+                      )}
+                    </div>
+                    
+                    {/* Title overlay at bottom */}
+                    <div className="absolute bottom-12 left-4 right-4">
+                      <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+                        {displayContent[selectedItemIndex].title}
+                      </h2>
+                    </div>
+                  </>
+                )}
+                
+                {/* Hover-reveal thumbnail carousel overlay */}
+                <div className="fixed bottom-0 left-0 right-0 group/thumbnails z-50">
+                  {/* Trigger zone */}
+                  <div className="h-20 w-full" />
+                  
+                  {/* Thumbnail carousel - appears on hover */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-8 pb-4 px-2 opacity-0 group-hover/thumbnails:opacity-100 transition-opacity duration-300">
+                    <Carousel
+                      setApi={setThumbnailCarouselApi}
+                      className="w-full"
+                      opts={{
+                        align: "start",
+                        dragFree: true
+                      }}
+                      plugins={[WheelGesturesPlugin()]}
+                    >
+                      <CarouselContent className="-ml-2">
+                        {displayContent.map((item, index) => (
+                          <CarouselItem key={`mobile-thumb-${item.id}`} className="basis-[43%] pl-2">
+                            <div 
+                              className="relative aspect-video rounded-lg overflow-hidden cursor-pointer"
+                              onClick={() => setSelectedItemIndex(index)}
+                            >
+                              <img 
+                                src={item.image} 
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                              {/* Action icons on thumbnails */}
+                              {content[index] && (
+                                <div className="absolute top-1 right-1 flex gap-1">
+                                  {contentService.hasModality(content[index], 'read') && (
+                                    <button 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedItemIndex(index);
+                                        setActiveMode('read');
+                                      }}
+                                      className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                                    >
+                                      <BookOpen className="h-2.5 w-2.5" />
+                                    </button>
+                                  )}
+                                  {contentService.hasModality(content[index], 'watch') && (
+                                    <button 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedItemIndex(index);
+                                        setActiveMode('watch');
+                                      }}
+                                      className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                                    >
+                                      <Play className="h-2.5 w-2.5" />
+                                    </button>
+                                  )}
+                                </div>
+                              )}
+                              <div className="absolute bottom-0 left-0 right-0 p-2">
+                                <h4 className="text-xs font-semibold text-white truncate">{item.title}</h4>
+                              </div>
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                    </Carousel>
+                    
+                    {/* Pagination Dots */}
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                      {displayContent.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => thumbnailCarouselApi?.scrollTo(index)}
+                          className={`transition-all ${
+                            index === thumbnailSlide
+                              ? 'w-6 h-1.5 bg-cyan-400 rounded-full'
+                              : 'w-1.5 h-1.5 bg-white/30 rounded-full'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop: Main Carousel with Large Cards */}
+            <div className="hidden md:block">
+              <Carousel 
+                setApi={setCarouselApi}
+                className="w-full"
+                opts={{
+                  align: "start",
+                  loop: true
+                }}
+                plugins={[WheelGesturesPlugin()]}
+              >
               <CarouselContent>
                 {displayContent.map((item, index) => (
                   <CarouselItem key={item.id} className="md:basis-1/2">
@@ -238,9 +394,10 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                 ))}
               </CarouselContent>
             </Carousel>
+            </div>
 
-            {/* Pagination Dots */}
-            <div className="flex items-center justify-center gap-2 mt-4">
+            {/* Desktop: Pagination Dots */}
+            <div className="hidden md:flex items-center justify-center gap-2 mt-4">
               {displayContent.map((_, index) => (
                 <button
                   key={index}
@@ -258,8 +415,8 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
               ))}
             </div>
 
-            {/* Thumbnail Scrolling Layer */}
-            <div className="border-t border-border/30 pt-4">
+            {/* Desktop: Thumbnail Scrolling Layer */}
+            <div className="hidden md:block border-t border-border/30 pt-4">
               <Carousel
                 className="w-full"
                 opts={{
