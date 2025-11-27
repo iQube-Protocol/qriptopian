@@ -57,7 +57,7 @@ export function DynamicSecondHeroSection() {
 
   if (loading) {
     return (
-      <div className="w-full h-screen bg-[#050f1f] flex items-center justify-center">
+      <div className="w-full h-[70vh] md:h-screen bg-[#050f1f] flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
       </div>
     );
@@ -65,15 +65,15 @@ export function DynamicSecondHeroSection() {
 
   if (articles.length === 0) {
     return (
-      <div className="w-full h-screen relative flex-shrink-0 bg-[#050f1f]">
-        <img src={quantumTechHero} alt="Quantum Technology - The Future of Computing" className="w-full h-full object-cover" />
+      <div className="w-full h-[70vh] md:h-screen relative flex-shrink-0 bg-[#050f1f]">
+        <img src={quantumTechHero} alt="Quantum Technology - The Future of Computing" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#050f1f] via-transparent to-transparent" />
-        <div className="absolute inset-0 flex items-end pb-16">
-          <div className="px-8 max-w-2xl">
-            <h1 className="text-6xl md:text-7xl font-bold text-[#d0f6ff] mb-6 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)]">
+        <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
+          <div className="px-4 md:px-8 max-w-2xl">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#d0f6ff] mb-4 md:mb-6 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)]">
               Powering the Quantum Future
             </h1>
-            <p className="text-xl md:text-2xl text-[#8fb3c0] mb-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+            <p className="text-base md:text-xl lg:text-2xl text-[#8fb3c0] mb-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
               Advanced computing infrastructure for the next generation of digital innovation
             </p>
           </div>
@@ -87,9 +87,9 @@ export function DynamicSecondHeroSection() {
       setApi={setCarouselApi}
       opts={{ loop: true, dragFree: false }}
       plugins={[WheelGesturesPlugin()]}
-      className="w-full h-screen relative flex-shrink-0"
+      className="w-full h-[70vh] md:h-screen relative flex-shrink-0"
     >
-      <CarouselContent className="h-screen">
+      <CarouselContent className="h-[70vh] md:h-screen">
         {articles.map((article) => {
           const placement = article.placement as any || {};
           const imageScale = placement.imageScale || 100;
@@ -97,19 +97,19 @@ export function DynamicSecondHeroSection() {
           const imageY = placement.imageY || 50;
           
           return (
-            <CarouselItem key={article.id} className="h-screen relative">
+            <CarouselItem key={article.id} className="h-[70vh] md:h-screen relative">
               <div 
-                className="w-full h-full"
+                className="w-full h-full md:bg-[length:var(--scale)] bg-cover bg-center md:bg-[position:var(--x)_var(--y)]"
                 style={{
                   backgroundImage: `url(${article.thumbnail || quantumTechHero})`,
-                  backgroundSize: `${imageScale}%`,
-                  backgroundPosition: `${imageX}% ${imageY}%`,
-                  backgroundRepeat: 'no-repeat'
-                }}
+                  '--scale': `${imageScale}%`,
+                  '--x': `${imageX}%`,
+                  '--y': `${imageY}%`
+                } as React.CSSProperties}
               />
             
-            <div className="absolute inset-0 flex items-end pb-16">
-              <div className="px-8 max-w-2xl">
+            <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
+              <div className="px-4 md:px-8 max-w-2xl">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="flex gap-2">
                     {articles.map((_, idx) => (
@@ -153,11 +153,11 @@ export function DynamicSecondHeroSection() {
                   </div>
                 </div>
                 
-                <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-4xl">
+                <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-3xl md:text-4xl">
                   {article.title}
                 </h1>
                 {article.excerpt && (
-                  <p className="text-lg text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                  <p className="text-base md:text-lg text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
                     {article.excerpt}
                   </p>
                 )}
