@@ -3,7 +3,7 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Maximize2, BookOpen, Play, Headphones } from "lucide-react";
+import { Maximize2, BookOpen, Play, Headphones, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
 
@@ -60,6 +60,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeTab, setActiveTab] = useState('metaknyts');
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [mediaKey, setMediaKey] = useState(0);
   
   const tabs = [
     { id: 'metaknyts', label: 'metaKnyts' },
@@ -115,6 +116,30 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
     window.addEventListener('closeArticle', handleCloseArticle);
     return () => window.removeEventListener('closeArticle', handleCloseArticle);
   }, []);
+
+  const handleReplay = () => {
+    setMediaKey((prev) => prev + 1);
+  };
+
+  const goToNext = () => {
+    if (!content.length) return;
+    let nextIndex = selectedItemIndex;
+    for (let i = 0; i < content.length; i++) {
+      nextIndex = (nextIndex + 1) % content.length;
+      if (contentService.hasModality(content[nextIndex], 'watch')) break;
+    }
+    setSelectedItemIndex(nextIndex);
+  };
+
+  const goToPrevious = () => {
+    if (!content.length) return;
+    let prevIndex = selectedItemIndex;
+    for (let i = 0; i < content.length; i++) {
+      prevIndex = (prevIndex - 1 + content.length) % content.length;
+      if (contentService.hasModality(content[prevIndex], 'watch')) break;
+    }
+    setSelectedItemIndex(prevIndex);
+  };
 
   return (
     <DrawerLayer
@@ -330,15 +355,42 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
       {activeMode === 'watch' && currentContent && currentModalities?.watch && (
         <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4 sm:p-8">
           <div className="relative w-full max-w-7xl max-h-[90vh]">
-            <button 
-              onClick={() => setActiveMode(null)} 
-              className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center z-10 transition-all hover:scale-110 shadow-xl"
-            >
-              ×
-            </button>
+            {/* Media player sub menu */}
+            <div className="absolute top-4 right-4 z-20 flex flex-col items-center gap-2">
+              <button 
+                onClick={() => setActiveMode(null)} 
+                className="text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center transition-all hover:scale-110 shadow-xl"
+                aria-label="Close"
+              >
+                ×
+              </button>
+              <button
+                onClick={handleReplay}
+                className="w-8 h-8 rounded-full bg-black/80 border border-white/20 flex items-center justify-center text-white hover:text-cyan-400 hover:border-cyan-400 transition-colors"
+                aria-label="Replay"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="w-8 h-8 rounded-full bg-black/80 border border-white/20 flex items-center justify-center text-white hover:text-cyan-400 hover:border-cyan-400 transition-colors"
+                aria-label="Next short"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={goToPrevious}
+                className="w-8 h-8 rounded-full bg-black/80 border border-white/20 flex items-center justify-center text-white hover:text-cyan-400 hover:border-cyan-400 transition-colors"
+                aria-label="Previous short"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+            </div>
+
             {(currentModalities.watch.video_url.includes('youtube.com') || currentModalities.watch.video_url.includes('youtu.be')) ? (
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
                 <iframe
+                  key={mediaKey}
                   src={currentModalities.watch.video_url}
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -348,6 +400,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
               </div>
             ) : (
               <video 
+                key={mediaKey}
                 src={currentModalities.watch.video_url}
                 controls 
                 autoPlay
