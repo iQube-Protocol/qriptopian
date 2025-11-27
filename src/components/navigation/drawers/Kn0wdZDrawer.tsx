@@ -315,7 +315,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
           )}
           
           {/* Hover-reveal thumbnail carousel overlay */}
-          <div className="absolute bottom-0 left-0 right-0 group/thumbnails">
+          <div className="fixed bottom-0 left-0 right-0 group/thumbnails z-50">
             {/* Trigger zone */}
             <div className="h-16 w-full" />
             
