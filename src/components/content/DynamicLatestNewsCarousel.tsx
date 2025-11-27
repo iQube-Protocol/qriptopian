@@ -7,6 +7,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { contentService, Content } from "@/services/contentService";
 import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
 import { WebsiteViewer } from "./WebsiteViewer";
+import { ArticleRenderer } from "./ArticleRenderer";
 
 export function DynamicLatestNewsCarousel() {
   const [articles, setArticles] = useState<Content[]>([]);
@@ -242,11 +243,13 @@ export function DynamicLatestNewsCarousel() {
           </DialogHeader>
           <div className="mt-4">
             {activeModality === 'read' && selectedArticle && (
-              <div className="prose prose-invert max-w-none">
-                <p className="text-[#8fb3c0] whitespace-pre-wrap">
-                  {(contentService.getModality(selectedArticle, 'read') as { text: string })?.text || 'Content not available'}
-                </p>
-              </div>
+              <ArticleRenderer
+                content={(contentService.getModality(selectedArticle, 'read') as { text: string })?.text || ''}
+                title={selectedArticle.title}
+                excerpt={selectedArticle.excerpt || undefined}
+                duration={selectedArticle.duration || undefined}
+                onClose={closeModal}
+              />
             )}
             {activeModality === 'watch' && selectedArticle && (() => {
               const watchModality = contentService.getModality(selectedArticle, 'watch') as { video_url: string } | undefined;
