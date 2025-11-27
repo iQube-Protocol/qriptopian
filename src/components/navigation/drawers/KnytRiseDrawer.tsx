@@ -516,7 +516,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
             <div className="absolute top-4 right-4 z-20 flex flex-col items-center gap-2">
               <button 
                 onClick={() => setActiveMode(null)} 
-                className="text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center transition-all hover:scale-110 shadow-xl"
+                className="text-white hover:text-cyan-400 text-base bg-black/80 rounded-full w-8 h-8 border border-white/20 hover:border-cyan-400 flex items-center justify-center transition-colors"
                 aria-label="Close"
               >
                 ×
