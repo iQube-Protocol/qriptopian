@@ -119,6 +119,13 @@ export default function ContentEditor() {
 
   async function handleFileUpload(file: File, type: 'thumbnail' | 'video' | 'audio') {
     setUploading(true);
+    
+    // Check file size and show appropriate message
+    const fileSizeMB = file.size / (1024 * 1024);
+    if (fileSizeMB > 100) {
+      toast.info(`Uploading ${fileSizeMB.toFixed(1)}MB file... This may take a moment.`);
+    }
+    
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
@@ -126,9 +133,21 @@ export default function ContentEditor() {
 
       const { data, error } = await supabase.storage
         .from('content-media')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
-      if (error) throw error;
+      if (error) {
+        // Provide helpful error message for file size issues
+        if (error.message?.includes('exceeded the maximum allowed size')) {
+          throw new Error(
+            `File size (${fileSizeMB.toFixed(1)}MB) exceeds the project limit. ` +
+            'Go to Supabase Dashboard → Storage → Settings → "Global file size limit" and increase it.'
+          );
+        }
+        throw error;
+      }
 
       const { data: { publicUrl } } = supabase.storage
         .from('content-media')
