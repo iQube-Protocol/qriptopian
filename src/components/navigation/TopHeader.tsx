@@ -48,7 +48,7 @@ export function TopHeader() {
         <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
           The Qriptopian
         </h1>
-        <p className="text-sm text-gray-400 mt-1">
+        <p className="hidden md:block text-sm text-gray-400 mt-1">
           Stories from the Quantum-Ready Internet
         </p>
       </div>
@@ -62,7 +62,7 @@ export function TopHeader() {
         
         {user ? (
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400">{user.email}</span>
+            <span className="hidden md:inline text-sm text-gray-400">{user.email}</span>
             <Button 
               onClick={handleSignOut}
               size="sm" 
