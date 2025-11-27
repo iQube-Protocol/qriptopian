@@ -59,6 +59,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
   const [carouselApi, setCarouselApi] = useState<any>();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeTab, setActiveTab] = useState('metaknyts');
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   const tabs = [
     { id: 'metaknyts', label: 'metaKnyts' },
@@ -150,7 +151,18 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                       onClick={() => setSelectedItemIndex(index)}
                       className="cursor-pointer relative group"
                     >
-                      <Kn0w1Viewer items={[item]} domain="scrolls" />
+                      <Kn0w1Viewer 
+                        items={[item]} 
+                        domain="scrolls"
+                        onFullscreenChange={(fullscreen) => {
+                          setIsFullscreen(fullscreen);
+                          setSelectedItemIndex(index);
+                        }}
+                        onModeChange={(mode) => {
+                          setSelectedItemIndex(index);
+                          setActiveMode(mode);
+                        }}
+                      />
                       
                       {/* Modality Buttons Overlay */}
                       {content.length > 0 && content[index] && (
@@ -348,6 +360,42 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
             {currentModalities.watch.duration && (
               <div className="text-cyan-400 mt-4 text-center">Duration: {currentModalities.watch.duration}</div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Fullscreen Image Modal */}
+      {isFullscreen && displayContent[selectedItemIndex] && (
+        <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
+          <button 
+            onClick={() => setIsFullscreen(false)} 
+            className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl bg-black/90 hover:bg-black rounded-full w-14 h-14 border-2 border-white/20 hover:border-cyan-400 flex items-center justify-center transition-all hover:scale-110 shadow-xl z-10"
+          >
+            ×
+          </button>
+          
+          <div className="relative w-full h-full flex items-center justify-center p-8">
+            <img 
+              src={displayContent[selectedItemIndex].image} 
+              alt={displayContent[selectedItemIndex].title} 
+              className="max-w-full max-h-full object-contain" 
+            />
+            
+            {/* Fullscreen Dot Navigation */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+              {displayContent.map((item, index) => (
+                <button 
+                  key={item.id} 
+                  onClick={() => setSelectedItemIndex(index)} 
+                  className={`transition-all rounded-full ${
+                    selectedItemIndex === index 
+                      ? "w-12 h-3 bg-cyan-400" 
+                      : "w-3 h-3 bg-white/50 hover:bg-white/70"
+                  }`}
+                  aria-label={`Go to ${item.title}`} 
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
