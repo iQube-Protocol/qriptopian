@@ -47,7 +47,7 @@ export function QriptopianNav({
   onAIClick
 }: QriptopianNavProps) {
   return <TooltipProvider delayDuration={0}>
-      <aside className="fixed right-0 top-1/2 -translate-y-1/2 w-16 flex flex-col items-center py-6 z-50">
+      <aside className="hidden md:flex fixed right-0 top-1/2 -translate-y-1/2 w-16 flex-col items-center py-6 z-50">
         {/* Navigation Icons */}
         <nav className="flex flex-col gap-2 w-full px-2">
         {navItems

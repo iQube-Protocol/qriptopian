@@ -23,7 +23,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen bg-[#020818]">
       <TopHeader />
       
-      <div className="flex w-full pt-[88px]">
+      <div className="flex w-full pt-[88px] md:pr-16">
         <main className="flex-1 overflow-hidden">
           {children}
         </main>
