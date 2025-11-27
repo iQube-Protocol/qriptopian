@@ -308,12 +308,12 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
 
   return (
     <div className="fixed inset-0 z-[9999] bg-black/95 overflow-y-auto">
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="bg-gray-900/95 backdrop-blur-sm rounded-lg max-w-3xl w-full shadow-2xl border border-gray-800">
+      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
+        <div className="bg-gray-900/95 backdrop-blur-sm rounded-lg max-w-4xl w-full shadow-2xl border border-gray-800">
           {/* Header */}
-          <div className="border-b border-gray-800 p-6">
+          <div className="border-b border-gray-800 p-4 sm:p-6">
             {title && (
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
                 {title}
               </h2>
             )}
@@ -331,7 +331,7 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
 
           {/* Article Content */}
           <div 
-            className="p-6 max-h-[70vh] overflow-y-auto"
+            className="p-4 sm:p-6 max-h-[60vh] sm:max-h-[65vh] overflow-y-auto"
             style={{ 
               fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
             }}
