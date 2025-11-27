@@ -159,9 +159,14 @@ export function AigentDrawer({
               </div>
             </>
           ) : (
-            // Placeholder for MetaAvatar (actual avatar is rendered globally in Layout)
-            <div className="flex-1 p-6">
-              <div className="h-full w-full rounded-lg border border-border/30 bg-muted/10" />
+            // MetaAvatar mode - shows info that the avatar is rendered globally
+            <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+              <div className="text-muted-foreground mb-4">
+                <User className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p className="text-lg font-medium">MetaVatar Mode Active</p>
+                <p className="text-sm mt-2">The AI avatar is displayed in the main view area.</p>
+                <p className="text-sm mt-1">Switch to chat mode for text-based conversation.</p>
+              </div>
             </div>
           )}
         </div>

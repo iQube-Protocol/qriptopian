@@ -28,9 +28,9 @@ export function MobileNav({ isOpen, onClose, activeDomain, onDomainClick, onAICl
         onClick={onClose}
       />
       
-      {/* Mobile: Transparent floating icon menu - positioned on right side */}
-      <aside className="fixed right-4 top-1/2 -translate-y-1/2 z-[70] md:hidden">
-        <nav className="flex flex-col gap-2 p-2 bg-background/30 backdrop-blur-md rounded-lg border border-border/30">
+      {/* Mobile: Fully transparent floating icon menu - flush with right edge */}
+      <aside className="fixed right-1 top-1/2 -translate-y-1/2 z-[70] md:hidden">
+        <nav className="flex flex-col gap-1 p-1">
           {domains.map((domain) => {
             const Icon = domain.icon;
             const isActive = activeDomain === domain.id;

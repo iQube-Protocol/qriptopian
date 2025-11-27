@@ -13,12 +13,14 @@ interface Kn0w1ViewerProps {
   domain: string;
   onFullscreenChange?: (isFullscreen: boolean) => void;
   onModeChange?: (mode: 'read' | 'watch' | 'listen') => void;
+  hideMediaControls?: boolean; // Hide play/listen icons for domains without media content
 }
 export function Kn0w1Viewer({
   items,
   domain,
   onFullscreenChange,
-  onModeChange
+  onModeChange,
+  hideMediaControls = false
 }: Kn0w1ViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mode, setMode] = useState<'read' | 'watch' | 'listen'>('watch');
@@ -92,12 +94,16 @@ export function Kn0w1Viewer({
           <button onClick={() => onModeChange?.('read')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Read">
             <BookOpen className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </button>
-          <button onClick={() => onModeChange?.('watch')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Watch">
-            <Play className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          </button>
-          <button onClick={() => onModeChange?.('listen')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Listen">
-            <Headphones className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          </button>
+          {!hideMediaControls && (
+            <>
+              <button onClick={() => onModeChange?.('watch')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Watch">
+                <Play className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </button>
+              <button onClick={() => onModeChange?.('listen')} className="w-8 h-8 md:w-auto md:h-auto flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 md:bg-transparent rounded-full md:rounded-none" aria-label="Listen">
+                <Headphones className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>;
