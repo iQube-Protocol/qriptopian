@@ -144,6 +144,10 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
   const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<any>();
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const handleFullscreenToggle = (value: boolean) => {
+    setIsFullscreen(value);
+  };
+
   useEffect(() => {
     const loadContent = async () => {
       try {
@@ -241,8 +245,8 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
       activeTab={activeTab}
       onTabChange={setActiveTab}
     >
-      {/* Left: 1 column large Kn0w1Viewer - full width on mobile */}
-      <div className="col-span-full md:col-span-1">
+      {/* Left: 1 column large Kn0w1Viewer - hidden on mobile (mobile uses full portrait view) */}
+      <div className="hidden md:block md:col-span-1">
         {loading ? (
           <div className="h-[300px] md:h-[400px] flex items-center justify-center bg-[#0a1628] border border-border/30 rounded-xl">
             <p className="text-muted-foreground">Loading content...</p>
@@ -251,6 +255,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
           <Kn0w1Viewer 
             items={featureContent} 
             domain="kn0wdz"
+            hideMediaControls={true}
             onFullscreenChange={setIsFullscreen}
             onModeChange={(mode) => {
               if (featureContent[0]?.originalIndex !== undefined) {
@@ -266,39 +271,134 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
         )}
       </div>
 
-      {/* Thumbnail carousel - positioned between main article and content panels on mobile, show 2.3 items */}
-      <div className="col-span-full border-t border-border/30 pt-4 md:hidden">
-        <Carousel
-          setApi={setThumbnailCarouselApi}
-          className="w-full"
-          opts={{
-            align: "start",
-            dragFree: true
-          }}
-          plugins={[WheelGesturesPlugin()]}
-        >
-          <CarouselContent className="-ml-2">
-            {thumbnailContent.map((item, index) => (
-              <CarouselItem key={item.id} className="basis-[43%] pl-2">
-                <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
-                  <img 
-                    src={item.image} 
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform group-hover:scale-110"
+      {/* Mobile: Full portrait hero image with hover-reveal thumbnail carousel */}
+      <div className="col-span-full md:hidden relative">
+        {/* Full height portrait hero image */}
+        <div className="relative h-[calc(100vh-180px)] rounded-lg overflow-hidden">
+          {featureContent.length > 0 && (
+            <>
+              <img 
+                src={featureContent[0]?.image} 
+                alt={featureContent[0]?.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              
+              {/* Title overlay at bottom */}
+              <div className="absolute bottom-24 left-4 right-4">
+                <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+                  {featureContent[0]?.title}
+                </h2>
+              </div>
+              
+              {/* Action icons */}
+              <div className="absolute bottom-16 left-4 flex gap-2">
+                <button 
+                  onClick={() => handleFullscreenToggle(true)}
+                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                >
+                  <Maximize2 className="h-3.5 w-3.5" />
+                </button>
+                <button 
+                  onClick={() => {
+                    if (featureContent[0]?.originalIndex !== undefined) {
+                      setSelectedItemIndex(featureContent[0].originalIndex);
+                      setActiveMode('read');
+                    }
+                  }}
+                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                >
+                  <BookOpen className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </>
+          )}
+          
+          {/* Hover-reveal thumbnail carousel overlay */}
+          <div className="absolute bottom-0 left-0 right-0 group/thumbnails">
+            {/* Trigger zone */}
+            <div className="h-16 w-full" />
+            
+            {/* Thumbnail carousel - appears on hover */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-8 pb-4 px-2 opacity-0 group-hover/thumbnails:opacity-100 transition-opacity duration-300">
+              <Carousel
+                setApi={setThumbnailCarouselApi}
+                className="w-full"
+                opts={{
+                  align: "start",
+                  dragFree: true
+                }}
+                plugins={[WheelGesturesPlugin()]}
+              >
+                <CarouselContent className="-ml-2">
+                  {thumbnailContent.map((item, index) => (
+                    <CarouselItem key={item.id} className="basis-[43%] pl-2">
+                      <div 
+                        className="relative aspect-video rounded-lg overflow-hidden cursor-pointer"
+                        onClick={() => {
+                          setSelectedItemIndex(item.originalIndex);
+                          setActiveMode('read');
+                        }}
+                      >
+                        <img 
+                          src={item.image} 
+                          alt={item.title}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                        {/* Action icons on thumbnails */}
+                        <div className="absolute top-1 right-1 flex gap-1">
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedItemIndex(item.originalIndex);
+                              setActiveMode('read');
+                            }}
+                            className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                          >
+                            <BookOpen className="h-2.5 w-2.5" />
+                          </button>
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedItemIndex(item.originalIndex);
+                              setActiveMode('link');
+                            }}
+                            className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                          >
+                            <ExternalLink className="h-2.5 w-2.5" />
+                          </button>
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 p-2">
+                          <h4 className="text-xs font-semibold text-white truncate">{item.title}</h4>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+              
+              {/* Pagination Dots */}
+              <div className="flex items-center justify-center gap-2 mt-2">
+                {thumbnailContent.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => thumbnailCarouselApi?.scrollTo(index)}
+                    className={`transition-all ${
+                      index === currentSlide
+                        ? 'w-6 h-1.5 bg-cyan-400 rounded-full'
+                        : 'w-1.5 h-1.5 bg-white/30 rounded-full'
+                    }`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2">
-                    <h4 className="text-xs font-semibold text-white truncate">{item.title}</h4>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Right: 2 columns split - content area + resources - stacked on mobile */}
-      <div className="col-span-full md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+      {/* Right: 2 columns split - content area + resources - hidden on mobile */}
+      <div className="hidden md:grid col-span-full md:col-span-2 grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {/* Content Area */}
         <div className="col-span-1 h-auto md:h-[400px] overflow-y-auto space-y-3 md:space-y-4">
           {isExecTab ? (

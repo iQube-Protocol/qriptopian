@@ -60,13 +60,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <div 
           className={`fixed transition-all duration-300 ${
             activeContainer === 'aigent' 
-              ? 'hidden md:block right-[80px] top-[172px] w-[calc(100vw-160px)] h-[calc(100vh-172px)] opacity-100 z-[100]' 
+              ? 'block right-4 top-[96px] left-4 h-[calc(100vh-104px)] md:right-[80px] md:top-[172px] md:left-auto md:w-[calc(100vw-160px)] md:h-[calc(100vh-172px)] opacity-100 z-[100]' 
               : activeContainer === 'pennydrops'
               ? 'block inset-x-0 top-[88px] h-[calc(50vh-88px)] md:right-[92px] md:top-[216px] md:left-auto md:inset-x-auto md:w-[calc((100vw-92px)/3-40px)] md:h-[400px] opacity-100 z-[100] md:rounded-lg overflow-hidden'
               : 'opacity-0 pointer-events-none -z-10'
           }`}
         >
-          <div className={`h-full w-full ${activeContainer === 'aigent' ? 'p-6' : 'p-0'}`}>
+          <div className={`h-full w-full ${activeContainer === 'aigent' ? 'p-2 md:p-6' : 'p-0'}`}>
             <div className={`h-full w-full overflow-hidden ${activeContainer === 'aigent' ? 'rounded-lg border border-border/30 bg-muted/10' : ''}`}>
               <MetaAvatar key={avatarRefreshKey} />
             </div>
