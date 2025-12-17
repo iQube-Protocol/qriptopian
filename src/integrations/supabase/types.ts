@@ -21,8 +21,10 @@ export type Database = {
           btc_address: string | null
           btc_private_key_encrypted: string | null
           created_at: string | null
+          entity_type: string | null
           evm_address: string | null
           evm_private_key_encrypted: string | null
+          fio_handle: string | null
           id: string
           key_version: number | null
           last_used_at: string | null
@@ -37,8 +39,10 @@ export type Database = {
           btc_address?: string | null
           btc_private_key_encrypted?: string | null
           created_at?: string | null
+          entity_type?: string | null
           evm_address?: string | null
           evm_private_key_encrypted?: string | null
+          fio_handle?: string | null
           id?: string
           key_version?: number | null
           last_used_at?: string | null
@@ -53,8 +57,10 @@ export type Database = {
           btc_address?: string | null
           btc_private_key_encrypted?: string | null
           created_at?: string | null
+          entity_type?: string | null
           evm_address?: string | null
           evm_private_key_encrypted?: string | null
+          fio_handle?: string | null
           id?: string
           key_version?: number | null
           last_used_at?: string | null
@@ -174,6 +180,79 @@ export type Database = {
         }
         Relationships: []
       }
+      canonical_bundles: {
+        Row: {
+          blak_qube_id: string | null
+          cid: string
+          created_at: string | null
+          encryption_alg: string
+          episode_number: number
+          id: string
+          issue_id: string
+          key_wrap_alg: string | null
+          meta_qube_id: string | null
+          mime_type: string
+          owner_id: string
+          updated_at: string | null
+          user_token_qube_id: string | null
+          wrapped_key: string | null
+        }
+        Insert: {
+          blak_qube_id?: string | null
+          cid: string
+          created_at?: string | null
+          encryption_alg: string
+          episode_number: number
+          id?: string
+          issue_id: string
+          key_wrap_alg?: string | null
+          meta_qube_id?: string | null
+          mime_type: string
+          owner_id: string
+          updated_at?: string | null
+          user_token_qube_id?: string | null
+          wrapped_key?: string | null
+        }
+        Update: {
+          blak_qube_id?: string | null
+          cid?: string
+          created_at?: string | null
+          encryption_alg?: string
+          episode_number?: number
+          id?: string
+          issue_id?: string
+          key_wrap_alg?: string | null
+          meta_qube_id?: string | null
+          mime_type?: string
+          owner_id?: string
+          updated_at?: string | null
+          user_token_qube_id?: string | null
+          wrapped_key?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "canonical_bundles_blak_qube_id_fkey"
+            columns: ["blak_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_blak_qubes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canonical_bundles_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: true
+            referencedRelation: "user_issue_qubes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canonical_bundles_meta_qube_id_fkey"
+            columns: ["meta_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_meta_qubes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chat_history: {
         Row: {
           agent_id: string
@@ -288,6 +367,486 @@ export type Database = {
           redeem_to?: string | null
           rights?: string[] | null
           status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      codex_characters: {
+        Row: {
+          affiliation: string | null
+          base: string | null
+          created_at: string
+          digiterra_name: string | null
+          height: string | null
+          id: string
+          origin_ethnicity: string | null
+          profile: string | null
+          series: string
+          terra_name: string | null
+          updated_at: string
+          weight: string | null
+        }
+        Insert: {
+          affiliation?: string | null
+          base?: string | null
+          created_at?: string
+          digiterra_name?: string | null
+          height?: string | null
+          id: string
+          origin_ethnicity?: string | null
+          profile?: string | null
+          series?: string
+          terra_name?: string | null
+          updated_at?: string
+          weight?: string | null
+        }
+        Update: {
+          affiliation?: string | null
+          base?: string | null
+          created_at?: string
+          digiterra_name?: string | null
+          height?: string | null
+          id?: string
+          origin_ethnicity?: string | null
+          profile?: string | null
+          series?: string
+          terra_name?: string | null
+          updated_at?: string
+          weight?: string | null
+        }
+        Relationships: []
+      }
+      codex_cluster_children: {
+        Row: {
+          child_id: string
+          child_type: string
+          cluster_id: string | null
+          created_at: string | null
+          display_order: number | null
+          id: string
+        }
+        Insert: {
+          child_id: string
+          child_type: string
+          cluster_id?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+        }
+        Update: {
+          child_id?: string
+          child_type?: string
+          cluster_id?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_cluster_children_cluster_id_fkey"
+            columns: ["cluster_id"]
+            isOneToOne: false
+            referencedRelation: "codex_cluster_qubes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      codex_cluster_qubes: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          meta_qube_id: string | null
+          name: string
+          series: string
+          total_covers: number | null
+          total_episodes: number | null
+          total_media_assets: number | null
+          total_motion_masters: number | null
+          total_still_masters: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id: string
+          meta_qube_id?: string | null
+          name: string
+          series: string
+          total_covers?: number | null
+          total_episodes?: number | null
+          total_media_assets?: number | null
+          total_motion_masters?: number | null
+          total_still_masters?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          meta_qube_id?: string | null
+          name?: string
+          series?: string
+          total_covers?: number | null
+          total_episodes?: number | null
+          total_media_assets?: number | null
+          total_motion_masters?: number | null
+          total_still_masters?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_cluster_qubes_meta_qube_id_fkey"
+            columns: ["meta_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_meta_qubes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      codex_episode_credits: {
+        Row: {
+          animation: string | null
+          artists: string | null
+          broadcast: string | null
+          colorists: string | null
+          copy_editing: string | null
+          created_at: string
+          creators: string | null
+          episode_id: string | null
+          graphics_and_digital_edits: string | null
+          id: string
+          length_raw: string | null
+          letterers: string | null
+          series: string
+          updated_at: string
+          writers: string | null
+        }
+        Insert: {
+          animation?: string | null
+          artists?: string | null
+          broadcast?: string | null
+          colorists?: string | null
+          copy_editing?: string | null
+          created_at?: string
+          creators?: string | null
+          episode_id?: string | null
+          graphics_and_digital_edits?: string | null
+          id: string
+          length_raw?: string | null
+          letterers?: string | null
+          series?: string
+          updated_at?: string
+          writers?: string | null
+        }
+        Update: {
+          animation?: string | null
+          artists?: string | null
+          broadcast?: string | null
+          colorists?: string | null
+          copy_editing?: string | null
+          created_at?: string
+          creators?: string | null
+          episode_id?: string | null
+          graphics_and_digital_edits?: string | null
+          id?: string
+          length_raw?: string | null
+          letterers?: string | null
+          series?: string
+          updated_at?: string
+          writers?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_episode_credits_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "codex_episodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      codex_episodes: {
+        Row: {
+          additional_writers: string | null
+          artist: string | null
+          colorist: string | null
+          cover_ref: string | null
+          created_at: string
+          distribution_channel: string | null
+          editorial_note: string | null
+          end_quote: string | null
+          episode_number: number | null
+          episode_number_raw: string | null
+          id: string
+          intro_quote: string | null
+          is_current: boolean
+          issue_number: string | null
+          knytcard_focus: string | null
+          letterer: string | null
+          season_number: string | null
+          series: string
+          synopsis: string | null
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          additional_writers?: string | null
+          artist?: string | null
+          colorist?: string | null
+          cover_ref?: string | null
+          created_at?: string
+          distribution_channel?: string | null
+          editorial_note?: string | null
+          end_quote?: string | null
+          episode_number?: number | null
+          episode_number_raw?: string | null
+          id: string
+          intro_quote?: string | null
+          is_current?: boolean
+          issue_number?: string | null
+          knytcard_focus?: string | null
+          letterer?: string | null
+          season_number?: string | null
+          series?: string
+          synopsis?: string | null
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          additional_writers?: string | null
+          artist?: string | null
+          colorist?: string | null
+          cover_ref?: string | null
+          created_at?: string
+          distribution_channel?: string | null
+          editorial_note?: string | null
+          end_quote?: string | null
+          episode_number?: number | null
+          episode_number_raw?: string | null
+          id?: string
+          intro_quote?: string | null
+          is_current?: boolean
+          issue_number?: string | null
+          knytcard_focus?: string | null
+          letterer?: string | null
+          season_number?: string | null
+          series?: string
+          synopsis?: string | null
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      codex_knyt_cards: {
+        Row: {
+          character_id: string | null
+          created_at: string
+          first_appearance: string | null
+          id: string
+          powers: string | null
+          primary_weapon: string | null
+          secondary_weapons: string | null
+          series: string
+          updated_at: string
+        }
+        Insert: {
+          character_id?: string | null
+          created_at?: string
+          first_appearance?: string | null
+          id: string
+          powers?: string | null
+          primary_weapon?: string | null
+          secondary_weapons?: string | null
+          series?: string
+          updated_at?: string
+        }
+        Update: {
+          character_id?: string | null
+          created_at?: string
+          first_appearance?: string | null
+          id?: string
+          powers?: string | null
+          primary_weapon?: string | null
+          secondary_weapons?: string | null
+          series?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_knyt_cards_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "codex_characters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      codex_media_assets: {
+        Row: {
+          asset_kind: Database["public"]["Enums"]["codex_asset_kind"]
+          auto_drive_cid: string
+          blak_qube_id: string | null
+          created_at: string | null
+          display_mode:
+            | Database["public"]["Enums"]["content_display_mode"]
+            | null
+          edition_max: number | null
+          edition_minted: number | null
+          encryption_alg: string
+          encryption_auth_tag: string | null
+          encryption_iv: string
+          episode_number: number | null
+          extracted_text: string | null
+          file_size: number | null
+          id: string
+          is_shareable: boolean | null
+          meta_qube_id: string | null
+          mime_type: string
+          random_weight: number | null
+          rarity_tier: string | null
+          recommended_task: string | null
+          series: string | null
+          status: string | null
+          title: string
+          token_qube_id: string | null
+          updated_at: string | null
+          variant_name: string | null
+        }
+        Insert: {
+          asset_kind: Database["public"]["Enums"]["codex_asset_kind"]
+          auto_drive_cid: string
+          blak_qube_id?: string | null
+          created_at?: string | null
+          display_mode?:
+            | Database["public"]["Enums"]["content_display_mode"]
+            | null
+          edition_max?: number | null
+          edition_minted?: number | null
+          encryption_alg?: string
+          encryption_auth_tag?: string | null
+          encryption_iv: string
+          episode_number?: number | null
+          extracted_text?: string | null
+          file_size?: number | null
+          id?: string
+          is_shareable?: boolean | null
+          meta_qube_id?: string | null
+          mime_type: string
+          random_weight?: number | null
+          rarity_tier?: string | null
+          recommended_task?: string | null
+          series?: string | null
+          status?: string | null
+          title: string
+          token_qube_id?: string | null
+          updated_at?: string | null
+          variant_name?: string | null
+        }
+        Update: {
+          asset_kind?: Database["public"]["Enums"]["codex_asset_kind"]
+          auto_drive_cid?: string
+          blak_qube_id?: string | null
+          created_at?: string | null
+          display_mode?:
+            | Database["public"]["Enums"]["content_display_mode"]
+            | null
+          edition_max?: number | null
+          edition_minted?: number | null
+          encryption_alg?: string
+          encryption_auth_tag?: string | null
+          encryption_iv?: string
+          episode_number?: number | null
+          extracted_text?: string | null
+          file_size?: number | null
+          id?: string
+          is_shareable?: boolean | null
+          meta_qube_id?: string | null
+          mime_type?: string
+          random_weight?: number | null
+          rarity_tier?: string | null
+          recommended_task?: string | null
+          series?: string | null
+          status?: string | null
+          title?: string
+          token_qube_id?: string | null
+          updated_at?: string | null
+          variant_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_media_assets_blak_qube_id_fkey"
+            columns: ["blak_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_blak_qubes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "codex_media_assets_meta_qube_id_fkey"
+            columns: ["meta_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_meta_qubes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "codex_media_assets_token_qube_id_fkey"
+            columns: ["token_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_token_qubes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      codex_motion_segments: {
+        Row: {
+          auto_drive_cid: string
+          blak_qube_id: string | null
+          created_at: string | null
+          duration_seconds: number | null
+          episode_id: string
+          file_size: number | null
+          id: string
+          is_preview: boolean | null
+          mime_type: string | null
+          price_knyt: number | null
+          segment_number: number
+          title: string | null
+          token_qube_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          auto_drive_cid: string
+          blak_qube_id?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          episode_id: string
+          file_size?: number | null
+          id?: string
+          is_preview?: boolean | null
+          mime_type?: string | null
+          price_knyt?: number | null
+          segment_number?: number
+          title?: string | null
+          token_qube_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          auto_drive_cid?: string
+          blak_qube_id?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          episode_id?: string
+          file_size?: number | null
+          id?: string
+          is_preview?: boolean | null
+          mime_type?: string | null
+          price_knyt?: number | null
+          segment_number?: number
+          title?: string | null
+          token_qube_id?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -2864,6 +3423,45 @@ export type Database = {
         }
         Relationships: []
       }
+      digital_episode_pricing: {
+        Row: {
+          available_from: string | null
+          available_until: string | null
+          created_at: string | null
+          currency: string | null
+          episode_number: number
+          is_active: boolean | null
+          price_canonical_knyt: number | null
+          price_knyt: number
+          series: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          available_from?: string | null
+          available_until?: string | null
+          created_at?: string | null
+          currency?: string | null
+          episode_number: number
+          is_active?: boolean | null
+          price_canonical_knyt?: number | null
+          price_knyt: number
+          series?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          available_from?: string | null
+          available_until?: string | null
+          created_at?: string | null
+          currency?: string | null
+          episode_number?: number
+          is_active?: boolean | null
+          price_canonical_knyt?: number | null
+          price_knyt?: number
+          series?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       dvn_attestations: {
         Row: {
           created_at: string | null
@@ -2938,6 +3536,84 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      episode_metadata: {
+        Row: {
+          artist: string | null
+          colorist: string | null
+          created_at: string
+          display_number: string | null
+          editor: string | null
+          episode_number: number
+          extra_metadata: Json | null
+          id: string
+          is_current: boolean
+          key_events: Json | null
+          letterer: string | null
+          locations: Json | null
+          main_characters: Json | null
+          release_date: string | null
+          series: string
+          subtitle: string | null
+          supporting_characters: Json | null
+          synopsis: string | null
+          themes: Json | null
+          title: string
+          updated_at: string
+          version: number
+          writer: string | null
+        }
+        Insert: {
+          artist?: string | null
+          colorist?: string | null
+          created_at?: string
+          display_number?: string | null
+          editor?: string | null
+          episode_number: number
+          extra_metadata?: Json | null
+          id?: string
+          is_current?: boolean
+          key_events?: Json | null
+          letterer?: string | null
+          locations?: Json | null
+          main_characters?: Json | null
+          release_date?: string | null
+          series?: string
+          subtitle?: string | null
+          supporting_characters?: Json | null
+          synopsis?: string | null
+          themes?: Json | null
+          title: string
+          updated_at?: string
+          version?: number
+          writer?: string | null
+        }
+        Update: {
+          artist?: string | null
+          colorist?: string | null
+          created_at?: string
+          display_number?: string | null
+          editor?: string | null
+          episode_number?: number
+          extra_metadata?: Json | null
+          id?: string
+          is_current?: boolean
+          key_events?: Json | null
+          letterer?: string | null
+          locations?: Json | null
+          main_characters?: Json | null
+          release_date?: string | null
+          series?: string
+          subtitle?: string | null
+          supporting_characters?: Json | null
+          synopsis?: string | null
+          themes?: Json | null
+          title?: string
+          updated_at?: string
+          version?: number
+          writer?: string | null
+        }
+        Relationships: []
       }
       event_logs: {
         Row: {
@@ -3308,6 +3984,120 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           verified?: boolean
+        }
+        Relationships: []
+      }
+      iq_blak_qubes: {
+        Row: {
+          checksum: string | null
+          created_at: string | null
+          encryption_alg: string
+          encryption_auth_tag: string | null
+          encryption_iv: string
+          id: string
+          payload_pointer: string
+          payload_provider: string
+          payload_size: number | null
+          payload_type: string
+        }
+        Insert: {
+          checksum?: string | null
+          created_at?: string | null
+          encryption_alg?: string
+          encryption_auth_tag?: string | null
+          encryption_iv: string
+          id?: string
+          payload_pointer: string
+          payload_provider?: string
+          payload_size?: number | null
+          payload_type: string
+        }
+        Update: {
+          checksum?: string | null
+          created_at?: string | null
+          encryption_alg?: string
+          encryption_auth_tag?: string | null
+          encryption_iv?: string
+          id?: string
+          payload_pointer?: string
+          payload_provider?: string
+          payload_size?: number | null
+          payload_type?: string
+        }
+        Relationships: []
+      }
+      iq_meta_qubes: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          episode_number: number | null
+          id: string
+          metadata: Json | null
+          name: string
+          preview_url: string | null
+          qube_type: string
+          series: string | null
+          slug: string | null
+          tags: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          episode_number?: number | null
+          id?: string
+          metadata?: Json | null
+          name: string
+          preview_url?: string | null
+          qube_type: string
+          series?: string | null
+          slug?: string | null
+          tags?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          episode_number?: number | null
+          id?: string
+          metadata?: Json | null
+          name?: string
+          preview_url?: string | null
+          qube_type?: string
+          series?: string | null
+          slug?: string | null
+          tags?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      iq_token_qubes: {
+        Row: {
+          access_policy: Json | null
+          created_at: string | null
+          id: string
+          key_ciphertext: string
+          key_type: string | null
+          key_wrapping_alg: string
+          wrapped_by: string | null
+        }
+        Insert: {
+          access_policy?: Json | null
+          created_at?: string | null
+          id?: string
+          key_ciphertext: string
+          key_type?: string | null
+          key_wrapping_alg?: string
+          wrapped_by?: string | null
+        }
+        Update: {
+          access_policy?: Json | null
+          created_at?: string | null
+          id?: string
+          key_ciphertext?: string
+          key_type?: string | null
+          key_wrapping_alg?: string
+          wrapped_by?: string | null
         }
         Relationships: []
       }
@@ -3683,6 +4473,91 @@ export type Database = {
         }
         Relationships: []
       }
+      master_content_qubes: {
+        Row: {
+          auto_drive_cid: string
+          blak_qube_id: string | null
+          content_type: Database["public"]["Enums"]["master_content_type"]
+          created_at: string | null
+          edition_tier: string | null
+          encryption_alg: string
+          encryption_auth_tag: string | null
+          encryption_iv: string
+          episode_number: number
+          file_size: number | null
+          id: string
+          meta_qube_id: string | null
+          mime_type: string
+          series: string
+          status: string | null
+          title: string
+          token_qube_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          auto_drive_cid: string
+          blak_qube_id?: string | null
+          content_type: Database["public"]["Enums"]["master_content_type"]
+          created_at?: string | null
+          edition_tier?: string | null
+          encryption_alg?: string
+          encryption_auth_tag?: string | null
+          encryption_iv: string
+          episode_number: number
+          file_size?: number | null
+          id: string
+          meta_qube_id?: string | null
+          mime_type: string
+          series?: string
+          status?: string | null
+          title: string
+          token_qube_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          auto_drive_cid?: string
+          blak_qube_id?: string | null
+          content_type?: Database["public"]["Enums"]["master_content_type"]
+          created_at?: string | null
+          edition_tier?: string | null
+          encryption_alg?: string
+          encryption_auth_tag?: string | null
+          encryption_iv?: string
+          episode_number?: number
+          file_size?: number | null
+          id?: string
+          meta_qube_id?: string | null
+          mime_type?: string
+          series?: string
+          status?: string | null
+          title?: string
+          token_qube_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "master_content_qubes_blak_qube_id_fkey"
+            columns: ["blak_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_blak_qubes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "master_content_qubes_meta_qube_id_fkey"
+            columns: ["meta_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_meta_qubes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "master_content_qubes_token_qube_id_fkey"
+            columns: ["token_qube_id"]
+            isOneToOne: false
+            referencedRelation: "iq_token_qubes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       media_assets: {
         Row: {
           alt_text: string | null
@@ -3755,11 +4630,86 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_requests: {
+        Row: {
+          amount: number
+          asset: string
+          chain_id: number
+          created_at: string | null
+          expires_at: string
+          id: string
+          memo: string | null
+          paid_at: string | null
+          payer_address: string | null
+          payer_fio: string | null
+          payer_id: string
+          payer_notified: boolean | null
+          rejected_at: string | null
+          rejection_reason: string | null
+          requester_address: string
+          requester_fio: string | null
+          requester_id: string
+          requester_notified: boolean | null
+          status: string
+          tx_hash: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          asset?: string
+          chain_id?: number
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          memo?: string | null
+          paid_at?: string | null
+          payer_address?: string | null
+          payer_fio?: string | null
+          payer_id: string
+          payer_notified?: boolean | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          requester_address: string
+          requester_fio?: string | null
+          requester_id: string
+          requester_notified?: boolean | null
+          status?: string
+          tx_hash?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          asset?: string
+          chain_id?: number
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          memo?: string | null
+          paid_at?: string | null
+          payer_address?: string | null
+          payer_fio?: string | null
+          payer_id?: string
+          payer_notified?: boolean | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          requester_address?: string
+          requester_fio?: string | null
+          requester_id?: string
+          requester_notified?: boolean | null
+          status?: string
+          tx_hash?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       persona: {
         Row: {
           app_origin: string | null
+          bio: string | null
+          btc_address: string | null
           created_at: string | null
           default_identity_state: string
+          evm_address: string | null
           fio_handle: string | null
           fio_handle_expiration: string | null
           fio_handle_verified: boolean | null
@@ -3771,13 +4721,17 @@ export type Database = {
           franchise_id: string | null
           id: string
           root_id: string | null
+          sol_address: string | null
           tenant_id: string | null
           world_id_status: string | null
         }
         Insert: {
           app_origin?: string | null
+          bio?: string | null
+          btc_address?: string | null
           created_at?: string | null
           default_identity_state?: string
+          evm_address?: string | null
           fio_handle?: string | null
           fio_handle_expiration?: string | null
           fio_handle_verified?: boolean | null
@@ -3789,13 +4743,17 @@ export type Database = {
           franchise_id?: string | null
           id?: string
           root_id?: string | null
+          sol_address?: string | null
           tenant_id?: string | null
           world_id_status?: string | null
         }
         Update: {
           app_origin?: string | null
+          bio?: string | null
+          btc_address?: string | null
           created_at?: string | null
           default_identity_state?: string
+          evm_address?: string | null
           fio_handle?: string | null
           fio_handle_expiration?: string | null
           fio_handle_verified?: boolean | null
@@ -3807,6 +4765,7 @@ export type Database = {
           franchise_id?: string | null
           id?: string
           root_id?: string | null
+          sol_address?: string | null
           tenant_id?: string | null
           world_id_status?: string | null
         }
@@ -3889,9 +4848,12 @@ export type Database = {
           auth_profile_id: string | null
           avatar_uri: string | null
           badges: string[]
+          bio: string | null
+          btc_address: string | null
           chain_addresses: Json
           created_at: string
           display_name: string
+          evm_address: string | null
           evm_key: Json
           fio_domain: string
           fio_handle: string
@@ -3900,6 +4862,7 @@ export type Database = {
           reputation_bucket: number
           reputation_score: number
           root_did: string
+          sol_address: string | null
           status: string
           tenant_id: string
           type: string
@@ -3909,9 +4872,12 @@ export type Database = {
           auth_profile_id?: string | null
           avatar_uri?: string | null
           badges?: string[]
+          bio?: string | null
+          btc_address?: string | null
           chain_addresses?: Json
           created_at?: string
           display_name: string
+          evm_address?: string | null
           evm_key: Json
           fio_domain: string
           fio_handle: string
@@ -3920,6 +4886,7 @@ export type Database = {
           reputation_bucket?: number
           reputation_score?: number
           root_did: string
+          sol_address?: string | null
           status?: string
           tenant_id: string
           type?: string
@@ -3929,9 +4896,12 @@ export type Database = {
           auth_profile_id?: string | null
           avatar_uri?: string | null
           badges?: string[]
+          bio?: string | null
+          btc_address?: string | null
           chain_addresses?: Json
           created_at?: string
           display_name?: string
+          evm_address?: string | null
           evm_key?: Json
           fio_domain?: string
           fio_handle?: string
@@ -3940,6 +4910,7 @@ export type Database = {
           reputation_bucket?: number
           reputation_score?: number
           root_did?: string
+          sol_address?: string | null
           status?: string
           tenant_id?: string
           type?: string
@@ -4844,6 +5815,85 @@ export type Database = {
           },
         ]
       }
+      user_issue_qubes: {
+        Row: {
+          canonical_bundle_id: string | null
+          cover_variant_id: string | null
+          custody_mode: Database["public"]["Enums"]["custody_mode_type"] | null
+          edition_serial: number
+          edition_total: number | null
+          episode_number: number
+          id: string
+          master_content_id: string | null
+          minted_at: string | null
+          owner_id: string
+          owner_type: string | null
+          price_paid_knyt: number | null
+          price_paid_qct: number | null
+          status: string | null
+          transaction_hash: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          canonical_bundle_id?: string | null
+          cover_variant_id?: string | null
+          custody_mode?: Database["public"]["Enums"]["custody_mode_type"] | null
+          edition_serial: number
+          edition_total?: number | null
+          episode_number: number
+          id?: string
+          master_content_id?: string | null
+          minted_at?: string | null
+          owner_id: string
+          owner_type?: string | null
+          price_paid_knyt?: number | null
+          price_paid_qct?: number | null
+          status?: string | null
+          transaction_hash?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          canonical_bundle_id?: string | null
+          cover_variant_id?: string | null
+          custody_mode?: Database["public"]["Enums"]["custody_mode_type"] | null
+          edition_serial?: number
+          edition_total?: number | null
+          episode_number?: number
+          id?: string
+          master_content_id?: string | null
+          minted_at?: string | null
+          owner_id?: string
+          owner_type?: string | null
+          price_paid_knyt?: number | null
+          price_paid_qct?: number | null
+          status?: string | null
+          transaction_hash?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_canonical_bundle"
+            columns: ["canonical_bundle_id"]
+            isOneToOne: false
+            referencedRelation: "canonical_bundles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_issue_qubes_cover_variant_id_fkey"
+            columns: ["cover_variant_id"]
+            isOneToOne: false
+            referencedRelation: "codex_media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_issue_qubes_master_content_id_fkey"
+            columns: ["master_content_id"]
+            isOneToOne: false
+            referencedRelation: "master_content_qubes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_library: {
         Row: {
           added_at: string
@@ -4935,6 +5985,146 @@ export type Database = {
           persona_id?: string
           position?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      wallet_balances: {
+        Row: {
+          asset_code: string
+          balance: number
+          created_at: string
+          id: string
+          persona_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_code?: string
+          balance?: number
+          created_at?: string
+          id?: string
+          persona_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_code?: string
+          balance?: number
+          created_at?: string
+          id?: string
+          persona_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      wallet_notifications: {
+        Row: {
+          amount: number | null
+          asset: string | null
+          created_at: string | null
+          from_fio: string | null
+          from_id: string | null
+          id: string
+          message: string
+          payment_request_id: string | null
+          read: boolean | null
+          read_at: string | null
+          recipient_id: string
+          title: string
+          to_fio: string | null
+          to_id: string | null
+          tx_hash: string | null
+          type: string
+        }
+        Insert: {
+          amount?: number | null
+          asset?: string | null
+          created_at?: string | null
+          from_fio?: string | null
+          from_id?: string | null
+          id?: string
+          message: string
+          payment_request_id?: string | null
+          read?: boolean | null
+          read_at?: string | null
+          recipient_id: string
+          title: string
+          to_fio?: string | null
+          to_id?: string | null
+          tx_hash?: string | null
+          type: string
+        }
+        Update: {
+          amount?: number | null
+          asset?: string | null
+          created_at?: string | null
+          from_fio?: string | null
+          from_id?: string | null
+          id?: string
+          message?: string
+          payment_request_id?: string | null
+          read?: boolean | null
+          read_at?: string | null
+          recipient_id?: string
+          title?: string
+          to_fio?: string | null
+          to_id?: string | null
+          tx_hash?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_notifications_payment_request_id_fkey"
+            columns: ["payment_request_id"]
+            isOneToOne: false
+            referencedRelation: "payment_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          asset_code: string
+          created_at: string
+          direction: string
+          dvn_batch_id: string | null
+          dvn_submitted_at: string | null
+          fiat_amount: number | null
+          fiat_currency: string | null
+          id: string
+          metadata: Json | null
+          paypal_tx_id: string | null
+          persona_id: string
+          source: string
+        }
+        Insert: {
+          amount: number
+          asset_code?: string
+          created_at?: string
+          direction: string
+          dvn_batch_id?: string | null
+          dvn_submitted_at?: string | null
+          fiat_amount?: number | null
+          fiat_currency?: string | null
+          id: string
+          metadata?: Json | null
+          paypal_tx_id?: string | null
+          persona_id: string
+          source: string
+        }
+        Update: {
+          amount?: number
+          asset_code?: string
+          created_at?: string
+          direction?: string
+          dvn_batch_id?: string | null
+          dvn_submitted_at?: string | null
+          fiat_amount?: number | null
+          fiat_currency?: string | null
+          id?: string
+          metadata?: Json | null
+          paypal_tx_id?: string | null
+          persona_id?: string
+          source?: string
         }
         Relationships: []
       }
@@ -5338,6 +6528,10 @@ export type Database = {
       }
     }
     Functions: {
+      accept_payment_request: {
+        Args: { p_payer_id: string; p_request_id: string }
+        Returns: boolean
+      }
       assign_admin_role: { Args: { user_email: string }; Returns: undefined }
       calculate_cvs: {
         Args: {
@@ -5357,6 +6551,21 @@ export type Database = {
         }
         Returns: boolean
       }
+      create_payment_request: {
+        Args: {
+          p_amount: number
+          p_asset?: string
+          p_chain_id?: number
+          p_expires_in_days?: number
+          p_memo?: string
+          p_payer_fio: string
+          p_payer_id: string
+          p_requester_address: string
+          p_requester_fio: string
+          p_requester_id: string
+        }
+        Returns: string
+      }
       days_until_fio_expiration: {
         Args: { expiration: string }
         Returns: number
@@ -5370,6 +6579,132 @@ export type Database = {
           solana_address: string
         }[]
       }
+      get_agent_addresses_flexible: {
+        Args: { p_identifier: string }
+        Returns: {
+          agent_id: string
+          agent_name: string
+          btc_address: string
+          entity_type: string
+          evm_address: string
+          fio_handle: string
+          solana_address: string
+        }[]
+      }
+      get_agent_keys_flexible: {
+        Args: { p_identifier: string }
+        Returns: {
+          agent_id: string
+          agent_name: string
+          btc_address: string
+          btc_private_key_encrypted: string
+          created_at: string
+          entity_type: string
+          evm_address: string
+          evm_private_key_encrypted: string
+          fio_handle: string
+          persona_id: string
+          solana_address: string
+          solana_private_key_encrypted: string
+          updated_at: string
+        }[]
+      }
+      get_all_episode_metadata: {
+        Args: { p_series?: string }
+        Returns: {
+          display_number: string
+          episode_number: number
+          main_characters: Json
+          subtitle: string
+          synopsis: string
+          themes: Json
+          title: string
+          updated_at: string
+          version: number
+        }[]
+      }
+      get_codex_character_full: {
+        Args: { p_character_id: string }
+        Returns: {
+          character_data: Json
+          episode_appearances: Json
+          knyt_card: Json
+        }[]
+      }
+      get_codex_episode_full: {
+        Args: { p_episode_id: string }
+        Returns: {
+          credits: Json
+          episode: Json
+          focus_character: Json
+          focus_knyt_card: Json
+        }[]
+      }
+      get_codex_episodes_list: {
+        Args: { p_series?: string }
+        Returns: {
+          cover_ref: string
+          episode_number: number
+          id: string
+          issue_number: string
+          knytcard_focus: string
+          season_number: string
+          synopsis: string
+          title: string
+        }[]
+      }
+      get_codex_global_stats: {
+        Args: { p_series?: string }
+        Returns: {
+          total_all_assets: number
+          total_characters: number
+          total_covers: number
+          total_game_assets: number
+          total_lore_docs: number
+          total_motion_masters: number
+          total_print_epic: number
+          total_print_legendary: number
+          total_print_rare: number
+          total_social_assets: number
+          total_still_masters: number
+        }[]
+      }
+      get_codex_status: {
+        Args: { p_series?: string }
+        Returns: {
+          character_count: number
+          cover_count: number
+          episode_number: number
+          has_motion_master: boolean
+          has_print_epic: boolean
+          has_print_legendary: boolean
+          has_print_rare: boolean
+          has_still_master: boolean
+          total_assets: number
+        }[]
+      }
+      get_episode_metadata: {
+        Args: { p_episode_number: number; p_series?: string }
+        Returns: {
+          artist: string
+          display_number: string
+          episode_number: number
+          extra_metadata: Json
+          id: string
+          key_events: Json
+          locations: Json
+          main_characters: Json
+          release_date: string
+          subtitle: string
+          supporting_characters: Json
+          synopsis: string
+          themes: Json
+          title: string
+          updated_at: string
+          version: number
+          writer: string
+        }[]
+      }
       get_normalized_rep_weights: {
         Args: { p_task_template_id: string }
         Returns: {
@@ -5378,6 +6713,52 @@ export type Database = {
           weight_data_arch: number
           weight_entrepreneurial: number
           weight_technical: number
+        }[]
+      }
+      get_pending_payment_requests: {
+        Args: { p_payer_id: string }
+        Returns: {
+          amount: number
+          asset: string
+          chain_id: number
+          created_at: string
+          expires_at: string
+          id: string
+          memo: string
+          requester_address: string
+          requester_fio: string
+          requester_id: string
+          status: string
+        }[]
+      }
+      get_print_edition_for_mint: {
+        Args: {
+          p_edition_tier: string
+          p_episode_number: number
+          p_series?: string
+        }
+        Returns: {
+          cid: string
+          edition_tier: string
+          master_id: string
+          mime_type: string
+          title: string
+        }[]
+      }
+      get_unread_notifications: {
+        Args: { p_recipient_id: string }
+        Returns: {
+          amount: number
+          asset: string
+          created_at: string
+          from_fio: string
+          from_id: string
+          id: string
+          message: string
+          payment_request_id: string
+          title: string
+          tx_hash: string
+          type: string
         }[]
       }
       get_user_admin_roles: {
@@ -5393,11 +6774,51 @@ export type Database = {
           tenant_name: string
         }[]
       }
+      get_user_issues_for_episode: {
+        Args: { p_episode_number: number; p_owner_id: string }
+        Returns: {
+          cover_asset_id: string
+          cover_rarity: string
+          cover_title: string
+          custody_mode: Database["public"]["Enums"]["custody_mode_type"]
+          edition_serial: number
+          edition_total: number
+          issue_id: string
+          master_content_id: string
+          minted_at: string
+        }[]
+      }
       has_admin_role: { Args: never; Returns: boolean }
       is_fio_handle_expired: { Args: { expiration: string }; Returns: boolean }
       link_crm_persona_to_identity: {
         Args: { p_crm_persona_id: string; p_identity_persona_id: string }
         Returns: boolean
+      }
+      mark_notifications_read: {
+        Args: { p_notification_ids?: string[]; p_recipient_id: string }
+        Returns: number
+      }
+      mark_payment_request_paid: {
+        Args: { p_request_id: string; p_tx_hash: string }
+        Returns: boolean
+      }
+      parse_issue_to_episode_number: {
+        Args: { p_issue: string }
+        Returns: number
+      }
+      reject_payment_request: {
+        Args: { p_payer_id: string; p_reason?: string; p_request_id: string }
+        Returns: boolean
+      }
+      select_and_claim_cover: {
+        Args: { p_episode_number: number; p_series?: string }
+        Returns: {
+          asset_id: string
+          edition_max: number
+          edition_serial: number
+          rarity_tier: string
+          variant_name: string
+        }[]
       }
       sync_crm_persona_reputation: {
         Args: {
@@ -5417,6 +6838,10 @@ export type Database = {
         }
         Returns: string
       }
+      update_cluster_stats: {
+        Args: { p_cluster_id: string }
+        Returns: undefined
+      }
       update_persona_reputation: {
         Args: {
           p_cvs?: number
@@ -5429,8 +6854,60 @@ export type Database = {
         }
         Returns: undefined
       }
+      upsert_agent_keys: {
+        Args: {
+          p_agent_id: string
+          p_agent_name: string
+          p_btc_address?: string
+          p_btc_private_key_encrypted?: string
+          p_entity_type?: string
+          p_evm_address?: string
+          p_evm_private_key_encrypted?: string
+          p_fio_handle?: string
+          p_persona_id?: string
+          p_solana_address?: string
+          p_solana_private_key_encrypted?: string
+        }
+        Returns: string
+      }
+      upsert_episode_metadata: {
+        Args: {
+          p_artist?: string
+          p_colorist?: string
+          p_display_number?: string
+          p_editor?: string
+          p_episode_number: number
+          p_extra_metadata?: Json
+          p_key_events?: Json
+          p_letterer?: string
+          p_locations?: Json
+          p_main_characters?: Json
+          p_release_date?: string
+          p_series: string
+          p_subtitle?: string
+          p_supporting_characters?: Json
+          p_synopsis?: string
+          p_themes?: Json
+          p_title: string
+          p_writer?: string
+        }
+        Returns: string
+      }
     }
     Enums: {
+      codex_asset_kind:
+        | "character_poster"
+        | "powers_sheet"
+        | "background_lore_doc"
+        | "game_concept_doc"
+        | "game_still"
+        | "game_video"
+        | "twenty_one_sats_concept"
+        | "social_campaign_video"
+        | "social_campaign_image"
+        | "cover_pdf"
+        | "cover_image"
+      content_display_mode: "pdf" | "image" | "video" | "text_extract"
       content_modality: "read" | "watch" | "listen" | "interact"
       content_status: "draft" | "published" | "archived" | "scheduled"
       content_structure_kind:
@@ -5439,6 +6916,7 @@ export type Database = {
         | "article"
         | "series"
         | "collection"
+      custody_mode_type: "custodial" | "canonical"
       entitlement_acquisition:
         | "purchase"
         | "subscription"
@@ -5454,6 +6932,7 @@ export type Database = {
         | "timeLimited"
         | "usageLimited"
       identity_state: "anonymous" | "pseudo" | "semi" | "full"
+      master_content_type: "episode_still" | "episode_motion" | "episode_print"
       payment_currency:
         | "QCT"
         | "QOYN"
@@ -5618,6 +7097,20 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      codex_asset_kind: [
+        "character_poster",
+        "powers_sheet",
+        "background_lore_doc",
+        "game_concept_doc",
+        "game_still",
+        "game_video",
+        "twenty_one_sats_concept",
+        "social_campaign_video",
+        "social_campaign_image",
+        "cover_pdf",
+        "cover_image",
+      ],
+      content_display_mode: ["pdf", "image", "video", "text_extract"],
       content_modality: ["read", "watch", "listen", "interact"],
       content_status: ["draft", "published", "archived", "scheduled"],
       content_structure_kind: [
@@ -5627,6 +7120,7 @@ export const Constants = {
         "series",
         "collection",
       ],
+      custody_mode_type: ["custodial", "canonical"],
       entitlement_acquisition: [
         "purchase",
         "subscription",
@@ -5644,6 +7138,7 @@ export const Constants = {
         "usageLimited",
       ],
       identity_state: ["anonymous", "pseudo", "semi", "full"],
+      master_content_type: ["episode_still", "episode_motion", "episode_print"],
       payment_currency: ["QCT", "QOYN", "KNYT", "USDC", "ETH", "BTC", "sats"],
       pricing_kind: [
         "payPerPanel",
