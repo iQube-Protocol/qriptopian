@@ -1,0 +1,1036 @@
+{
+  "publication": {
+    "name": "The Qriptopian",
+    "episode": "Episode 1 - Launch Edition",
+    "generated_at": "2025-12-17",
+    "domain": "qriptopian",
+    "total_articles": 56
+  },
+  "sections": {
+    "home-hero": {
+      "description": "Main hero carousel on homepage - large format feature articles",
+      "display": "Full-width hero carousel with 3 rotating slides",
+      "article_count": 3,
+      "articles": [
+        {
+          "position": 1,
+          "id": "d51579d4-6dad-48d6-9c1a-5b0904fd46f4",
+          "title": "The Penny Is Dead, Long Live the Penny",
+          "excerpt": "Is this the end or the beginning of an era?",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763950205671-jq5kue.png",
+            "position": "bottom",
+            "scale": 160,
+            "x": 50,
+            "y": 50
+          },
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "5 min read",
+              "word_count_approx": 1200,
+              "content_preview": "On November 12th, the U.S. Mint struck the final 1-cent coin bringing an end to the 232-year production run..."
+            },
+            "watch": {
+              "available": true,
+              "type": "youtube",
+              "url": "https://www.youtube.com/watch?v=p7fLrfgZjXA",
+              "duration": "unknown"
+            },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["editorial", "QriptoCENT", "penny", "digital-currency"]
+        },
+        {
+          "position": 2,
+          "id": "b7b10e8a-8f41-4d60-a29d-fb561e65a4f1",
+          "title": "QriptoCENT: The Cent That Makes Sense",
+          "excerpt": "In a world where your coffee machine negotiates its own beans, your AI assistants tip each other for good advice, and every scroll, click and glance carries a whisper of value—how do we measure what matters?",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763861556000-v9sdr5.jpg",
+            "position": "center",
+            "scale": 130,
+            "x": 50,
+            "y": 50
+          },
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "7 min read",
+              "word_count_approx": 1680,
+              "content_preview": "In a world where your coffee machine negotiates its own beans..."
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["qriptocent", "micro-payments", "digital-economy"]
+        },
+        {
+          "position": 3,
+          "id": "d0e6d74b-5c05-4d67-b6e9-3f8b2d55eec5",
+          "title": "Introducing Aigent MoneyPenny",
+          "excerpt": "Every tech origin story has that moment—the garage epiphany, the napkin sketch, the late-night commit. MoneyPenny's story is stranger.",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763952143497-ivw0y.png",
+            "position": "center",
+            "scale": 100,
+            "x": 50,
+            "y": 40
+          },
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "8 min read",
+              "word_count_approx": 1920,
+              "content_preview": "Every tech origin story has that moment—the garage epiphany..."
+            },
+            "watch": {
+              "available": true,
+              "type": "youtube",
+              "url": "https://www.youtube.com/watch?v=mRVShOZ_MwY",
+              "duration": "unknown"
+            },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["moneypenny", "aigent", "AI", "finance"]
+        }
+      ]
+    },
+    "latest-news": {
+      "description": "Horizontal scrolling news carousel beneath main hero",
+      "display": "Horizontal carousel with 4-5 visible cards, arrows to scroll",
+      "article_count": 5,
+      "articles": [
+        {
+          "position": 1,
+          "id": "ba1da7cd-12de-4cf9-a5dd-3f9d2e8a9e7c",
+          "title": "From No Crypto to Know Crypto",
+          "excerpt": "A book about money and its future",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763934698555-d3qxsp.jpg",
+            "position": "center",
+            "scale": 100
+          },
+          "modalities": {
+            "read": { "available": false },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": {
+              "available": true,
+              "url": "https://qripto.net",
+              "allow_embed": false
+            }
+          },
+          "tags": ["news", "crypto", "education"]
+        },
+        {
+          "position": 2,
+          "id": "5d1c3a7d-0bac-4522-ac45-62826ea80b37",
+          "title": "Qripto Sense",
+          "excerpt": "A little irreverence from Metaiye Media",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764194479443-oytfj.jpg",
+            "position": "center",
+            "scale": 100
+          },
+          "modalities": {
+            "read": { "available": false },
+            "watch": {
+              "available": true,
+              "type": "hosted",
+              "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1764194502022-37uqy.mp4",
+              "duration": "0:08"
+            },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["news", "video", "humor"]
+        },
+        {
+          "position": 3,
+          "id": "d63a1602-3337-4d56-b1c5-cdcdf21e3aec",
+          "title": "metaKnyt QriptoGraphic Novel",
+          "excerpt": "The mystery of Satoshi's vanishing revealed. 12 | 21",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764109914029-o4uae.png",
+            "position": "center",
+            "scale": 160
+          },
+          "modalities": {
+            "read": { "available": false },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "content_note": "Placeholder/teaser - no modalities active yet",
+          "tags": ["metaknyts", "graphic-novel", "announcement"]
+        },
+        {
+          "position": 4,
+          "id": "5d1c3a7d-synthsimms",
+          "title": "The SynthSimms",
+          "excerpt": "A little irreverence from Metaiye Media",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764194479443-oytfj.jpg",
+            "position": "center",
+            "scale": 100
+          },
+          "modalities": {
+            "read": { "available": false },
+            "watch": {
+              "available": true,
+              "type": "hosted",
+              "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1764194502022-37uqy.mp4",
+              "duration": "0:08"
+            },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["video", "synthsimms", "entertainment"]
+        },
+        {
+          "position": 5,
+          "id": "266c041c-355e-4dc7-b4a1-9093ae9a502a",
+          "title": "metaProof Launches Qripto",
+          "excerpt": "metaProof's Vision of Data Sovereignty via Satoshis",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763934849181-q3rjgm.jpg",
+            "position": "center",
+            "scale": 100
+          },
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "9 min read",
+              "word_count_approx": 2160,
+              "content_preview": "Every board deck says the same thing right now. AI will transform the business..."
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["news", "metaproof", "qripto", "launch"]
+        }
+      ]
+    },
+    "second-hero": {
+      "description": "Secondary hero section below news carousel - focuses on The Qriptopian publication itself",
+      "display": "Full-width hero carousel, similar to home-hero",
+      "article_count": 3,
+      "articles": [
+        {
+          "position": 1,
+          "id": "0af19539-1c7d-48b6-b2d0-547710cbe475",
+          "title": "The Qriptopian",
+          "excerpt": "",
+          "status": "draft",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763935031657-fmib0l.png",
+            "position": "center",
+            "scale": 95,
+            "x": 50,
+            "y": 55
+          },
+          "modalities": {
+            "read": { "available": false },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "content_note": "Publication masthead/title card - visual only",
+          "tags": []
+        },
+        {
+          "position": 2,
+          "id": "889b939e-dfea-4937-8350-984bf84c93bf",
+          "title": "The Qriptopian",
+          "excerpt": "Qripto-AigentiQ tech and culture",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763950127698-u2mh8.png",
+            "position": "center",
+            "scale": 100
+          },
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "7 min read",
+              "word_count_approx": 1680,
+              "content_preview": "If The Qriptopian is the magazine of the convergence era, then QriptoCENT (Q¢) is the heartbeat running through its pages..."
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["qriptopian", "about", "tech", "culture"]
+        },
+        {
+          "position": 3,
+          "id": "65baa3fd-0050-4dde-990c-63b2aa2c9d56",
+          "title": "The Qriptopian",
+          "excerpt": "New convergences and old alliances",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763950060048-69lmvo.png",
+            "position": "center",
+            "scale": 100
+          },
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "10 min read",
+              "word_count_approx": 2400,
+              "content_preview": "The digital convergence era article content..."
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": false }
+          },
+          "tags": ["qriptopian", "convergence", "digital-transformation"]
+        }
+      ]
+    },
+    "scrolls": {
+      "description": "Drawer-based content section with tabbed navigation - visual/video focused content",
+      "display": "Vertical scrolling grid within drawer, organized by tabs",
+      "article_count": 16,
+      "tabs": {
+        "metaknyts": {
+          "description": "metaKnyts graphic novel content - episodes, character videos, lore",
+          "article_count": 9,
+          "articles": [
+            {
+              "position": 1,
+              "id": "d69a2436-ee82-4068-a9e4-731e8c449b92",
+              "title": "Welcome to the Order",
+              "excerpt": "Kn0w1's welcome to the order of Metayé",
+              "status": "published",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763948018453-aasx2e.jpg",
+                "position": "bottom",
+                "scale": 100
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": {
+                  "available": true,
+                  "type": "hosted",
+                  "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1763947879878-y34ncj.mp4",
+                  "duration": "2:26"
+                },
+                "listen": {
+                  "available": true,
+                  "audio_url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1763947879878-y34ncj.mp4"
+                },
+                "link": { "available": false }
+              },
+              "tags": []
+            },
+            {
+              "position": 2,
+              "id": "141cd45f-a4c8-46bb-9c4f-f15bd6fda84e",
+              "title": "The Battle for the Soul of the Internet",
+              "excerpt": "Podcast review of metaKnyts' lore and story-world",
+              "status": "published",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1763953406769-1mdpr4.png",
+                "position": "center",
+                "scale": 95,
+                "y": 30
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": {
+                  "available": true,
+                  "type": "hosted",
+                  "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1763952656189-p18iqi.mp4",
+                  "duration": "11:30"
+                },
+                "listen": {
+                  "available": true,
+                  "audio_url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1763952656189-p18iqi.mp4"
+                },
+                "link": { "available": false }
+              },
+              "tags": []
+            },
+            {
+              "position": 3,
+              "id": "ea4a83a8-5537-483a-9632-6a1590f0c608",
+              "title": "Aigent Nakamoto - Old School",
+              "excerpt": "",
+              "status": "published",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764114746218-9za0e.png",
+                "position": "center",
+                "scale": 100,
+                "y": 60
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": {
+                  "available": true,
+                  "type": "hosted",
+                  "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1763950764661-buktgy.mp4",
+                  "duration": "1:19"
+                },
+                "listen": {
+                  "available": true,
+                  "audio_url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1763950764661-buktgy.mp4"
+                },
+                "link": { "available": false }
+              },
+              "tags": []
+            },
+            {
+              "position": 4,
+              "id": "9a6e9be7-7187-485f-b2b5-ede1727c52e2",
+              "title": "metaKnyts #0",
+              "excerpt": "",
+              "status": "published",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764111731117-3rpvx6.png",
+                "position": "center",
+                "scale": 100
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "content_note": "Cover art only - episode not yet linked",
+              "tags": []
+            },
+            {
+              "position": 5,
+              "id": "613f5dbe-ccd5-4a07-9c84-dc17ad893eca",
+              "title": "metaKnyts #2",
+              "excerpt": "",
+              "status": "published",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764113343544-ayd03.png",
+                "position": "center",
+                "scale": 100
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": {
+                  "available": true,
+                  "type": "hosted",
+                  "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1764203519869-12qw4.mp4",
+                  "duration": "11:30"
+                },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "tags": []
+            },
+            {
+              "position": 6,
+              "id": "19873fde-8495-46ca-a5e3-ede6d4bb1f25",
+              "title": "metaknyts #4",
+              "excerpt": "",
+              "status": "published",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764113491423-7l42k.png",
+                "position": "center",
+                "scale": 100
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "content_note": "Cover art only - episode not yet linked",
+              "tags": []
+            },
+            {
+              "position": 7,
+              "id": "126c0e3e-ebe2-4c8f-9080-82418949ea6a",
+              "title": "KNYT War",
+              "excerpt": "Battle KNYTS",
+              "status": "published",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764114922521-oqdfpc.jpg",
+                "position": "center",
+                "scale": 100
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": {
+                  "available": true,
+                  "type": "hosted",
+                  "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/videos/1764117044108-rn9l2.MP4",
+                  "duration": "0:51"
+                },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "tags": []
+            },
+            {
+              "position": 8,
+              "id": "1605eeec-7a0e-4a1c-8223-8cae5e1084ed",
+              "title": "DigiTerra/or",
+              "excerpt": "Test your knowledge",
+              "status": "draft",
+              "thumbnail": {
+                "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/1764114810560-nyxcks.png",
+                "position": "center",
+                "scale": 100
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "content_note": "Quiz/interactive - not yet implemented",
+              "tags": []
+            }
+          ]
+        },
+        "aigents": {
+          "description": "Aigent character showcase content",
+          "article_count": 4,
+          "articles": [
+            {
+              "position": 1,
+              "title": "Aigent Synth",
+              "excerpt": "",
+              "status": "published",
+              "thumbnail": {
+                "url": "supabase storage",
+                "position": "center",
+                "scale": 100
+              },
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "tags": []
+            },
+            {
+              "position": 2,
+              "title": "Liquidiocracy",
+              "excerpt": "",
+              "status": "published",
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "tags": []
+            },
+            {
+              "position": 3,
+              "title": "Fellowship of the Simms",
+              "excerpt": "",
+              "status": "published",
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              },
+              "tags": []
+            }
+          ]
+        },
+        "memes": {
+          "description": "Qripto meme and humor content",
+          "article_count": 4,
+          "articles": [
+            {
+              "title": "Stack Sats",
+              "status": "published",
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              }
+            },
+            {
+              "title": "Primates Protocols",
+              "status": "published",
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              }
+            },
+            {
+              "title": "Satoshi Brew",
+              "status": "published",
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              }
+            },
+            {
+              "title": "The Dip Skit",
+              "status": "published",
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              }
+            },
+            {
+              "title": "Not Your Keys Not Your Qripto",
+              "status": "published",
+              "modalities": {
+                "read": { "available": false },
+                "watch": { "available": false },
+                "listen": { "available": false },
+                "link": { "available": false }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "pennydrops": {
+      "description": "Drawer section with short fiction stories illustrating Q¢ concepts",
+      "display": "Vertical scrolling grid within drawer",
+      "article_count": 10,
+      "articles": [
+        {
+          "position": 1,
+          "id": "f990cf0f-fbb6-4f68-a3d2-10d168ad9cb0",
+          "title": "The Day the Penny Went Digital",
+          "excerpt": "A story about how a corner café, a curious barista and a handful of micro-payments turned loose change into living QriptoCENT (Q¢).",
+          "status": "published",
+          "thumbnail": {
+            "url": "https://bsjhfvctmduxhohtllly.supabase.co/storage/v1/object/public/content-media/thumbnails/penny-drops-cafe.jpg"
+          },
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "7 min read",
+              "word_count_approx": 1680
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": {
+              "available": true,
+              "url": "https://qripto.net/pennydrops/the-day-the-penny-went-digital"
+            }
+          },
+          "tags": ["fiction", "qriptocent", "cafe", "origin-story"]
+        },
+        {
+          "position": 2,
+          "title": "Coffee Shop Chronicles: Espresso, Aigents and Q¢",
+          "excerpt": "A morning routine transformed by micro-value",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "5 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "daily-life", "aigents"]
+        },
+        {
+          "position": 3,
+          "title": "The Tipping Point: Creators, Fans and Q¢",
+          "excerpt": "When appreciation becomes measurable",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "6 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "creator-economy", "tipping"]
+        },
+        {
+          "position": 4,
+          "title": "MoneyPenny HFT Aigent",
+          "excerpt": "High-frequency micro-decisions",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "6 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "moneypenny", "trading", "HFT"]
+        },
+        {
+          "position": 5,
+          "title": "Gig Economy Pennies: Instant Q¢ for Instant Work",
+          "excerpt": "The new shape of flexible earnings",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "5 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "gig-economy", "instant-payment"]
+        },
+        {
+          "position": 6,
+          "title": "The Kid Who Sold a Dataset: Young Researcher Earns Q¢ from Data",
+          "excerpt": "Data sovereignty starts young",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "5 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "data", "youth", "earning"]
+        },
+        {
+          "position": 7,
+          "title": "The Subscription That Didn't Feel Like One",
+          "excerpt": "Granular access changes everything",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "4 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "subscription", "access"]
+        },
+        {
+          "position": 8,
+          "title": "When the Vending Machine Joined the Network",
+          "excerpt": "IoT meets micro-payments",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "4 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "IoT", "vending", "automation"]
+        },
+        {
+          "position": 9,
+          "title": "The Busker's Bitcoin: Street Music Meets QriptoCENT",
+          "excerpt": "Turning passing footsteps into flowing Q¢",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "5 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "music", "busking", "street-performance"]
+        },
+        {
+          "position": 10,
+          "title": "Parking Meter Revolution: Smart Streets, Tiny Q¢",
+          "excerpt": "Urban infrastructure rethought",
+          "status": "published",
+          "modalities": {
+            "read": {
+              "available": true,
+              "duration": "4 min read"
+            },
+            "watch": { "available": false },
+            "listen": { "available": false },
+            "link": { "available": true }
+          },
+          "tags": ["fiction", "smart-city", "parking", "infrastructure"]
+        }
+      ]
+    },
+    "21knowdz": {
+      "description": "Kn0wdZ drawer - educational/reference content organized by audience/skill tabs",
+      "display": "Vertical scrolling grid within drawer, organized by audience tabs",
+      "article_count": 19,
+      "tabs": {
+        "executive": {
+          "description": "Business and executive-level content",
+          "article_count": 4,
+          "articles": [
+            {
+              "position": 1,
+              "title": "The Business Case for QriptoCENT",
+              "excerpt": "Why finance leaders should pay attention to micro-stable value",
+              "duration": "6 min read",
+              "has_external_link": true,
+              "link_url": "https://qripto.net/exec/business-case",
+              "tags": ["executive", "business", "QriptoCENT"]
+            },
+            {
+              "position": 2,
+              "title": "Governance and Risk Considerations for QriptoCENT Adoption",
+              "excerpt": "What boards and risk committees need to know before greenlighting Q¢ pilots",
+              "duration": "6 min read",
+              "has_external_link": true,
+              "link_url": "https://qripto.net/exec/governance",
+              "tags": ["executive", "governance", "risk"]
+            },
+            {
+              "position": 3,
+              "title": "The QriptoCENT Balance Sheet: iQubes, COYN and Agentic Value",
+              "excerpt": "How digital micro-value flows through the Qripto stack",
+              "duration": "7 min read",
+              "has_external_link": true,
+              "tags": ["executive", "finance", "iQubes", "COYN"]
+            }
+          ]
+        },
+        "marketing": {
+          "description": "Marketing and growth-focused content",
+          "article_count": 3,
+          "articles": [
+            {
+              "position": 1,
+              "title": "Positioning QriptoCENT in the Market",
+              "excerpt": "Messaging frameworks for different audiences",
+              "duration": "5 min read",
+              "has_external_link": true,
+              "tags": ["marketing", "positioning", "messaging"]
+            },
+            {
+              "position": 2,
+              "title": "Social Playbooks for QriptoCENT-powered Campaigns",
+              "excerpt": "Run viral loops with micro-rewards",
+              "duration": "5 min read",
+              "has_external_link": true,
+              "tags": ["marketing", "social", "campaigns"]
+            },
+            {
+              "position": 3,
+              "title": "Partnering in the QriptoCENT Ecosystem",
+              "excerpt": "How to build strategic alliances around Q¢",
+              "duration": "5 min read",
+              "has_external_link": true,
+              "tags": ["marketing", "partnerships", "ecosystem"]
+            }
+          ]
+        },
+        "developer": {
+          "description": "Technical documentation for developers",
+          "article_count": 5,
+          "articles": [
+            {
+              "position": 1,
+              "title": "Getting Started with the AigentiQ SDK and QriptoCENT",
+              "excerpt": "Set up your dev environment and deploy your first Q¢ flow",
+              "duration": "10 min read",
+              "has_external_link": true,
+              "link_url": "https://qripto.net/dev/getting-started",
+              "tags": ["developer", "SDK", "tutorial"]
+            },
+            {
+              "position": 2,
+              "title": "Build Agentic Apps with QriptoCENT and the AigentiQ SDK",
+              "excerpt": "From simple agents to complex orchestrations",
+              "duration": "12 min read",
+              "has_external_link": true,
+              "tags": ["developer", "SDK", "agents"]
+            },
+            {
+              "position": 3,
+              "title": "Connecting Thin Clients with A2A APIs for QriptoCENT Services",
+              "excerpt": "Wire external apps into the Q¢ ecosystem",
+              "duration": "8 min read",
+              "has_external_link": true,
+              "tags": ["developer", "API", "integration"]
+            },
+            {
+              "position": 4,
+              "title": "Deploying QriptoCENT Services to QubeBase",
+              "excerpt": "Production deployment patterns and best practices",
+              "duration": "8 min read",
+              "has_external_link": true,
+              "tags": ["developer", "deployment", "QubeBase"]
+            },
+            {
+              "position": 5,
+              "title": "Securing QriptoCENT Flows with iQubes, DIDs and Keys",
+              "excerpt": "Identity, encryption and access control fundamentals",
+              "duration": "10 min read",
+              "has_external_link": true,
+              "tags": ["developer", "security", "DID", "encryption"]
+            }
+          ]
+        },
+        "operator": {
+          "description": "Operations and scale-focused content",
+          "article_count": 2,
+          "articles": [
+            {
+              "position": 1,
+              "title": "Operating QriptoCENT at Scale",
+              "excerpt": "Monitoring, alerting and capacity planning for Q¢ infrastructure",
+              "duration": "7 min read",
+              "has_external_link": true,
+              "tags": ["operator", "scale", "infrastructure"]
+            },
+            {
+              "position": 2,
+              "title": "QriptoCENT Revenue Models for Agentic Commerce",
+              "excerpt": "Pricing strategies for Q¢-native products and services",
+              "duration": "6 min read",
+              "has_external_link": true,
+              "tags": ["operator", "revenue", "pricing"]
+            }
+          ]
+        },
+        "creative": {
+          "description": "Content for creators, artists and storytellers",
+          "article_count": 5,
+          "articles": [
+            {
+              "position": 1,
+              "title": "Worldbuilding the Qriptopian Mythos Around QriptoCENT",
+              "excerpt": "Design story worlds where QriptoCENT quietly powers every interaction, choice and consequence",
+              "duration": "8 min read",
+              "word_count_approx": 1920,
+              "has_external_link": true,
+              "link_url": "https://qripto.net/creative/qriptopian-mythos",
+              "tags": ["creative", "mythos", "QriptoCENT", "worldbuilding"]
+            },
+            {
+              "position": 2,
+              "title": "Visualising QriptoCENT Flows in Motion Graphics",
+              "excerpt": "Techniques for animating Q¢ transactions in ways that educate and excite viewers",
+              "duration": "6 min read",
+              "has_external_link": true,
+              "link_url": "https://qripto.net/creative/motion-graphics",
+              "tags": ["creative", "animation", "motion-graphics"]
+            },
+            {
+              "position": 3,
+              "title": "Writing Characters Who Transact in Q¢",
+              "excerpt": "Craft dialogue and behaviour that makes QriptoCENT feel natural in your scripts and prose",
+              "duration": "6 min read",
+              "has_external_link": true,
+              "link_url": "https://qripto.net/creative/writing-q-cent",
+              "tags": ["creative", "writing", "QriptoCENT", "characters"]
+            },
+            {
+              "position": 4,
+              "title": "Panel-by-Panel Monetisation in Qriptopian Comics",
+              "excerpt": "Structure your comic for granular Q¢ access and rewards",
+              "duration": "6 min read",
+              "has_external_link": true,
+              "tags": ["creative", "comics", "monetisation"]
+            },
+            {
+              "position": 5,
+              "title": "The Qriptopian Brand and QriptoCENT Visual System",
+              "excerpt": "Guidelines for consistent representation of Q¢ across media",
+              "duration": "5 min read",
+              "has_external_link": true,
+              "tags": ["creative", "brand", "visual-system"]
+            },
+            {
+              "position": 6,
+              "title": "Animating Qriptopian Characters for QriptoCENT-native Experiences",
+              "excerpt": "Bring Aigents and characters to life with motion",
+              "duration": "6 min read",
+              "has_external_link": true,
+              "tags": ["creative", "animation", "characters"]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "content_statistics": {
+    "total_articles": 56,
+    "by_status": {
+      "published": 52,
+      "draft": 4
+    },
+    "by_modality": {
+      "read_only": 28,
+      "video_only": 8,
+      "read_and_video": 3,
+      "read_and_link": 15,
+      "audio_only": 0,
+      "no_modality_visual_only": 2
+    },
+    "by_content_type": {
+      "long_form_articles": 25,
+      "short_fiction": 10,
+      "video_content": 8,
+      "visual_placeholders": 5,
+      "reference_docs_external": 8
+    },
+    "media_assets": {
+      "thumbnails": 56,
+      "hosted_videos": 8,
+      "youtube_embeds": 2,
+      "audio_files": 3
+    }
+  },
+  "editorial_gaps_for_episode_2": {
+    "missing_content_types": [
+      "Podcast/audio-first content (currently only video extracts)",
+      "Interactive quizzes/assessments",
+      "Infographics/data visualizations",
+      "User-generated/community content section"
+    ],
+    "sections_needing_expansion": {
+      "latest-news": "Only 5 items - could support 8-10 for variety",
+      "scrolls_aigents": "Only 3-4 character showcases - more Aigent profiles needed",
+      "scrolls_memes": "Meme content is visual-only with no modalities - add context/stories"
+    },
+    "suggested_new_articles": [
+      "Interview with MoneyPenny (audio format)",
+      "Q¢ in the Wild: Real deployment case studies",
+      "Aigent Kn0w1 deep dive",
+      "Community spotlight/contributor features",
+      "Weekly/Monthly Q¢ market pulse",
+      "Tutorial: Your First Q¢ Transaction",
+      "Behind the Scenes: metaKnyts creation process"
+    ]
+  }
+}
