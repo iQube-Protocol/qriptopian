@@ -18,6 +18,7 @@ import ScrollsManager from "./pages/admin/content/ScrollsManager";
 import KnowdZManager from "./pages/admin/content/KnowdZManager";
 import StayBullManager from "./pages/admin/content/StayBullManager";
 import ContentImporter from "./pages/admin/content/ContentImporter";
+import ExportContent from "./pages/admin/content/ExportContent";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/setup-did" element={<SetupDID />} />
           <Route path="/admin/content/import" element={<ContentImporter />} />
+          <Route path="/admin/content/export" element={<ExportContent />} />
           <Route path="/admin/content/home-hero" element={<HomeHeroManager />} />
           <Route path="/admin/content/latest-news" element={<LatestNewsManager />} />
           <Route path="/admin/content/second-hero" element={<SecondHeroManager />} />
