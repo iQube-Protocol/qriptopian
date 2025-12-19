@@ -3537,6 +3537,68 @@ export type Database = {
           },
         ]
       }
+      episode_engagement_events: {
+        Row: {
+          created_at: string
+          episode_id: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          persona_id: string
+          progress_percent: number | null
+          time_spent_seconds: number | null
+        }
+        Insert: {
+          created_at?: string
+          episode_id: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          persona_id: string
+          progress_percent?: number | null
+          time_spent_seconds?: number | null
+        }
+        Update: {
+          created_at?: string
+          episode_id?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          persona_id?: string
+          progress_percent?: number | null
+          time_spent_seconds?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "episode_engagement_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "episode_engagement_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "episode_engagement_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "episode_engagement_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       episode_metadata: {
         Row: {
           artist: string | null
@@ -4858,9 +4920,14 @@ export type Database = {
           fio_domain: string
           fio_handle: string
           fio_registration: Json | null
+          first_paid_purchase_at: string | null
           id: string
+          order_tier: Database["public"]["Enums"]["order_tier"] | null
+          ref_campaign_id: string | null
+          referrer_persona_id: string | null
           reputation_bucket: number
           reputation_score: number
+          reputation_tier: Database["public"]["Enums"]["reputation_tier"] | null
           root_did: string
           sol_address: string | null
           status: string
@@ -4882,9 +4949,16 @@ export type Database = {
           fio_domain: string
           fio_handle: string
           fio_registration?: Json | null
+          first_paid_purchase_at?: string | null
           id?: string
+          order_tier?: Database["public"]["Enums"]["order_tier"] | null
+          ref_campaign_id?: string | null
+          referrer_persona_id?: string | null
           reputation_bucket?: number
           reputation_score?: number
+          reputation_tier?:
+            | Database["public"]["Enums"]["reputation_tier"]
+            | null
           root_did: string
           sol_address?: string | null
           status?: string
@@ -4906,14 +4980,77 @@ export type Database = {
           fio_domain?: string
           fio_handle?: string
           fio_registration?: Json | null
+          first_paid_purchase_at?: string | null
           id?: string
+          order_tier?: Database["public"]["Enums"]["order_tier"] | null
+          ref_campaign_id?: string | null
+          referrer_persona_id?: string | null
           reputation_bucket?: number
           reputation_score?: number
+          reputation_tier?:
+            | Database["public"]["Enums"]["reputation_tier"]
+            | null
           root_did?: string
           sol_address?: string | null
           status?: string
           tenant_id?: string
           type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "personas_referrer_persona_id_fkey"
+            columns: ["referrer_persona_id"]
+            isOneToOne: false
+            referencedRelation: "personas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          asset_ids: string[] | null
+          base_knyt_price: number
+          created_at: string
+          description: string | null
+          duration_days: number | null
+          entitlement_tier: Database["public"]["Enums"]["entitlement_tier"]
+          entitlement_type: Database["public"]["Enums"]["entitlement_type"]
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          name: string
+          product_type: string
+          updated_at: string
+        }
+        Insert: {
+          asset_ids?: string[] | null
+          base_knyt_price: number
+          created_at?: string
+          description?: string | null
+          duration_days?: number | null
+          entitlement_tier?: Database["public"]["Enums"]["entitlement_tier"]
+          entitlement_type?: Database["public"]["Enums"]["entitlement_type"]
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name: string
+          product_type: string
+          updated_at?: string
+        }
+        Update: {
+          asset_ids?: string[] | null
+          base_knyt_price?: number
+          created_at?: string
+          description?: string | null
+          duration_days?: number | null
+          entitlement_tier?: Database["public"]["Enums"]["entitlement_tier"]
+          entitlement_type?: Database["public"]["Enums"]["entitlement_type"]
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name?: string
+          product_type?: string
           updated_at?: string
         }
         Relationships: []
@@ -4976,6 +5113,87 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      purchases: {
+        Row: {
+          amount: number
+          completed_at: string | null
+          created_at: string
+          currency: string
+          id: string
+          metadata: Json | null
+          payment_rail: string
+          payment_reference: string | null
+          persona_id: string
+          product_id: string | null
+          product_type: string
+          status: string
+        }
+        Insert: {
+          amount: number
+          completed_at?: string | null
+          created_at?: string
+          currency: string
+          id?: string
+          metadata?: Json | null
+          payment_rail: string
+          payment_reference?: string | null
+          persona_id: string
+          product_id?: string | null
+          product_type: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          completed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          metadata?: Json | null
+          payment_rail?: string
+          payment_reference?: string | null
+          persona_id?: string
+          product_id?: string | null
+          product_type?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchases_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "purchases_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchases_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchases_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchases_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
         ]
@@ -5191,6 +5409,65 @@ export type Database = {
           },
         ]
       }
+      reputation_events: {
+        Row: {
+          created_at: string
+          event_source: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          persona_id: string
+          points_delta: number | null
+        }
+        Insert: {
+          created_at?: string
+          event_source?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          persona_id: string
+          points_delta?: number | null
+        }
+        Update: {
+          created_at?: string
+          event_source?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          persona_id?: string
+          points_delta?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reputation_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "reputation_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reputation_evidence: {
         Row: {
           created_at: string | null
@@ -5234,6 +5511,71 @@ export type Database = {
             columns: ["reputation_bucket_id"]
             isOneToOne: false
             referencedRelation: "reputation_bucket"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reward_grants: {
+        Row: {
+          amount_knyt: number
+          base_amount_knyt: number
+          created_at: string
+          id: string
+          metadata: Json | null
+          persona_id: string
+          rep_multiplier: number
+          source_event_id: string | null
+          task_type: Database["public"]["Enums"]["reward_task_type"]
+        }
+        Insert: {
+          amount_knyt: number
+          base_amount_knyt: number
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          persona_id: string
+          rep_multiplier?: number
+          source_event_id?: string | null
+          task_type: Database["public"]["Enums"]["reward_task_type"]
+        }
+        Update: {
+          amount_knyt?: number
+          base_amount_knyt?: number
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          persona_id?: string
+          rep_multiplier?: number
+          source_event_id?: string | null
+          task_type?: Database["public"]["Enums"]["reward_task_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reward_grants_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "reward_grants_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reward_grants_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reward_grants_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
             referencedColumns: ["id"]
           },
         ]
@@ -5337,6 +5679,163 @@ export type Database = {
           version?: string
         }
         Relationships: []
+      }
+      share_clicks: {
+        Row: {
+          created_at: string
+          id: string
+          ip_hash: string | null
+          referrer: string | null
+          share_link_id: string
+          user_agent: string | null
+          visitor_fingerprint: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          referrer?: string | null
+          share_link_id: string
+          user_agent?: string | null
+          visitor_fingerprint?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          referrer?: string | null
+          share_link_id?: string
+          user_agent?: string | null
+          visitor_fingerprint?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "share_clicks_share_link_id_fkey"
+            columns: ["share_link_id"]
+            isOneToOne: false
+            referencedRelation: "share_links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      share_links: {
+        Row: {
+          campaign: string | null
+          created_at: string
+          id: string
+          metadata: Json | null
+          persona_id: string
+          share_id: string
+          target_url: string
+        }
+        Insert: {
+          campaign?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          persona_id: string
+          share_id: string
+          target_url: string
+        }
+        Update: {
+          campaign?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          persona_id?: string
+          share_id?: string
+          target_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "share_links_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "share_links_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_links_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_links_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      share_signups: {
+        Row: {
+          converted_to_paying: boolean | null
+          created_at: string
+          id: string
+          new_persona_id: string | null
+          share_link_id: string
+        }
+        Insert: {
+          converted_to_paying?: boolean | null
+          created_at?: string
+          id?: string
+          new_persona_id?: string | null
+          share_link_id: string
+        }
+        Update: {
+          converted_to_paying?: boolean | null
+          created_at?: string
+          id?: string
+          new_persona_id?: string | null
+          share_link_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "share_signups_new_persona_id_fkey"
+            columns: ["new_persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "share_signups_new_persona_id_fkey"
+            columns: ["new_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_signups_new_persona_id_fkey"
+            columns: ["new_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_signups_new_persona_id_fkey"
+            columns: ["new_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_signups_share_link_id_fkey"
+            columns: ["share_link_id"]
+            isOneToOne: false
+            referencedRelation: "share_links"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sites: {
         Row: {
@@ -5815,6 +6314,83 @@ export type Database = {
           },
         ]
       }
+      user_entitlements: {
+        Row: {
+          asset_id: string
+          canonical_bundle_id: string | null
+          created_at: string
+          entitlement_type: Database["public"]["Enums"]["entitlement_type"]
+          expires_at: string | null
+          id: string
+          metadata: Json | null
+          onchain_token_ref: string | null
+          persona_id: string
+          source_purchase_id: string | null
+          starts_at: string
+          tier: Database["public"]["Enums"]["entitlement_tier"]
+          updated_at: string
+        }
+        Insert: {
+          asset_id: string
+          canonical_bundle_id?: string | null
+          created_at?: string
+          entitlement_type?: Database["public"]["Enums"]["entitlement_type"]
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          onchain_token_ref?: string | null
+          persona_id: string
+          source_purchase_id?: string | null
+          starts_at?: string
+          tier?: Database["public"]["Enums"]["entitlement_tier"]
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string
+          canonical_bundle_id?: string | null
+          created_at?: string
+          entitlement_type?: Database["public"]["Enums"]["entitlement_type"]
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          onchain_token_ref?: string | null
+          persona_id?: string
+          source_purchase_id?: string | null
+          starts_at?: string
+          tier?: Database["public"]["Enums"]["entitlement_tier"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_entitlements_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "user_entitlements_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_entitlements_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_entitlements_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_issue_qubes: {
         Row: {
           canonical_bundle_id: string | null
@@ -6127,6 +6703,68 @@ export type Database = {
           source?: string
         }
         Relationships: []
+      }
+      weekly_engagement_streaks: {
+        Row: {
+          created_at: string
+          episodes_completed: number | null
+          id: string
+          persona_id: string
+          reward_granted: boolean | null
+          streak_qualified: boolean | null
+          updated_at: string
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          episodes_completed?: number | null
+          id?: string
+          persona_id: string
+          reward_granted?: boolean | null
+          streak_qualified?: boolean | null
+          updated_at?: string
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          episodes_completed?: number | null
+          id?: string
+          persona_id?: string
+          reward_granted?: boolean | null
+          streak_qualified?: boolean | null
+          updated_at?: string
+          week_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weekly_engagement_streaks_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "weekly_engagement_streaks_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "weekly_engagement_streaks_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "weekly_engagement_streaks_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       x402_messages: {
         Row: {
@@ -6925,6 +7563,8 @@ export type Database = {
         | "reward"
         | "free"
       entitlement_scope: "full" | "preview" | "rental" | "subscription"
+      entitlement_tier: "T0" | "T1" | "T2"
+      entitlement_type: "perpetual" | "term" | "subscription"
       expiry_model:
         | "permanent"
         | "rental"
@@ -6933,6 +7573,7 @@ export type Database = {
         | "usageLimited"
       identity_state: "anonymous" | "pseudo" | "semi" | "full"
       master_content_type: "episode_still" | "episode_motion" | "episode_print"
+      order_tier: "NONE" | "KETA" | "KEJI" | "FIRST" | "ZERO" | "SAT"
       payment_currency:
         | "QCT"
         | "QOYN"
@@ -6968,6 +7609,22 @@ export type Database = {
         | "prerequisite"
         | "questPath"
         | "playlist"
+      reputation_tier:
+        | "R-"
+        | "R0_KETA"
+        | "R1_KEJI"
+        | "R2_FIRST"
+        | "R3_ZERO"
+        | "R4_SAT"
+      reward_task_type:
+        | "BringAKnightQualifiedReferral"
+        | "KnightOfAttentionEpisodeComplete"
+        | "KnightOfAttentionWeeklyStreak"
+        | "KnightOfAttentionStreakBonus"
+        | "HeraldCuriosityClicks"
+        | "HeraldAudienceSignups"
+        | "HeraldConversionPayingUser"
+        | "FoundingOrderAirdrop"
       smart_content_app: "metaKnyts" | "Qriptopian" | "AgentiQ"
       storage_provider: "supabase" | "ipfs" | "autonomys" | "cdn" | "external"
     }
@@ -7130,6 +7787,8 @@ export const Constants = {
         "free",
       ],
       entitlement_scope: ["full", "preview", "rental", "subscription"],
+      entitlement_tier: ["T0", "T1", "T2"],
+      entitlement_type: ["perpetual", "term", "subscription"],
       expiry_model: [
         "permanent",
         "rental",
@@ -7139,6 +7798,7 @@ export const Constants = {
       ],
       identity_state: ["anonymous", "pseudo", "semi", "full"],
       master_content_type: ["episode_still", "episode_motion", "episode_print"],
+      order_tier: ["NONE", "KETA", "KEJI", "FIRST", "ZERO", "SAT"],
       payment_currency: ["QCT", "QOYN", "KNYT", "USDC", "ETH", "BTC", "sats"],
       pricing_kind: [
         "payPerPanel",
@@ -7169,6 +7829,24 @@ export const Constants = {
         "prerequisite",
         "questPath",
         "playlist",
+      ],
+      reputation_tier: [
+        "R-",
+        "R0_KETA",
+        "R1_KEJI",
+        "R2_FIRST",
+        "R3_ZERO",
+        "R4_SAT",
+      ],
+      reward_task_type: [
+        "BringAKnightQualifiedReferral",
+        "KnightOfAttentionEpisodeComplete",
+        "KnightOfAttentionWeeklyStreak",
+        "KnightOfAttentionStreakBonus",
+        "HeraldCuriosityClicks",
+        "HeraldAudienceSignups",
+        "HeraldConversionPayingUser",
+        "FoundingOrderAirdrop",
       ],
       smart_content_app: ["metaKnyts", "Qriptopian", "AgentiQ"],
       storage_provider: ["supabase", "ipfs", "autonomys", "cdn", "external"],
