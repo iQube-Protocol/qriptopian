@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
+import { useMetaAvatar, AVATAR_AGENTS, type AvatarAgent } from "@/contexts/MetaAvatarContext";
 
 interface AigentDrawerProps {
   isOpen: boolean;
@@ -24,7 +24,10 @@ export function AigentDrawer({
     role: 'assistant',
     content: 'Welcome! I can help you discover insights, analyze markets, and explore content. How can I assist you today?'
   }]);
-  const { requestAvatar, releaseAvatar, refreshAvatar } = useMetaAvatar();
+  const { requestAvatar, releaseAvatar, refreshAvatar, selectedAgent, setSelectedAgent } = useMetaAvatar();
+
+  // Get current agent config
+  const currentAgentConfig = AVATAR_AGENTS[selectedAgent];
 
   // Request/release avatar based on drawer and view mode state
   useEffect(() => {
@@ -51,6 +54,15 @@ export function AigentDrawer({
       }]);
     }, 1000);
   };
+
+  const handleAgentSwitch = (agent: AvatarAgent) => {
+    if (agent === selectedAgent) return;
+    setSelectedAgent(agent);
+  };
+
+  // Check if Kn0w1 is available (has agent ID configured)
+  const isKnow1Available = !!AVATAR_AGENTS.know1.agentId;
+
   if (!isOpen) return null;
   return <>
       {/* Backdrop */}
@@ -63,13 +75,55 @@ export function AigentDrawer({
         <div className="flex-shrink-0 border-b border-border/30 bg-background/60 backdrop-blur-sm">
           <div className="p-6 flex items-center justify-between gap-4">
             <div className="flex-shrink-0">
-              <h2 className="text-xl font-bold text-cyan-400 mb-1">Aigent MoneyPenny</h2>
-              <p className="text-sm text-muted-foreground">COYN and Q¢ specialist</p>
+              <h2 className="text-xl font-bold text-cyan-400 mb-1">Aigent {currentAgentConfig.name}</h2>
+              <p className="text-sm text-muted-foreground">{currentAgentConfig.description}</p>
             </div>
             
             <div className="flex items-center gap-6">
-
               <TooltipProvider>
+                {/* Avatar Selector - Only show if Kn0w1 is available */}
+                {isKnow1Available && viewMode === 'metavatar' && (
+                  <div className="flex items-center gap-2 bg-background/20 backdrop-blur-md rounded-lg p-1 border border-border/20">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button 
+                          type="button" 
+                          onClick={() => handleAgentSwitch('moneypenny')} 
+                          className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
+                            selectedAgent === 'moneypenny' 
+                              ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' 
+                              : 'text-white hover:text-cyan-400 hover:bg-background/10'
+                          }`}
+                        >
+                          MoneyPenny
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>COYN and Q¢ specialist</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button 
+                          type="button" 
+                          onClick={() => handleAgentSwitch('know1')} 
+                          className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
+                            selectedAgent === 'know1' 
+                              ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' 
+                              : 'text-white hover:text-purple-400 hover:bg-background/10'
+                          }`}
+                        >
+                          Kn0w1
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Knowledge and research specialist</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                )}
+
                 {/* Refresh Button - Only visible in metavatar mode */}
                 {viewMode === 'metavatar' && <Tooltip>
                     <TooltipTrigger asChild>

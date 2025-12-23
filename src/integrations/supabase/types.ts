@@ -641,6 +641,254 @@ export type Database = {
         }
         Relationships: []
       }
+      codex_kb_chunks: {
+        Row: {
+          character_refs: string[] | null
+          chunk_index: number
+          chunk_type: string | null
+          content: string
+          created_at: string | null
+          document_id: string
+          embedding: string | null
+          id: string
+          location_refs: string[] | null
+          page_number: number | null
+          section_title: string | null
+          token_count: number | null
+          word_count: number | null
+        }
+        Insert: {
+          character_refs?: string[] | null
+          chunk_index: number
+          chunk_type?: string | null
+          content: string
+          created_at?: string | null
+          document_id: string
+          embedding?: string | null
+          id?: string
+          location_refs?: string[] | null
+          page_number?: number | null
+          section_title?: string | null
+          token_count?: number | null
+          word_count?: number | null
+        }
+        Update: {
+          character_refs?: string[] | null
+          chunk_index?: number
+          chunk_type?: string | null
+          content?: string
+          created_at?: string | null
+          document_id?: string
+          embedding?: string | null
+          id?: string
+          location_refs?: string[] | null
+          page_number?: number | null
+          section_title?: string | null
+          token_count?: number | null
+          word_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_kb_chunks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "codex_kb_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      codex_kb_documents: {
+        Row: {
+          chunk_count: number | null
+          content_category: string | null
+          created_at: string | null
+          domain: string
+          episode_number: number | null
+          extracted_at: string | null
+          extraction_error: string | null
+          extraction_status: string | null
+          id: string
+          metadata: Json | null
+          page_count: number | null
+          series: string | null
+          source_cid: string | null
+          source_id: string | null
+          source_type: string
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+          word_count: number | null
+        }
+        Insert: {
+          chunk_count?: number | null
+          content_category?: string | null
+          created_at?: string | null
+          domain?: string
+          episode_number?: number | null
+          extracted_at?: string | null
+          extraction_error?: string | null
+          extraction_status?: string | null
+          id?: string
+          metadata?: Json | null
+          page_count?: number | null
+          series?: string | null
+          source_cid?: string | null
+          source_id?: string | null
+          source_type: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+          word_count?: number | null
+        }
+        Update: {
+          chunk_count?: number | null
+          content_category?: string | null
+          created_at?: string | null
+          domain?: string
+          episode_number?: number | null
+          extracted_at?: string | null
+          extraction_error?: string | null
+          extraction_status?: string | null
+          id?: string
+          metadata?: Json | null
+          page_count?: number | null
+          series?: string | null
+          source_cid?: string | null
+          source_id?: string | null
+          source_type?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+          word_count?: number | null
+        }
+        Relationships: []
+      }
+      codex_kb_entities: {
+        Row: {
+          aliases: string[] | null
+          canonical_id: string | null
+          created_at: string | null
+          description: string | null
+          document_count: number | null
+          domain: string
+          entity_type: string
+          id: string
+          mention_count: number | null
+          metadata: Json | null
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          aliases?: string[] | null
+          canonical_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          document_count?: number | null
+          domain?: string
+          entity_type: string
+          id?: string
+          mention_count?: number | null
+          metadata?: Json | null
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          aliases?: string[] | null
+          canonical_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          document_count?: number | null
+          domain?: string
+          entity_type?: string
+          id?: string
+          mention_count?: number | null
+          metadata?: Json | null
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      codex_kb_entity_mentions: {
+        Row: {
+          chunk_id: string
+          context_snippet: string | null
+          created_at: string | null
+          entity_id: string
+          id: string
+          mention_text: string | null
+        }
+        Insert: {
+          chunk_id: string
+          context_snippet?: string | null
+          created_at?: string | null
+          entity_id: string
+          id?: string
+          mention_text?: string | null
+        }
+        Update: {
+          chunk_id?: string
+          context_snippet?: string | null
+          created_at?: string | null
+          entity_id?: string
+          id?: string
+          mention_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_kb_entity_mentions_chunk_id_fkey"
+            columns: ["chunk_id"]
+            isOneToOne: false
+            referencedRelation: "codex_kb_chunks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "codex_kb_entity_mentions_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "codex_kb_entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      codex_kb_queries: {
+        Row: {
+          created_at: string | null
+          domain: string
+          id: string
+          persona_id: string | null
+          query_text: string
+          result_chunk_ids: string[] | null
+          result_count: number | null
+          search_duration_ms: number | null
+          session_id: string | null
+          user_role: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          domain?: string
+          id?: string
+          persona_id?: string | null
+          query_text: string
+          result_chunk_ids?: string[] | null
+          result_count?: number | null
+          search_duration_ms?: number | null
+          session_id?: string | null
+          user_role?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          domain?: string
+          id?: string
+          persona_id?: string | null
+          query_text?: string
+          result_chunk_ids?: string[] | null
+          result_count?: number | null
+          search_duration_ms?: number | null
+          session_id?: string | null
+          user_role?: string | null
+        }
+        Relationships: []
+      }
       codex_knyt_cards: {
         Row: {
           character_id: string | null
@@ -6916,6 +7164,29 @@ export type Database = {
       }
     }
     Views: {
+      codex_kb_document_stats: {
+        Row: {
+          content_category: string | null
+          document_count: number | null
+          domain: string | null
+          extraction_status: string | null
+          series: string | null
+          total_chunks: number | null
+          total_pages: number | null
+          total_words: number | null
+        }
+        Relationships: []
+      }
+      codex_kb_entity_stats: {
+        Row: {
+          domain: string | null
+          entity_count: number | null
+          entity_type: string | null
+          total_documents: number | null
+          total_mentions: number | null
+        }
+        Relationships: []
+      }
       crm_admin_roles_expanded: {
         Row: {
           access_level: number | null
@@ -7383,6 +7654,16 @@ export type Database = {
           title: string
         }[]
       }
+      get_related_chunks: {
+        Args: { match_count?: number; source_chunk_id: string }
+        Returns: {
+          chunk_id: string
+          content: string
+          document_id: string
+          similarity: number
+          title: string
+        }[]
+      }
       get_unread_notifications: {
         Args: { p_recipient_id: string }
         Returns: {
@@ -7427,6 +7708,25 @@ export type Database = {
         }[]
       }
       has_admin_role: { Args: never; Returns: boolean }
+      hybrid_search_kb_chunks: {
+        Args: {
+          match_count?: number
+          match_domain?: string
+          query_embedding?: string
+          query_text: string
+        }
+        Returns: {
+          chunk_id: string
+          chunk_index: number
+          content: string
+          content_category: string
+          document_id: string
+          domain: string
+          search_type: string
+          similarity: number
+          title: string
+        }[]
+      }
       is_fio_handle_expired: { Args: { expiration: string }; Returns: boolean }
       link_crm_persona_to_identity: {
         Args: { p_crm_persona_id: string; p_identity_persona_id: string }
@@ -7447,6 +7747,24 @@ export type Database = {
       reject_payment_request: {
         Args: { p_payer_id: string; p_reason?: string; p_request_id: string }
         Returns: boolean
+      }
+      search_kb_chunks: {
+        Args: {
+          match_count?: number
+          match_domain?: string
+          match_threshold?: number
+          query_embedding: string
+        }
+        Returns: {
+          chunk_id: string
+          chunk_index: number
+          content: string
+          content_category: string
+          document_id: string
+          domain: string
+          similarity: number
+          title: string
+        }[]
       }
       select_and_claim_cover: {
         Args: { p_episode_number: number; p_series?: string }

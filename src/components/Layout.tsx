@@ -15,7 +15,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [isAIOpen, setIsAIOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-  const { avatarInitialized, activeContainer, avatarRefreshKey } = useMetaAvatar();
+  const { avatarInitialized, activeContainer, avatarRefreshKey, activeAgent } = useMetaAvatar();
 
   const handleDomainClick = (domain: Domain) => {
     setActiveDomain(activeDomain === domain ? null : domain);
@@ -55,7 +55,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
 
-      {/* Global Persistent MetaAvatar */}
+      {/* Global Persistent MetaAvatar - key includes activeAgent to force re-render on agent switch */}
       {avatarInitialized && (
         <div 
           className={`fixed transition-all duration-300 ${
@@ -68,7 +68,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         >
           <div className={`h-full w-full ${activeContainer === 'aigent' ? 'p-2 md:p-6' : 'p-0'}`}>
             <div className={`h-full w-full overflow-hidden ${activeContainer === 'aigent' ? 'rounded-lg border border-border/30 bg-muted/10' : ''}`}>
-              <MetaAvatar key={avatarRefreshKey} />
+              <MetaAvatar key={`${avatarRefreshKey}-${activeAgent}`} />
             </div>
           </div>
         </div>
