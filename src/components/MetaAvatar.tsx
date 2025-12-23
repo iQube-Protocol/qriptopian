@@ -1,15 +1,18 @@
 import { useEffect, useRef } from 'react';
+import { useMetaAvatar, AVATAR_AGENTS } from '@/contexts/MetaAvatarContext';
 
 export function MetaAvatar() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scriptRef = useRef<HTMLScriptElement | null>(null);
   const containerIdRef = useRef(`did-avatar-container-${Math.random().toString(36).slice(2)}`);
+  const { activeAgent } = useMetaAvatar();
 
   useEffect(() => {
     const init = () => {
       const containerId = (containerIdRef.current = `did-avatar-container-${Math.random().toString(36).slice(2)}`);
+      const agentConfig = AVATAR_AGENTS[activeAgent];
 
-      console.log("[MetaAvatar] init", { containerId, ts: new Date().toISOString() });
+      console.log("[MetaAvatar] init", { containerId, activeAgent, agentId: agentConfig.agentId, ts: new Date().toISOString() });
 
       // Remove any previously injected D-ID artifacts
       document.querySelectorAll('script[src*="agent.d-id.com"]').forEach((s) => s.remove());
@@ -23,9 +26,14 @@ export function MetaAvatar() {
         containerRef.current.innerHTML = '';
       }
 
-      // Get credentials from environment
+      // Get credentials - use the active agent's ID
       const clientKey = import.meta.env.VITE_DID_CLIENT_KEY || 'Z29vZ2xlLW9hdXRoMnwxMDcyNjU3ODI2NjQ5ODgyODU4MDk6YkoxSDdROEp5S2Q1Mk1CbEx0ODE2';
-      const agentId = import.meta.env.VITE_DID_AGENT_ID || 'v2_agt_dY78cKv2';
+      const agentId = agentConfig.agentId;
+
+      if (!agentId) {
+        console.warn(`[MetaAvatar] No agent ID configured for ${activeAgent}`);
+        return;
+      }
 
       // Create fresh script element
       const script = document.createElement('script');
@@ -68,7 +76,7 @@ export function MetaAvatar() {
         containerRef.current.innerHTML = '';
       }
     };
-  }, []);
+  }, [activeAgent]);
 
   return <div ref={containerRef} className="w-full h-full" />;
 }
