@@ -43,12 +43,13 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
         </div>
 
         {/* Iframe Content */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden" style={{ minHeight: 480 }}>
           <iframe
             src={`${TRIAD_BASE}/triad/embed/wallet`}
             style={{ width: "100%", height: "100%", border: "none" }}
+            loading="lazy"
             allow="clipboard-write; fullscreen; autoplay"
-            title="SmartWallet"
+            title="KNYT SmartWallet"
           />
         </div>
       </div>
