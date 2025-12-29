@@ -8,6 +8,8 @@ import { Kn0wdZDrawer } from "@/components/navigation/drawers/Kn0wdZDrawer";
 import { ScrollsDrawer } from "@/components/navigation/drawers/KnytRiseDrawer";
 import { StayBullDrawer } from "@/components/navigation/drawers/StayBullDrawer";
 import { AigentDrawer } from "@/components/navigation/drawers/AigentDrawer";
+import { WalletDrawer } from "@/components/navigation/drawers/WalletDrawer";
+import { CodexDrawer } from "@/components/navigation/drawers/CodexDrawer";
 import { MetaAvatarProvider, useMetaAvatar } from "@/contexts/MetaAvatarContext";
 import { MetaAvatar } from "@/components/MetaAvatar";
 
@@ -51,6 +53,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <Kn0wdZDrawer isOpen={activeDomain === 'kn0wdz'} onClose={() => setActiveDomain(null)} />
       <ScrollsDrawer isOpen={activeDomain === 'scrolls'} onClose={() => setActiveDomain(null)} />
       <StayBullDrawer isOpen={activeDomain === 'staybull'} onClose={() => setActiveDomain(null)} />
+      
+      {/* SmartTriad Embedded Drawers */}
+      <WalletDrawer isOpen={activeDomain === 'wallet'} onClose={() => setActiveDomain(null)} />
+      <CodexDrawer isOpen={activeDomain === 'codex'} onClose={() => setActiveDomain(null)} />
       
       {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />

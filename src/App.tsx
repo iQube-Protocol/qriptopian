@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/Dashboard";
 import SetupDID from "./pages/admin/SetupDID";
+import SmartTriadCodexManager from "./pages/admin/SmartTriadCodexManager";
 import HomeHeroManager from "./pages/admin/content/HomeHeroManager";
 import ContentEditor from "./pages/admin/content/ContentEditor";
 import LatestNewsManager from "./pages/admin/content/LatestNewsManager";
@@ -36,6 +37,7 @@ const App = () => (
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/setup-did" element={<SetupDID />} />
+          <Route path="/admin/smarttriad/codex" element={<SmartTriadCodexManager />} />
           <Route path="/admin/content/import" element={<ContentImporter />} />
           <Route path="/admin/content/export" element={<ExportContent />} />
           <Route path="/admin/content/home-hero" element={<HomeHeroManager />} />

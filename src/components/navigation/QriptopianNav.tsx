@@ -1,8 +1,8 @@
-import { Zap, BookOpen, Droplets, Code2, TrendingUp, Settings, Bot } from "lucide-react";
+import { Zap, BookOpen, Droplets, Code2, TrendingUp, Settings, Bot, Wallet, Library } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-export type Domain = 'signals' | 'pennydrops' | 'kn0wdz' | 'scrolls' | 'staybull';
+export type Domain = 'signals' | 'pennydrops' | 'kn0wdz' | 'scrolls' | 'staybull' | 'wallet' | 'codex';
 
 interface QriptopianNavProps {
   activeDomain: Domain | null;
@@ -30,6 +30,14 @@ const domains = [{
   id: 'staybull' as Domain,
   icon: TrendingUp,
   label: 'StayBull'
+}, {
+  id: 'wallet' as Domain,
+  icon: Wallet,
+  label: 'SmartWallet'
+}, {
+  id: 'codex' as Domain,
+  icon: Library,
+  label: 'KNYT Codex'
 }];
 
 const navItems = [
@@ -52,7 +60,7 @@ export function QriptopianNav({
       <aside className="hidden md:flex fixed right-[2px] top-1/2 -translate-y-1/2 w-14 flex-col items-center py-6 z-50 pointer-events-auto">
         <nav className="flex flex-col gap-1 w-full px-1">
           {navItems
-            .filter(item => !['signals', 'staybull', 'settings'].includes(item.id))
+            .filter(item => !['signals', 'staybull', 'settings'].includes(item.id as string))
             .map(item => {
               const Icon = item.icon;
               const isActive = activeDomain === item.id;

@@ -12,7 +12,8 @@ import {
   BookOpen,
   TrendingUp,
   Shield,
-  Upload
+  Upload,
+  Library
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -55,7 +56,8 @@ export default function AdminDashboard() {
     { name: 'PennyDrops', path: '/admin/content/pennydrops', icon: DollarSign, description: 'Financial insights' },
     { name: 'Scrolls', path: '/admin/content/scrolls', icon: BookOpen, description: 'metaKnyts & The SynthSims' },
     { name: 'Kn0wdZ', path: '/admin/content/21knowdz', icon: Scroll, description: 'Dev & Creative resources' },
-    { name: 'StayBull', path: '/admin/content/staybull', icon: TrendingUp, description: 'Market updates' }
+    { name: 'StayBull', path: '/admin/content/staybull', icon: TrendingUp, description: 'Market updates' },
+    { name: 'SmartTriad Codex Manager', path: '/admin/smarttriad/codex', icon: Library, description: 'Episodes, covers, Autonomys uploads' }
   ];
 
   return (
