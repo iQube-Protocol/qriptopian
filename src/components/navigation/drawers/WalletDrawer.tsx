@@ -6,7 +6,7 @@ interface WalletDrawerProps {
   onClose: () => void;
 }
 
-const TRIAD_BASE = import.meta.env.VITE_TRIAD_EMBED_BASE || "https://theqriptopian.netlify.app";
+const TRIAD_BASE = process.env.NEXT_PUBLIC_TRIAD_EMBED_BASE || "https://theqriptopian.netlify.app";
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   if (!isOpen) return null;
