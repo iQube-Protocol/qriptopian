@@ -938,6 +938,7 @@ export type Database = {
           asset_kind: Database["public"]["Enums"]["codex_asset_kind"]
           auto_drive_cid: string
           blak_qube_id: string | null
+          cover_thumb_url: string | null
           created_at: string | null
           display_mode:
             | Database["public"]["Enums"]["content_display_mode"]
@@ -954,6 +955,10 @@ export type Database = {
           is_shareable: boolean | null
           meta_qube_id: string | null
           mime_type: string
+          page_count: number | null
+          pages_count: number | null
+          pages_ready: boolean | null
+          pdf_lite_url: string | null
           random_weight: number | null
           rarity_tier: string | null
           recommended_task: string | null
@@ -968,6 +973,7 @@ export type Database = {
           asset_kind: Database["public"]["Enums"]["codex_asset_kind"]
           auto_drive_cid: string
           blak_qube_id?: string | null
+          cover_thumb_url?: string | null
           created_at?: string | null
           display_mode?:
             | Database["public"]["Enums"]["content_display_mode"]
@@ -984,6 +990,10 @@ export type Database = {
           is_shareable?: boolean | null
           meta_qube_id?: string | null
           mime_type: string
+          page_count?: number | null
+          pages_count?: number | null
+          pages_ready?: boolean | null
+          pdf_lite_url?: string | null
           random_weight?: number | null
           rarity_tier?: string | null
           recommended_task?: string | null
@@ -998,6 +1008,7 @@ export type Database = {
           asset_kind?: Database["public"]["Enums"]["codex_asset_kind"]
           auto_drive_cid?: string
           blak_qube_id?: string | null
+          cover_thumb_url?: string | null
           created_at?: string | null
           display_mode?:
             | Database["public"]["Enums"]["content_display_mode"]
@@ -1014,6 +1025,10 @@ export type Database = {
           is_shareable?: boolean | null
           meta_qube_id?: string | null
           mime_type?: string
+          page_count?: number | null
+          pages_count?: number | null
+          pages_ready?: boolean | null
+          pdf_lite_url?: string | null
           random_weight?: number | null
           rarity_tier?: string | null
           recommended_task?: string | null
@@ -4788,6 +4803,7 @@ export type Database = {
           auto_drive_cid: string
           blak_qube_id: string | null
           content_type: Database["public"]["Enums"]["master_content_type"]
+          cover_thumb_url: string | null
           created_at: string | null
           edition_tier: string | null
           encryption_alg: string
@@ -4798,6 +4814,10 @@ export type Database = {
           id: string
           meta_qube_id: string | null
           mime_type: string
+          page_count: number | null
+          pages_count: number | null
+          pages_ready: boolean | null
+          pdf_lite_url: string | null
           series: string
           status: string | null
           title: string
@@ -4808,6 +4828,7 @@ export type Database = {
           auto_drive_cid: string
           blak_qube_id?: string | null
           content_type: Database["public"]["Enums"]["master_content_type"]
+          cover_thumb_url?: string | null
           created_at?: string | null
           edition_tier?: string | null
           encryption_alg?: string
@@ -4818,6 +4839,10 @@ export type Database = {
           id: string
           meta_qube_id?: string | null
           mime_type: string
+          page_count?: number | null
+          pages_count?: number | null
+          pages_ready?: boolean | null
+          pdf_lite_url?: string | null
           series?: string
           status?: string | null
           title: string
@@ -4828,6 +4853,7 @@ export type Database = {
           auto_drive_cid?: string
           blak_qube_id?: string | null
           content_type?: Database["public"]["Enums"]["master_content_type"]
+          cover_thumb_url?: string | null
           created_at?: string | null
           edition_tier?: string | null
           encryption_alg?: string
@@ -4838,6 +4864,10 @@ export type Database = {
           id?: string
           meta_qube_id?: string | null
           mime_type?: string
+          page_count?: number | null
+          pages_count?: number | null
+          pages_ready?: boolean | null
+          pdf_lite_url?: string | null
           series?: string
           status?: string | null
           title?: string
@@ -5009,6 +5039,39 @@ export type Database = {
           status?: string
           tx_hash?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      pdf_page_manifests: {
+        Row: {
+          auto_drive_cid: string
+          base_path: string
+          bucket: string
+          created_at: string | null
+          id: string
+          pages_count: number
+          source_pdf_lite_url: string
+          width: number
+        }
+        Insert: {
+          auto_drive_cid: string
+          base_path: string
+          bucket: string
+          created_at?: string | null
+          id?: string
+          pages_count: number
+          source_pdf_lite_url: string
+          width: number
+        }
+        Update: {
+          auto_drive_cid?: string
+          base_path?: string
+          bucket?: string
+          created_at?: string | null
+          id?: string
+          pages_count?: number
+          source_pdf_lite_url?: string
+          width?: number
         }
         Relationships: []
       }
@@ -5442,6 +5505,65 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      qc_balances: {
+        Row: {
+          balance: number
+          created_at: string
+          currency: string
+          id: string
+          persona_id: string
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          persona_id: string
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          persona_id?: string
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qc_balances_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "qc_balances_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qc_balances_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qc_balances_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
             referencedColumns: ["id"]
           },
         ]
