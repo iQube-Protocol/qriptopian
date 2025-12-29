@@ -3,8 +3,7 @@ import { useIsAdminAA } from '@/hooks/useIsAdminAA';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft } from 'lucide-react';
-
-const TRIAD_BASE = import.meta.env.VITE_TRIAD_EMBED_BASE || "https://theqriptopian.netlify.app";
+import { ADMIN_CODEX_EMBED_URL } from '@/config/embed';
 
 export default function SmartTriadCodexManager() {
   const navigate = useNavigate();
@@ -57,10 +56,11 @@ export default function SmartTriadCodexManager() {
       {/* Iframe Content */}
       <div className="flex-1 overflow-hidden">
         <iframe
-          src={`${TRIAD_BASE}/triad/admin/codex`}
+          src={ADMIN_CODEX_EMBED_URL}
           style={{ width: "100%", height: "100%", border: "none" }}
+          loading="lazy"
           allow="clipboard-write; fullscreen; autoplay"
-          title="SmartTriad Codex Manager"
+          title="SmartTriad Codex Admin"
         />
       </div>
     </div>
