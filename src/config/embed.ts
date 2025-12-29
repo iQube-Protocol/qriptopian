@@ -8,4 +8,4 @@ export const TRIAD_EMBED_BASE =
 
 export const WALLET_EMBED_URL = `${TRIAD_EMBED_BASE}/triad/embed/wallet`;
 export const CODEX_EMBED_URL = `${TRIAD_EMBED_BASE}/triad/embed/codex?tab=scrolls`;
-export const ADMIN_CODEX_EMBED_URL = `${TRIAD_EMBED_BASE}/triad/admin/codex`;
+export const ADMIN_CODEX_EMBED_URL = `${TRIAD_EMBED_BASE}/triad/embed/admin/codex`;
