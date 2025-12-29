@@ -1,12 +1,11 @@
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { WALLET_EMBED_URL } from "@/config/embed";
 
 interface WalletDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const TRIAD_BASE = import.meta.env.VITE_TRIAD_EMBED_BASE || "https://theqriptopian.netlify.app";
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   if (!isOpen) return null;
@@ -45,7 +44,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
         {/* Iframe Content */}
         <div className="flex-1 overflow-hidden" style={{ minHeight: 480 }}>
           <iframe
-            src={`${TRIAD_BASE}/triad/embed/wallet`}
+            src={WALLET_EMBED_URL}
             style={{ width: "100%", height: "100%", border: "none" }}
             loading="lazy"
             allow="clipboard-write; fullscreen; autoplay"
