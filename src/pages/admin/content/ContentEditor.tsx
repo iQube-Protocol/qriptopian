@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, Save, Upload, Eye, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { ArticleRenderer } from '@/components/content/ArticleRenderer';
 
 export default function ContentEditor() {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ export default function ContentEditor() {
   const [imageX, setImageX] = useState(50);
   const [imageY, setImageY] = useState(50);
   const [position, setPosition] = useState(1);
-
+  const [showArticlePreview, setShowArticlePreview] = useState(false);
   useEffect(() => {
     if (id && id !== 'new') {
       loadContent();
@@ -263,6 +264,7 @@ export default function ContentEditor() {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 flex items-center justify-between">
@@ -404,7 +406,19 @@ export default function ContentEditor() {
 
                 <TabsContent value="read" className="space-y-4 mt-4">
                   <div>
-                    <Label htmlFor="readText">Article Content</Label>
+                    <div className="flex items-center justify-between mb-2">
+                      <Label htmlFor="readText">Article Content</Label>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowArticlePreview(true)}
+                        disabled={!readText.trim()}
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        Preview Article
+                      </Button>
+                    </div>
                     <Textarea
                       id="readText"
                       value={readText}
@@ -414,9 +428,23 @@ export default function ContentEditor() {
                           setReadDuration(calculateReadDuration(e.target.value));
                         }
                       }}
-                      placeholder="Full article text..."
-                      rows={10}
+                      placeholder="Full article text with Markdown and HTML support...
+
+Supported formats:
+# Heading 1, ## Heading 2, ### Heading 3
+**bold text**, *italic*, > blockquotes
+- bullet lists, 1. numbered lists
+\`\`\`code blocks\`\`\`
+
+HTML elements:
+<table><thead><tr><th>Column</th></tr></thead>...</table>
+<a href='url' target='_blank'>links</a>"
+                      rows={12}
+                      className="font-mono text-sm"
                     />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Supports Markdown and HTML tables/links. Scripts are automatically sanitized.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="readDuration">Read Duration (auto-calculated)</Label>
@@ -668,5 +696,17 @@ export default function ContentEditor() {
         </div>
       </div>
     </div>
+    
+    {/* Article Preview Modal */}
+    {showArticlePreview && (
+      <ArticleRenderer
+        content={readText}
+        title={title || 'Untitled Article'}
+        excerpt={excerpt}
+        duration={readDuration}
+        onClose={() => setShowArticlePreview(false)}
+      />
+    )}
+    </>
   );
 }
