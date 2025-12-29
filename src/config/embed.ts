@@ -1,8 +1,7 @@
 // src/config/embed.ts
 // Centralized embed configuration for SmartTriad panels
 
-const DEFAULT_TRIAD_EMBED_BASE = "https://theqriptopian.netlify.app";
-// TODO: Update default to AigentiQ host when ready
+const DEFAULT_TRIAD_EMBED_BASE = "https://dev-beta.aigentz.me";
 
 export const TRIAD_EMBED_BASE =
   import.meta.env.VITE_TRIAD_EMBED_BASE || DEFAULT_TRIAD_EMBED_BASE;
