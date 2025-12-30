@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, Maximize2, X, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
+import { BookOpen, X, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 interface ContentItem {
   id: string;
@@ -77,9 +77,6 @@ export function Kn0w1Viewer({
           <div className="absolute top-4 right-4 md:top-6 md:right-6 flex gap-2">
             <button onClick={() => onModeChange?.('read')} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Read">
               <BookOpen className="h-3.5 w-3.5" />
-            </button>
-            <button onClick={() => handleFullscreenToggle(true)} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Fullscreen">
-              <Maximize2 className="h-3.5 w-3.5" />
             </button>
           </div>
         )}

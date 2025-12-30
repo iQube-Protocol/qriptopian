@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Lock, Crown, Maximize2, BookOpen, Play, Headphones, X, ExternalLink } from "lucide-react";
+import { Lock, Crown, BookOpen, Play, Headphones, X, ExternalLink } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -132,56 +132,46 @@ export function DynamicLatestNewsCarousel() {
                       />
                     </div>
                   )}
-                  <div className="p-4 md:p-6">
-                    {/* Navigation dots and modality buttons */}
-                    <div className="flex items-center gap-4 mb-4">
+                  {/* Action buttons - top right of card */}
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    {contentService.hasModality(article, 'read') && (
                       <button 
-                        onClick={() => handleFullscreen(article)}
-                        className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                        aria-label="Fullscreen"
+                        onClick={() => handleModalityClick(article, 'read')}
+                        className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
+                        aria-label="Read"
                       >
-                        <Maximize2 className="h-3 w-3" />
+                        <BookOpen className="h-4 w-4" />
                       </button>
-                      
-                      <div className="flex gap-2">
-                        {contentService.hasModality(article, 'read') && (
-                          <button 
-                            onClick={() => handleModalityClick(article, 'read')}
-                            className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
-                            aria-label="Read"
-                          >
-                            <BookOpen className="h-4 w-4" />
-                          </button>
-                        )}
-                        {contentService.hasModality(article, 'watch') && (
-                          <button 
-                            onClick={() => handleModalityClick(article, 'watch')}
-                            className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
-                            aria-label="Watch"
-                          >
-                            <Play className="h-4 w-4" />
-                          </button>
-                        )}
-                        {contentService.hasModality(article, 'listen') && (
-                          <button 
-                            onClick={() => handleModalityClick(article, 'listen')}
-                            className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
-                            aria-label="Listen"
-                          >
-                            <Headphones className="h-4 w-4" />
-                          </button>
-                        )}
-                        {contentService.hasModality(article, 'link') && (
-                          <button 
-                            onClick={() => handleModalityClick(article, 'link')}
-                            className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
-                            aria-label="Open Link"
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                          </button>
-                        )}
-                      </div>
-                    </div>
+                    )}
+                    {contentService.hasModality(article, 'watch') && (
+                      <button 
+                        onClick={() => handleModalityClick(article, 'watch')}
+                        className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
+                        aria-label="Watch"
+                      >
+                        <Play className="h-4 w-4" />
+                      </button>
+                    )}
+                    {contentService.hasModality(article, 'listen') && (
+                      <button 
+                        onClick={() => handleModalityClick(article, 'listen')}
+                        className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
+                        aria-label="Listen"
+                      >
+                        <Headphones className="h-4 w-4" />
+                      </button>
+                    )}
+                    {contentService.hasModality(article, 'link') && (
+                      <button 
+                        onClick={() => handleModalityClick(article, 'link')}
+                        className="p-2 rounded-lg transition-all bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70" 
+                        aria-label="Open Link"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                  <div className="p-4 md:p-6">
 
                     {article.tags && article.tags.length > 0 && (
                       <Badge variant="default" className="bg-purple-500/20 text-purple-400 border-purple-500/30 mb-2">

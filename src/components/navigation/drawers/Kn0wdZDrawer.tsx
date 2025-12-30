@@ -3,7 +3,7 @@ import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Code2, Terminal, Book, Palette, Film, MessageSquare, Maximize2, BookOpen, Play, Headphones, Building2, TrendingUp, ExternalLink } from "lucide-react";
+import { Code2, Terminal, Book, Palette, Film, MessageSquare, BookOpen, Play, Headphones, Building2, TrendingUp, ExternalLink } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
 import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/videoUtils";
@@ -288,14 +288,8 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
                 )}
               </div>
               
-              {/* Action icons */}
-              <div className="absolute bottom-28 left-4 flex gap-2">
-                <button 
-                  onClick={() => handleFullscreenToggle(true)}
-                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                >
-                  <Maximize2 className="h-3.5 w-3.5" />
-                </button>
+              {/* Action icons - top right */}
+              <div className="absolute top-4 right-4 flex gap-2">
                 <button 
                   onClick={() => {
                     if (featureContent[0]?.originalIndex !== undefined) {

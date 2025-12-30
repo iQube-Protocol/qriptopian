@@ -3,7 +3,7 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Maximize2, BookOpen, Play, Headphones, ExternalLink } from "lucide-react";
+import { BookOpen, Play, Headphones, ExternalLink } from "lucide-react";
 import { useMetaAvatar } from "@/contexts/MetaAvatarContext";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
@@ -125,17 +125,8 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
                   onFullscreenChange={setIsFullscreen}
                   hideActionIcons={true}
                 />
-                {/* Modality Buttons Overlay for Feature - hover only */}
+                {/* Modality Buttons Overlay for Feature - hover only, top right */}
                 <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                  <button
-                    onClick={() => {
-                      setIsFullscreen(true);
-                    }}
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
-                    title="Expand"
-                  >
-                    <Maximize2 className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400" />
-                  </button>
                   {contentService.hasModality(content[0], 'read') && (
                     <button
                       onClick={() => {
