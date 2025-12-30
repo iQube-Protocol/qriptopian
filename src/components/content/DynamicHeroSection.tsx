@@ -55,7 +55,7 @@ export function DynamicHeroSection() {
 
   if (loading) {
     return (
-      <div className="w-full h-[70svh] md:h-[calc(100vh-88px)] bg-[#050f1f] flex items-center justify-center">
+      <div className="w-full h-[100svh] md:h-[calc(100vh-88px)] bg-[#050f1f] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
       </div>
     );
@@ -63,7 +63,7 @@ export function DynamicHeroSection() {
 
   if (articles.length === 0) {
     return (
-      <div className="w-full h-[70svh] md:h-[calc(100vh-88px)] relative">
+      <div className="w-full h-[100svh] md:h-[calc(100vh-88px)] relative">
         <img src={heroImage} alt="Default Hero" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
         <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
@@ -85,9 +85,9 @@ export function DynamicHeroSection() {
       setApi={setCarouselApi}
       opts={{ loop: true, dragFree: false }}
       plugins={[WheelGesturesPlugin()]}
-      className="w-full h-[70svh] md:h-[calc(100vh-88px)] relative flex-shrink-0"
+      className="w-full h-[100svh] md:h-[calc(100vh-88px)] relative flex-shrink-0"
     >
-      <CarouselContent className="h-[70svh] md:h-[calc(100vh-88px)]">
+      <CarouselContent className="h-[100svh] md:h-[calc(100vh-88px)]">
         {articles.map((article) => {
           const placement = article.placement as any || {};
           const imageScale = placement.imageScale || 100;
@@ -95,7 +95,7 @@ export function DynamicHeroSection() {
           const imageY = placement.imageY || 50;
           
           return (
-            <CarouselItem key={article.id} className="h-[70svh] md:h-[calc(100vh-88px)] relative">
+            <CarouselItem key={article.id} className="h-[100svh] md:h-[calc(100vh-88px)] relative">
               <div 
                 className="w-full h-full md:bg-[length:var(--scale)] bg-cover bg-center md:bg-[position:var(--x)_var(--y)]"
                 style={{
