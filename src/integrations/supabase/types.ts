@@ -1159,6 +1159,7 @@ export type Database = {
           placement: Json | null
           published_at: string | null
           related_content: string[] | null
+          share_count: number | null
           slug: string | null
           status: string | null
           tags: string[] | null
@@ -1189,6 +1190,7 @@ export type Database = {
           placement?: Json | null
           published_at?: string | null
           related_content?: string[] | null
+          share_count?: number | null
           slug?: string | null
           status?: string | null
           tags?: string[] | null
@@ -1219,6 +1221,7 @@ export type Database = {
           placement?: Json | null
           published_at?: string | null
           related_content?: string[] | null
+          share_count?: number | null
           slug?: string | null
           status?: string | null
           tags?: string[] | null
@@ -1497,6 +1500,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "content"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_revisions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "share_analytics_summary"
+            referencedColumns: ["article_id"]
           },
         ]
       }
@@ -6050,6 +6060,60 @@ export type Database = {
         }
         Relationships: []
       }
+      share_analytics: {
+        Row: {
+          article_id: string
+          created_at: string | null
+          deep_link: string
+          id: string
+          ip_address: string | null
+          persona_id: string | null
+          platform: string
+          referrer: string | null
+          timestamp: string
+          user_agent: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string | null
+          deep_link: string
+          id?: string
+          ip_address?: string | null
+          persona_id?: string | null
+          platform: string
+          referrer?: string | null
+          timestamp: string
+          user_agent?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string | null
+          deep_link?: string
+          id?: string
+          ip_address?: string | null
+          persona_id?: string | null
+          platform?: string
+          referrer?: string | null
+          timestamp?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "share_analytics_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "content"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_analytics_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "share_analytics_summary"
+            referencedColumns: ["article_id"]
+          },
+        ]
+      }
       share_clicks: {
         Row: {
           created_at: string
@@ -7457,6 +7521,16 @@ export type Database = {
         }
         Relationships: []
       }
+      persona_sharing_leaderboard: {
+        Row: {
+          last_shared: string | null
+          persona_id: string | null
+          platforms_used: number | null
+          shares_made: number | null
+          unique_articles_shared: number | null
+        }
+        Relationships: []
+      }
       persona_with_fio_status: {
         Row: {
           app_origin: string | null
@@ -7556,6 +7630,28 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      platform_analytics: {
+        Row: {
+          platform: string | null
+          share_date: string | null
+          total_shares: number | null
+          unique_articles: number | null
+          unique_personas: number | null
+        }
+        Relationships: []
+      }
+      share_analytics_summary: {
+        Row: {
+          article_id: string | null
+          cached_share_count: number | null
+          last_shared: string | null
+          platforms_used: number | null
+          title: string | null
+          total_shares: number | null
+          unique_personas: number | null
+        }
+        Relationships: []
       }
     }
     Functions: {
@@ -7848,6 +7944,10 @@ export type Database = {
           similarity: number
           title: string
         }[]
+      }
+      increment_share_count: {
+        Args: { content_id: string }
+        Returns: undefined
       }
       is_fio_handle_expired: { Args: { expiration: string }; Returns: boolean }
       link_crm_persona_to_identity: {
