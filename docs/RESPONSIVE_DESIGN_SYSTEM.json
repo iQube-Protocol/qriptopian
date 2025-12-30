@@ -1,0 +1,648 @@
+{
+  "$schema": "https://qriptopian.me/schemas/responsive-design-system/v1.0",
+  "version": "1.0.0",
+  "name": "Qriptopian Responsive Design System",
+  "description": "Complete responsive design specification for replicating the Qriptopian application layout and behavior pixel-perfect across devices",
+  
+  "breakpoints": {
+    "mobile": {
+      "max": 767,
+      "unit": "px",
+      "tailwindPrefix": null,
+      "description": "Default styles apply (mobile-first approach)"
+    },
+    "tablet": {
+      "min": 768,
+      "max": 1023,
+      "unit": "px",
+      "tailwindPrefix": "md:",
+      "description": "Primary breakpoint - major layout shifts occur here"
+    },
+    "desktop": {
+      "min": 1024,
+      "max": 1279,
+      "unit": "px",
+      "tailwindPrefix": "lg:",
+      "description": "Enhanced desktop layouts"
+    },
+    "largeDesktop": {
+      "min": 1280,
+      "unit": "px",
+      "tailwindPrefix": "xl:",
+      "description": "Extra wide layouts, max container width"
+    }
+  },
+
+  "mobileDetection": {
+    "hook": "useIsMobile",
+    "implementation": {
+      "breakpoint": 768,
+      "method": "matchMedia",
+      "query": "(max-width: 767px)",
+      "returnType": "boolean",
+      "initialState": "undefined",
+      "ssr": "returns false until hydration"
+    }
+  },
+
+  "viewportUnits": {
+    "mobile": {
+      "height": "svh",
+      "description": "Small Viewport Height - accounts for mobile browser chrome (address bar, toolbar) that shrinks/expands during scroll",
+      "fallback": "vh"
+    },
+    "desktop": {
+      "height": "vh",
+      "description": "Standard Viewport Height - stable on desktop browsers"
+    }
+  },
+
+  "fixedElements": {
+    "topHeader": {
+      "position": "fixed",
+      "inset": {
+        "top": 0,
+        "left": 0,
+        "right": 0
+      },
+      "height": {
+        "value": 88,
+        "unit": "px"
+      },
+      "zIndex": 40,
+      "background": "#0a1628",
+      "border": {
+        "bottom": {
+          "width": 1,
+          "color": "#1a2942"
+        }
+      },
+      "padding": {
+        "mobile": {
+          "x": 16
+        },
+        "desktop": {
+          "x": 32
+        }
+      },
+      "contentAlignment": {
+        "paddingTop": 24,
+        "alignItems": "start"
+      }
+    },
+
+    "desktopNavigation": {
+      "position": "fixed",
+      "visibility": {
+        "mobile": "hidden",
+        "desktop": "flex"
+      },
+      "location": {
+        "right": 2,
+        "unit": "px"
+      },
+      "verticalCenter": true,
+      "transform": "translateY(-50%)",
+      "width": 56,
+      "zIndex": 50,
+      "itemDimensions": {
+        "width": 48,
+        "height": 48,
+        "unit": "px"
+      },
+      "itemSpacing": 4,
+      "borderRadius": 8
+    },
+
+    "mobileNavigation": {
+      "position": "fixed",
+      "visibility": {
+        "mobile": "visible (when open)",
+        "desktop": "hidden"
+      },
+      "location": {
+        "right": 4,
+        "unit": "px"
+      },
+      "verticalCenter": true,
+      "zIndex": 70,
+      "backdrop": {
+        "zIndex": 60,
+        "background": "transparent",
+        "onClick": "close navigation"
+      },
+      "container": {
+        "background": "rgba(0,0,0,0.4)",
+        "backdropBlur": "4px",
+        "borderRadius": 8,
+        "padding": 4
+      },
+      "itemDimensions": {
+        "width": 48,
+        "height": 48,
+        "unit": "px"
+      }
+    }
+  },
+
+  "mainContent": {
+    "offset": {
+      "top": {
+        "value": 88,
+        "unit": "px",
+        "description": "Matches header height"
+      }
+    },
+    "implementation": "pt-[88px]",
+    "overflow": "hidden"
+  },
+
+  "heroSections": {
+    "primary": {
+      "height": {
+        "mobile": "calc(100svh - 64px)",
+        "desktop": "calc(100vh - 88px)",
+        "implementation": "h-[calc(100svh-64px)] md:h-[calc(100vh-88px)]"
+      },
+      "headerOffset": {
+        "mobile": 64,
+        "desktop": 88,
+        "note": "Mobile uses smaller offset for more visible content"
+      },
+      "width": "100%",
+      "overflow": "hidden",
+      "backgroundFit": "cover",
+      "backgroundPosition": "center"
+    },
+    "secondary": {
+      "height": {
+        "mobile": "calc(100svh - 64px)",
+        "desktop": "calc(100vh - 88px)"
+      },
+      "note": "Identical to primary hero for consistency"
+    },
+    "textOverlay": {
+      "position": "absolute",
+      "inset": {
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "padding": {
+        "mobile": {
+          "x": 24,
+          "bottom": 32
+        },
+        "desktop": {
+          "x": 32,
+          "bottom": 64
+        }
+      },
+      "maxWidth": "672px",
+      "gradient": "linear-gradient(to top, rgba(0,0,0,0.8), transparent)"
+    },
+    "actionButtons": {
+      "position": "absolute",
+      "top": {
+        "mobile": 16,
+        "desktop": 16
+      },
+      "right": {
+        "mobile": 24,
+        "desktop": 32
+      },
+      "gap": 12,
+      "buttonSize": {
+        "padding": 8,
+        "iconSize": 16
+      },
+      "implementation": "absolute top-4 right-6 md:right-8 flex gap-3"
+    },
+    "navigationDots": {
+      "position": "above title",
+      "marginBottom": {
+        "mobile": 12,
+        "desktop": 24
+      },
+      "dotSize": {
+        "inactive": {
+          "width": 8,
+          "height": 8
+        },
+        "active": {
+          "width": 32,
+          "height": 8
+        }
+      },
+      "colors": {
+        "inactive": "rgba(255,255,255,0.3)",
+        "active": "hsl(180, 80%, 55%)"
+      },
+      "borderRadius": "full"
+    }
+  },
+
+  "drawers": {
+    "panel": {
+      "mobile": {
+        "position": "fixed",
+        "inset": "0",
+        "width": "100%",
+        "height": "100%",
+        "background": "hsla(var(--background), 0.95)",
+        "backdropBlur": "24px"
+      },
+      "desktop": {
+        "position": "fixed",
+        "top": 88,
+        "right": 80,
+        "left": "auto",
+        "height": "calc(100vh - 88px)",
+        "width": "calc(100vw - 160px)",
+        "background": "hsla(var(--background), 0.8)",
+        "backdropBlur": "24px",
+        "border": {
+          "left": {
+            "width": 1,
+            "color": "hsla(var(--border), 0.3)"
+          }
+        }
+      },
+      "shadow": "0 0 60px rgba(0,0,0,0.5)",
+      "zIndex": 50,
+      "transition": {
+        "property": "transform",
+        "duration": 300,
+        "easing": "ease-out"
+      },
+      "animation": {
+        "enter": "translateX(0)",
+        "exit": "translateX(100%)"
+      },
+      "implementation": "fixed inset-0 md:right-[80px] md:top-[88px] md:left-auto md:h-[calc(100vh-88px)] md:w-[calc(100vw-160px)]"
+    },
+    "backdrop": {
+      "position": "fixed",
+      "inset": "0",
+      "background": "rgba(0,0,0,0.3)",
+      "backdropBlur": "4px",
+      "zIndex": 40,
+      "onClick": "close drawer"
+    },
+    "header": {
+      "padding": {
+        "mobile": 16,
+        "desktop": 24
+      },
+      "border": {
+        "bottom": {
+          "color": "hsla(var(--border), 0.3)"
+        }
+      },
+      "background": "hsla(var(--background), 0.6)",
+      "backdropBlur": "4px",
+      "typography": {
+        "title": {
+          "mobile": "text-xl font-bold",
+          "desktop": "text-2xl font-bold"
+        },
+        "subtitle": {
+          "mobile": "hidden",
+          "desktop": "text-sm text-muted-foreground"
+        }
+      }
+    },
+    "content": {
+      "padding": {
+        "mobile": 16,
+        "desktop": 24
+      },
+      "overflow": "y-auto",
+      "flex": "1"
+    },
+    "gridColumns": {
+      "mobile": 1,
+      "tablet": 2,
+      "desktop": 3,
+      "implementation": "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+      "gap": {
+        "mobile": 16,
+        "desktop": 24
+      }
+    }
+  },
+
+  "carousels": {
+    "thumbnail": {
+      "itemWidth": {
+        "mobile": "43%",
+        "desktop": "basis-1/3 or basis-1/4"
+      },
+      "gap": 8,
+      "aspectRatio": "16/9",
+      "options": {
+        "align": "start",
+        "dragFree": true
+      },
+      "plugins": ["WheelGesturesPlugin"],
+      "overflow": "hidden",
+      "borderRadius": 8
+    },
+    "hoverRevealOverlay": {
+      "mobile": {
+        "position": "fixed",
+        "bottom": 0,
+        "left": 0,
+        "right": 0,
+        "zIndex": 50,
+        "triggerZone": {
+          "height": 64
+        },
+        "panel": {
+          "background": "linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.8), transparent)",
+          "paddingTop": 32,
+          "paddingBottom": 16,
+          "paddingX": 8,
+          "opacity": {
+            "default": 0,
+            "hover": 1
+          },
+          "transition": "opacity 300ms"
+        }
+      }
+    },
+    "paginationDots": {
+      "position": "below carousel",
+      "marginTop": 8,
+      "alignment": "center",
+      "gap": 8,
+      "dotSize": {
+        "inactive": {
+          "width": 6,
+          "height": 6
+        },
+        "active": {
+          "width": 24,
+          "height": 6
+        }
+      },
+      "colors": {
+        "inactive": "rgba(255,255,255,0.3)",
+        "active": "hsl(180, 80%, 55%)"
+      }
+    }
+  },
+
+  "mobilePortraitHero": {
+    "height": "calc(100vh - 180px)",
+    "implementation": "h-[calc(100vh-180px)]",
+    "borderRadius": 8,
+    "overflow": "hidden",
+    "gradient": "linear-gradient(to top, rgba(0,0,0,0.8), transparent, transparent)",
+    "titlePosition": {
+      "bottom": 48,
+      "left": 16,
+      "right": 16
+    },
+    "actionIcons": {
+      "position": "absolute",
+      "top": 16,
+      "right": 16,
+      "gap": 8
+    }
+  },
+
+  "modals": {
+    "fullscreen": {
+      "position": "fixed",
+      "inset": 0,
+      "zIndex": 60,
+      "background": "rgba(0,0,0,0.95)",
+      "backdropBlur": "24px"
+    },
+    "closeButton": {
+      "position": "absolute",
+      "top": 16,
+      "right": 16,
+      "zIndex": 10,
+      "size": 40,
+      "borderRadius": "full",
+      "background": "rgba(0,0,0,0.5)",
+      "border": {
+        "width": 1,
+        "color": "hsla(var(--border), 0.3)"
+      }
+    },
+    "articleReader": {
+      "maxWidth": 896,
+      "padding": {
+        "mobile": {
+          "top": 64,
+          "x": 16,
+          "bottom": 24
+        },
+        "desktop": {
+          "top": 80,
+          "x": 24,
+          "bottom": 32
+        }
+      },
+      "overflow": "y-auto",
+      "height": "100%"
+    }
+  },
+
+  "metaAvatar": {
+    "contexts": {
+      "aigent": {
+        "mobile": {
+          "right": 16,
+          "top": 96,
+          "left": 16,
+          "height": "calc(100vh - 104px)"
+        },
+        "desktop": {
+          "right": 80,
+          "top": 172,
+          "left": "auto",
+          "width": "calc(100vw - 160px)",
+          "height": "calc(100vh - 172px)"
+        },
+        "padding": {
+          "mobile": 8,
+          "desktop": 24
+        }
+      },
+      "pennydrops": {
+        "mobile": {
+          "insetX": 0,
+          "top": 88,
+          "height": "calc(50vh - 88px)"
+        },
+        "desktop": {
+          "right": 92,
+          "top": 216,
+          "left": "auto",
+          "width": "calc((100vw - 92px) / 3 - 40px)",
+          "height": 400,
+          "borderRadius": 8,
+          "overflow": "hidden"
+        }
+      },
+      "hidden": {
+        "opacity": 0,
+        "pointerEvents": "none",
+        "zIndex": -10
+      }
+    },
+    "zIndex": 100,
+    "transition": {
+      "property": "all",
+      "duration": 300
+    }
+  },
+
+  "typography": {
+    "heroTitle": {
+      "mobile": {
+        "fontSize": "text-2xl",
+        "lineHeight": "leading-tight"
+      },
+      "desktop": {
+        "fontSize": "text-4xl",
+        "lineHeight": "leading-tight"
+      },
+      "fontWeight": "font-bold",
+      "color": "#d0f6ff",
+      "textShadow": "0 0 30px rgba(0,196,255,0.5)"
+    },
+    "heroExcerpt": {
+      "mobile": {
+        "fontSize": "text-sm",
+        "lineClamp": 2
+      },
+      "desktop": {
+        "fontSize": "text-lg",
+        "lineClamp": "none"
+      },
+      "color": "#8fb3c0",
+      "textShadow": "0 0 20px rgba(0,0,0,0.8)"
+    },
+    "drawerTitle": {
+      "mobile": "text-xl font-bold truncate",
+      "desktop": "text-2xl font-bold"
+    },
+    "cardTitle": {
+      "mobile": "text-xs font-semibold truncate",
+      "desktop": "text-sm font-semibold"
+    }
+  },
+
+  "spacing": {
+    "safeAreas": {
+      "mobile": {
+        "paddingX": 16,
+        "paddingY": 16
+      },
+      "desktop": {
+        "paddingX": 24,
+        "paddingY": 24
+      }
+    },
+    "componentGaps": {
+      "mobile": 16,
+      "desktop": 24
+    },
+    "containerMaxWidth": 1400
+  },
+
+  "colors": {
+    "semantic": {
+      "background": "hsl(220 20% 8%)",
+      "foreground": "hsl(0 0% 98%)",
+      "primary": "hsl(180 80% 55%)",
+      "secondary": "hsl(280 80% 60%)",
+      "muted": "hsl(220 15% 20%)",
+      "mutedForeground": "hsl(0 0% 65%)",
+      "border": "hsl(220 15% 18%)",
+      "card": "hsl(220 18% 12%)",
+      "accent": "hsl(180 80% 55%)"
+    },
+    "brand": {
+      "cyan": "hsl(180 80% 55%)",
+      "purple": "hsl(280 80% 60%)",
+      "pink": "hsl(330 80% 65%)",
+      "blue": "hsl(220 80% 60%)"
+    },
+    "surfaces": {
+      "dark": "#020818",
+      "header": "#0a1628",
+      "card": "#0a1628",
+      "border": "#1a2942"
+    }
+  },
+
+  "effects": {
+    "glassmorphism": {
+      "background": "hsla(var(--background), 0.6-0.95)",
+      "backdropBlur": "12px-24px",
+      "border": "1px solid hsla(var(--border), 0.3)"
+    },
+    "glow": {
+      "shadow": "0 0 40px hsla(180, 80%, 55%, 0.3)",
+      "textShadow": "0 0 30px rgba(0,196,255,0.5)"
+    },
+    "gradients": {
+      "primary": "linear-gradient(135deg, hsla(180,80%,55%,0.2), hsla(280,80%,60%,0.2))",
+      "overlay": "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
+      "text": "linear-gradient(to right, hsl(180,80%,55%), hsl(173,80%,55%))"
+    }
+  },
+
+  "transitions": {
+    "smooth": {
+      "duration": 300,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "spring": {
+      "duration": 500,
+      "easing": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+    },
+    "drawer": {
+      "duration": 300,
+      "easing": "ease-out"
+    }
+  },
+
+  "zIndexLayers": {
+    "base": 0,
+    "content": 10,
+    "header": 40,
+    "drawerBackdrop": 40,
+    "drawer": 50,
+    "mobileNavBackdrop": 60,
+    "mobileNav": 70,
+    "modal": 60,
+    "metaAvatar": 100,
+    "tooltip": 50
+  },
+
+  "borderRadius": {
+    "base": "0.75rem",
+    "lg": "var(--radius)",
+    "md": "calc(var(--radius) - 2px)",
+    "sm": "calc(var(--radius) - 4px)",
+    "full": "9999px"
+  },
+
+  "implementationNotes": {
+    "framework": "React + TypeScript + Tailwind CSS",
+    "cssVariables": "All colors defined as CSS custom properties in HSL format in index.css",
+    "mobileFirst": "Base styles are mobile, use md: prefix for tablet+, lg: for desktop+",
+    "viewportHeightHandling": "Use svh on mobile for stable height with browser chrome, vh on desktop",
+    "headerOffset": "All full-height sections subtract header height using calc()",
+    "drawerPosition": "Mobile = full screen overlay, Desktop = positioned to leave 80px right margin for nav",
+    "carouselLibrary": "embla-carousel-react with wheel-gestures plugin",
+    "animationLibrary": "tailwindcss-animate for keyframe animations"
+  }
+}
