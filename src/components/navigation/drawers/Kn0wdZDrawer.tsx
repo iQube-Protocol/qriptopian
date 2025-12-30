@@ -139,6 +139,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
   const [activeMode, setActiveMode] = useState<'read' | 'watch' | 'listen' | 'link' | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [featureIndex, setFeatureIndex] = useState(0); // Track which content item is featured
   const [content, setContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
   const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<any>();
@@ -154,6 +155,13 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
         const data = await contentService.getContentBySection('21knowdz', { tab: activeTab as 'dev' | 'creative' | 'exec' });
         console.log('Loaded Kn0wdZ content:', data);
         setContent(data);
+        // Reset feature index to position 1 item or first item when tab changes
+        const position1Index = data.findIndex(item => {
+          const placement = item.placement as { position?: number } | null;
+          return placement?.position === 1;
+        });
+        setFeatureIndex(position1Index >= 0 ? position1Index : 0);
+        setSelectedItemIndex(position1Index >= 0 ? position1Index : 0);
       } catch (error) {
         console.error('Error loading Kn0wdZ content:', error);
       } finally {
@@ -167,46 +175,33 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
     }
   }, [isOpen, activeTab]);
 
-  // Map database content to Kn0w1Viewer format
-  const featureContent = content
-    .filter(item => {
-      const placement = item.placement as { position?: number; section?: string; tab?: string } | null;
-      return placement?.position === 1;
-    })
-    .map(item => {
-      const originalIndex = content.findIndex(c => c.id === item.id);
-      return {
-        id: item.id,
-        originalIndex,
-        title: item.title,
-        image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=800&fit=crop',
-        badge: item.tags?.[0] || item.type?.toUpperCase() || 'FEATURE'
-      };
-    });
+  // Get the current featured item based on featureIndex
+  const featuredItem = content[featureIndex];
+  const featureContent = featuredItem ? [{
+    id: featuredItem.id,
+    originalIndex: featureIndex,
+    title: featuredItem.title,
+    image: featuredItem.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=800&fit=crop',
+    badge: featuredItem.tags?.[0] || featuredItem.type?.toUpperCase() || 'FEATURE'
+  }] : [];
 
-  // Map database content to thumbnail format (positions 2-5)
+  // Map all content to thumbnail format (excluding the currently featured item)
   const thumbnailContent = content
-    .filter(item => {
-      const placement = item.placement as { position?: number; section?: string; tab?: string } | null;
-      return placement?.position && placement.position > 1;
-    })
-    .sort((a, b) => {
-      const aPlacement = a.placement as { position?: number } | null;
-      const bPlacement = b.placement as { position?: number } | null;
-      return (aPlacement?.position || 0) - (bPlacement?.position || 0);
-    })
-    .map((item, index) => {
-      // Find the original index in the content array for this item
-      const originalIndex = content.findIndex(c => c.id === item.id);
-      return {
-        id: item.id,
-        originalIndex, // Store the original index for modal access
-        image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-        title: item.title,
-        subtitle: item.excerpt || '',
+    .map((item, index) => ({
+      id: item.id,
+      originalIndex: index,
+      image: item.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
+      title: item.title,
+      subtitle: item.excerpt || '',
       badge: item.tags?.[0] || item.type?.toUpperCase() || 'ARTICLE'
-    };
-  });
+    }))
+    .filter((_, index) => index !== featureIndex); // Exclude currently featured item
+
+  // Handler to set a thumbnail as the featured item
+  const handleSetFeature = (originalIndex: number) => {
+    setFeatureIndex(originalIndex);
+    setSelectedItemIndex(originalIndex);
+  };
 
   // Track thumbnail carousel slide changes
   useEffect(() => {
@@ -288,6 +283,9 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
                 <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
                   {featureContent[0]?.title}
                 </h2>
+                {featuredItem?.excerpt && (
+                  <p className="text-sm text-gray-300 mt-1 line-clamp-2">{featuredItem.excerpt}</p>
+                )}
               </div>
               
               {/* Action icons */}
@@ -334,10 +332,7 @@ export function Kn0wdZDrawer({ isOpen, onClose }: Kn0wdZDrawerProps) {
                     <CarouselItem key={item.id} className="basis-[43%] pl-2">
                       <div 
                         className="relative aspect-video rounded-lg overflow-hidden cursor-pointer"
-                        onClick={() => {
-                          setSelectedItemIndex(item.originalIndex);
-                          setActiveMode('read');
-                        }}
+                        onClick={() => handleSetFeature(item.originalIndex)}
                       >
                         <img 
                           src={item.image} 
@@ -638,7 +633,10 @@ const tx = await qiri.send({
           <CarouselContent className="-ml-4">
             {thumbnailContent.map((item, index) => (
               <CarouselItem key={item.id} className="basis-1/4 pl-4">
-                <div className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer">
+                <div 
+                  className="relative aspect-video rounded-lg overflow-hidden group cursor-pointer"
+                  onClick={() => handleSetFeature(item.originalIndex)}
+                >
                   <img 
                     src={item.image} 
                     alt={item.title}
@@ -648,7 +646,8 @@ const tx = await qiri.send({
                    {/* Action Menu */}
                   <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedItemIndex(item.originalIndex);
                         setActiveMode('read');
                       }}
@@ -658,7 +657,8 @@ const tx = await qiri.send({
                       <BookOpen className="h-3 w-3" />
                     </button>
                     <button 
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedItemIndex(item.originalIndex);
                         setActiveMode('watch');
                       }}
@@ -668,7 +668,8 @@ const tx = await qiri.send({
                       <Play className="h-3 w-3" />
                     </button>
                     <button 
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedItemIndex(item.originalIndex);
                         setActiveMode('listen');
                       }}
@@ -678,7 +679,8 @@ const tx = await qiri.send({
                       <Headphones className="h-3 w-3" />
                     </button>
                     <button 
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedItemIndex(item.originalIndex);
                         setActiveMode('link');
                       }}
