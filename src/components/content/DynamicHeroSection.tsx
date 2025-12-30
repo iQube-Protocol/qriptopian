@@ -69,8 +69,8 @@ export function DynamicHeroSection() {
       <div className={`w-full ${heroHeight} relative`}>
         <img src={heroImage} alt="Default Hero" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
-        <div className="absolute inset-0 flex items-end pb-6 md:pb-16">
-          <div className="px-4 md:px-8 max-w-2xl">
+        <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
+          <div className="px-6 md:px-8 max-w-2xl">
             <h1 className="font-bold text-[#d0f6ff] mb-2 md:mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-2xl md:text-5xl">
               The Qriptopian
             </h1>
@@ -112,8 +112,8 @@ export function DynamicHeroSection() {
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
               
               {/* Overlaid text at bottom - consistent positioning */}
-              <div className="absolute inset-0 flex items-end pb-6 md:pb-16">
-                <div className="px-4 md:px-8 max-w-2xl">
+              <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
+                <div className="px-6 md:px-8 max-w-2xl">
                   <div className="flex items-center gap-4 mb-3 md:mb-6">
                     <div className="flex gap-2">
                       {articles.map((_, idx) => (
