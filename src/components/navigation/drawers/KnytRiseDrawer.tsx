@@ -3,7 +3,7 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Maximize2, BookOpen, Play, Headphones, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
+import { BookOpen, Play, Headphones, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
 
@@ -185,14 +185,8 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     
-                    {/* Action icons */}
-                    <div className="absolute bottom-28 left-4 flex gap-2">
-                      <button 
-                        onClick={() => setIsFullscreen(true)}
-                        className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                      >
-                        <Maximize2 className="h-3.5 w-3.5" />
-                      </button>
+                    {/* Action icons - top right */}
+                    <div className="absolute top-4 right-4 flex gap-2">
                       {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'read') && (
                         <button 
                           onClick={() => setActiveMode('read')}

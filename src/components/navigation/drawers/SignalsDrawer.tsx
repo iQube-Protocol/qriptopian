@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { DrawerLayer } from "../DrawerLayer";
 import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { BookOpen, Play, Headphones, Maximize2, X } from "lucide-react";
+import { BookOpen, Play, Headphones, X } from "lucide-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 interface SignalsDrawerProps {
   isOpen: boolean;
@@ -125,9 +125,6 @@ export function SignalsDrawer({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                       {/* Action Menu - show all for demo purposes */}
                       <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Fullscreen">
-                          <Maximize2 className="h-3 w-3" />
-                        </button>
                         <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" aria-label="Read">
                           <BookOpen className="h-3 w-3" />
                         </button>
