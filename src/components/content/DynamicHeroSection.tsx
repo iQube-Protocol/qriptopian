@@ -55,23 +55,36 @@ export function DynamicHeroSection() {
 
   if (loading) {
     return (
-      <div className="w-full h-[100svh] md:h-[calc(100vh-88px)] bg-[#050f1f] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+      <div className="w-full h-[100svh] md:h-[calc(100vh-88px)] bg-[#050f1f] flex flex-col">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+        </div>
+        <div className="flex-shrink-0 h-[180px] md:h-auto" />
       </div>
     );
   }
 
   if (articles.length === 0) {
     return (
-      <div className="w-full h-[100svh] md:h-[calc(100vh-88px)] relative">
-        <img src={heroImage} alt="Default Hero" className="w-full h-full object-cover object-center" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
-        <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
-          <div className="px-6 sm:px-8 md:px-8 max-w-2xl">
-            <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-3xl md:text-5xl">
+      <div className="w-full h-[100svh] md:h-[calc(100vh-88px)] flex flex-col">
+        <div className="flex-1 relative">
+          <img src={heroImage} alt="Default Hero" className="w-full h-full object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
+        </div>
+        <div className="flex-shrink-0 bg-[#050f1f] px-4 py-4 md:hidden">
+          <h1 className="font-bold text-[#d0f6ff] mb-2 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-2xl">
+            The Qriptopian
+          </h1>
+          <p className="text-sm text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] line-clamp-2">
+            Navigate the Quantum-Ready Internet
+          </p>
+        </div>
+        <div className="hidden md:flex absolute inset-0 items-end pb-16">
+          <div className="px-8 max-w-2xl">
+            <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-5xl">
               The Qriptopian
             </h1>
-            <p className="text-base md:text-xl text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] line-clamp-2">
+            <p className="text-xl text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
               Navigate the Quantum-Ready Internet
             </p>
           </div>
@@ -79,6 +92,9 @@ export function DynamicHeroSection() {
       </div>
     );
   }
+
+  // Fixed height for mobile text area to ensure consistent positioning
+  const mobileTextHeight = 180; // Fixed px height for nav + title + 2-line excerpt
 
   return (
     <Carousel 
@@ -95,9 +111,10 @@ export function DynamicHeroSection() {
           const imageY = placement.imageY || 50;
           
           return (
-            <CarouselItem key={article.id} className="h-[100svh] md:h-[calc(100vh-88px)] relative">
+            <CarouselItem key={article.id} className="h-[100svh] md:h-[calc(100vh-88px)] relative flex flex-col md:block">
+              {/* Mobile: Image takes remaining space above fixed text area */}
               <div 
-                className="w-full h-full md:bg-[length:var(--scale)] bg-cover bg-center md:bg-[position:var(--x)_var(--y)]"
+                className="flex-1 md:absolute md:inset-0 md:bg-[length:var(--scale)] bg-cover bg-center md:bg-[position:var(--x)_var(--y)]"
                 style={{
                   backgroundImage: `url(${article.thumbnail || heroImage})`,
                   '--scale': `${imageScale}%`,
@@ -105,64 +122,123 @@ export function DynamicHeroSection() {
                   '--y': `${imageY}%`
                 } as React.CSSProperties}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
-            
-            <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
-              <div className="px-6 sm:px-8 md:px-8 max-w-2xl">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex gap-2">
-                  {articles.map((_, idx) => (
-                    <button 
-                      key={idx} 
-                      onClick={() => handleDotClick(idx)} 
-                      className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
-                      aria-label={`Article ${idx + 1}`} 
-                    />
-                  ))}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f] pointer-events-none" />
+              
+              {/* Mobile: Fixed height text area at bottom */}
+              <div 
+                className="flex-shrink-0 bg-[#050f1f] px-4 py-3 md:hidden relative z-10"
+                style={{ minHeight: `${mobileTextHeight}px` }}
+              >
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="flex gap-2">
+                    {articles.map((_, idx) => (
+                      <button 
+                        key={idx} 
+                        onClick={() => handleDotClick(idx)} 
+                        className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
+                        aria-label={`Article ${idx + 1}`} 
+                      />
+                    ))}
+                  </div>
+                  
+                  <div className="flex gap-3">
+                    {contentService.hasModality(article, 'read') && (
+                      <button 
+                        onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} 
+                        className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                        aria-label="Read"
+                      >
+                        <BookOpen className="h-4 w-4" />
+                      </button>
+                    )}
+                    {contentService.hasModality(article, 'watch') && (
+                      <button 
+                        onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} 
+                        className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                        aria-label="Watch"
+                      >
+                        <Play className="h-4 w-4" />
+                      </button>
+                    )}
+                    {contentService.hasModality(article, 'listen') && (
+                      <button 
+                        onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} 
+                        className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                        aria-label="Listen"
+                      >
+                        <Headphones className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
                 </div>
                 
-                <div className="flex gap-3">
-                  {contentService.hasModality(article, 'read') && (
-                    <button 
-                      onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} 
-                      className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-                      aria-label="Read"
-                    >
-                      <BookOpen className="h-4 w-4" />
-                    </button>
-                  )}
-                  {contentService.hasModality(article, 'watch') && (
-                    <button 
-                      onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} 
-                      className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-                      aria-label="Watch"
-                    >
-                      <Play className="h-4 w-4" />
-                    </button>
-                  )}
-                  {contentService.hasModality(article, 'listen') && (
-                    <button 
-                      onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} 
-                      className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-                      aria-label="Listen"
-                    >
-                      <Headphones className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-                
-                <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-3xl md:text-4xl">
+                <h1 className="font-bold text-[#d0f6ff] mb-2 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-2xl leading-tight">
                   {article.title}
                 </h1>
                 {article.excerpt && (
-                  <p className="text-base md:text-lg text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] line-clamp-2 md:line-clamp-none">
+                  <p className="text-sm text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] line-clamp-2">
                     {article.excerpt}
                   </p>
                 )}
               </div>
-            </div>
-          </CarouselItem>
+              
+              {/* Desktop: Overlaid text at bottom */}
+              <div className="hidden md:flex absolute inset-0 items-end pb-16">
+                <div className="px-8 max-w-2xl">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="flex gap-2">
+                      {articles.map((_, idx) => (
+                        <button 
+                          key={idx} 
+                          onClick={() => handleDotClick(idx)} 
+                          className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
+                          aria-label={`Article ${idx + 1}`} 
+                        />
+                      ))}
+                    </div>
+                    
+                    <div className="flex gap-3">
+                      {contentService.hasModality(article, 'read') && (
+                        <button 
+                          onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} 
+                          className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                          aria-label="Read"
+                        >
+                          <BookOpen className="h-4 w-4" />
+                        </button>
+                      )}
+                      {contentService.hasModality(article, 'watch') && (
+                        <button 
+                          onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} 
+                          className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                          aria-label="Watch"
+                        >
+                          <Play className="h-4 w-4" />
+                        </button>
+                      )}
+                      {contentService.hasModality(article, 'listen') && (
+                        <button 
+                          onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} 
+                          className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                          aria-label="Listen"
+                        >
+                          <Headphones className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <h1 className="font-bold text-[#d0f6ff] mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-4xl">
+                    {article.title}
+                  </h1>
+                  {article.excerpt && (
+                    <p className="text-lg text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                      {article.excerpt}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </CarouselItem>
           );
         })}
       </CarouselContent>
