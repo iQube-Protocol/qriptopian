@@ -3,22 +3,25 @@
 
 const DEFAULT_TRIAD_EMBED_BASE = "https://dev-beta.aigentz.me";
 
-// Get env value and validate - reject any netlify.app URLs
-const envBase = import.meta.env.VITE_TRIAD_EMBED_BASE;
-const isNetlifyUrl = envBase && /\.netlify\.app/i.test(envBase);
+// Allow override from env, but fall back to the AigentiQ host
+export const TRIAD_EMBED_BASE =
+  import.meta.env.VITE_TRIAD_EMBED_BASE || DEFAULT_TRIAD_EMBED_BASE;
 
-// Use env value only if it's set AND not a Netlify URL
-export const TRIAD_EMBED_BASE = (envBase && !isNetlifyUrl) 
-  ? envBase 
-  : DEFAULT_TRIAD_EMBED_BASE;
+// 🔑 bump this when you change Codex templates in AigentiQ
+export const TRIAD_EMBED_VERSION = "2025-12-30-01";
 
-// Log warning in dev if Netlify URL was rejected
-if (import.meta.env.DEV && isNetlifyUrl) {
-  console.warn(
-    `[embed.ts] Ignoring VITE_TRIAD_EMBED_BASE="${envBase}" (Netlify URLs not allowed). Using default: ${DEFAULT_TRIAD_EMBED_BASE}`
-  );
+export const WALLET_EMBED_URL =
+  `${TRIAD_EMBED_BASE}/triad/embed/wallet?v=${TRIAD_EMBED_VERSION}`;
+
+export const CODEX_EMBED_URL =
+  `${TRIAD_EMBED_BASE}/triad/embed/codex` +
+  `?tab=scrolls&theme=light&density=wide&v=${TRIAD_EMBED_VERSION}`;
+
+export const ADMIN_CODEX_EMBED_URL =
+  `${TRIAD_EMBED_BASE}/triad/embed/admin/codex?v=${TRIAD_EMBED_VERSION}`;
+
+// Sanity check - log URLs in dev
+if (import.meta.env.DEV) {
+  console.log("TRIAD_EMBED_BASE", TRIAD_EMBED_BASE);
+  console.log("CODEX_EMBED_URL", CODEX_EMBED_URL);
 }
-
-export const WALLET_EMBED_URL = `${TRIAD_EMBED_BASE}/triad/embed/wallet`;
-export const CODEX_EMBED_URL = `${TRIAD_EMBED_BASE}/triad/embed/codex?tab=scrolls`;
-export const ADMIN_CODEX_EMBED_URL = `${TRIAD_EMBED_BASE}/triad/embed/admin/codex`;
