@@ -44,7 +44,8 @@ export function CodexDrawer({ isOpen, onClose }: CodexDrawerProps) {
         {/* Iframe Content */}
         <div className="flex-1 overflow-hidden" style={{ minHeight: 480 }}>
           <iframe
-            src={CODEX_EMBED_URL}
+            key={isOpen ? 'open' : 'closed'}
+            src={`${CODEX_EMBED_URL}&_t=${Date.now()}`}
             style={{ width: "100%", height: "100%", border: "none" }}
             loading="lazy"
             allow="clipboard-write; fullscreen; autoplay"

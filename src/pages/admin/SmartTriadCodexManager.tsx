@@ -56,7 +56,8 @@ export default function SmartTriadCodexManager() {
       {/* Iframe Content */}
       <div className="flex-1 overflow-hidden">
         <iframe
-          src={ADMIN_CODEX_EMBED_URL}
+          key={Date.now()}
+          src={`${ADMIN_CODEX_EMBED_URL}?_t=${Date.now()}`}
           style={{ width: "100%", height: "100%", border: "none" }}
           loading="lazy"
           allow="clipboard-write; fullscreen; autoplay"
