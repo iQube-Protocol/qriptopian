@@ -180,6 +180,87 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_events: {
+        Row: {
+          campaign_id: string
+          content_id: string | null
+          created_at: string | null
+          dvn_message_id: string | null
+          event_type: string
+          franchise_id: string | null
+          id: string
+          metadata: Json | null
+          persona_id: string
+          referrer_persona_id: string | null
+          source: string | null
+          tenant_id: string | null
+        }
+        Insert: {
+          campaign_id: string
+          content_id?: string | null
+          created_at?: string | null
+          dvn_message_id?: string | null
+          event_type: string
+          franchise_id?: string | null
+          id?: string
+          metadata?: Json | null
+          persona_id: string
+          referrer_persona_id?: string | null
+          source?: string | null
+          tenant_id?: string | null
+        }
+        Update: {
+          campaign_id?: string
+          content_id?: string | null
+          created_at?: string | null
+          dvn_message_id?: string | null
+          event_type?: string
+          franchise_id?: string | null
+          id?: string
+          metadata?: Json | null
+          persona_id?: string
+          referrer_persona_id?: string | null
+          source?: string | null
+          tenant_id?: string | null
+        }
+        Relationships: []
+      }
+      campaign_states: {
+        Row: {
+          campaign_id: string
+          current_phase_id: string | null
+          franchise_id: string
+          id: string
+          persona_id: string
+          progress: number | null
+          state: Json
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id: string
+          current_phase_id?: string | null
+          franchise_id: string
+          id?: string
+          persona_id: string
+          progress?: number | null
+          state?: Json
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string
+          current_phase_id?: string | null
+          franchise_id?: string
+          id?: string
+          persona_id?: string
+          progress?: number | null
+          state?: Json
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       canonical_bundles: {
         Row: {
           blak_qube_id: string | null
@@ -503,6 +584,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      codex_configs: {
+        Row: {
+          created_at: string
+          enabled: boolean | null
+          id: string
+          liquid_ui: Json | null
+          metadata: Json
+          name: string
+          owner: string
+          permissions: Json
+          slug: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean | null
+          id: string
+          liquid_ui?: Json | null
+          metadata?: Json
+          name: string
+          owner: string
+          permissions?: Json
+          slug: string
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean | null
+          id?: string
+          liquid_ui?: Json | null
+          metadata?: Json
+          name?: string
+          owner?: string
+          permissions?: Json
+          slug?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
       }
       codex_episode_credits: {
         Row: {
@@ -1113,6 +1236,56 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      codex_tabs: {
+        Row: {
+          codex_id: string
+          config: Json
+          created_at: string
+          enabled: boolean | null
+          id: string
+          label: string
+          metadata: Json | null
+          order: number
+          slug: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          codex_id: string
+          config?: Json
+          created_at?: string
+          enabled?: boolean | null
+          id: string
+          label: string
+          metadata?: Json | null
+          order: number
+          slug: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          codex_id?: string
+          config?: Json
+          created_at?: string
+          enabled?: boolean | null
+          id?: string
+          label?: string
+          metadata?: Json | null
+          order?: number
+          slug?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codex_tabs_codex_id_fkey"
+            columns: ["codex_id"]
+            isOneToOne: false
+            referencedRelation: "codex_configs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       cohort_membership: {
         Row: {
@@ -3762,6 +3935,45 @@ export type Database = {
         }
         Relationships: []
       }
+      engagement_events: {
+        Row: {
+          content_id: string | null
+          content_type: string | null
+          created_at: string | null
+          duration_seconds: number | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          persona_id: string
+          reward_amount: number | null
+          streak_count: number | null
+        }
+        Insert: {
+          content_id?: string | null
+          content_type?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          persona_id: string
+          reward_amount?: number | null
+          streak_count?: number | null
+        }
+        Update: {
+          content_id?: string | null
+          content_type?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          persona_id?: string
+          reward_amount?: number | null
+          streak_count?: number | null
+        }
+        Relationships: []
+      }
       entitlements: {
         Row: {
           asset_id: string
@@ -4980,6 +5192,1803 @@ export type Database = {
         }
         Relationships: []
       }
+      nakamoto_agent_branches: {
+        Row: {
+          agent_site_id: string
+          audience: string | null
+          created_at: string
+          display_name: string
+          id: string
+          kind: string
+          long_context_md: string | null
+          safety_notes_md: string | null
+          short_summary: string | null
+          system_prompt_template_md: string | null
+          tone: string | null
+          updated_at: string
+          values_json: Json
+        }
+        Insert: {
+          agent_site_id: string
+          audience?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          kind: string
+          long_context_md?: string | null
+          safety_notes_md?: string | null
+          short_summary?: string | null
+          system_prompt_template_md?: string | null
+          tone?: string | null
+          updated_at?: string
+          values_json: Json
+        }
+        Update: {
+          agent_site_id?: string
+          audience?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          kind?: string
+          long_context_md?: string | null
+          safety_notes_md?: string | null
+          short_summary?: string | null
+          system_prompt_template_md?: string | null
+          tone?: string | null
+          updated_at?: string
+          values_json?: Json
+        }
+        Relationships: []
+      }
+      nakamoto_agent_sites: {
+        Row: {
+          brand_identity: Json | null
+          branding_json: Json
+          created_at: string
+          display_name: string
+          id: string
+          is_master: boolean | null
+          owner_user_id: string
+          seed_status: string | null
+          seeded_at: string | null
+          site_slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          brand_identity?: Json | null
+          branding_json: Json
+          created_at?: string
+          display_name: string
+          id?: string
+          is_master?: boolean | null
+          owner_user_id: string
+          seed_status?: string | null
+          seeded_at?: string | null
+          site_slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          brand_identity?: Json | null
+          branding_json?: Json
+          created_at?: string
+          display_name?: string
+          id?: string
+          is_master?: boolean | null
+          owner_user_id?: string
+          seed_status?: string | null
+          seeded_at?: string | null
+          site_slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nakamoto_aigents: {
+        Row: {
+          agent_kind: string
+          agent_site_id: string
+          created_at: string
+          id: string
+          is_mutable: boolean
+          is_system_agent: boolean
+          name: string
+          runtime_prefs_json: Json
+          system_prompt_md: string
+          updated_at: string
+        }
+        Insert: {
+          agent_kind?: string
+          agent_site_id: string
+          created_at?: string
+          id?: string
+          is_mutable?: boolean
+          is_system_agent?: boolean
+          name: string
+          runtime_prefs_json: Json
+          system_prompt_md?: string
+          updated_at?: string
+        }
+        Update: {
+          agent_kind?: string
+          agent_site_id?: string
+          created_at?: string
+          id?: string
+          is_mutable?: boolean
+          is_system_agent?: boolean
+          name?: string
+          runtime_prefs_json?: Json
+          system_prompt_md?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nakamoto_asset_policies: {
+        Row: {
+          asset_id: string
+          created_at: string
+          id: string
+          pay_to_did: string
+          price_amount: number | null
+          price_asset: string | null
+          rights: string[]
+          tokenqube_template: string | null
+          updated_at: string
+          visibility: string | null
+        }
+        Insert: {
+          asset_id: string
+          created_at?: string
+          id?: string
+          pay_to_did: string
+          price_amount?: number | null
+          price_asset?: string | null
+          rights: string[]
+          tokenqube_template?: string | null
+          updated_at?: string
+          visibility?: string | null
+        }
+        Update: {
+          asset_id?: string
+          created_at?: string
+          id?: string
+          pay_to_did?: string
+          price_amount?: number | null
+          price_asset?: string | null
+          rights?: string[]
+          tokenqube_template?: string | null
+          updated_at?: string
+          visibility?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_audit_logs: {
+        Row: {
+          action: string
+          agent_site_id: string | null
+          created_at: string | null
+          id: string
+          new_values: Json | null
+          old_values: Json | null
+          record_id: string
+          table_name: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          agent_site_id?: string | null
+          created_at?: string | null
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          record_id: string
+          table_name: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          agent_site_id?: string | null
+          created_at?: string | null
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          record_id?: string
+          table_name?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_blak_qubes: {
+        Row: {
+          Address: string | null
+          Age: string | null
+          "BTC-Public-Key": string
+          "Chain-IDs": string[]
+          "Characters-Owned": string | null
+          created_at: string
+          "Digital-Comics-Owned": string | null
+          "Discord-Handle": string | null
+          Email: string
+          "EVM-Public-Key": string
+          "Facebook-ID": string | null
+          "First-Name": string | null
+          "GitHub-Handle": string | null
+          id: string
+          "Instagram-Handle": string | null
+          "KNYT-Cards-Owned": string | null
+          "KNYT-COYN-Owned": string | null
+          "KNYT-ID": string | null
+          "KNYT-Posters-Owned": string | null
+          "Last-Name": string | null
+          "LinkedIn-ID": string | null
+          "LinkedIn-Profile-URL": string | null
+          "Local-City": string
+          "Metaiye-Shares-Owned": string | null
+          "MetaKeep-Public-Key": string | null
+          "Motion-Comics-Owned": string | null
+          "OM-Member-Since": string | null
+          "OM-Tier-Status": string | null
+          "Paper-Comics-Owned": string | null
+          "Phone-Number": string | null
+          Profession: string
+          "Qrypto-ID": string | null
+          "Telegram-Handle": string | null
+          "ThirdWeb-Public-Key": string | null
+          "TikTok-Handle": string | null
+          "Tokens-of-Interest": string[]
+          "Twitter-Handle": string | null
+          updated_at: string
+          user_id: string
+          "Wallets-of-Interest": string[]
+          "Web3-Interests": string[]
+          "YouTube-ID": string | null
+        }
+        Insert: {
+          Address?: string | null
+          Age?: string | null
+          "BTC-Public-Key"?: string
+          "Chain-IDs": string[]
+          "Characters-Owned"?: string | null
+          created_at?: string
+          "Digital-Comics-Owned"?: string | null
+          "Discord-Handle"?: string | null
+          Email?: string
+          "EVM-Public-Key"?: string
+          "Facebook-ID"?: string | null
+          "First-Name"?: string | null
+          "GitHub-Handle"?: string | null
+          id?: string
+          "Instagram-Handle"?: string | null
+          "KNYT-Cards-Owned"?: string | null
+          "KNYT-COYN-Owned"?: string | null
+          "KNYT-ID"?: string | null
+          "KNYT-Posters-Owned"?: string | null
+          "Last-Name"?: string | null
+          "LinkedIn-ID"?: string | null
+          "LinkedIn-Profile-URL"?: string | null
+          "Local-City"?: string
+          "Metaiye-Shares-Owned"?: string | null
+          "MetaKeep-Public-Key"?: string | null
+          "Motion-Comics-Owned"?: string | null
+          "OM-Member-Since"?: string | null
+          "OM-Tier-Status"?: string | null
+          "Paper-Comics-Owned"?: string | null
+          "Phone-Number"?: string | null
+          Profession?: string
+          "Qrypto-ID"?: string | null
+          "Telegram-Handle"?: string | null
+          "ThirdWeb-Public-Key"?: string | null
+          "TikTok-Handle"?: string | null
+          "Tokens-of-Interest": string[]
+          "Twitter-Handle"?: string | null
+          updated_at?: string
+          user_id: string
+          "Wallets-of-Interest": string[]
+          "Web3-Interests": string[]
+          "YouTube-ID"?: string | null
+        }
+        Update: {
+          Address?: string | null
+          Age?: string | null
+          "BTC-Public-Key"?: string
+          "Chain-IDs"?: string[]
+          "Characters-Owned"?: string | null
+          created_at?: string
+          "Digital-Comics-Owned"?: string | null
+          "Discord-Handle"?: string | null
+          Email?: string
+          "EVM-Public-Key"?: string
+          "Facebook-ID"?: string | null
+          "First-Name"?: string | null
+          "GitHub-Handle"?: string | null
+          id?: string
+          "Instagram-Handle"?: string | null
+          "KNYT-Cards-Owned"?: string | null
+          "KNYT-COYN-Owned"?: string | null
+          "KNYT-ID"?: string | null
+          "KNYT-Posters-Owned"?: string | null
+          "Last-Name"?: string | null
+          "LinkedIn-ID"?: string | null
+          "LinkedIn-Profile-URL"?: string | null
+          "Local-City"?: string
+          "Metaiye-Shares-Owned"?: string | null
+          "MetaKeep-Public-Key"?: string | null
+          "Motion-Comics-Owned"?: string | null
+          "OM-Member-Since"?: string | null
+          "OM-Tier-Status"?: string | null
+          "Paper-Comics-Owned"?: string | null
+          "Phone-Number"?: string | null
+          Profession?: string
+          "Qrypto-ID"?: string | null
+          "Telegram-Handle"?: string | null
+          "ThirdWeb-Public-Key"?: string | null
+          "TikTok-Handle"?: string | null
+          "Tokens-of-Interest"?: string[]
+          "Twitter-Handle"?: string | null
+          updated_at?: string
+          user_id?: string
+          "Wallets-of-Interest"?: string[]
+          "Web3-Interests"?: string[]
+          "YouTube-ID"?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_chat_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          last_message_at: string | null
+          session_data: Json | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_message_at?: string | null
+          session_data?: Json | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_message_at?: string | null
+          session_data?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_content_categories: {
+        Row: {
+          agent_site_id: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          order_index: number | null
+          pillar_id: string | null
+          slug: string
+          strand: string
+          updated_at: string | null
+        }
+        Insert: {
+          agent_site_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          order_index?: number | null
+          pillar_id?: string | null
+          slug: string
+          strand: string
+          updated_at?: string | null
+        }
+        Update: {
+          agent_site_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          order_index?: number | null
+          pillar_id?: string | null
+          slug?: string
+          strand?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_content_items: {
+        Row: {
+          accessibility_json: Json
+          agent_site_id: string | null
+          analytics_json: Json
+          category_id: string | null
+          completions_count: number | null
+          content_qube_id: string | null
+          contentqube_id: string | null
+          cover_image_id: string | null
+          created_at: string | null
+          description: string | null
+          featured: boolean | null
+          has_captions: boolean | null
+          has_transcript: boolean | null
+          id: string
+          iqube_policy_json: Json | null
+          l2e_cta_label: string | null
+          l2e_cta_url: string | null
+          l2e_points: number | null
+          l2e_quiz_url: string | null
+          og_json: Json | null
+          owner_id: string
+          pillar_id: string | null
+          pinned: boolean | null
+          publish_at: string | null
+          slug: string
+          social_embed_html: string | null
+          social_source: string | null
+          social_url: string | null
+          status: string | null
+          strand: string
+          tags: string[] | null
+          title: string
+          token_qube_ref: string | null
+          tokenqube_ref: string | null
+          type: string
+          updated_at: string | null
+          views_count: number | null
+        }
+        Insert: {
+          accessibility_json: Json
+          agent_site_id?: string | null
+          analytics_json: Json
+          category_id?: string | null
+          completions_count?: number | null
+          content_qube_id?: string | null
+          contentqube_id?: string | null
+          cover_image_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          featured?: boolean | null
+          has_captions?: boolean | null
+          has_transcript?: boolean | null
+          id?: string
+          iqube_policy_json?: Json | null
+          l2e_cta_label?: string | null
+          l2e_cta_url?: string | null
+          l2e_points?: number | null
+          l2e_quiz_url?: string | null
+          og_json?: Json | null
+          owner_id: string
+          pillar_id?: string | null
+          pinned?: boolean | null
+          publish_at?: string | null
+          slug: string
+          social_embed_html?: string | null
+          social_source?: string | null
+          social_url?: string | null
+          status?: string | null
+          strand: string
+          tags?: string[] | null
+          title: string
+          token_qube_ref?: string | null
+          tokenqube_ref?: string | null
+          type: string
+          updated_at?: string | null
+          views_count?: number | null
+        }
+        Update: {
+          accessibility_json?: Json
+          agent_site_id?: string | null
+          analytics_json?: Json
+          category_id?: string | null
+          completions_count?: number | null
+          content_qube_id?: string | null
+          contentqube_id?: string | null
+          cover_image_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          featured?: boolean | null
+          has_captions?: boolean | null
+          has_transcript?: boolean | null
+          id?: string
+          iqube_policy_json?: Json | null
+          l2e_cta_label?: string | null
+          l2e_cta_url?: string | null
+          l2e_points?: number | null
+          l2e_quiz_url?: string | null
+          og_json?: Json | null
+          owner_id?: string
+          pillar_id?: string | null
+          pinned?: boolean | null
+          publish_at?: string | null
+          slug?: string
+          social_embed_html?: string | null
+          social_source?: string | null
+          social_url?: string | null
+          status?: string | null
+          strand?: string
+          tags?: string[] | null
+          title?: string
+          token_qube_ref?: string | null
+          tokenqube_ref?: string | null
+          type?: string
+          updated_at?: string | null
+          views_count?: number | null
+        }
+        Relationships: []
+      }
+      nakamoto_conversation_summaries: {
+        Row: {
+          conversation_type: string
+          created_at: string
+          id: string
+          included_interaction_ids: string[]
+          summary_text: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          conversation_type: string
+          created_at?: string
+          id?: string
+          included_interaction_ids: string[]
+          summary_text: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          conversation_type?: string
+          created_at?: string
+          id?: string
+          included_interaction_ids?: string[]
+          summary_text?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_crm_interactions: {
+        Row: {
+          agent_site_id: string
+          data_json: Json
+          id: string
+          item_id: string | null
+          kind: string
+          occurred_at: string
+          pillar_id: string | null
+          profile_id: string | null
+          score_delta: number
+        }
+        Insert: {
+          agent_site_id: string
+          data_json: Json
+          id?: string
+          item_id?: string | null
+          kind: string
+          occurred_at?: string
+          pillar_id?: string | null
+          profile_id?: string | null
+          score_delta?: number
+        }
+        Update: {
+          agent_site_id?: string
+          data_json?: Json
+          id?: string
+          item_id?: string | null
+          kind?: string
+          occurred_at?: string
+          pillar_id?: string | null
+          profile_id?: string | null
+          score_delta?: number
+        }
+        Relationships: []
+      }
+      nakamoto_crm_profiles: {
+        Row: {
+          agent_site_id: string
+          consents_json: Json
+          created_at: string
+          email: string | null
+          handle: string | null
+          id: string
+          metadata_json: Json
+          segments: string[]
+          user_id: string | null
+        }
+        Insert: {
+          agent_site_id: string
+          consents_json: Json
+          created_at?: string
+          email?: string | null
+          handle?: string | null
+          id?: string
+          metadata_json: Json
+          segments: string[]
+          user_id?: string | null
+        }
+        Update: {
+          agent_site_id?: string
+          consents_json?: Json
+          created_at?: string
+          email?: string | null
+          handle?: string | null
+          id?: string
+          metadata_json?: Json
+          segments?: string[]
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_did_identities: {
+        Row: {
+          agent_handle: string | null
+          created_at: string
+          did: string
+          id: string
+          kybe_did: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          agent_handle?: string | null
+          created_at?: string
+          did: string
+          id?: string
+          kybe_did?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          agent_handle?: string | null
+          created_at?: string
+          did?: string
+          id?: string
+          kybe_did?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_email_batches: {
+        Row: {
+          batch_id: string
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          emails_failed: number
+          emails_sent: number
+          id: string
+          started_at: string | null
+          status: string
+          total_emails: number
+        }
+        Insert: {
+          batch_id: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          emails_failed?: number
+          emails_sent?: number
+          id?: string
+          started_at?: string | null
+          status?: string
+          total_emails: number
+        }
+        Update: {
+          batch_id?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          emails_failed?: number
+          emails_sent?: number
+          id?: string
+          started_at?: string | null
+          status?: string
+          total_emails?: number
+        }
+        Relationships: []
+      }
+      nakamoto_entitlements: {
+        Row: {
+          asset_id: string
+          created_at: string
+          expires_at: string | null
+          holder_did: string
+          holder_user_id: string | null
+          id: string
+          rights: string[]
+          tokenqube_id: string | null
+          x402_id: string | null
+        }
+        Insert: {
+          asset_id: string
+          created_at?: string
+          expires_at?: string | null
+          holder_did: string
+          holder_user_id?: string | null
+          id?: string
+          rights: string[]
+          tokenqube_id?: string | null
+          x402_id?: string | null
+        }
+        Update: {
+          asset_id?: string
+          created_at?: string
+          expires_at?: string | null
+          holder_did?: string
+          holder_user_id?: string | null
+          id?: string
+          rights?: string[]
+          tokenqube_id?: string | null
+          x402_id?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_invitation_signup_stats: {
+        Row: {
+          completed_signups: number | null
+          conversion_rate_percent: number | null
+          emails_sent: number | null
+          invitation_date: string | null
+          pending_signups: number | null
+          persona_type: string | null
+          total_invitations: number | null
+        }
+        Insert: {
+          completed_signups?: number | null
+          conversion_rate_percent?: number | null
+          emails_sent?: number | null
+          invitation_date?: string | null
+          pending_signups?: number | null
+          persona_type?: string | null
+          total_invitations?: number | null
+        }
+        Update: {
+          completed_signups?: number | null
+          conversion_rate_percent?: number | null
+          emails_sent?: number | null
+          invitation_date?: string | null
+          pending_signups?: number | null
+          persona_type?: string | null
+          total_invitations?: number | null
+        }
+        Relationships: []
+      }
+      nakamoto_invited_users: {
+        Row: {
+          batch_id: string | null
+          completed_at: string | null
+          email: string
+          email_sent: boolean
+          email_sent_at: string | null
+          expires_at: string
+          id: string
+          invitation_token: string
+          invited_at: string
+          invited_by: string | null
+          persona_data: Json
+          persona_type: string
+          send_attempts: number
+          signup_completed: boolean
+        }
+        Insert: {
+          batch_id?: string | null
+          completed_at?: string | null
+          email: string
+          email_sent?: boolean
+          email_sent_at?: string | null
+          expires_at?: string
+          id?: string
+          invitation_token?: string
+          invited_at?: string
+          invited_by?: string | null
+          persona_data: Json
+          persona_type: string
+          send_attempts?: number
+          signup_completed?: boolean
+        }
+        Update: {
+          batch_id?: string | null
+          completed_at?: string | null
+          email?: string
+          email_sent?: boolean
+          email_sent_at?: string | null
+          expires_at?: string
+          id?: string
+          invitation_token?: string
+          invited_at?: string
+          invited_by?: string | null
+          persona_data?: Json
+          persona_type?: string
+          send_attempts?: number
+          signup_completed?: boolean
+        }
+        Relationships: []
+      }
+      nakamoto_knyt_persona_rewards: {
+        Row: {
+          created_at: string
+          data_completed: boolean | null
+          id: string
+          linkedin_connected: boolean | null
+          metamask_connected: boolean | null
+          reward_amount: number | null
+          reward_claimed: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data_completed?: boolean | null
+          id?: string
+          linkedin_connected?: boolean | null
+          metamask_connected?: boolean | null
+          reward_amount?: number | null
+          reward_claimed?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data_completed?: boolean | null
+          id?: string
+          linkedin_connected?: boolean | null
+          metamask_connected?: boolean | null
+          reward_amount?: number | null
+          reward_claimed?: boolean | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_knyt_personas: {
+        Row: {
+          Address: string | null
+          Age: string | null
+          "BTC-Public-Key": string | null
+          "Chain-IDs": string[] | null
+          "Characters-Owned": string | null
+          created_at: string
+          "Digital-Comics-Owned": string | null
+          "Discord-Handle": string | null
+          Email: string | null
+          "EVM-Public-Key": string | null
+          "Facebook-ID": string | null
+          "First-Name": string | null
+          id: string
+          "Instagram-Handle": string | null
+          "KNYT-Cards-Owned": string | null
+          "KNYT-COYN-Owned": string | null
+          "KNYT-ID": string | null
+          "KNYT-Posters-Owned": string | null
+          "Last-Name": string | null
+          "LinkedIn-ID": string | null
+          "LinkedIn-Profile-URL": string | null
+          "Local-City": string | null
+          "Metaiye-Shares-Owned": string | null
+          "MetaKeep-Public-Key": string | null
+          "Motion-Comics-Owned": string | null
+          "OM-Member-Since": string | null
+          "OM-Tier-Status": string | null
+          "Paper-Comics-Owned": string | null
+          "Phone-Number": string | null
+          Profession: string | null
+          profile_image_url: string | null
+          "Telegram-Handle": string | null
+          "ThirdWeb-Public-Key": string | null
+          "TikTok-Handle": string | null
+          "Tokens-of-Interest": string[] | null
+          "Total-Invested": string | null
+          "Twitter-Handle": string | null
+          updated_at: string
+          user_id: string
+          "Wallets-of-Interest": string[] | null
+          "Web3-Interests": string[] | null
+          "YouTube-ID": string | null
+        }
+        Insert: {
+          Address?: string | null
+          Age?: string | null
+          "BTC-Public-Key"?: string | null
+          "Chain-IDs"?: string[] | null
+          "Characters-Owned"?: string | null
+          created_at?: string
+          "Digital-Comics-Owned"?: string | null
+          "Discord-Handle"?: string | null
+          Email?: string | null
+          "EVM-Public-Key"?: string | null
+          "Facebook-ID"?: string | null
+          "First-Name"?: string | null
+          id?: string
+          "Instagram-Handle"?: string | null
+          "KNYT-Cards-Owned"?: string | null
+          "KNYT-COYN-Owned"?: string | null
+          "KNYT-ID"?: string | null
+          "KNYT-Posters-Owned"?: string | null
+          "Last-Name"?: string | null
+          "LinkedIn-ID"?: string | null
+          "LinkedIn-Profile-URL"?: string | null
+          "Local-City"?: string | null
+          "Metaiye-Shares-Owned"?: string | null
+          "MetaKeep-Public-Key"?: string | null
+          "Motion-Comics-Owned"?: string | null
+          "OM-Member-Since"?: string | null
+          "OM-Tier-Status"?: string | null
+          "Paper-Comics-Owned"?: string | null
+          "Phone-Number"?: string | null
+          Profession?: string | null
+          profile_image_url?: string | null
+          "Telegram-Handle"?: string | null
+          "ThirdWeb-Public-Key"?: string | null
+          "TikTok-Handle"?: string | null
+          "Tokens-of-Interest"?: string[] | null
+          "Total-Invested"?: string | null
+          "Twitter-Handle"?: string | null
+          updated_at?: string
+          user_id: string
+          "Wallets-of-Interest"?: string[] | null
+          "Web3-Interests"?: string[] | null
+          "YouTube-ID"?: string | null
+        }
+        Update: {
+          Address?: string | null
+          Age?: string | null
+          "BTC-Public-Key"?: string | null
+          "Chain-IDs"?: string[] | null
+          "Characters-Owned"?: string | null
+          created_at?: string
+          "Digital-Comics-Owned"?: string | null
+          "Discord-Handle"?: string | null
+          Email?: string | null
+          "EVM-Public-Key"?: string | null
+          "Facebook-ID"?: string | null
+          "First-Name"?: string | null
+          id?: string
+          "Instagram-Handle"?: string | null
+          "KNYT-Cards-Owned"?: string | null
+          "KNYT-COYN-Owned"?: string | null
+          "KNYT-ID"?: string | null
+          "KNYT-Posters-Owned"?: string | null
+          "Last-Name"?: string | null
+          "LinkedIn-ID"?: string | null
+          "LinkedIn-Profile-URL"?: string | null
+          "Local-City"?: string | null
+          "Metaiye-Shares-Owned"?: string | null
+          "MetaKeep-Public-Key"?: string | null
+          "Motion-Comics-Owned"?: string | null
+          "OM-Member-Since"?: string | null
+          "OM-Tier-Status"?: string | null
+          "Paper-Comics-Owned"?: string | null
+          "Phone-Number"?: string | null
+          Profession?: string | null
+          profile_image_url?: string | null
+          "Telegram-Handle"?: string | null
+          "ThirdWeb-Public-Key"?: string | null
+          "TikTok-Handle"?: string | null
+          "Tokens-of-Interest"?: string[] | null
+          "Total-Invested"?: string | null
+          "Twitter-Handle"?: string | null
+          updated_at?: string
+          user_id?: string
+          "Wallets-of-Interest"?: string[] | null
+          "Web3-Interests"?: string[] | null
+          "YouTube-ID"?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_master_site_updates: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          created_by: string
+          entity_data: Json
+          entity_id: string
+          id: string
+          notes: string | null
+          pushed_at: string | null
+          source_site_id: string
+          status: string
+          target_sites: string[] | null
+          update_type: string
+          updated_at: string
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          created_by: string
+          entity_data: Json
+          entity_id: string
+          id?: string
+          notes?: string | null
+          pushed_at?: string | null
+          source_site_id: string
+          status?: string
+          target_sites?: string[] | null
+          update_type: string
+          updated_at?: string
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string
+          entity_data?: Json
+          entity_id?: string
+          id?: string
+          notes?: string | null
+          pushed_at?: string | null
+          source_site_id?: string
+          status?: string
+          target_sites?: string[] | null
+          update_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nakamoto_media_assets: {
+        Row: {
+          caption_path: string | null
+          checksum: string | null
+          content_item_id: string
+          created_at: string | null
+          duration_seconds: number | null
+          external_url: string | null
+          filesize_bytes: number | null
+          height: number | null
+          id: string
+          kind: string
+          mime_type: string | null
+          oembed_html: string | null
+          storage_path: string | null
+          transcript_path: string | null
+          width: number | null
+        }
+        Insert: {
+          caption_path?: string | null
+          checksum?: string | null
+          content_item_id: string
+          created_at?: string | null
+          duration_seconds?: number | null
+          external_url?: string | null
+          filesize_bytes?: number | null
+          height?: number | null
+          id?: string
+          kind: string
+          mime_type?: string | null
+          oembed_html?: string | null
+          storage_path?: string | null
+          transcript_path?: string | null
+          width?: number | null
+        }
+        Update: {
+          caption_path?: string | null
+          checksum?: string | null
+          content_item_id?: string
+          created_at?: string | null
+          duration_seconds?: number | null
+          external_url?: string | null
+          filesize_bytes?: number | null
+          height?: number | null
+          id?: string
+          kind?: string
+          mime_type?: string | null
+          oembed_html?: string | null
+          storage_path?: string | null
+          transcript_path?: string | null
+          width?: number | null
+        }
+        Relationships: []
+      }
+      nakamoto_media_content: {
+        Row: {
+          category: string
+          content_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          difficulty_level: number | null
+          duration: number | null
+          file_url: string | null
+          id: string
+          is_featured: boolean | null
+          is_published: boolean | null
+          metadata: Json | null
+          reward_points: number | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          content_type: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty_level?: number | null
+          duration?: number | null
+          file_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          metadata?: Json | null
+          reward_points?: number | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty_level?: number | null
+          duration?: number | null
+          file_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          metadata?: Json | null
+          reward_points?: number | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nakamoto_mission_pillars: {
+        Row: {
+          agent_site_id: string
+          contentqube_id: string | null
+          created_at: string
+          default_utilities_json: Json
+          display_name: string
+          goals_json: Json
+          id: string
+          iqube_policy_json: Json | null
+          kpis_json: Json
+          long_context_md: string | null
+          short_summary: string | null
+          tokenqube_ref: string | null
+          updated_at: string
+        }
+        Insert: {
+          agent_site_id: string
+          contentqube_id?: string | null
+          created_at?: string
+          default_utilities_json: Json
+          display_name: string
+          goals_json: Json
+          id?: string
+          iqube_policy_json?: Json | null
+          kpis_json: Json
+          long_context_md?: string | null
+          short_summary?: string | null
+          tokenqube_ref?: string | null
+          updated_at?: string
+        }
+        Update: {
+          agent_site_id?: string
+          contentqube_id?: string | null
+          created_at?: string
+          default_utilities_json?: Json
+          display_name?: string
+          goals_json?: Json
+          id?: string
+          iqube_policy_json?: Json | null
+          kpis_json?: Json
+          long_context_md?: string | null
+          short_summary?: string | null
+          tokenqube_ref?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nakamoto_mm_super_admins: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_profiles: {
+        Row: {
+          avatar_url: string | null
+          civic_status: string | null
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          level: number | null
+          preferences: Json | null
+          total_points: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          civic_status?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          level?: number | null
+          preferences?: Json | null
+          total_points?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          civic_status?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          level?: number | null
+          preferences?: Json | null
+          total_points?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_qripto_personas: {
+        Row: {
+          "BTC-Public-Key": string | null
+          "Chain-IDs": string[] | null
+          created_at: string
+          "Discord-Handle": string | null
+          Email: string | null
+          "EVM-Public-Key": string | null
+          "Facebook-ID": string | null
+          "First-Name": string | null
+          "GitHub-Handle": string | null
+          id: string
+          "Instagram-Handle": string | null
+          "Last-Name": string | null
+          "LinkedIn-ID": string | null
+          "LinkedIn-Profile-URL": string | null
+          "Local-City": string | null
+          Profession: string | null
+          profile_image_url: string | null
+          "Qripto-ID": string | null
+          "Telegram-Handle": string | null
+          "TikTok-Handle": string | null
+          "Tokens-of-Interest": string[] | null
+          "Twitter-Handle": string | null
+          updated_at: string
+          user_id: string
+          "Wallets-of-Interest": string[] | null
+          "Web3-Interests": string[] | null
+          "YouTube-ID": string | null
+        }
+        Insert: {
+          "BTC-Public-Key"?: string | null
+          "Chain-IDs"?: string[] | null
+          created_at?: string
+          "Discord-Handle"?: string | null
+          Email?: string | null
+          "EVM-Public-Key"?: string | null
+          "Facebook-ID"?: string | null
+          "First-Name"?: string | null
+          "GitHub-Handle"?: string | null
+          id?: string
+          "Instagram-Handle"?: string | null
+          "Last-Name"?: string | null
+          "LinkedIn-ID"?: string | null
+          "LinkedIn-Profile-URL"?: string | null
+          "Local-City"?: string | null
+          Profession?: string | null
+          profile_image_url?: string | null
+          "Qripto-ID"?: string | null
+          "Telegram-Handle"?: string | null
+          "TikTok-Handle"?: string | null
+          "Tokens-of-Interest"?: string[] | null
+          "Twitter-Handle"?: string | null
+          updated_at?: string
+          user_id: string
+          "Wallets-of-Interest"?: string[] | null
+          "Web3-Interests"?: string[] | null
+          "YouTube-ID"?: string | null
+        }
+        Update: {
+          "BTC-Public-Key"?: string | null
+          "Chain-IDs"?: string[] | null
+          created_at?: string
+          "Discord-Handle"?: string | null
+          Email?: string | null
+          "EVM-Public-Key"?: string | null
+          "Facebook-ID"?: string | null
+          "First-Name"?: string | null
+          "GitHub-Handle"?: string | null
+          id?: string
+          "Instagram-Handle"?: string | null
+          "Last-Name"?: string | null
+          "LinkedIn-ID"?: string | null
+          "LinkedIn-Profile-URL"?: string | null
+          "Local-City"?: string | null
+          Profession?: string | null
+          profile_image_url?: string | null
+          "Qripto-ID"?: string | null
+          "Telegram-Handle"?: string | null
+          "TikTok-Handle"?: string | null
+          "Tokens-of-Interest"?: string[] | null
+          "Twitter-Handle"?: string | null
+          updated_at?: string
+          user_id?: string
+          "Wallets-of-Interest"?: string[] | null
+          "Web3-Interests"?: string[] | null
+          "YouTube-ID"?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_role_audit_log: {
+        Row: {
+          action: string
+          agent_site_id: string | null
+          created_at: string
+          details: Json | null
+          id: string
+          role: string
+          target_user_id: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          agent_site_id?: string | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          role: string
+          target_user_id: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          agent_site_id?: string | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          role?: string
+          target_user_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_security_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          id: string
+          ip_address: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_setup_drafts: {
+        Row: {
+          created_at: string
+          current_step: number
+          id: string
+          setup_state: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_step?: number
+          id?: string
+          setup_state: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_step?: number
+          id?: string
+          setup_state?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_social_connections: {
+        Row: {
+          account_handle: string | null
+          connected: boolean | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          oauth_meta: Json | null
+          provider: string
+          updated_at: string | null
+        }
+        Insert: {
+          account_handle?: string | null
+          connected?: boolean | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          oauth_meta?: Json | null
+          provider: string
+          updated_at?: string | null
+        }
+        Update: {
+          account_handle?: string | null
+          connected?: boolean | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          oauth_meta?: Json | null
+          provider?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      nakamoto_user_connections: {
+        Row: {
+          connected_at: string
+          connection_data: Json | null
+          created_at: string
+          id: string
+          service: string
+          user_id: string
+        }
+        Insert: {
+          connected_at?: string
+          connection_data?: Json | null
+          created_at?: string
+          id?: string
+          service: string
+          user_id: string
+        }
+        Update: {
+          connected_at?: string
+          connection_data?: Json | null
+          created_at?: string
+          id?: string
+          service?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_user_content_progress: {
+        Row: {
+          completed_at: string | null
+          content_item_id: string
+          created_at: string | null
+          id: string
+          progress_percentage: number | null
+          score: number | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          content_item_id: string
+          created_at?: string | null
+          id?: string
+          progress_percentage?: number | null
+          score?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          content_item_id?: string
+          created_at?: string | null
+          id?: string
+          progress_percentage?: number | null
+          score?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_user_interactions: {
+        Row: {
+          created_at: string
+          id: string
+          interaction_type: string
+          metadata: Json | null
+          query: string
+          response: string
+          summarized: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interaction_type: string
+          metadata?: Json | null
+          query: string
+          response: string
+          summarized?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interaction_type?: string
+          metadata?: Json | null
+          query?: string
+          response?: string
+          summarized?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_user_name_preferences: {
+        Row: {
+          created_at: string
+          custom_first_name: string | null
+          custom_last_name: string | null
+          id: string
+          invitation_first_name: string | null
+          invitation_last_name: string | null
+          linkedin_first_name: string | null
+          linkedin_last_name: string | null
+          name_source: string
+          persona_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          custom_first_name?: string | null
+          custom_last_name?: string | null
+          id?: string
+          invitation_first_name?: string | null
+          invitation_last_name?: string | null
+          linkedin_first_name?: string | null
+          linkedin_last_name?: string | null
+          name_source: string
+          persona_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          custom_first_name?: string | null
+          custom_last_name?: string | null
+          id?: string
+          invitation_first_name?: string | null
+          invitation_last_name?: string | null
+          linkedin_first_name?: string | null
+          linkedin_last_name?: string | null
+          name_source?: string
+          persona_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_user_progress: {
+        Row: {
+          completed_at: string | null
+          content_id: string
+          created_at: string
+          id: string
+          progress_percentage: number | null
+          quiz_scores: Json | null
+          rewards_earned: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          content_id: string
+          created_at?: string
+          id?: string
+          progress_percentage?: number | null
+          quiz_scores?: Json | null
+          rewards_earned?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          content_id?: string
+          created_at?: string
+          id?: string
+          progress_percentage?: number | null
+          quiz_scores?: Json | null
+          rewards_earned?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_user_roles: {
+        Row: {
+          agent_site_id: string | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          agent_site_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          agent_site_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_user_sessions: {
+        Row: {
+          active: boolean
+          created_at: string
+          device_info: Json | null
+          id: string
+          session_end: string | null
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          device_info?: Json | null
+          id?: string
+          session_end?: string | null
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          device_info?: Json | null
+          id?: string
+          session_end?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nakamoto_utilities_config: {
+        Row: {
+          agent_site_id: string
+          commercial_on: boolean
+          commercial_opts_json: Json
+          content_creation_on: boolean
+          created_at: string
+          id: string
+          social_on: boolean
+          social_opts_json: Json
+          teaching_on: boolean
+          teaching_opts_json: Json
+          updated_at: string
+        }
+        Insert: {
+          agent_site_id: string
+          commercial_on?: boolean
+          commercial_opts_json: Json
+          content_creation_on?: boolean
+          created_at?: string
+          id?: string
+          social_on?: boolean
+          social_opts_json: Json
+          teaching_on?: boolean
+          teaching_opts_json: Json
+          updated_at?: string
+        }
+        Update: {
+          agent_site_id?: string
+          commercial_on?: boolean
+          commercial_opts_json?: Json
+          content_creation_on?: boolean
+          created_at?: string
+          id?: string
+          social_on?: boolean
+          social_opts_json?: Json
+          teaching_on?: boolean
+          teaching_opts_json?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nakamoto_x402_transactions: {
+        Row: {
+          amount: number
+          asset_id: string
+          asset_symbol: string
+          buyer_did: string
+          created_at: string
+          dest_chain: string | null
+          facilitator_ref: string | null
+          id: string
+          request_id: string
+          seller_did: string
+          src_chain: string | null
+          status: string | null
+          tenant_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          asset_id: string
+          asset_symbol: string
+          buyer_did: string
+          created_at?: string
+          dest_chain?: string | null
+          facilitator_ref?: string | null
+          id?: string
+          request_id: string
+          seller_did: string
+          src_chain?: string | null
+          status?: string | null
+          tenant_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          asset_id?: string
+          asset_symbol?: string
+          buyer_did?: string
+          created_at?: string
+          dest_chain?: string | null
+          facilitator_ref?: string | null
+          id?: string
+          request_id?: string
+          seller_did?: string
+          src_chain?: string | null
+          status?: string | null
+          tenant_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payment_requests: {
         Row: {
           amount: number
@@ -5101,8 +7110,12 @@ export type Database = {
           fio_registered_at: string | null
           fio_registration_status: string | null
           fio_tx_id: string | null
+          first_paid_purchase_at: string | null
           franchise_id: string | null
           id: string
+          ref_campaign_id: string | null
+          referred_by_persona_id: string | null
+          referrer_persona_id: string | null
           root_id: string | null
           sol_address: string | null
           tenant_id: string | null
@@ -5123,8 +7136,12 @@ export type Database = {
           fio_registered_at?: string | null
           fio_registration_status?: string | null
           fio_tx_id?: string | null
+          first_paid_purchase_at?: string | null
           franchise_id?: string | null
           id?: string
+          ref_campaign_id?: string | null
+          referred_by_persona_id?: string | null
+          referrer_persona_id?: string | null
           root_id?: string | null
           sol_address?: string | null
           tenant_id?: string | null
@@ -5145,8 +7162,12 @@ export type Database = {
           fio_registered_at?: string | null
           fio_registration_status?: string | null
           fio_tx_id?: string | null
+          first_paid_purchase_at?: string | null
           franchise_id?: string | null
           id?: string
+          ref_campaign_id?: string | null
+          referred_by_persona_id?: string | null
+          referrer_persona_id?: string | null
           root_id?: string | null
           sol_address?: string | null
           tenant_id?: string | null
@@ -5243,8 +7264,13 @@ export type Database = {
           fio_registration: Json | null
           first_paid_purchase_at: string | null
           id: string
+          metadata: Json | null
           order_tier: Database["public"]["Enums"]["order_tier"] | null
           ref_campaign_id: string | null
+          referral_identifier: string | null
+          referral_locked_at: string | null
+          referral_method: string | null
+          referred_by_persona_id: string | null
           referrer_persona_id: string | null
           reputation_bucket: number
           reputation_score: number
@@ -5272,8 +7298,13 @@ export type Database = {
           fio_registration?: Json | null
           first_paid_purchase_at?: string | null
           id?: string
+          metadata?: Json | null
           order_tier?: Database["public"]["Enums"]["order_tier"] | null
           ref_campaign_id?: string | null
+          referral_identifier?: string | null
+          referral_locked_at?: string | null
+          referral_method?: string | null
+          referred_by_persona_id?: string | null
           referrer_persona_id?: string | null
           reputation_bucket?: number
           reputation_score?: number
@@ -5303,8 +7334,13 @@ export type Database = {
           fio_registration?: Json | null
           first_paid_purchase_at?: string | null
           id?: string
+          metadata?: Json | null
           order_tier?: Database["public"]["Enums"]["order_tier"] | null
           ref_campaign_id?: string | null
+          referral_identifier?: string | null
+          referral_locked_at?: string | null
+          referral_method?: string | null
+          referred_by_persona_id?: string | null
           referrer_persona_id?: string | null
           reputation_bucket?: number
           reputation_score?: number
@@ -5483,34 +7519,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "purchases_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "crm_personas_with_identity"
-            referencedColumns: ["identity_id"]
-          },
-          {
-            foreignKeyName: "purchases_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "persona"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "purchases_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "persona_with_fio_status"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "purchases_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "persona_with_reputation"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "purchases_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
@@ -5663,6 +7671,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      referral_events: {
+        Row: {
+          created_at: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          referee_persona_id: string
+          referrer_persona_id: string
+          reward_amount: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          referee_persona_id: string
+          referrer_persona_id: string
+          reward_amount?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          referee_persona_id?: string
+          referrer_persona_id?: string
+          reward_amount?: number | null
+        }
+        Relationships: []
       }
       relationship_qubes: {
         Row: {
@@ -5959,6 +7997,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      rewards_ledger: {
+        Row: {
+          amount: number
+          created_at: string | null
+          dvn_transaction_id: string | null
+          id: string
+          metadata: Json | null
+          persona_id: string
+          reward_type: string
+          status: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          dvn_transaction_id?: string | null
+          id?: string
+          metadata?: Json | null
+          persona_id: string
+          reward_type: string
+          status?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          dvn_transaction_id?: string | null
+          id?: string
+          metadata?: Json | null
+          persona_id?: string
+          reward_type?: string
+          status?: string | null
+        }
+        Relationships: []
       }
       roles: {
         Row: {
@@ -6393,6 +8464,48 @@ export type Database = {
           title?: string
           updated_at?: string
           version?: number
+        }
+        Relationships: []
+      }
+      social_share_analytics: {
+        Row: {
+          clicks: number | null
+          content_id: string
+          conversions: number | null
+          created_at: string | null
+          id: string
+          last_activity_at: string | null
+          persona_id: string | null
+          platform: string
+          reward_earned: number | null
+          share_url: string | null
+          signups: number | null
+        }
+        Insert: {
+          clicks?: number | null
+          content_id: string
+          conversions?: number | null
+          created_at?: string | null
+          id?: string
+          last_activity_at?: string | null
+          persona_id?: string | null
+          platform: string
+          reward_earned?: number | null
+          share_url?: string | null
+          signups?: number | null
+        }
+        Update: {
+          clicks?: number | null
+          content_id?: string
+          conversions?: number | null
+          created_at?: string | null
+          id?: string
+          last_activity_at?: string | null
+          persona_id?: string | null
+          platform?: string
+          reward_earned?: number | null
+          share_url?: string | null
+          signups?: number | null
         }
         Relationships: []
       }
