@@ -88,6 +88,13 @@ export type Database = {
             foreignKeyName: "agent_keys_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_keys_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -391,6 +398,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_history_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -1311,6 +1325,120 @@ export type Database = {
         }
         Relationships: []
       }
+      composer_experience_qubes: {
+        Row: {
+          blak_qube: Json
+          created_at: string | null
+          creator_id: string
+          id: string
+          meta_qube: Json
+          status: string
+          template_id: string
+          tenant_id: string
+          token_qube: Json
+          updated_at: string | null
+        }
+        Insert: {
+          blak_qube?: Json
+          created_at?: string | null
+          creator_id: string
+          id: string
+          meta_qube?: Json
+          status?: string
+          template_id: string
+          tenant_id: string
+          token_qube?: Json
+          updated_at?: string | null
+        }
+        Update: {
+          blak_qube?: Json
+          created_at?: string | null
+          creator_id?: string
+          id?: string
+          meta_qube?: Json
+          status?: string
+          template_id?: string
+          tenant_id?: string
+          token_qube?: Json
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      composer_sessions: {
+        Row: {
+          created_at: string | null
+          current_step: number
+          data: Json
+          expires_at: string | null
+          id: string
+          status: string
+          template_id: string
+          tenant_id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_step?: number
+          data?: Json
+          expires_at?: string | null
+          id: string
+          status?: string
+          template_id: string
+          tenant_id: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_step?: number
+          data?: Json
+          expires_at?: string | null
+          id?: string
+          status?: string
+          template_id?: string
+          tenant_id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contacts: {
+        Row: {
+          campaign: string | null
+          consent: boolean | null
+          created_at: string
+          email: string
+          id: string
+          name: string | null
+          source: string | null
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          campaign?: string | null
+          consent?: boolean | null
+          created_at?: string
+          email: string
+          id?: string
+          name?: string | null
+          source?: string | null
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          campaign?: string | null
+          consent?: boolean | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string | null
+          source?: string | null
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       content: {
         Row: {
           ai_metadata: Json | null
@@ -1953,6 +2081,13 @@ export type Database = {
             referencedRelation: "crm_tenants"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "crm_admin_roles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenant_hierarchy_view"
+            referencedColumns: ["tenant_id"]
+          },
         ]
       }
       crm_audit_logs: {
@@ -2487,10 +2622,13 @@ export type Database = {
           config: Json | null
           created_at: string
           description: string | null
+          hierarchy_level: number | null
           id: string
           is_active: boolean
+          is_anchor: boolean | null
           logo_url: string | null
           name: string
+          parent_franchise_id: string | null
           primary_color: string | null
           slug: string
           updated_at: string
@@ -2499,10 +2637,13 @@ export type Database = {
           config?: Json | null
           created_at?: string
           description?: string | null
+          hierarchy_level?: number | null
           id?: string
           is_active?: boolean
+          is_anchor?: boolean | null
           logo_url?: string | null
           name: string
+          parent_franchise_id?: string | null
           primary_color?: string | null
           slug: string
           updated_at?: string
@@ -2511,15 +2652,26 @@ export type Database = {
           config?: Json | null
           created_at?: string
           description?: string | null
+          hierarchy_level?: number | null
           id?: string
           is_active?: boolean
+          is_anchor?: boolean | null
           logo_url?: string | null
           name?: string
+          parent_franchise_id?: string | null
           primary_color?: string | null
           slug?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "crm_franchises_parent_franchise_id_fkey"
+            columns: ["parent_franchise_id"]
+            isOneToOne: false
+            referencedRelation: "crm_franchises"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       crm_interest_tags: {
         Row: {
@@ -2825,6 +2977,13 @@ export type Database = {
             foreignKeyName: "crm_personas_persona_dataqube_id_fkey"
             columns: ["persona_dataqube_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_personas_persona_dataqube_id_fkey"
+            columns: ["persona_dataqube_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -3049,6 +3208,13 @@ export type Database = {
             referencedRelation: "crm_tenants"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "crm_registry_persona_links_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenant_hierarchy_view"
+            referencedColumns: ["tenant_id"]
+          },
         ]
       }
       crm_registry_profiles: {
@@ -3139,6 +3305,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "crm_tenants"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_registry_profiles_origin_tenant_id_fkey"
+            columns: ["origin_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenant_hierarchy_view"
+            referencedColumns: ["tenant_id"]
           },
           {
             foreignKeyName: "crm_registry_profiles_platform_account_id_fkey"
@@ -3833,6 +4006,13 @@ export type Database = {
             foreignKeyName: "did_binding_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "did_binding_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -4066,6 +4246,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "episode_engagement_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -4356,6 +4543,13 @@ export type Database = {
             foreignKeyName: "franchise_admins_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "franchise_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -4477,6 +4671,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: true
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hcp_profile_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: true
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -4781,6 +4982,13 @@ export type Database = {
             foreignKeyName: "iqube_shares_owner_persona_id_fkey"
             columns: ["owner_persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_owner_persona_id_fkey"
+            columns: ["owner_persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -4803,6 +5011,13 @@ export type Database = {
             columns: ["shared_with_persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iqube_shares_shared_with_persona_id_fkey"
+            columns: ["shared_with_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -7094,7 +7309,64 @@ export type Database = {
         }
         Relationships: []
       }
-      persona: {
+      persona_agent_binding: {
+        Row: {
+          agent_id: string
+          created_at: string | null
+          is_primary: boolean | null
+          persona_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string | null
+          is_primary?: boolean | null
+          persona_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string | null
+          is_primary?: boolean | null
+          persona_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "persona_agent_binding_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "crm_personas_with_identity"
+            referencedColumns: ["identity_id"]
+          },
+          {
+            foreignKeyName: "persona_agent_binding_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "persona_agent_binding_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "persona_agent_binding_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_fio_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "persona_agent_binding_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_with_reputation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      persona_legacy_20260125: {
         Row: {
           app_origin: string | null
           bio: string | null
@@ -7197,58 +7469,9 @@ export type Database = {
           },
         ]
       }
-      persona_agent_binding: {
-        Row: {
-          agent_id: string
-          created_at: string | null
-          is_primary: boolean | null
-          persona_id: string
-        }
-        Insert: {
-          agent_id: string
-          created_at?: string | null
-          is_primary?: boolean | null
-          persona_id: string
-        }
-        Update: {
-          agent_id?: string
-          created_at?: string | null
-          is_primary?: boolean | null
-          persona_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "persona_agent_binding_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "crm_personas_with_identity"
-            referencedColumns: ["identity_id"]
-          },
-          {
-            foreignKeyName: "persona_agent_binding_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "persona"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "persona_agent_binding_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "persona_with_fio_status"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "persona_agent_binding_persona_id_fkey"
-            columns: ["persona_id"]
-            isOneToOne: false
-            referencedRelation: "persona_with_reputation"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       personas: {
         Row: {
+          app_origin: string | null
           auth_profile_id: string | null
           avatar_uri: string | null
           badges: string[]
@@ -7256,12 +7479,21 @@ export type Database = {
           btc_address: string | null
           chain_addresses: Json
           created_at: string
+          default_identity_state: string | null
+          discoverable_within_tenant: boolean
           display_name: string
           evm_address: string | null
-          evm_key: Json
+          evm_key: Json | null
           fio_domain: string
           fio_handle: string
+          fio_handle_expiration: string | null
+          fio_handle_verified: boolean | null
+          fio_last_verified_at: string | null
+          fio_public_key: string | null
+          fio_registered_at: string | null
           fio_registration: Json | null
+          fio_registration_status: string | null
+          fio_tx_id: string | null
           first_paid_purchase_at: string | null
           id: string
           metadata: Json | null
@@ -7276,13 +7508,16 @@ export type Database = {
           reputation_score: number
           reputation_tier: Database["public"]["Enums"]["reputation_tier"] | null
           root_did: string
+          root_id: string | null
           sol_address: string | null
           status: string
           tenant_id: string
           type: string
           updated_at: string
+          world_id_status: string | null
         }
         Insert: {
+          app_origin?: string | null
           auth_profile_id?: string | null
           avatar_uri?: string | null
           badges?: string[]
@@ -7290,12 +7525,21 @@ export type Database = {
           btc_address?: string | null
           chain_addresses?: Json
           created_at?: string
+          default_identity_state?: string | null
+          discoverable_within_tenant?: boolean
           display_name: string
           evm_address?: string | null
-          evm_key: Json
+          evm_key?: Json | null
           fio_domain: string
           fio_handle: string
+          fio_handle_expiration?: string | null
+          fio_handle_verified?: boolean | null
+          fio_last_verified_at?: string | null
+          fio_public_key?: string | null
+          fio_registered_at?: string | null
           fio_registration?: Json | null
+          fio_registration_status?: string | null
+          fio_tx_id?: string | null
           first_paid_purchase_at?: string | null
           id?: string
           metadata?: Json | null
@@ -7312,13 +7556,16 @@ export type Database = {
             | Database["public"]["Enums"]["reputation_tier"]
             | null
           root_did: string
+          root_id?: string | null
           sol_address?: string | null
           status?: string
           tenant_id: string
           type?: string
           updated_at?: string
+          world_id_status?: string | null
         }
         Update: {
+          app_origin?: string | null
           auth_profile_id?: string | null
           avatar_uri?: string | null
           badges?: string[]
@@ -7326,12 +7573,21 @@ export type Database = {
           btc_address?: string | null
           chain_addresses?: Json
           created_at?: string
+          default_identity_state?: string | null
+          discoverable_within_tenant?: boolean
           display_name?: string
           evm_address?: string | null
-          evm_key?: Json
+          evm_key?: Json | null
           fio_domain?: string
           fio_handle?: string
+          fio_handle_expiration?: string | null
+          fio_handle_verified?: boolean | null
+          fio_last_verified_at?: string | null
+          fio_public_key?: string | null
+          fio_registered_at?: string | null
           fio_registration?: Json | null
+          fio_registration_status?: string | null
+          fio_tx_id?: string | null
           first_paid_purchase_at?: string | null
           id?: string
           metadata?: Json | null
@@ -7348,11 +7604,13 @@ export type Database = {
             | Database["public"]["Enums"]["reputation_tier"]
             | null
           root_did?: string
+          root_id?: string | null
           sol_address?: string | null
           status?: string
           tenant_id?: string
           type?: string
           updated_at?: string
+          world_id_status?: string | null
         }
         Relationships: [
           {
@@ -7456,6 +7714,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -7574,6 +7839,13 @@ export type Database = {
             foreignKeyName: "qc_balances_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qc_balances_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -7583,6 +7855,140 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "persona_with_reputation"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      qubetalk_channels: {
+        Row: {
+          channel_id: string
+          created_at: string | null
+          participants: string[]
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          channel_id: string
+          created_at?: string | null
+          participants?: string[]
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          channel_id?: string
+          created_at?: string | null
+          participants?: string[]
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      qubetalk_delegations: {
+        Row: {
+          channel_id: string
+          context: Json | null
+          created_at: string | null
+          delegation_id: string
+          from_agent: Json
+          receipt_ref: string | null
+          request_id: string
+          result: Json | null
+          status: string
+          task: Json
+          tenant_id: string
+          to_agent: Json
+          updated_at: string | null
+        }
+        Insert: {
+          channel_id: string
+          context?: Json | null
+          created_at?: string | null
+          delegation_id: string
+          from_agent: Json
+          receipt_ref?: string | null
+          request_id: string
+          result?: Json | null
+          status?: string
+          task: Json
+          tenant_id: string
+          to_agent: Json
+          updated_at?: string | null
+        }
+        Update: {
+          channel_id?: string
+          context?: Json | null
+          created_at?: string | null
+          delegation_id?: string
+          from_agent?: Json
+          receipt_ref?: string | null
+          request_id?: string
+          result?: Json | null
+          status?: string
+          task?: Json
+          tenant_id?: string
+          to_agent?: Json
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qubetalk_delegations_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "qubetalk_channels"
+            referencedColumns: ["channel_id"]
+          },
+        ]
+      }
+      qubetalk_messages: {
+        Row: {
+          channel_id: string
+          content: string
+          created_at: string | null
+          from_agent: Json
+          in_reply_to: string | null
+          iqube_refs: string[] | null
+          message_id: string
+          metadata: Json | null
+          receipt_ref: string | null
+          type: string
+        }
+        Insert: {
+          channel_id: string
+          content: string
+          created_at?: string | null
+          from_agent: Json
+          in_reply_to?: string | null
+          iqube_refs?: string[] | null
+          message_id: string
+          metadata?: Json | null
+          receipt_ref?: string | null
+          type?: string
+        }
+        Update: {
+          channel_id?: string
+          content?: string
+          created_at?: string | null
+          from_agent?: Json
+          in_reply_to?: string | null
+          iqube_refs?: string[] | null
+          message_id?: string
+          metadata?: Json | null
+          receipt_ref?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qubetalk_messages_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "qubetalk_channels"
+            referencedColumns: ["channel_id"]
+          },
+          {
+            foreignKeyName: "qubetalk_messages_in_reply_to_fkey"
+            columns: ["in_reply_to"]
+            isOneToOne: false
+            referencedRelation: "qubetalk_messages"
+            referencedColumns: ["message_id"]
           },
         ]
       }
@@ -7815,6 +8221,13 @@ export type Database = {
             foreignKeyName: "reputation_bucket_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_bucket_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -7868,6 +8281,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_events_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -7980,6 +8400,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reward_grants_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -8270,6 +8697,13 @@ export type Database = {
             foreignKeyName: "share_links_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_links_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -8317,6 +8751,13 @@ export type Database = {
             columns: ["new_persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_signups_new_persona_id_fkey"
+            columns: ["new_persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -8574,6 +9015,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tenant_admins_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -8849,6 +9297,13 @@ export type Database = {
             foreignKeyName: "user_did_mapping_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_did_mapping_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -8920,6 +9375,13 @@ export type Database = {
             columns: ["persona_id"]
             isOneToOne: false
             referencedRelation: "persona"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_entitlements_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
             referencedColumns: ["id"]
           },
           {
@@ -9301,6 +9763,13 @@ export type Database = {
             foreignKeyName: "weekly_engagement_streaks_persona_id_fkey"
             columns: ["persona_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "weekly_engagement_streaks_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -9566,6 +10035,13 @@ export type Database = {
             foreignKeyName: "crm_personas_persona_dataqube_id_fkey"
             columns: ["persona_dataqube_id"]
             isOneToOne: false
+            referencedRelation: "persona_legacy_20260125"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_personas_persona_dataqube_id_fkey"
+            columns: ["persona_dataqube_id"]
+            isOneToOne: false
             referencedRelation: "persona_with_fio_status"
             referencedColumns: ["id"]
           },
@@ -9633,6 +10109,109 @@ export type Database = {
           tenant_personas: Json | null
         }
         Relationships: []
+      }
+      persona: {
+        Row: {
+          app_origin: string | null
+          bio: string | null
+          btc_address: string | null
+          created_at: string | null
+          default_identity_state: string | null
+          evm_address: string | null
+          fio_handle: string | null
+          fio_handle_expiration: string | null
+          fio_handle_verified: boolean | null
+          fio_last_verified_at: string | null
+          fio_public_key: string | null
+          fio_registered_at: string | null
+          fio_registration_status: string | null
+          fio_tx_id: string | null
+          first_paid_purchase_at: string | null
+          franchise_id: string | null
+          id: string | null
+          ref_campaign_id: string | null
+          referred_by_persona_id: string | null
+          referrer_persona_id: string | null
+          root_id: string | null
+          sol_address: string | null
+          tenant_id: string | null
+          world_id_status: string | null
+        }
+        Insert: {
+          app_origin?: string | null
+          bio?: string | null
+          btc_address?: string | null
+          created_at?: string | null
+          default_identity_state?: string | null
+          evm_address?: string | null
+          fio_handle?: string | null
+          fio_handle_expiration?: string | null
+          fio_handle_verified?: boolean | null
+          fio_last_verified_at?: string | null
+          fio_public_key?: string | null
+          fio_registered_at?: string | null
+          fio_registration_status?: string | null
+          fio_tx_id?: string | null
+          first_paid_purchase_at?: string | null
+          franchise_id?: string | null
+          id?: string | null
+          ref_campaign_id?: string | null
+          referred_by_persona_id?: string | null
+          referrer_persona_id?: string | null
+          root_id?: string | null
+          sol_address?: string | null
+          tenant_id?: string | null
+          world_id_status?: string | null
+        }
+        Update: {
+          app_origin?: string | null
+          bio?: string | null
+          btc_address?: string | null
+          created_at?: string | null
+          default_identity_state?: string | null
+          evm_address?: string | null
+          fio_handle?: string | null
+          fio_handle_expiration?: string | null
+          fio_handle_verified?: boolean | null
+          fio_last_verified_at?: string | null
+          fio_public_key?: string | null
+          fio_registered_at?: string | null
+          fio_registration_status?: string | null
+          fio_tx_id?: string | null
+          first_paid_purchase_at?: string | null
+          franchise_id?: string | null
+          id?: string | null
+          ref_campaign_id?: string | null
+          referred_by_persona_id?: string | null
+          referrer_persona_id?: string | null
+          root_id?: string | null
+          sol_address?: string | null
+          tenant_id?: string | null
+          world_id_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "persona_franchise_id_fkey"
+            columns: ["franchise_id"]
+            isOneToOne: false
+            referencedRelation: "franchises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "persona_root_id_fkey"
+            columns: ["root_id"]
+            isOneToOne: false
+            referencedRelation: "root_identity"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "persona_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       persona_sharing_leaderboard: {
         Row: {
@@ -9766,6 +10345,38 @@ export type Database = {
         }
         Relationships: []
       }
+      tenant_hierarchy_view: {
+        Row: {
+          created_at: string | null
+          franchise_hierarchy_path: string[] | null
+          franchise_id: string | null
+          franchise_level: number | null
+          franchise_name: string | null
+          franchise_slug: string | null
+          is_active: boolean | null
+          is_agentiq_tenant: boolean | null
+          parent_franchise_id: string | null
+          tenant_id: string | null
+          tenant_name: string | null
+          tenant_slug: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_franchises_parent_franchise_id_fkey"
+            columns: ["parent_franchise_id"]
+            isOneToOne: false
+            referencedRelation: "crm_franchises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_tenants_franchise_id_fkey"
+            columns: ["franchise_id"]
+            isOneToOne: false
+            referencedRelation: "crm_franchises"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       accept_payment_request: {
@@ -9781,6 +10392,10 @@ export type Database = {
         }
         Returns: number
       }
+      can_govern_franchise: {
+        Args: { governor_uuid: string; target_uuid: string }
+        Returns: boolean
+      }
       check_admin_access: {
         Args: {
           p_action: string
@@ -9790,6 +10405,10 @@ export type Database = {
           p_tenant_id?: string
         }
         Returns: boolean
+      }
+      cleanup_old_qubetalk_messages: {
+        Args: { days_old?: number }
+        Returns: number
       }
       create_payment_request: {
         Args: {
@@ -9847,6 +10466,18 @@ export type Database = {
           solana_address: string
           solana_private_key_encrypted: string
           updated_at: string
+        }[]
+      }
+      get_agentiq_hierarchy: {
+        Args: never
+        Returns: {
+          franchise_id: string
+          hierarchy_level: number
+          hierarchy_path: string[]
+          is_anchor: boolean
+          name: string
+          parent_franchise_id: string
+          slug: string
         }[]
       }
       get_all_episode_metadata: {
@@ -9944,6 +10575,10 @@ export type Database = {
           version: number
           writer: string
         }[]
+      }
+      get_franchise_hierarchy_path: {
+        Args: { franchise_uuid: string }
+        Returns: string[]
       }
       get_normalized_rep_weights: {
         Args: { p_task_template_id: string }
