@@ -1,1 +1,4 @@
 project_id = "bsjhfvctmduxhohtllly"
+
+[functions.triad-embed-probe]
+verify_jwt = false

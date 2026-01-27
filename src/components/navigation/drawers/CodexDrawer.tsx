@@ -1,6 +1,16 @@
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CODEX_EMBED_URL } from "@/config/embed";
+import { EmbedFrame } from "@/components/EmbedFrame";
+import { buildEmbedUrl, getOrderedBases } from "@/lib/embedUtils";
+
+// Embed configuration
+const EMBED_PATH = '/triad/embed/codex';
+const EMBED_VERSION = '2025-12-30-01';
+const EMBED_PARAMS = {
+  tab: 'scrolls',
+  theme: 'light',
+  density: 'wide',
+};
 
 interface CodexDrawerProps {
   isOpen: boolean;
@@ -9,6 +19,11 @@ interface CodexDrawerProps {
 
 export function CodexDrawer({ isOpen, onClose }: CodexDrawerProps) {
   if (!isOpen) return null;
+
+  const bases = getOrderedBases();
+  const primaryBase = bases[0] || 'https://dev-beta.aigentz.me';
+  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, EMBED_PARAMS, EMBED_VERSION);
+  const fallbackBases = bases.slice(1);
 
   return (
     <>
@@ -41,17 +56,15 @@ export function CodexDrawer({ isOpen, onClose }: CodexDrawerProps) {
           </div>
         </div>
 
-        {/* Iframe Content */}
-        <div className="flex-1 overflow-hidden" style={{ minHeight: 480 }}>
-          <iframe
-            key={isOpen ? 'open' : 'closed'}
-            src={`${CODEX_EMBED_URL}&_t=${Date.now()}`}
-            style={{ width: "100%", height: "100%", border: "none" }}
-            loading="lazy"
-            allow="clipboard-write; fullscreen; autoplay"
-            title="KNYT Codex"
-          />
-        </div>
+        {/* Iframe Content with EmbedFrame */}
+        <EmbedFrame
+          src={embedUrl}
+          title="KNYT Codex"
+          className="flex-1 overflow-hidden"
+          style={{ minHeight: 480 }}
+          fallbackBases={fallbackBases}
+          showProbeOnLoad={true}
+        />
       </div>
     </>
   );
