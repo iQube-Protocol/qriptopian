@@ -1,103 +1,84 @@
 
+# Embed Diagnostics & Fallback System - IMPLEMENTED
 
-# Fix 500 Internal Server Error on SmartTriad Embeds
+## Problem Confirmed
 
-## Problem Identified
+The 500 Internal Server Error is **upstream** in the AigentiQ Next.js app:
+- `https://dev-beta.aigentz.me/triad/embed/wallet` → 500
+- `https://dev-beta.aigentz.me/triad/embed/codex` → 500
+- `https://dev-beta.aigentz.me/triad/embed/admin/codex` → 500
 
-The 500 Internal Server Error is caused by a **malformed URL** in `SmartTriadCodexManager.tsx`. The cache-busting timestamp is being appended with `?` instead of `&`, creating a double question mark in the URL.
+This is NOT caused by the Qriptopian thin client.
 
-### Current (Broken) URL Structure
+## Implementation Complete
+
+### ✅ 1. Centralized Embed URL Builder
+**File:** `src/lib/embedUtils.ts`
+- `withQuery(url, params)` - safely appends query params
+- `withCacheBust(url)` - adds `_t` timestamp
+- `buildEmbedUrl(base, path, params, version)` - complete URL builder
+- Multi-base support via `getOrderedBases()` with localStorage persistence
+
+### ✅ 2. Server-Side Probe (CORS-safe)
+**File:** `supabase/functions/triad-embed-probe/index.ts`
+- Accepts `{ url }` and performs server-side fetch
+- SSRF protection with strict URL allowlist
+- Returns: status, headers (X-Frame-Options, CSP), response snippet
+- Provides undeniable root cause even with CORS restrictions
+
+### ✅ 3. EmbedFrame Component
+**File:** `src/components/EmbedFrame.tsx`
+- Probes before rendering iframe
+- Shows friendly error panel when status ≠ 200:
+  - Status code + endpoint
+  - Response snippet
+  - "Retry" / "Open in New Tab" / "Health Check" buttons
+- Supports fallback bases
+- Prevents blank 500 error pages
+
+### ✅ 4. Updated Drawers
+- `src/components/navigation/drawers/WalletDrawer.tsx` - uses EmbedFrame
+- `src/components/navigation/drawers/CodexDrawer.tsx` - uses EmbedFrame
+- `src/pages/admin/SmartTriadCodexManager.tsx` - uses EmbedFrame
+
+### ✅ 5. Upgraded Health Check
+**File:** `src/pages/admin/EmbedHealthCheck.tsx`
+- Uses server-side probe for accurate diagnostics
+- Shows final URL + status + headers + snippet per endpoint
+- **"Copy Debug Report" button** for ops team
+- Keeps iframe load test for correlation
+
+### ✅ 6. Multi-Base Fallback Support
+**Environment variable:** `VITE_TRIAD_EMBED_BASES`
+- Comma-separated list of base URLs
+- Probes in order, selects first working base
+- Stores last-known-good base in localStorage
+
+## How to Use
+
+### Immediate Fix (when AigentiQ is fixed)
+No code change needed - embeds will automatically work when upstream returns 200.
+
+### Alternative Host (if available)
+Add to `.env`:
 ```
-https://dev-beta.aigentz.me/triad/embed/admin/codex?v=2025-12-30-01?_t=1234567890
-                                                                    ^ WRONG - should be &
-```
-
-The Next.js server on AigentiQ cannot parse this malformed URL and returns a 500 error.
-
-## Implementation Plan
-
-### Step 1: Fix the malformed URL in SmartTriadCodexManager.tsx
-
-**File:** `src/pages/admin/SmartTriadCodexManager.tsx`
-
-**Change on line 60:**
-```tsx
-// BEFORE (broken)
-src={`${ADMIN_CODEX_EMBED_URL}?_t=${Date.now()}`}
-
-// AFTER (fixed)
-src={`${ADMIN_CODEX_EMBED_URL}&_t=${Date.now()}`}
-```
-
-### Step 2: Apply consistent cache-busting to WalletDrawer (optional enhancement)
-
-**File:** `src/components/navigation/drawers/WalletDrawer.tsx`
-
-For consistency and to ensure fresh content on each drawer open:
-```tsx
-// BEFORE
-src={WALLET_EMBED_URL}
-
-// AFTER (with cache-busting)
-src={`${WALLET_EMBED_URL}&_t=${Date.now()}`}
-```
-
-### Step 3: Verify the fix using the Embed Health Check page
-
-Navigate to `/admin/embed-health` after the fix to confirm:
-- All three endpoints (Wallet, Codex, Admin Codex) show as reachable
-- The iframe load test section displays actual content from AigentiQ
-
-## Technical Details
-
-### Why This Happened
-
-The embed URLs are constructed in `src/config/embed.ts`:
-
-```typescript
-export const WALLET_EMBED_URL =
-  `${TRIAD_EMBED_BASE}/triad/embed/wallet?v=${TRIAD_EMBED_VERSION}`;
-
-export const CODEX_EMBED_URL =
-  `${TRIAD_EMBED_BASE}/triad/embed/codex` +
-  `?tab=scrolls&theme=light&density=wide&v=${TRIAD_EMBED_VERSION}`;
-
-export const ADMIN_CODEX_EMBED_URL =
-  `${TRIAD_EMBED_BASE}/triad/embed/admin/codex?v=${TRIAD_EMBED_VERSION}`;
-```
-
-All three URLs already contain a `?` for the version parameter. When adding additional query parameters (like cache-busting `_t`), you must use `&` to continue the query string, not `?` which starts a new one.
-
-### URL Query String Rules
-- First parameter: use `?` (e.g., `?v=1.0`)
-- Additional parameters: use `&` (e.g., `?v=1.0&_t=12345`)
-
-### Files to Modify
-
-1. **`src/pages/admin/SmartTriadCodexManager.tsx`** - Critical fix (line 60)
-2. **`src/components/navigation/drawers/WalletDrawer.tsx`** - Optional enhancement for consistency
-
-## Expected Result
-
-After this fix:
-- SmartWallet drawer loads wallet content from AigentiQ iframe
-- KNYT Codex drawer loads codex content from AigentiQ iframe
-- Admin Codex Manager page loads admin codex content from AigentiQ iframe
-- No more 500 Internal Server Errors
-- Cache-busting ensures fresh content is loaded each time
-
-## Future Prevention
-
-When adding cache-busting or any additional query parameters to embed URLs:
-1. Always check if the base URL already contains `?`
-2. If it does, use `&` to append new parameters
-3. Consider creating a utility function to handle this automatically:
-
-```typescript
-// Example utility (optional future enhancement)
-function addQueryParam(url: string, key: string, value: string): string {
-  const separator = url.includes('?') ? '&' : '?';
-  return `${url}${separator}${key}=${value}`;
-}
+VITE_TRIAD_EMBED_BASES="https://working-host.aigentz.me,https://dev-beta.aigentz.me"
 ```
 
+### Debug Upstream Issues
+1. Open `/admin/embed-health`
+2. Click "Copy Debug Report"
+3. Share JSON with AigentiQ ops team
+
+## Files Modified/Added
+
+| File | Action |
+|------|--------|
+| `src/lib/embedUtils.ts` | Created |
+| `src/components/EmbedFrame.tsx` | Created |
+| `supabase/functions/triad-embed-probe/index.ts` | Created |
+| `supabase/config.toml` | Updated |
+| `src/components/navigation/drawers/WalletDrawer.tsx` | Updated |
+| `src/components/navigation/drawers/CodexDrawer.tsx` | Updated |
+| `src/pages/admin/SmartTriadCodexManager.tsx` | Updated |
+| `src/pages/admin/EmbedHealthCheck.tsx` | Rewritten |

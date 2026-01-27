@@ -3,11 +3,21 @@ import { useIsAdminAA } from '@/hooks/useIsAdminAA';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft } from 'lucide-react';
-import { ADMIN_CODEX_EMBED_URL } from '@/config/embed';
+import { EmbedFrame } from '@/components/EmbedFrame';
+import { buildEmbedUrl, getOrderedBases } from '@/lib/embedUtils';
+
+// Embed configuration
+const EMBED_PATH = '/triad/embed/admin/codex';
+const EMBED_VERSION = '2025-12-30-01';
 
 export default function SmartTriadCodexManager() {
   const navigate = useNavigate();
   const { isAdmin, loading } = useIsAdminAA();
+
+  const bases = getOrderedBases();
+  const primaryBase = bases[0] || 'https://dev-beta.aigentz.me';
+  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, {}, EMBED_VERSION);
+  const fallbackBases = bases.slice(1);
 
   if (loading) {
     return (
@@ -53,17 +63,14 @@ export default function SmartTriadCodexManager() {
         </div>
       </div>
 
-      {/* Iframe Content */}
-      <div className="flex-1 overflow-hidden">
-        <iframe
-          key={Date.now()}
-          src={`${ADMIN_CODEX_EMBED_URL}&_t=${Date.now()}`}
-          style={{ width: "100%", height: "100%", border: "none" }}
-          loading="lazy"
-          allow="clipboard-write; fullscreen; autoplay"
-          title="SmartTriad Codex Admin"
-        />
-      </div>
+      {/* Iframe Content with EmbedFrame */}
+      <EmbedFrame
+        src={embedUrl}
+        title="SmartTriad Codex Admin"
+        className="flex-1 overflow-hidden"
+        fallbackBases={fallbackBases}
+        showProbeOnLoad={true}
+      />
     </div>
   );
 }
