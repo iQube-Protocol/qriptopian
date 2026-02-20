@@ -8,7 +8,7 @@ const EMBED_PATH = '/triad/embed/codex';
 const EMBED_VERSION = '2025-12-30-01';
 const EMBED_PARAMS = {
   tab: 'scrolls',
-  theme: 'light',
+  theme: 'dark',
   density: 'wide',
 };
 
