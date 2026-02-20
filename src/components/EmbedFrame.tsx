@@ -22,6 +22,7 @@ interface EmbedFrameProps {
   onProbeResult?: (result: ProbeResult) => void;
   showProbeOnLoad?: boolean;
   fallbackBases?: string[];
+  iframeId?: string;
 }
 
 type LoadState = 'probing' | 'loading' | 'ready' | 'error';
@@ -36,6 +37,7 @@ export function EmbedFrame({
   onProbeResult,
   showProbeOnLoad = true,
   fallbackBases = [],
+  iframeId,
 }: EmbedFrameProps) {
   const [loadState, setLoadState] = useState<LoadState>(showProbeOnLoad ? 'probing' : 'loading');
   const [probeResult, setProbeResult] = useState<ProbeResult | null>(null);
@@ -175,6 +177,7 @@ export function EmbedFrame({
         </div>
       )}
       <iframe
+        id={iframeId}
         src={currentSrc}
         title={title}
         className="w-full h-full border-none"

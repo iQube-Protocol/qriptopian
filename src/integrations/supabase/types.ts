@@ -9400,6 +9400,45 @@ export type Database = {
           },
         ]
       }
+      user_iqubes: {
+        Row: {
+          allowed_tenant_ids: string[]
+          auth_profile_id: string
+          created_at: string
+          default_persona_by_tenant: Json
+          email_verified: boolean
+          emails: string[]
+          id: string
+          persona_grants: Json
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          allowed_tenant_ids?: string[]
+          auth_profile_id: string
+          created_at?: string
+          default_persona_by_tenant?: Json
+          email_verified?: boolean
+          emails?: string[]
+          id?: string
+          persona_grants?: Json
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          allowed_tenant_ids?: string[]
+          auth_profile_id?: string
+          created_at?: string
+          default_persona_by_tenant?: Json
+          email_verified?: boolean
+          emails?: string[]
+          id?: string
+          persona_grants?: Json
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_issue_qubes: {
         Row: {
           canonical_bundle_id: string | null

@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmbedFrame } from "@/components/EmbedFrame";
 import { buildEmbedUrl, getOrderedBases } from "@/lib/embedUtils";
+import { supabase } from "@/integrations/supabase/client";
 
 // Embed configuration
 const EMBED_PATH = '/triad/embed/codex';
@@ -12,12 +14,57 @@ const EMBED_PARAMS = {
   density: 'wide',
 };
 
+const CODEX_ORIGIN = 'https://dev-beta.aigentz.me';
+const IFRAME_ID = 'knyt-codex-iframe';
+
 interface CodexDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function CodexDrawer({ isOpen, onClose }: CodexDrawerProps) {
+  // PostMessage auth handshake with the Codex iframe
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleMessage = async (event: MessageEvent) => {
+      if (event.origin !== CODEX_ORIGIN) return;
+
+      if (event.data?.type === 'aa-auth-context-ready-v1') {
+        const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
+        if (!iframe?.contentWindow) return;
+
+        // Gather auth context from Supabase session + persona
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        // Look up the active persona
+        const savedPersonaId = localStorage.getItem('activePersonaId');
+        let personaId: string | null = savedPersonaId;
+
+        if (!personaId) {
+          const { data: personas } = await supabase
+            .from('persona')
+            .select('id')
+            .limit(1);
+          personaId = personas?.[0]?.id ?? null;
+        }
+
+        iframe.contentWindow.postMessage(
+          {
+            type: 'aa-auth-context-v1',
+            personaId: personaId,
+            authProfileId: user.id, // fallback-resolve supported
+          },
+          CODEX_ORIGIN
+        );
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const bases = getOrderedBases();
@@ -55,6 +102,7 @@ export function CodexDrawer({ isOpen, onClose }: CodexDrawerProps) {
           style={{ minHeight: 480 }}
           fallbackBases={fallbackBases}
           showProbeOnLoad={true}
+          iframeId={IFRAME_ID}
         />
       </div>
     </>
