@@ -25,7 +25,7 @@ interface EmbedFrameProps {
   iframeId?: string;
 }
 
-type LoadState = 'probing' | 'loading' | 'ready' | 'error';
+type LoadState = 'probing' | 'loading' | 'ready' | 'error' | 'blocked';
 
 export function EmbedFrame({
   src,
@@ -55,6 +55,10 @@ export function EmbedFrame({
     if (result.status === 200 && result.iframeCompatible) {
       setCurrentSrc(withCacheBust(urlToProbe));
       setLoadState('loading');
+    } else if (result.status === 200 && !result.iframeCompatible) {
+      // Server is up but blocks iframe embedding (X-Frame-Options / CSP)
+      setCurrentSrc(urlToProbe);
+      setLoadState('blocked');
     } else if (fallbackBases.length > 0 && retryCount < fallbackBases.length) {
       // Try fallback base
       const nextBase = fallbackBases[retryCount];
@@ -91,6 +95,10 @@ export function EmbedFrame({
 
   const handleIframeLoad = () => {
     setLoadState('ready');
+  };
+
+  const handleIframeError = () => {
+    setLoadState('blocked');
   };
 
   // Probing state
@@ -168,6 +176,31 @@ export function EmbedFrame({
     );
   }
 
+  // Blocked by X-Frame-Options / CSP
+  if (loadState === 'blocked') {
+    return (
+      <div className={`flex items-center justify-center bg-muted/30 ${className}`} style={style}>
+        <Card className="max-w-md mx-4">
+          <CardContent className="pt-6 space-y-4">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="h-6 w-6 text-destructive flex-shrink-0 mt-0.5" />
+              <div className="space-y-2">
+                <h3 className="font-semibold text-foreground">Browser Blocked Embedding</h3>
+                <p className="text-sm text-muted-foreground">
+                  The {title} page cannot be displayed inside this app due to the host's security policy. Open it in a new tab instead.
+                </p>
+              </div>
+            </div>
+            <Button size="sm" onClick={() => window.open(currentSrc, '_blank', 'noopener,noreferrer')}>
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Open {title} in New Tab
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   // Loading / Ready state - show iframe
   return (
     <div className={`relative ${className}`} style={style}>
@@ -184,6 +217,7 @@ export function EmbedFrame({
         allow={allow}
         loading={loading}
         onLoad={handleIframeLoad}
+        onError={handleIframeError}
       />
     </div>
   );
