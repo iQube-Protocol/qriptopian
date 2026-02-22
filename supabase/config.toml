@@ -2,3 +2,6 @@ project_id = "bsjhfvctmduxhohtllly"
 
 [functions.triad-embed-probe]
 verify_jwt = false
+
+[functions.send-qubetalk]
+verify_jwt = false
