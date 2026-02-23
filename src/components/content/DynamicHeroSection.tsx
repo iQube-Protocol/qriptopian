@@ -111,8 +111,39 @@ export function DynamicHeroSection() {
                   } as React.CSSProperties}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
+
+                {/* SmartAction icons anchored to this slide */}
+                <div className="absolute top-4 right-16 md:right-20 flex gap-3 z-30">
+                  {contentService.hasModality(article, 'read') && (
+                    <button 
+                      onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} 
+                      className={`p-2 rounded-lg transition-all ${activeMode === 'read' && activeArticle === articles.indexOf(article) ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                      aria-label="Read"
+                    >
+                      <BookOpen className="h-4 w-4" />
+                    </button>
+                  )}
+                  {contentService.hasModality(article, 'watch') && (
+                    <button 
+                      onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} 
+                      className={`p-2 rounded-lg transition-all ${activeMode === 'watch' && activeArticle === articles.indexOf(article) ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                      aria-label="Watch"
+                    >
+                      <Play className="h-4 w-4" />
+                    </button>
+                  )}
+                  {contentService.hasModality(article, 'listen') && (
+                    <button 
+                      onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} 
+                      className={`p-2 rounded-lg transition-all ${activeMode === 'listen' && activeArticle === articles.indexOf(article) ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+                      aria-label="Listen"
+                    >
+                      <Headphones className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
                 
-                {/* Overlaid text at bottom - consistent positioning */}
+                {/* Overlaid text at bottom */}
                 <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
                   <div className="px-6 md:px-8 max-w-2xl">
                     <div className="flex gap-2 mb-3 md:mb-6">
@@ -141,37 +172,6 @@ export function DynamicHeroSection() {
           })}
         </CarouselContent>
       </Carousel>
-
-      {/* SmartAction icons - positioned outside carousel for proper z-index */}
-      <div className="absolute top-4 right-16 md:right-20 flex gap-3 z-30">
-        {currentArticle && contentService.hasModality(currentArticle, 'read') && (
-          <button 
-            onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} 
-            className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-            aria-label="Read"
-          >
-            <BookOpen className="h-4 w-4" />
-          </button>
-        )}
-        {currentArticle && contentService.hasModality(currentArticle, 'watch') && (
-          <button 
-            onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} 
-            className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-            aria-label="Watch"
-          >
-            <Play className="h-4 w-4" />
-          </button>
-        )}
-        {currentArticle && contentService.hasModality(currentArticle, 'listen') && (
-          <button 
-            onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} 
-            className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-            aria-label="Listen"
-          >
-            <Headphones className="h-4 w-4" />
-          </button>
-        )}
-      </div>
 
       {activeMode === 'read' && currentArticle && currentModalities?.read && (
         <ArticleRenderer
