@@ -40,73 +40,67 @@ const domains = [{
   label: 'KNYT Codex'
 }];
 
-const navItems = [
-  ...domains,
-  {
-    id: 'settings' as const,
-    icon: Settings,
-    label: 'Settings'
-  }
-];
+const topDomains = domains.filter(d => ['pennydrops', 'scrolls', 'kn0wdz'].includes(d.id));
+const bottomDomains = domains.filter(d => ['codex', 'wallet'].includes(d.id));
 
 export function QriptopianNav({
   activeDomain,
   onDomainClick,
   onAIClick
 }: QriptopianNavProps) {
+  const renderButton = (item: typeof domains[0]) => {
+    const Icon = item.icon;
+    const isActive = activeDomain === item.id;
+    return (
+      <Tooltip key={item.id}>
+        <TooltipTrigger asChild>
+          <button 
+            onClick={() => onDomainClick(item.id)} 
+            className={cn(
+              "w-full h-12 rounded-lg flex items-center justify-center transition-all relative group",
+              isActive 
+                ? "bg-cyan-500/20 text-cyan-400" 
+                : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
+            )}
+          >
+            {isActive && (
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-r" />
+            )}
+            <Icon className="h-5 w-5" />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
+          {item.label}
+        </TooltipContent>
+      </Tooltip>
+    );
+  };
+
   return (
     <TooltipProvider delayDuration={0}>
-      {/* Desktop: Fully transparent floating sidebar, positioned flush with scrollbar */}
       <aside className="hidden md:flex fixed right-[2px] top-1/2 -translate-y-1/2 w-14 flex-col items-center py-6 z-50 pointer-events-auto">
         <nav className="flex flex-col gap-1 w-full px-1">
-          {navItems
-            .filter(item => !['signals', 'staybull', 'settings'].includes(item.id as string))
-            .map(item => {
-              const Icon = item.icon;
-              const isActive = activeDomain === item.id;
-              const isSettings = item.id === 'settings';
-              
-              return (
-                <Tooltip key={item.id}>
-                  <TooltipTrigger asChild>
-                    <button 
-                      onClick={() => !isSettings && onDomainClick(item.id as Domain)} 
-                      className={cn(
-                        "w-full h-12 rounded-lg flex items-center justify-center transition-all relative group",
-                        isActive 
-                          ? "bg-cyan-500/20 text-cyan-400" 
-                          : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
-                      )}
-                    >
-                      {isActive && !isSettings && (
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-r" />
-                      )}
-                      <Icon className="h-5 w-5" />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
-                    {item.label}
-                  </TooltipContent>
-                </Tooltip>
-              );
-            })}
+          {topDomains.map(renderButton)}
           
-          {/* AI Assistant Icon */}
-          <div className="mt-4 pt-4 border-t border-border/30">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={onAIClick}
-                  className="w-full h-12 rounded-lg flex items-center justify-center transition-all text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
-                >
-                  <Bot className="h-5 w-5" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
-                AI Assistant
-              </TooltipContent>
-            </Tooltip>
-          </div>
+          {/* Divider */}
+          <div className="my-2 mx-2 border-t border-border/30" />
+
+          {/* Bottom group: Codex, SmartWallet, AI */}
+          {bottomDomains.map(renderButton)}
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={onAIClick}
+                className="w-full h-12 rounded-lg flex items-center justify-center transition-all text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
+              >
+                <Bot className="h-5 w-5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="left" className="bg-[#071327] text-[#d0f6ff] border-[#1e2b40]">
+              AI Assistant
+            </TooltipContent>
+          </Tooltip>
         </nav>
       </aside>
     </TooltipProvider>
