@@ -84,92 +84,94 @@ export function DynamicHeroSection() {
   }
 
   return (
-    <Carousel 
-      setApi={setCarouselApi}
-      opts={{ loop: true, dragFree: false }}
-      plugins={[WheelGesturesPlugin()]}
-      className={`w-full ${heroHeight} relative flex-shrink-0`}
-    >
-      <CarouselContent className={heroHeight}>
-        {articles.map((article) => {
-          const placement = article.placement as any || {};
-          const imageScale = placement.imageScale || 100;
-          const imageX = placement.imageX || 50;
-          const imageY = placement.imageY || 50;
-          
-          return (
-            <CarouselItem key={article.id} className={`${heroHeight} relative`}>
-              {/* Full-bleed background image */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center md:bg-[length:var(--scale)] md:bg-[position:var(--x)_var(--y)]"
-                style={{
-                  backgroundImage: `url(${article.thumbnail || heroImage})`,
-                  '--scale': `${imageScale}%`,
-                  '--x': `${imageX}%`,
-                  '--y': `${imageY}%`
-                } as React.CSSProperties}
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
-              
-              {/* Action items - positioned top right above header */}
-              <div className="absolute top-4 right-6 md:right-8 flex gap-3">
-                {contentService.hasModality(article, 'read') && (
-                  <button 
-                    onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} 
-                    className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-                    aria-label="Read"
-                  >
-                    <BookOpen className="h-4 w-4" />
-                  </button>
-                )}
-                {contentService.hasModality(article, 'watch') && (
-                  <button 
-                    onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} 
-                    className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-                    aria-label="Watch"
-                  >
-                    <Play className="h-4 w-4" />
-                  </button>
-                )}
-                {contentService.hasModality(article, 'listen') && (
-                  <button 
-                    onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} 
-                    className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
-                    aria-label="Listen"
-                  >
-                    <Headphones className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-
-              {/* Overlaid text at bottom - consistent positioning */}
-              <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
-                <div className="px-6 md:px-8 max-w-2xl">
-                  <div className="flex gap-2 mb-3 md:mb-6">
-                    {articles.map((_, idx) => (
-                      <button 
-                        key={idx} 
-                        onClick={() => handleDotClick(idx)} 
-                        className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
-                        aria-label={`Article ${idx + 1}`} 
-                      />
-                    ))}
+    <div className={`w-full ${heroHeight} relative flex-shrink-0`}>
+      <Carousel 
+        setApi={setCarouselApi}
+        opts={{ loop: true, dragFree: false }}
+        plugins={[WheelGesturesPlugin()]}
+        className={`w-full ${heroHeight} relative`}
+      >
+        <CarouselContent className={heroHeight}>
+          {articles.map((article) => {
+            const placement = article.placement as any || {};
+            const imageScale = placement.imageScale || 100;
+            const imageX = placement.imageX || 50;
+            const imageY = placement.imageY || 50;
+            
+            return (
+              <CarouselItem key={article.id} className={`${heroHeight} relative`}>
+                {/* Full-bleed background image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center md:bg-[length:var(--scale)] md:bg-[position:var(--x)_var(--y)]"
+                  style={{
+                    backgroundImage: `url(${article.thumbnail || heroImage})`,
+                    '--scale': `${imageScale}%`,
+                    '--x': `${imageX}%`,
+                    '--y': `${imageY}%`
+                  } as React.CSSProperties}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
+                
+                {/* Overlaid text at bottom - consistent positioning */}
+                <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
+                  <div className="px-6 md:px-8 max-w-2xl">
+                    <div className="flex gap-2 mb-3 md:mb-6">
+                      {articles.map((_, idx) => (
+                        <button 
+                          key={idx} 
+                          onClick={() => handleDotClick(idx)} 
+                          className={`transition-all ${idx === activeArticle ? 'w-8 h-2 bg-cyan-400 rounded-full' : 'w-2 h-2 bg-white/30 hover:bg-white/50 rounded-full'}`} 
+                          aria-label={`Article ${idx + 1}`} 
+                        />
+                      ))}
+                    </div>
+                    
+                    <h1 className="font-bold text-[#d0f6ff] mb-2 md:mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-2xl md:text-4xl leading-tight">
+                      {article.title}
+                    </h1>
+                    {article.excerpt && (
+                      <p className="text-sm md:text-lg text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] line-clamp-2 md:line-clamp-none">
+                        {article.excerpt}
+                      </p>
+                    )}
                   </div>
-                  
-                  <h1 className="font-bold text-[#d0f6ff] mb-2 md:mb-4 drop-shadow-[0_0_30px_rgba(0,196,255,0.5)] text-2xl md:text-4xl leading-tight">
-                    {article.title}
-                  </h1>
-                  {article.excerpt && (
-                    <p className="text-sm md:text-lg text-[#8fb3c0] drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] line-clamp-2 md:line-clamp-none">
-                      {article.excerpt}
-                    </p>
-                  )}
                 </div>
-              </div>
-            </CarouselItem>
-          );
-        })}
-      </CarouselContent>
+              </CarouselItem>
+            );
+          })}
+        </CarouselContent>
+      </Carousel>
+
+      {/* SmartAction icons - positioned outside carousel for proper z-index */}
+      <div className="absolute top-4 right-16 md:right-20 flex gap-3 z-30">
+        {currentArticle && contentService.hasModality(currentArticle, 'read') && (
+          <button 
+            onClick={() => setActiveMode(activeMode === 'read' ? null : 'read')} 
+            className={`p-2 rounded-lg transition-all ${activeMode === 'read' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+            aria-label="Read"
+          >
+            <BookOpen className="h-4 w-4" />
+          </button>
+        )}
+        {currentArticle && contentService.hasModality(currentArticle, 'watch') && (
+          <button 
+            onClick={() => setActiveMode(activeMode === 'watch' ? null : 'watch')} 
+            className={`p-2 rounded-lg transition-all ${activeMode === 'watch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+            aria-label="Watch"
+          >
+            <Play className="h-4 w-4" />
+          </button>
+        )}
+        {currentArticle && contentService.hasModality(currentArticle, 'listen') && (
+          <button 
+            onClick={() => setActiveMode(activeMode === 'listen' ? null : 'listen')} 
+            className={`p-2 rounded-lg transition-all ${activeMode === 'listen' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500' : 'bg-black/50 text-cyan-400 hover:text-cyan-300 hover:bg-black/70'}`} 
+            aria-label="Listen"
+          >
+            <Headphones className="h-4 w-4" />
+          </button>
+        )}
+      </div>
 
       {activeMode === 'read' && currentArticle && currentModalities?.read && (
         <ArticleRenderer
@@ -181,7 +183,7 @@ export function DynamicHeroSection() {
       )}
 
       {activeMode === 'watch' && currentArticle && currentModalities?.watch && (
-        <div className="absolute inset-0 bg-black/95 flex items-center justify-center z-50 p-4 md:p-8">
+        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4 md:p-8">
           <div className="relative w-full max-w-6xl">
             <button 
               onClick={() => setActiveMode(null)} 
@@ -215,6 +217,6 @@ export function DynamicHeroSection() {
           </div>
         </div>
       )}
-    </Carousel>
+    </div>
   );
 }
