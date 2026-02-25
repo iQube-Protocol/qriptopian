@@ -3,7 +3,7 @@ import { Kn0w1Viewer } from "@/components/content/Kn0w1Viewer";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { BookOpen, Play, Headphones, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
+import { BookOpen, Play, Headphones, RotateCcw, ChevronRight, ChevronLeft, Eye, Share2 } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
 
@@ -96,6 +96,21 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
       }))
     : knytRiseContent;
 
+  // Derive smart actions per content item
+  const getSmartActions = (item: Content | undefined) => {
+    if (!item) return [];
+    const actions: Array<{ type: 'read' | 'watch' | 'listen' | 'view' | 'share'; enabled: boolean }> = [];
+    if (contentService.hasModality(item, 'read')) actions.push({ type: 'read', enabled: true });
+    if (contentService.hasModality(item, 'watch')) actions.push({ type: 'watch', enabled: true });
+    if (contentService.hasModality(item, 'listen')) actions.push({ type: 'listen', enabled: true });
+    if (contentService.hasModality(item, 'link')) actions.push({ type: 'share', enabled: true });
+    // If no read/watch/listen, show view icon for image-only articles
+    if (!actions.some(a => ['read', 'watch', 'listen'].includes(a.type))) {
+      actions.unshift({ type: 'view', enabled: true });
+    }
+    return actions;
+  };
+
   const currentContent = content[selectedItemIndex];
   const currentModalities = currentContent?.modalities as ContentModalities | null;
 
@@ -187,30 +202,22 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                     
                     {/* Action icons - top right */}
                     <div className="absolute top-4 right-4 flex gap-2">
-                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'read') && (
-                        <button 
-                          onClick={() => setActiveMode('read')}
-                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                        >
-                          <BookOpen className="h-3.5 w-3.5" />
-                        </button>
-                      )}
-                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'watch') && (
-                        <button 
-                          onClick={() => setActiveMode('watch')}
-                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                        >
-                          <Play className="h-3.5 w-3.5" />
-                        </button>
-                      )}
-                      {content[selectedItemIndex] && contentService.hasModality(content[selectedItemIndex], 'listen') && (
-                        <button 
-                          onClick={() => setActiveMode('listen')}
-                          className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
-                        >
-                          <Headphones className="h-3.5 w-3.5" />
-                        </button>
-                      )}
+                      {content[selectedItemIndex] && getSmartActions(content[selectedItemIndex]).filter(a => a.enabled).map((action) => {
+                        const iconMap: Record<string, typeof BookOpen> = { read: BookOpen, watch: Play, listen: Headphones, view: Eye, share: Share2 };
+                        const Icon = iconMap[action.type] || Eye;
+                        return (
+                          <button
+                            key={action.type}
+                            onClick={() => {
+                              if (action.type === 'view') setIsFullscreen(true);
+                              else if (action.type !== 'share') setActiveMode(action.type as 'read' | 'watch' | 'listen');
+                            }}
+                            className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400"
+                          >
+                            <Icon className="h-3.5 w-3.5" />
+                          </button>
+                        );
+                      })}
                     </div>
                     
                     {/* Title overlay at bottom */}
@@ -254,30 +261,24 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                               {/* Action icons on thumbnails */}
                               {content[index] && (
                                 <div className="absolute top-1 right-1 flex gap-1">
-                                  {contentService.hasModality(content[index], 'read') && (
-                                    <button 
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSelectedItemIndex(index);
-                                        setActiveMode('read');
-                                      }}
-                                      className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
-                                    >
-                                      <BookOpen className="h-2.5 w-2.5" />
-                                    </button>
-                                  )}
-                                  {contentService.hasModality(content[index], 'watch') && (
-                                    <button 
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSelectedItemIndex(index);
-                                        setActiveMode('watch');
-                                      }}
-                                      className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
-                                    >
-                                      <Play className="h-2.5 w-2.5" />
-                                    </button>
-                                  )}
+                                  {getSmartActions(content[index]).filter(a => a.enabled && a.type !== 'share').slice(0, 2).map((action) => {
+                                    const iconMap: Record<string, typeof BookOpen> = { read: BookOpen, watch: Play, listen: Headphones, view: Eye };
+                                    const Icon = iconMap[action.type] || Eye;
+                                    return (
+                                      <button
+                                        key={action.type}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setSelectedItemIndex(index);
+                                          if (action.type === 'view') setIsFullscreen(true);
+                                          else setActiveMode(action.type as 'read' | 'watch' | 'listen');
+                                        }}
+                                        className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-cyan-400"
+                                      >
+                                        <Icon className="h-2.5 w-2.5" />
+                                      </button>
+                                    );
+                                  })}
                                 </div>
                               )}
                               <div className="absolute bottom-0 left-0 right-0 p-2">
@@ -329,6 +330,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                       <Kn0w1Viewer 
                         items={[item]} 
                         domain="scrolls"
+                        smartActions={content[index] ? getSmartActions(content[index]) : undefined}
                         onFullscreenChange={(fullscreen) => {
                           setIsFullscreen(fullscreen);
                           setSelectedItemIndex(index);
@@ -342,45 +344,28 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                       {/* Modality Buttons Overlay */}
                       {content.length > 0 && content[index] && (
                         <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                          {contentService.hasModality(content[index], 'read') && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedItemIndex(index);
-                                setActiveMode('read');
-                              }}
-                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
-                              title="Read"
-                            >
-                              <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
-                            </button>
-                          )}
-                          {contentService.hasModality(content[index], 'watch') && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedItemIndex(index);
-                                setActiveMode('watch');
-                              }}
-                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110 animate-pulse"
-                              title="Watch"
-                            >
-                              <Play className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
-                            </button>
-                          )}
-                          {contentService.hasModality(content[index], 'listen') && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedItemIndex(index);
-                                setActiveMode('listen');
-                              }}
-                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110"
-                              title="Listen"
-                            >
-                              <Headphones className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
-                            </button>
-                          )}
+                          {getSmartActions(content[index]).filter(a => a.enabled).map((action) => {
+                            const iconMap: Record<string, typeof BookOpen> = { read: BookOpen, watch: Play, listen: Headphones, view: Eye, share: Share2 };
+                            const Icon = iconMap[action.type] || Eye;
+                            return (
+                              <button
+                                key={action.type}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedItemIndex(index);
+                                  if (action.type === 'view') {
+                                    setIsFullscreen(true);
+                                  } else if (action.type !== 'share') {
+                                    setActiveMode(action.type as 'read' | 'watch' | 'listen');
+                                  }
+                                }}
+                                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110 ${action.type === 'watch' ? 'animate-pulse' : ''}`}
+                                title={action.type.charAt(0).toUpperCase() + action.type.slice(1)}
+                              >
+                                <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+                              </button>
+                            );
+                          })}
                         </div>
                       )}
                     </div>
@@ -443,42 +428,24 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                         {/* Action Menu */}
                         {content.length > 0 && content[index] && (
                           <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            {contentService.hasModality(content[index], 'read') && (
-                              <button 
-                                onClick={() => {
-                                  setSelectedItemIndex(index);
-                                  setActiveMode('read');
-                                }}
-                                className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                                aria-label="Read"
-                              >
-                                <BookOpen className="h-2.5 w-2.5" />
-                              </button>
-                            )}
-                            {contentService.hasModality(content[index], 'watch') && (
-                              <button 
-                                onClick={() => {
-                                  setSelectedItemIndex(index);
-                                  setActiveMode('watch');
-                                }}
-                                className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                                aria-label="Watch"
-                              >
-                                <Play className="h-2.5 w-2.5" />
-                              </button>
-                            )}
-                            {contentService.hasModality(content[index], 'listen') && (
-                              <button 
-                                onClick={() => {
-                                  setSelectedItemIndex(index);
-                                  setActiveMode('listen');
-                                }}
-                                className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors" 
-                                aria-label="Listen"
-                              >
-                                <Headphones className="h-2.5 w-2.5" />
-                              </button>
-                            )}
+                            {getSmartActions(content[index]).filter(a => a.enabled).map((action) => {
+                              const iconMap: Record<string, typeof BookOpen> = { read: BookOpen, watch: Play, listen: Headphones, view: Eye, share: Share2 };
+                              const Icon = iconMap[action.type] || Eye;
+                              return (
+                                <button
+                                  key={action.type}
+                                  onClick={() => {
+                                    setSelectedItemIndex(index);
+                                    if (action.type === 'view') setIsFullscreen(true);
+                                    else if (action.type !== 'share') setActiveMode(action.type as 'read' | 'watch' | 'listen');
+                                  }}
+                                  className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors"
+                                  aria-label={action.type.charAt(0).toUpperCase() + action.type.slice(1)}
+                                >
+                                  <Icon className="h-2.5 w-2.5" />
+                                </button>
+                              );
+                            })}
                           </div>
                         )}
                       </div>
