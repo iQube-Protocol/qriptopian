@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, X, RotateCcw, ChevronRight, ChevronLeft } from "lucide-react";
+import { BookOpen, X, RotateCcw, ChevronRight, ChevronLeft, Eye, Play, Headphones, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 interface ContentItem {
   id: string;
@@ -7,19 +7,33 @@ interface ContentItem {
   image: string;
   badge?: string;
 }
+interface SmartAction {
+  type: 'read' | 'watch' | 'listen' | 'view' | 'share';
+  enabled: boolean;
+}
 interface Kn0w1ViewerProps {
   items: ContentItem[];
   domain: string;
   onFullscreenChange?: (isFullscreen: boolean) => void;
   onModeChange?: (mode: 'read' | 'watch' | 'listen') => void;
   hideActionIcons?: boolean;
+  smartActions?: SmartAction[];
 }
+const smartActionIcon: Record<string, typeof BookOpen> = {
+  read: BookOpen,
+  watch: Play,
+  listen: Headphones,
+  view: Eye,
+  share: Share2,
+};
+
 export function Kn0w1Viewer({
   items,
   domain,
   onFullscreenChange,
   onModeChange,
-  hideActionIcons = false
+  hideActionIcons = false,
+  smartActions
 }: Kn0w1ViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mode, setMode] = useState<'read' | 'watch' | 'listen'>('watch');
@@ -73,10 +87,36 @@ export function Kn0w1Viewer({
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         
         {/* Top Right - Action Icons */}
-        {!hideActionIcons && (
+        {!hideActionIcons && smartActions && smartActions.length > 0 && (
           <div className="absolute top-4 right-4 md:top-6 md:right-6 flex gap-2">
-            <button onClick={() => onModeChange?.('read')} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="Read">
-              <BookOpen className="h-3.5 w-3.5" />
+            {smartActions.filter(a => a.enabled).map((action) => {
+              const Icon = smartActionIcon[action.type] || Eye;
+              return (
+                <button
+                  key={action.type}
+                  onClick={() => {
+                    if (action.type === 'view') {
+                      handleFullscreenToggle(true);
+                    } else if (action.type === 'share') {
+                      // Share handled externally
+                    } else {
+                      onModeChange?.(action.type as 'read' | 'watch' | 'listen');
+                    }
+                  }}
+                  className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full"
+                  aria-label={action.type.charAt(0).toUpperCase() + action.type.slice(1)}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                </button>
+              );
+            })}
+          </div>
+        )}
+        {/* Legacy fallback: show view icon if no smartActions provided and not hidden */}
+        {!hideActionIcons && !smartActions && (
+          <div className="absolute top-4 right-4 md:top-6 md:right-6 flex gap-2">
+            <button onClick={() => handleFullscreenToggle(true)} className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors bg-black/50 rounded-full" aria-label="View">
+              <Eye className="h-3.5 w-3.5" />
             </button>
           </div>
         )}
