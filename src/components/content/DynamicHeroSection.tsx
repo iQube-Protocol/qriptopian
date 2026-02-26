@@ -91,7 +91,7 @@ export function DynamicHeroSection() {
         plugins={[WheelGesturesPlugin()]}
         className="w-full h-full relative"
       >
-        <CarouselContent className="h-full">
+        <CarouselContent className={heroHeight}>
           {articles.map((article) => {
             const placement = article.placement as any || {};
             const imageScale = placement.imageScale || 100;
@@ -99,7 +99,7 @@ export function DynamicHeroSection() {
             const imageY = placement.imageY || 50;
             
             return (
-              <CarouselItem key={article.id} className="h-full relative">
+              <CarouselItem key={article.id} className={`${heroHeight} relative`}>
                 {/* Full-bleed background image */}
                 <div 
                   className="absolute inset-0 bg-cover bg-center md:bg-[length:var(--scale)] md:bg-[position:var(--x)_var(--y)]"
