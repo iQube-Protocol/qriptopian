@@ -1,53 +1,23 @@
 
 
-## Problem Diagnosis
+## Problem
 
-The Home screen hero sections have two rendering bugs:
+The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
 
-1. **Tablet portrait (820px)**: The hero image appears duplicated. The Embla carousel's internal flex container doesn't properly constrain `CarouselItem` children to the declared height. The `h-[calc(100svh-64px)]` is applied to multiple nested elements (`Carousel`, `CarouselContent`, `CarouselItem`), but Embla's flex layout overrides height constraints, causing items to overflow and the background-image to tile/repeat visually.
+## Fix
 
-2. **Mobile (390px)**: Similar overflow issue -- the title, excerpt, dots, and smart action icons extend beyond the hero image boundary, pushing content below and making the layout appear broken.
+Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
 
-The **reference** (Kn0wdZ drawer screenshot) shows the correct pattern: a single full-viewport portrait image with title/excerpt overlaid at the bottom-left, smart action icon at top-right, all contained within a single viewport-height container. The Latest News carousel should appear below, accessed by scrolling down.
+### Changes
 
-## Root Cause
+**`src/components/content/DynamicHeroSection.tsx`**
+- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
+- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
 
-Both `DynamicHeroSection` and `DynamicSecondHeroSection` use the same flawed pattern:
-- `background-image` on an `absolute inset-0` div inside each `CarouselItem`
-- `heroHeight` class applied redundantly to `Carousel`, `CarouselContent`, AND `CarouselItem`
-- Embla's flex container for `CarouselContent` doesn't respect `height` constraints -- it sizes to content, causing overflow
-- No `overflow-hidden` on the constraining container
+**`src/components/content/DynamicSecondHeroSection.tsx`**
+- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
 
-## Plan
+The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
 
-### 1. Fix `DynamicHeroSection.tsx`
-
-**Constrain the outer wrapper**:
-- Add `overflow-hidden` to the outermost `div` that declares `heroHeight`
-- Remove redundant `heroHeight` from `CarouselContent` (Embla manages this internally)
-- Ensure `CarouselItem` uses `min-h-0` + `h-full` instead of the explicit calc height to work with Embla's flex model
-- Alternatively, simplify: set `h-full` on `Carousel`, `CarouselContent`, and `CarouselItem`, and let the outer container's fixed height be the single source of truth with `overflow-hidden`
-
-**Specific changes** (lines 87-94):
-- Outer div: add `overflow-hidden`
-- `Carousel` className: change from `heroHeight` to `h-full`
-- `CarouselContent` className: change from `heroHeight` to `h-full`
-- `CarouselItem` className: change from `heroHeight` to `h-full`
-
-### 2. Fix `DynamicSecondHeroSection.tsx`
-
-Identical changes as above (same pattern, lines 89-96).
-
-### 3. Fix `QriptopianHero.tsx`
-
-The parent container uses `overflow-y-auto` which allows all three sections to stack vertically and scroll. This is correct for the desired behavior (hero fills viewport, scroll down for Latest News, scroll more for Second Hero). No changes needed here.
-
-### Summary of Changes
-
-| File | Change |
-|------|--------|
-| `DynamicHeroSection.tsx` | Add `overflow-hidden` to outer wrapper; change inner Carousel/CarouselContent/CarouselItem from explicit `heroHeight` to `h-full` |
-| `DynamicSecondHeroSection.tsx` | Same fix as above |
-
-Two files, surgical changes to CSS classes only. No structural or logic changes.
+Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
 
