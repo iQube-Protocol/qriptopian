@@ -1,23 +1,25 @@
 
 
-## Problem
+## Root Cause
 
-The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
+The shadcn `carousel.tsx` component applies default gap classes:
+- `CarouselContent` (line 144): `-ml-4` (negative left margin)
+- `CarouselItem` (line 162): `pl-4` (left padding)
 
-## Fix
+This creates a 16px spacing pattern designed for multi-card carousels. In the full-viewport hero, it means each slide is offset 16px, and a sliver of the adjacent slide is visible on the right edge. This affects ALL slides, but it's only visually noticeable on slides where the adjacent slide has a contrasting color (e.g., the reddish image next to the dark metaKnyts image).
 
-Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
+## Plan
 
-### Changes
+**File: `src/components/content/DynamicHeroSection.tsx`**
 
-**`src/components/content/DynamicHeroSection.tsx`**
-- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
-- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
+Override the default Embla gap classes on the hero carousel by passing custom classNames that zero out the margin/padding:
 
-**`src/components/content/DynamicSecondHeroSection.tsx`**
-- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
+1. On `<CarouselContent>`, add `-ml-0` to override the default `-ml-4`
+2. On `<CarouselItem>`, add `pl-0` to override the default `pl-4`
 
-The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
+This is a two-class addition — no structural changes needed.
 
-Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
+**File: `src/components/content/DynamicSecondHeroSection.tsx`**
+
+Apply the same `pl-0` / `-ml-0` overrides if the second hero also uses the Carousel component. *(Need to verify — if it doesn't use Carousel, no change needed.)*
 
