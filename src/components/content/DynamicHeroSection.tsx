@@ -101,14 +101,15 @@ export function DynamicHeroSection() {
             return (
               <CarouselItem key={article.id} className={`${heroHeight} relative`}>
                 {/* Full-bleed background image */}
-                <div 
-                  className="absolute inset-0 bg-cover bg-center md:bg-[length:var(--scale)] md:bg-[position:var(--x)_var(--y)]"
+                <img 
+                  src={article.thumbnail || heroImage}
+                  alt={article.title}
+                  className="absolute inset-0 w-full h-full object-cover"
                   style={{
-                    backgroundImage: `url(${article.thumbnail || heroImage})`,
-                    '--scale': `${imageScale}%`,
-                    '--x': `${imageX}%`,
-                    '--y': `${imageY}%`
-                  } as React.CSSProperties}
+                    objectPosition: `${imageX}% ${imageY}%`,
+                    transform: `scale(${imageScale / 100})`,
+                    transformOrigin: `${imageX}% ${imageY}%`
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
 
