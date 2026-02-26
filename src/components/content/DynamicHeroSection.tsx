@@ -87,11 +87,11 @@ export function DynamicHeroSection() {
     <div className={`w-full ${heroHeight} relative flex-shrink-0 overflow-hidden`}>
       <Carousel 
         setApi={setCarouselApi}
-        opts={{ loop: true, dragFree: false }}
+        opts={{ loop: true, dragFree: false, align: "start" }}
         plugins={[WheelGesturesPlugin()]}
         className="w-full h-full relative"
       >
-        <CarouselContent className={`-ml-0 ${heroHeight}`}>
+        <CarouselContent className={heroHeight} style={{ marginLeft: 0, width: "100%" }}>
           {articles.map((article) => {
             const placement = article.placement as any || {};
             const imageScale = placement.imageScale || 100;
@@ -99,7 +99,7 @@ export function DynamicHeroSection() {
             const imageY = placement.imageY || 50;
             
             return (
-              <CarouselItem key={article.id} className={`pl-0 ${heroHeight} relative`}>
+              <CarouselItem key={article.id} className={`${heroHeight} relative overflow-hidden`} style={{ paddingLeft: 0, width: "100%", flex: "0 0 100%" }}>
                 {/* Full-bleed background image */}
                 <img 
                   src={article.thumbnail || heroImage}
