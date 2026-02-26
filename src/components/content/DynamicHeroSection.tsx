@@ -54,7 +54,7 @@ export function DynamicHeroSection() {
   };
 
   // Mobile header is ~64px, desktop is ~88px
-  const heroHeight = "h-[calc(100dvh-64px)] md:h-[calc(100vh-88px)]";
+  const heroHeight = "h-[calc(100dvh-64px)] md:h-[calc(100dvh-88px)]";
 
   if (loading) {
     return (
