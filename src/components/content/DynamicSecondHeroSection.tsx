@@ -101,7 +101,7 @@ export function DynamicSecondHeroSection() {
             const imageY = placement.imageY || 50;
             
             return (
-              <CarouselItem key={article.id} className={`${heroHeight} relative`} style={{ paddingLeft: 0, width: "100%", flex: "0 0 100%" }}>
+              <CarouselItem key={article.id} className={`${heroHeight} relative overflow-hidden`} style={{ paddingLeft: 0, width: "100%", flex: "0 0 100%" }}>
                 {/* Full-bleed background image */}
                 <img 
                   src={article.thumbnail || quantumTechHero}
