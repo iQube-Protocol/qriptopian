@@ -341,33 +341,6 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                         }}
                       />
                       
-                      {/* Modality Buttons Overlay */}
-                      {content.length > 0 && content[index] && (
-                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                          {getSmartActions(content[index]).filter(a => a.enabled).map((action) => {
-                            const iconMap: Record<string, typeof BookOpen> = { read: BookOpen, watch: Play, listen: Headphones, view: Eye, share: Share2 };
-                            const Icon = iconMap[action.type] || Eye;
-                            return (
-                              <button
-                                key={action.type}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedItemIndex(index);
-                                  if (action.type === 'view') {
-                                    setIsFullscreen(true);
-                                  } else if (action.type !== 'share') {
-                                    setActiveMode(action.type as 'read' | 'watch' | 'listen');
-                                  }
-                                }}
-                                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black/80 hover:bg-black border border-cyan-500/30 hover:border-cyan-500 flex items-center justify-center transition-all hover:scale-110 ${action.type === 'watch' ? 'animate-pulse' : ''}`}
-                                title={action.type.charAt(0).toUpperCase() + action.type.slice(1)}
-                              >
-                                <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
                     </div>
                   </CarouselItem>
                 ))}
