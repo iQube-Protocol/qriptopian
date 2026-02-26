@@ -91,7 +91,7 @@ export function DynamicHeroSection() {
         plugins={[WheelGesturesPlugin()]}
         className="w-full h-full relative"
       >
-        <CarouselContent className={`-ml-0 ${heroHeight}`}>
+        <CarouselContent className={heroHeight} style={{ marginLeft: 0 }}>
           {articles.map((article) => {
             const placement = article.placement as any || {};
             const imageScale = placement.imageScale || 100;
