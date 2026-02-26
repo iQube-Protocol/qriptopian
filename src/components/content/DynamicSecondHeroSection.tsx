@@ -89,7 +89,7 @@ export function DynamicSecondHeroSection() {
     <div className={`w-full ${heroHeight} relative flex-shrink-0 overflow-hidden`}>
       <Carousel 
         setApi={setCarouselApi}
-        opts={{ loop: true, dragFree: false }}
+        opts={{ loop: true, dragFree: false, align: "start" }}
         plugins={[WheelGesturesPlugin()]}
         className="w-full h-full relative"
       >
