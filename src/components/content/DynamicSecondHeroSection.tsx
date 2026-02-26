@@ -93,7 +93,7 @@ export function DynamicSecondHeroSection() {
         plugins={[WheelGesturesPlugin()]}
         className="w-full h-full relative"
       >
-        <CarouselContent className={heroHeight}>
+        <CarouselContent className={`-ml-0 ${heroHeight}`}>
           {articles.map((article) => {
             const placement = article.placement as any || {};
             const imageScale = placement.imageScale || 100;
