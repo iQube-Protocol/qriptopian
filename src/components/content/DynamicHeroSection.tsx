@@ -99,7 +99,7 @@ export function DynamicHeroSection() {
             const imageY = placement.imageY || 50;
             
             return (
-              <CarouselItem key={article.id} className={`pl-0 ${heroHeight} relative`}>
+              <CarouselItem key={article.id} className={`${heroHeight} relative`} style={{ paddingLeft: 0 }}>
                 {/* Full-bleed background image */}
                 <img 
                   src={article.thumbnail || heroImage}
