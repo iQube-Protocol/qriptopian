@@ -649,13 +649,14 @@ HTML elements:
               <div className="relative w-full aspect-video bg-[#050f1f] rounded-lg overflow-hidden">
                 {thumbnail ? (
                   <>
-                    <div
-                      className="w-full h-full"
+                    <img
+                      src={thumbnail}
+                      alt={title || 'Preview'}
+                      className="w-full h-full object-cover"
                       style={{
-                        backgroundImage: `url(${thumbnail})`,
-                        backgroundSize: `${imageScale}%`,
-                        backgroundPosition: `${imageX}% ${imageY}%`,
-                        backgroundRepeat: 'no-repeat'
+                        objectPosition: `${imageX}% ${imageY}%`,
+                        transform: `scale(${imageScale / 100})`,
+                        transformOrigin: `${imageX}% ${imageY}%`
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050f1f]" />
