@@ -29,7 +29,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
       />
       
       {/* Wallet panel - snug fit, no extra background */}
-      <div className="fixed top-[88px] right-[80px] z-50 w-[420px] max-w-[calc(100vw-100px)] h-[calc(100vh-100px)] max-h-[calc(100vh-100px)] rounded-lg overflow-hidden shadow-2xl border border-border/30">
+      <div className="fixed top-[88px] right-[48px] z-50 w-[420px] max-w-[calc(100vw-60px)] h-[calc(100vh-100px)] max-h-[calc(100vh-100px)] rounded-lg overflow-hidden shadow-2xl border border-border/30">
         {/* Close button overlaid on iframe */}
         <Button
           variant="ghost"
