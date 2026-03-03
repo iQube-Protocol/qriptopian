@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmbedFrame } from "@/components/EmbedFrame";
@@ -6,6 +7,7 @@ import { buildEmbedUrl, getOrderedBases } from "@/lib/embedUtils";
 // Embed configuration
 const EMBED_PATH = '/triad/embed/wallet';
 const EMBED_VERSION = '2025-12-30-01';
+const WALLET_ORIGIN = 'https://dev-beta.aigentz.me';
 
 interface WalletDrawerProps {
   isOpen: boolean;
@@ -13,6 +15,29 @@ interface WalletDrawerProps {
 }
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
+  const [isWide, setIsWide] = useState(false);
+
+  // Listen for wallet resize postMessages
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== WALLET_ORIGIN) return;
+
+      if (event.data?.type === 'wallet-layout-change') {
+        setIsWide(event.data.layout === 'wide');
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [isOpen]);
+
+  // Reset width when drawer closes
+  useEffect(() => {
+    if (!isOpen) setIsWide(false);
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const bases = getOrderedBases();
