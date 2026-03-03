@@ -2,26 +2,22 @@
 
 ## Problem
 
-The container uses `right-[46px]` which fixes its **right** edge. When CSS applies `w-[22.25rem]`, the element is anchored at the right and expands leftward — correct. But the issue is that the **iframe content itself** (the wallet embed) switches to its wide layout internally, and the container stays at `w-[22.25rem]` (356px). The wallet's wide content (516px) overflows or renders partially hidden behind the nav bar.
+The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
 
-The container width needs to dynamically match the wallet's current mode. Since the wallet switches between narrow/wide internally within the iframe, we need to:
+## Fix
 
-1. **Listen for a `postMessage`** from the wallet iframe indicating its current width/mode
-2. **Toggle the container width** between `22.25rem` (narrow) and `32.25rem` (wide) accordingly
+Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
 
-However, the positioning with `right-[46px]` already anchors the right edge — so when width increases, it **should** expand left. This is correct CSS behavior. The fact that it's expanding right instead suggests the wallet embed might be using a different mechanism, or perhaps the `right-[46px]` isn't actually being applied on desktop.
+### Changes
 
-Wait — re-reading the code: `right-[46px]` is applied unconditionally (no `md:` prefix), and `w-full` on mobile would fill the screen. On desktop `md:w-[22.25rem]` kicks in. With `right` fixed, increasing width expands left. This should work.
+**`src/components/content/DynamicHeroSection.tsx`**
+- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
+- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
 
-The real issue: **the container width is fixed at 22.25rem and doesn't grow to 32.25rem when the wallet goes wide**. The wallet content overflows to the right (behind the nav bar) because the container clips it.
+**`src/components/content/DynamicSecondHeroSection.tsx`**
+- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
 
-## Plan
+The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
 
-1. **Add state for wallet width mode** — default to narrow (`22.25rem`), switch to wide (`32.25rem`) when the wallet iframe sends a resize message.
-
-2. **Add a `postMessage` listener** in `WalletDrawer` that listens for messages from the wallet iframe indicating width change. If the wallet doesn't send such messages, we can alternatively just set the container to the wide width (`32.25rem`) and let the narrow wallet center/align within it.
-
-3. **Simpler alternative**: Just use `md:w-[32.25rem]` (the wide size) as the fixed width. The narrow wallet (356px) will render fine inside a 516px container — there may be some extra space, but the right edge stays flush and wide mode won't overflow.
-
-**Recommended approach**: Use the wide width `md:w-[32.25rem]` as the container size so both modes render correctly without overflow. If the user wants the container to shrink-wrap to the narrow wallet, we'd need iframe-to-parent messaging which depends on the wallet embed supporting `postMessage`.
+Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
 
