@@ -78,8 +78,8 @@ export function QriptopianNav({
 
   return (
     <TooltipProvider delayDuration={0}>
-      <aside className="hidden md:flex fixed right-[2px] top-1/2 -translate-y-1/2 w-11 flex-col items-center py-6 z-50 pointer-events-auto">
-        <nav className="flex flex-col gap-1 w-full px-0.5">
+      <aside className="hidden md:flex fixed right-[2px] top-1/2 -translate-y-1/2 w-14 flex-col items-center py-6 z-50 pointer-events-auto">
+        <nav className="flex flex-col gap-1 w-full px-1">
           {topDomains.map(renderButton)}
           
           {/* Divider */}

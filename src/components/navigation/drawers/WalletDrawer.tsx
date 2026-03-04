@@ -22,22 +22,22 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
   return (
     <>
-      {/* Transparent backdrop - click to close */}
+      {/* Backdrop */}
       <div 
-        className="fixed inset-0 z-40"
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
         onClick={onClose}
       />
       
-      {/* Wallet panel - right edge flush with nav icon panel, expands left */}
-      <div className="fixed top-[88px] right-[46px] z-50 w-full md:w-[22.25rem] h-[calc(100vh-100px)] max-w-[calc(100vw-60px)] rounded-lg overflow-hidden shadow-2xl border border-border/30 transition-[width] duration-300 ease-out">
-        {/* Close button overlaid on iframe */}
+      {/* Drawer - standard drawer positioning */}
+      <div className={`fixed inset-0 md:right-[80px] md:top-[88px] md:left-auto md:h-[calc(100vh-88px)] md:w-[calc(100vw-160px)] bg-background/95 md:bg-background/80 backdrop-blur-xl md:border-l border-border/30 shadow-[0_0_60px_rgba(0,0,0,0.5)] z-50 overflow-hidden flex flex-col transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        {/* Floating close button */}
         <Button
           variant="ghost"
           size="icon"
           onClick={onClose}
-          className="absolute top-2 right-2 z-[60] text-muted-foreground hover:text-foreground bg-background/60 backdrop-blur-sm hover:bg-accent/50 rounded-full h-7 w-7"
+          className="absolute top-3 right-3 z-[60] text-muted-foreground hover:text-foreground bg-background/60 backdrop-blur-sm hover:bg-accent/50"
         >
-          <X className="h-4 w-4" />
+          <X className="h-5 w-5" />
         </Button>
 
         <EmbedFrame
