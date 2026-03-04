@@ -1,23 +1,30 @@
 
 
-## Problem
+## Problem Analysis
 
-The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
+The wallet panel is expanding to the right (behind the nav bar) instead of to the left when the wallet switches to wide mode. After reviewing the code, there are **two likely causes**:
 
-## Fix
+### Cause 1: postMessage not being received
+The `wallet-layout-change` message from the iframe may not be reaching the listener. This could be because:
+- The Windsurf deployment hasn't propagated yet
+- The `event.origin` check (`https://dev-beta.aigentz.me`) might not match the actual iframe origin after EmbedFrame's probe/fallback logic rewrites the URL
 
-Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
+If `isWide` never becomes `true`, the container stays at 356px. The wallet iframe internally renders at 516px, but its viewport is constrained — however the internal scroll/layout may cause visual overflow issues.
 
-### Changes
+### Cause 2: Even if postMessage works, the transition may have a rendering glitch
+The `transition-[width]` animation combined with `right-[46px]` should work, but a brief reflow could cause visual jank where the left edge appears fixed momentarily.
 
-**`src/components/content/DynamicHeroSection.tsx`**
-- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
-- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
+## Plan
 
-**`src/components/content/DynamicSecondHeroSection.tsx`**
-- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
+### Step 1: Add debug logging to the postMessage listener
+Add a `console.log` inside the message handler to confirm whether messages are being received and what origin they come from. Also log outside the origin check to see ALL incoming messages.
 
-The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
+### Step 2: Broaden the origin check
+The EmbedFrame component may rewrite the URL via fallback logic. Instead of checking against a hardcoded `WALLET_ORIGIN`, accept messages where `event.data?.type === 'wallet-layout-change'` from any origin that includes `aigentz.me`, or simply validate the message shape without strict origin matching (since the message type is specific enough).
 
-Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
+### Step 3: Default to wide as safety net
+If no `wallet-layout-change` message is received within ~3 seconds of the drawer opening, default to the wide width (`md:w-[32.25rem]`) so the content never overflows. This way, if the iframe-side emitter isn't deployed yet or the message is lost, the container is big enough for both modes.
+
+### Files to change
+- `src/components/navigation/drawers/WalletDrawer.tsx` — all three changes above
 
