@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmbedFrame } from "@/components/EmbedFrame";
@@ -13,6 +14,19 @@ interface WalletDrawerProps {
 }
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
+  const [wide, setWide] = useState(false);
+
+  const handleMessage = useCallback((e: MessageEvent) => {
+    if (e.data?.type === 'wallet-layout-change') {
+      setWide(e.data.layout === 'wide');
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [handleMessage]);
+
   if (!isOpen) return null;
 
   const bases = getOrderedBases();
@@ -22,14 +36,16 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
   return (
     <>
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+      {/* Backdrop - click to close */}
+      <div
+        className="fixed inset-0 z-40"
         onClick={onClose}
       />
-      
-      {/* Drawer - standard drawer positioning */}
-      <div className={`fixed inset-0 md:right-[80px] md:top-[88px] md:left-auto md:h-[calc(100vh-88px)] md:w-[calc(100vw-160px)] bg-transparent z-50 overflow-hidden flex flex-col transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+
+      {/* Right-anchored floating panel — no background, sized to iframe content */}
+      <div
+        className={`fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] transition-[width] duration-300 ease-out ${wide ? 'w-[516px] md:w-[32.25rem]' : 'w-[356px] md:w-[22.25rem]'}`}
+      >
         {/* Floating close button */}
         <Button
           variant="ghost"
