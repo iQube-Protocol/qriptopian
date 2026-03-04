@@ -6,7 +6,13 @@ import { buildEmbedUrl, getOrderedBases } from "@/lib/embedUtils";
 
 const EMBED_PATH = '/triad/embed/wallet';
 const EMBED_VERSION = '2025-12-30-01';
-const ALLOWED_ORIGINS = ['https://dev-beta.aigentz.me', 'https://aigentzbeta-production.up.railway.app'];
+const IFRAME_ID = 'knyt-wallet-iframe';
+
+// Nav geometry (from QriptopianNav): right-[2px], w-11 (44px)
+const NAV_RIGHT_PX = 2;
+const NAV_WIDTH_PX = 44;
+const PANEL_GAP_PX = 8;
+const PANEL_RIGHT_PX = NAV_RIGHT_PX + NAV_WIDTH_PX + PANEL_GAP_PX;
 
 interface WalletDrawerProps {
   isOpen: boolean;
@@ -16,17 +22,39 @@ interface WalletDrawerProps {
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   const [isWide, setIsWide] = useState(false);
 
+  const bases = getOrderedBases();
+  const primaryBase = bases[0] || 'https://dev-beta.aigentz.me';
+  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, {}, EMBED_VERSION);
+  const fallbackBases = bases.slice(1);
+
+  const allowedOrigins = new Set(
+    bases
+      .map((base) => {
+        try {
+          return new URL(base).origin;
+        } catch {
+          return null;
+        }
+      })
+      .filter((origin): origin is string => Boolean(origin))
+  );
+
   useEffect(() => {
     if (!isOpen) return;
+
     const handleMessage = (event: MessageEvent) => {
-      if (!ALLOWED_ORIGINS.includes(event.origin)) return;
+      const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
+      if (iframe?.contentWindow && event.source !== iframe.contentWindow) return;
+      if (!allowedOrigins.has(event.origin)) return;
+
       if (event.data?.type === 'wallet-layout-change') {
         setIsWide(event.data.layout === 'wide');
       }
     };
+
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [isOpen]);
+  }, [isOpen, allowedOrigins]);
 
   useEffect(() => {
     if (!isOpen) setIsWide(false);
@@ -34,28 +62,18 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
   if (!isOpen) return null;
 
-  const bases = getOrderedBases();
-  const primaryBase = bases[0] || 'https://dev-beta.aigentz.me';
-  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, {}, EMBED_VERSION);
-  const fallbackBases = bases.slice(1);
-
-  // Panel width in px. Right edge is always pinned to left edge of icon bar.
   const panelWidth = isWide ? 516 : 356;
 
   return (
     <>
-      {/* Backdrop */}
       <div className="fixed inset-0 z-40" onClick={onClose} />
 
-      {/* Single panel – no nesting, no breakpoints, no w-full.
-          right:46px pins it flush LEFT of the 46px icon bar.
-          Width grows/shrinks to the LEFT only. */}
       <div
         style={{
           position: 'fixed',
           top: 88,
-          right: 46,
-          width: Math.min(panelWidth, window.innerWidth - 60),
+          right: PANEL_RIGHT_PX,
+          width: Math.min(panelWidth, window.innerWidth - 80),
           height: 'calc(100vh - 100px)',
           zIndex: 50,
         }}
@@ -76,6 +94,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
           className="w-full h-full"
           fallbackBases={fallbackBases}
           showProbeOnLoad={true}
+          iframeId={IFRAME_ID}
         />
       </div>
     </>
