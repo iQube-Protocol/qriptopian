@@ -1,23 +1,30 @@
 
+You’re right to be frustrated. Here is the plain reason it still looks wrong:
 
-## Problem
+1) Host shell and iframe runtime are changing layout asynchronously  
+- The drawer width is controlled by React state in the host app.  
+- The wallet mode is controlled inside the iframe and reported later via `postMessage`.  
+- That creates a race on open: host renders narrow first, then receives a mode update and animates, which can look like “opening the wrong way.”
 
-The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
+2) The current CSS still mixes competing width rules on the animated element  
+- Inner panel has `w-full` plus `md:w[...]` variants.  
+- Depending on timing/breakpoint evaluation, the browser can compute a full-width baseline before the md width takes over, so the first transition is visually janky.
 
-## Fix
+3) Message handling is too broad  
+- Wallet listener accepts any `wallet-layout-change` without strict origin/source checks.  
+- Extra or duplicate messages during iframe boot can retrigger width transitions and make motion appear inconsistent.
 
-Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
+Why this is “harder than simple”  
+- It’s not one static div animation; it’s cross-context synchronization (parent React + remote iframe + responsive CSS breakpoint logic) during initial mount.
 
-### Changes
+What I would implement next (deterministic fix)
+- Make width single-source-of-truth with explicit pixel styles for desktop (`356px`/`516px`) instead of mixed utility classes on the animated node.  
+- Remove `w-full` from desktop animated panel entirely.  
+- Keep right edge hard-locked (`absolute right-0`) and animate only `width`.  
+- Gate first layout update: apply first iframe mode without animation, animate only subsequent user-driven mode changes.  
+- Strictly validate `postMessage` by both allowed origin and `event.source === iframe.contentWindow`.
 
-**`src/components/content/DynamicHeroSection.tsx`**
-- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
-- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
-
-**`src/components/content/DynamicSecondHeroSection.tsx`**
-- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
-
-The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
-
-Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
-
+Expected result
+- No rightward “pop” on open.  
+- First render stable in narrow mode.  
+- Wide/narrow transitions animate leftward only, every time.
