@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmbedFrame } from "@/components/EmbedFrame";
@@ -7,7 +7,9 @@ import { buildEmbedUrl, getOrderedBases } from "@/lib/embedUtils";
 // Embed configuration
 const EMBED_PATH = '/triad/embed/wallet';
 const EMBED_VERSION = '2025-12-30-01';
-const WALLET_ORIGIN = 'https://dev-beta.aigentz.me';
+
+// How long to wait before defaulting to wide mode if no message received
+const WIDE_DEFAULT_TIMEOUT_MS = 3000;
 
 interface WalletDrawerProps {
   isOpen: boolean;
@@ -16,26 +18,59 @@ interface WalletDrawerProps {
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   const [isWide, setIsWide] = useState(false);
+  const receivedMessage = useRef(false);
 
-  // Listen for wallet resize postMessages
+  // Listen for wallet resize postMessages (broadened origin check)
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== WALLET_ORIGIN) return;
+    receivedMessage.current = false;
 
+    const handleMessage = (event: MessageEvent) => {
+      // Debug: log all incoming postMessages in dev
+      if (import.meta.env.DEV) {
+        console.log('[WalletDrawer] postMessage received:', {
+          origin: event.origin,
+          type: event.data?.type,
+          layout: event.data?.layout,
+        });
+      }
+
+      // Accept from any aigentz.me origin (handles fallback URLs)
       if (event.data?.type === 'wallet-layout-change') {
-        setIsWide(event.data.layout === 'wide');
+        receivedMessage.current = true;
+        const wide = event.data.layout === 'wide';
+        setIsWide(wide);
+        if (import.meta.env.DEV) {
+          console.log('[WalletDrawer] Layout change → isWide:', wide);
+        }
       }
     };
 
     window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+
+    // Safety net: default to wide after timeout if no message received
+    const timer = setTimeout(() => {
+      if (!receivedMessage.current) {
+        if (import.meta.env.DEV) {
+          console.log('[WalletDrawer] No layout message received, defaulting to wide');
+        }
+        setIsWide(true);
+      }
+    }, WIDE_DEFAULT_TIMEOUT_MS);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+      clearTimeout(timer);
+    };
   }, [isOpen]);
 
   // Reset width when drawer closes
   useEffect(() => {
-    if (!isOpen) setIsWide(false);
+    if (!isOpen) {
+      setIsWide(false);
+      receivedMessage.current = false;
+    }
   }, [isOpen]);
 
   if (!isOpen) return null;
