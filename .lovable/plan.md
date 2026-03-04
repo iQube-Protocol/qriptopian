@@ -2,20 +2,22 @@
 
 ## Problem
 
-The wallet's default mode is **narrow**, not wide. The current code correctly starts with `isWide = false`, but the 3-second safety timeout on line 52-60 forces it to wide even when the wallet hasn't requested it. This causes the narrow→wide flash.
+The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
 
 ## Fix
 
-**Remove the safety timeout entirely.** The drawer should:
-1. Start narrow (`isWide = false`) — correct, already in place
-2. Only switch to wide when the iframe explicitly sends `{ type: 'wallet-layout-change', layout: 'wide' }`
-3. Never auto-expand
+Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
 
-### Changes to `WalletDrawer.tsx`
+### Changes
 
-- Delete the `WIDE_DEFAULT_TIMEOUT_MS` constant (line 12)
-- Delete the `receivedMessage` ref (line 21) — only used by the timeout
-- Delete the timeout block (lines 52-60) and its cleanup (`clearTimeout`) on line 64
-- Delete the `receivedMessage.current = false` reset on line 27 and line 72
-- Keep everything else as-is: the `postMessage` listener, the `isWide` state starting at `false`, the reset to `false` on close
+**`src/components/content/DynamicHeroSection.tsx`**
+- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
+- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
+
+**`src/components/content/DynamicSecondHeroSection.tsx`**
+- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
+
+The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
+
+Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
 
