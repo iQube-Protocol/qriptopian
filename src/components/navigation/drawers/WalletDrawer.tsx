@@ -8,9 +8,6 @@ import { buildEmbedUrl, getOrderedBases } from "@/lib/embedUtils";
 const EMBED_PATH = '/triad/embed/wallet';
 const EMBED_VERSION = '2025-12-30-01';
 
-// How long to wait before defaulting to wide mode if no message received
-const WIDE_DEFAULT_TIMEOUT_MS = 3000;
-
 interface WalletDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -18,13 +15,10 @@ interface WalletDrawerProps {
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   const [isWide, setIsWide] = useState(false);
-  const receivedMessage = useRef(false);
 
   // Listen for wallet resize postMessages (broadened origin check)
   useEffect(() => {
     if (!isOpen) return;
-
-    receivedMessage.current = false;
 
     const handleMessage = (event: MessageEvent) => {
       // Debug: log all incoming postMessages in dev
@@ -38,7 +32,6 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
       // Accept from any aigentz.me origin (handles fallback URLs)
       if (event.data?.type === 'wallet-layout-change') {
-        receivedMessage.current = true;
         const wide = event.data.layout === 'wide';
         setIsWide(wide);
         if (import.meta.env.DEV) {
@@ -48,29 +41,12 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
     };
 
     window.addEventListener('message', handleMessage);
-
-    // Safety net: default to wide after timeout if no message received
-    const timer = setTimeout(() => {
-      if (!receivedMessage.current) {
-        if (import.meta.env.DEV) {
-          console.log('[WalletDrawer] No layout message received, defaulting to wide');
-        }
-        setIsWide(true);
-      }
-    }, WIDE_DEFAULT_TIMEOUT_MS);
-
-    return () => {
-      window.removeEventListener('message', handleMessage);
-      clearTimeout(timer);
-    };
+    return () => window.removeEventListener('message', handleMessage);
   }, [isOpen]);
 
   // Reset width when drawer closes
   useEffect(() => {
-    if (!isOpen) {
-      setIsWide(false);
-      receivedMessage.current = false;
-    }
+    if (!isOpen) setIsWide(false);
   }, [isOpen]);
 
   if (!isOpen) return null;
