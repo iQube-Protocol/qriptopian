@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmbedFrame } from "@/components/EmbedFrame";
@@ -8,6 +7,7 @@ import { buildEmbedUrl, getOrderedBases } from "@/lib/embedUtils";
 const EMBED_PATH = '/triad/embed/wallet';
 const EMBED_VERSION = '2025-12-30-01';
 const EMBED_ORIGIN = 'https://dev-beta.aigentz.me';
+const NARROW_WIDTH = 356;
 
 interface WalletDrawerProps {
   isOpen: boolean;
@@ -15,31 +15,12 @@ interface WalletDrawerProps {
 }
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
-  const [wide, setWide] = useState(false);
-
-  // Listen for wallet-layout-change postMessage from the iframe
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== EMBED_ORIGIN) return;
-      if (event.data?.type !== 'wallet-layout-change') return;
-      // Always enforce right anchor — ignore anchor field from message
-      setWide(event.data.layout === 'wide');
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   const bases = getOrderedBases();
   const primaryBase = bases[0] || EMBED_ORIGIN;
-  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, { bg: 'transparent' }, EMBED_VERSION);
+  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, { bg: 'transparent', wallet_mode: 'narrow-only' }, EMBED_VERSION);
   const fallbackBases = bases.slice(1);
-
-  const widthPx = wide ? 516 : 356;
 
   return (
     <>
