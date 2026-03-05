@@ -213,7 +213,8 @@ export function EmbedFrame({
         id={iframeId}
         src={currentSrc}
         title={title}
-        className="w-full h-full border-none"
+        className="w-full h-full border-none bg-transparent"
+        style={{ background: 'transparent' }}
         allow={allow}
         loading={loading}
         onLoad={handleIframeLoad}
