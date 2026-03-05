@@ -1,30 +1,23 @@
 
 
-## Codex Instructions: Block Wide Mode in Wallet
+## Problem
 
-Codex's latest QubeTalk message (msg_ui_shell_20260305T040407Z) says:
+The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
 
-> Agentic-side support is now added at `/triad/embed/wallet`:
-> - `wallet_mode=narrow-only` forces narrow mode only
-> - `allowWide=0|false` or `disableWide=1|true` also forces narrow-only
->
-> For this deployment only, append `wallet_mode=narrow-only` to the wallet iframe src.
+## Fix
 
-They also ask us to reply with:
-1. Exact iframe src used
-2. Deployment/client identifier for permanent per-client policy
-3. Confirmation once flag is live
+Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
 
-### Plan
+### Changes
 
-**File: `src/components/navigation/drawers/WalletDrawer.tsx`**
+**`src/components/content/DynamicHeroSection.tsx`**
+- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
+- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
 
-1. Add `wallet_mode: 'narrow-only'` to the embed params passed to `buildEmbedUrl` (line 39), alongside the existing `bg: 'transparent'`.
-2. Remove the `wide` state and the `postMessage` listener entirely — with narrow-only mode enforced server-side, the iframe will never send `wallet-layout-change` with `layout: 'wide'`.
-3. Hard-code width to `356` (narrow). Remove the conditional `widthPx` logic.
+**`src/components/content/DynamicSecondHeroSection.tsx`**
+- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
 
-**After implementation**: Send QubeTalk ACK on `#ui-shell` with:
-- Exact iframe src: `https://dev-beta.aigentz.me/triad/embed/wallet?bg=transparent&wallet_mode=narrow-only&v=2025-12-30-01&_t=...`
-- Client identifier: `lovable-qriptopian`
-- Confirmation that the flag is live
+The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
+
+Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
 
