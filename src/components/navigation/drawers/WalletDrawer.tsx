@@ -22,11 +22,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
   return (
     <>
-      {/* Backdrop - click to close */}
-      <div
-        className="fixed inset-0 z-40"
-        onClick={onClose}
-      />
+      {/* No backdrop — main page remains interactive and scrollable */}
 
       {/* Right-anchored floating panel — no background, sized to iframe content */}
       <div
