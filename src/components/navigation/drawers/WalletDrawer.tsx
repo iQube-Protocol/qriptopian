@@ -15,6 +15,19 @@ interface WalletDrawerProps {
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   const [wide, setWide] = useState(false);
+  const iframeContainerRef = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const iframe = entry.target.querySelector('iframe');
+        if (iframe && iframe.scrollWidth > 400) {
+          setWide(true);
+        }
+      }
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   const handleMessage = useCallback((e: MessageEvent) => {
     if (e.data?.type === 'wallet-layout-change') {
@@ -22,6 +35,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
     }
   }, []);
 
+  // Always listen — even when drawer is closed — to avoid race conditions
   useEffect(() => {
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
@@ -44,7 +58,8 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
       {/* Right-anchored floating panel — no background, sized to iframe content */}
       <div
-        className={`fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] transition-[width] duration-300 ease-out ${wide ? 'w-[516px] md:w-[32.25rem]' : 'w-[356px] md:w-[22.25rem]'}`}
+        ref={iframeContainerRef}
+        className={`fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] overflow-hidden transition-[width] duration-300 ease-out ${wide ? 'w-[516px] md:w-[32.25rem]' : 'w-[356px] md:w-[22.25rem]'}`}
       >
         {/* Floating close button */}
         <Button
