@@ -39,33 +39,44 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, { bg: 'transparent' }, EMBED_VERSION);
   const fallbackBases = bases.slice(1);
 
-  const panelWidth = wide ? 'w-[516px]' : 'w-[356px]';
+  const widthPx = wide ? 516 : 356;
 
   return (
     <>
-      {/* No backdrop — main page remains interactive and scrollable */}
-
-      {/* Right-anchored floating panel — expands leftward on layout change */}
+      {/* Right-pinned wrapper — flex justify-end ensures leftward expansion */}
       <div
-        className={`fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] overflow-hidden transition-[width] duration-300 ease-out ${panelWidth}`}
+        className="fixed z-50 flex justify-end"
+        style={{
+          top: 88,
+          bottom: 0,
+          right: 46,
+          left: 'auto',
+          height: 'calc(100vh - 100px)',
+        }}
       >
-        {/* Floating close button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onClose}
-          className="absolute top-3 right-3 z-[60] text-muted-foreground hover:text-foreground bg-background/60 backdrop-blur-sm hover:bg-accent/50"
+        {/* Inner panel — width transitions leftward from fixed right edge */}
+        <div
+          className="h-full overflow-hidden transition-[width] duration-300 ease-out relative"
+          style={{ width: widthPx, maxWidth: '100%' }}
         >
-          <X className="h-5 w-5" />
-        </Button>
+          {/* Floating close button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="absolute top-3 right-3 z-[60] text-muted-foreground hover:text-foreground bg-background/60 backdrop-blur-sm hover:bg-accent/50"
+          >
+            <X className="h-5 w-5" />
+          </Button>
 
-        <EmbedFrame
-          src={embedUrl}
-          title="KNYT SmartWallet"
-          className="w-full h-full"
-          fallbackBases={fallbackBases}
-          showProbeOnLoad={true}
-        />
+          <EmbedFrame
+            src={embedUrl}
+            title="KNYT SmartWallet"
+            className="w-full h-full"
+            fallbackBases={fallbackBases}
+            showProbeOnLoad={true}
+          />
+        </div>
       </div>
     </>
   );
