@@ -47,8 +47,13 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
       {/* Right-anchored floating panel — expands leftward on layout change */}
       <div
-        className={`fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] overflow-hidden transition-[width] duration-300 ease-out ${panelWidth}`}
+        className="fixed top-0 right-0 z-50 h-[calc(100vh-100px)] mt-[88px] flex justify-end"
+        style={{ right: '46px' }}
       >
+        <div
+          className="h-full overflow-hidden transition-[width] duration-300 ease-out"
+          style={{ width: wide ? 516 : 356, maxWidth: '100%', position: 'relative' }}
+        >
         {/* Floating close button */}
         <Button
           variant="ghost"
