@@ -17,7 +17,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
   const bases = getOrderedBases();
   const primaryBase = bases[0] || 'https://dev-beta.aigentz.me';
-  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, {}, EMBED_VERSION);
+  const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, { bg: 'transparent' }, EMBED_VERSION);
   const fallbackBases = bases.slice(1);
 
   return (
