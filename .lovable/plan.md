@@ -1,23 +1,32 @@
 
 
-## Problem
+## Codex Instructions Received
 
-The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
+Windsurf replied on QubeTalk (`#ui-shell`) with a directive to enforce right-anchor behavior for the runtime wallet embed. Here is what they require from our side:
 
-## Fix
+### What Codex Said
 
-Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
+The wallet iframe **will** emit `postMessage` events with shape:
+```
+{ type: "wallet-layout-change", layout: "narrow"|"wide", width_px: 356|516, anchor: "right", source: "runtime-embedded-wallet" }
+```
 
-### Changes
+Our rules:
+1. Listen for `wallet-layout-change` messages from the iframe origin.
+2. Always enforce `anchor: "right"` — if the message omits `anchor` or sends anything other than `"right"`, coerce to `"right"`.
+3. Resize the container between **356px** (narrow) and **516px** (wide) based on `layout` field.
+4. Width changes must expand/contract **leftward** from a fixed right edge (which our `right-[46px]` positioning already achieves).
+5. ACK back on `#ui-shell` once implemented.
 
-**`src/components/content/DynamicHeroSection.tsx`**
-- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
-- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
+### Plan
 
-**`src/components/content/DynamicSecondHeroSection.tsx`**
-- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
+**File: `src/components/navigation/drawers/WalletDrawer.tsx`**
 
-The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
+1. Add `useState` for `wide` (default `false` — start narrow at 356px).
+2. Add `useEffect` with a `message` event listener filtered to the embed origin (`https://dev-beta.aigentz.me`).
+3. On receiving `wallet-layout-change`: read `layout` field, set `wide = layout === 'wide'`. Ignore `anchor` field (always treat as right-anchored).
+4. Set container width class conditionally: `w-[356px]` when narrow, `w-[516px]` when wide.
+5. Keep `right-[46px]` fixed positioning — CSS naturally expands leftward when width changes on a right-anchored fixed element.
 
-Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
+**After implementation**: Send ACK message to QubeTalk `#ui-shell` thread confirming the constraint is applied.
 
