@@ -30,8 +30,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
 
       {/* Right-anchored floating panel — no background, sized to iframe content */}
       <div
-        ref={iframeContainerRef}
-        className={`fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] overflow-hidden transition-[width] duration-300 ease-out ${wide ? 'w-[516px] md:w-[32.25rem]' : 'w-[356px] md:w-[22.25rem]'}`}
+        className="fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] overflow-hidden w-[516px] md:w-[32.25rem]"
       >
         {/* Floating close button */}
         <Button
