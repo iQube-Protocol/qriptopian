@@ -38,7 +38,7 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
         {/* Inner panel — width transitions leftward from fixed right edge */}
         <div
           className="h-full overflow-hidden transition-[width] duration-300 ease-out relative"
-          style={{ width: widthPx, maxWidth: '100%' }}
+          style={{ width: NARROW_WIDTH, maxWidth: '100%' }}
         >
           {/* Floating close button */}
           <Button
