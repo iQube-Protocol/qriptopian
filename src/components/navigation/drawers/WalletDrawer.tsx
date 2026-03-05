@@ -1,4 +1,3 @@
-import { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmbedFrame } from "@/components/EmbedFrame";
@@ -14,33 +13,6 @@ interface WalletDrawerProps {
 }
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
-  const [wide, setWide] = useState(false);
-  const iframeContainerRef = useCallback((node: HTMLDivElement | null) => {
-    if (!node) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const iframe = entry.target.querySelector('iframe');
-        if (iframe && iframe.scrollWidth > 400) {
-          setWide(true);
-        }
-      }
-    });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  const handleMessage = useCallback((e: MessageEvent) => {
-    if (e.data?.type === 'wallet-layout-change') {
-      setWide(e.data.layout === 'wide');
-    }
-  }, []);
-
-  // Always listen — even when drawer is closed — to avoid race conditions
-  useEffect(() => {
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [handleMessage]);
-
   if (!isOpen) return null;
 
   const bases = getOrderedBases();
