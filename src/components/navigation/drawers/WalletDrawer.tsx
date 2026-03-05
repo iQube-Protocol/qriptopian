@@ -15,7 +15,8 @@ interface WalletDrawerProps {
 }
 
 export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
-  const [wide, setWide] = useState(false);
+  // Start wide (516) as fail-safe until first valid layout message arrives
+  const [panelWidthPx, setPanelWidthPx] = useState(516);
 
   // Listen for wallet-layout-change postMessage from the iframe
   useEffect(() => {
@@ -25,7 +26,9 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
       if (event.origin !== EMBED_ORIGIN) return;
       if (event.data?.type !== 'wallet-layout-change') return;
       // Always enforce right anchor — ignore anchor field from message
-      setWide(event.data.layout === 'wide');
+      // Normalize to exactly 356 or 516
+      const width = event.data.layout === 'narrow' ? 356 : 516;
+      setPanelWidthPx(width);
     };
 
     window.addEventListener('message', handleMessage);
@@ -39,15 +42,14 @@ export function WalletDrawer({ isOpen, onClose }: WalletDrawerProps) {
   const embedUrl = buildEmbedUrl(primaryBase, EMBED_PATH, { bg: 'transparent' }, EMBED_VERSION);
   const fallbackBases = bases.slice(1);
 
-  const panelWidth = wide ? 'w-[516px]' : 'w-[356px]';
-
   return (
     <>
       {/* No backdrop — main page remains interactive and scrollable */}
 
-      {/* Right-anchored floating panel — expands leftward on layout change */}
+      {/* Right-anchored floating panel — expands leftward only (left-auto ensures no left constraint) */}
       <div
-        className={`fixed top-0 right-[46px] z-50 h-[calc(100vh-100px)] mt-[88px] overflow-hidden transition-[width] duration-300 ease-out ${panelWidth}`}
+        style={{ width: `${panelWidthPx}px` }}
+        className="fixed top-0 right-[60px] left-auto z-50 h-[calc(100vh-100px)] mt-[88px] overflow-hidden transition-[width] duration-300 ease-out"
       >
         {/* Floating close button */}
         <Button
