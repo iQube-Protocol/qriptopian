@@ -74,6 +74,7 @@ export default function ContentEditor() {
       if (modalities.watch) {
         setWatchUrl(modalities.watch.video_url || '');
         setWatchDuration(modalities.watch.duration || '');
+        setWatchLoop(modalities.watch.loop === true);
       }
       if (modalities.listen) {
         setListenUrl(modalities.listen.audio_url || '');
