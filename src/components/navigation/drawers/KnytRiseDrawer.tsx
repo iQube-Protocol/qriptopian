@@ -482,7 +482,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
                 <iframe
                   key={mediaKey}
-                  src={currentModalities.watch.video_url}
+                  src={getYouTubeEmbedUrl(currentModalities.watch.video_url, { loop: currentModalities.watch.loop })}
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
@@ -495,6 +495,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
                 src={currentModalities.watch.video_url}
                 controls 
                 autoPlay
+                loop={currentModalities.watch.loop || false}
                 className="w-full max-h-[85vh] rounded-lg shadow-2xl"
                 poster={currentModalities.watch.thumbnail || currentContent.thumbnail}
               >

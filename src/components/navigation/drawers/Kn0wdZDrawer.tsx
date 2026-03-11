@@ -736,7 +736,7 @@ const tx = await qiri.send({
             {isYouTubeUrl((content[selectedItemIndex].modalities as ContentModalities).watch!.video_url) ? (
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black max-h-[85vh]">
                 <iframe
-                  src={getYouTubeEmbedUrl((content[selectedItemIndex].modalities as ContentModalities).watch!.video_url)}
+                  src={getYouTubeEmbedUrl((content[selectedItemIndex].modalities as ContentModalities).watch!.video_url, { loop: (content[selectedItemIndex].modalities as ContentModalities).watch?.loop })}
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
@@ -748,6 +748,7 @@ const tx = await qiri.send({
                 src={(content[selectedItemIndex].modalities as ContentModalities).watch!.video_url}
                 controls 
                 autoPlay
+                loop={(content[selectedItemIndex].modalities as ContentModalities).watch?.loop || false}
                 className="w-full max-h-[85vh] rounded-lg shadow-2xl"
                 poster={(content[selectedItemIndex].modalities as ContentModalities).watch?.thumbnail || content[selectedItemIndex].thumbnail}
               >
