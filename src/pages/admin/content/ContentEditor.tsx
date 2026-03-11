@@ -502,6 +502,17 @@ HTML elements:
                       disabled
                     />
                   </div>
+                  <div className="flex items-center justify-between rounded-lg border border-border p-3">
+                    <div>
+                      <Label htmlFor="watchLoop" className="text-sm font-medium">Loop Video</Label>
+                      <p className="text-xs text-muted-foreground">Video will restart automatically when it ends</p>
+                    </div>
+                    <Switch
+                      id="watchLoop"
+                      checked={watchLoop}
+                      onCheckedChange={setWatchLoop}
+                    />
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="listen" className="space-y-4 mt-4">
