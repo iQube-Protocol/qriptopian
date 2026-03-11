@@ -244,14 +244,15 @@ export function DynamicLatestNewsCarousel() {
           </DialogHeader>
           <div className="mt-4">
             {activeModality === 'watch' && selectedArticle && (() => {
-              const watchModality = contentService.getModality(selectedArticle, 'watch') as { video_url: string } | undefined;
+              const watchModality = contentService.getModality(selectedArticle, 'watch') as { video_url: string; loop?: boolean } | undefined;
               const videoUrl = watchModality?.video_url;
+              const shouldLoop = watchModality?.loop || false;
               if (!videoUrl) return <p className="text-[#8fb3c0]">Video not available</p>;
               
               if (isYouTubeUrl(videoUrl)) {
                 return (
                   <iframe
-                    src={getYouTubeEmbedUrl(videoUrl)}
+                    src={getYouTubeEmbedUrl(videoUrl, { loop: shouldLoop })}
                     className="w-full aspect-[9/16] md:aspect-video rounded-lg"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -262,7 +263,8 @@ export function DynamicLatestNewsCarousel() {
               return (
                 <video 
                   src={videoUrl}
-                  controls 
+                  controls
+                  loop={shouldLoop}
                   className="w-full rounded-lg"
                 >
                   Your browser does not support the video tag.

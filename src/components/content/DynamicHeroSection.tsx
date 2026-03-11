@@ -194,7 +194,7 @@ export function DynamicHeroSection() {
             
             {isYouTubeUrl(currentModalities.watch.video_url) ? (
               <iframe
-                src={getYouTubeEmbedUrl(currentModalities.watch.video_url)}
+                src={getYouTubeEmbedUrl(currentModalities.watch.video_url, { loop: currentModalities.watch.loop })}
                 className="w-full aspect-[9/16] md:aspect-video rounded-lg shadow-2xl"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -204,6 +204,7 @@ export function DynamicHeroSection() {
                 src={currentModalities.watch.video_url}
                 controls 
                 autoPlay
+                loop={currentModalities.watch.loop || false}
                 className="w-full h-auto rounded-lg shadow-2xl"
                 poster={currentModalities.watch.thumbnail || currentArticle.thumbnail}
               >

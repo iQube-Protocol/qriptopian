@@ -2,25 +2,22 @@
 
 ## Problem
 
-The `loop` toggle in the admin ContentEditor correctly persists `modalities.watch.loop` to the database, but none of the video rendering components read or apply this flag. Every `<video>` and YouTube `<iframe>` across 7 files ignores it.
+The last edit changed `CarouselContent` and `CarouselItem` from explicit `heroHeight` (`h-[calc(100svh-64px)]`) to `h-full`. But Embla's `CarouselContent` component has an intermediate wrapper div (`<div ref={carouselRef} className="overflow-hidden">`) with no height set. This breaks the `h-full` chain, causing all carousel items to collapse to 0 height -- hence no images.
 
-## Plan
+## Fix
 
-Add the `loop` attribute to all video players across 7 files, reading from `currentModalities.watch.loop`:
+Keep the `overflow-hidden` on the outermost container (that fixed the duplication bug), but revert `CarouselContent` and `CarouselItem` back to the explicit `heroHeight` class. This bypasses Embla's intermediate wrapper by giving each element an absolute height reference.
 
-### 1. `DynamicHeroSection.tsx` and `DynamicSecondHeroSection.tsx`
-- On `<video>`: add `loop={currentModalities.watch.loop || false}`
-- On YouTube `<iframe>`: append `&loop=1` to embed URL when `currentModalities.watch.loop` is true
+### Changes
 
-### 2. `DynamicLatestNewsCarousel.tsx`
-- Need to read `loop` from the article's modalities and apply to `<video>` element
-- For YouTube embeds (if present), append `&loop=1`
+**`src/components/content/DynamicHeroSection.tsx`**
+- Line 94: `CarouselContent className="h-full"` → `CarouselContent className={heroHeight}`
+- Line 102: `CarouselItem className="h-full relative"` → `CarouselItem className={`${heroHeight} relative`}`
 
-### 3. Drawer players: `Kn0wdZDrawer.tsx`, `PennyDropsDrawer.tsx`, `StayBullDrawer.tsx`, `KnytRiseDrawer.tsx`
-- Same pattern: read `modalities.watch.loop` and apply `loop` attribute to `<video>`, `&loop=1` to YouTube iframe URLs
+**`src/components/content/DynamicSecondHeroSection.tsx`**
+- Same two changes (CarouselContent and CarouselItem back to explicit `heroHeight`)
 
-### 4. `videoUtils.ts`
-- Update `getYouTubeEmbedUrl` to accept an optional `loop` parameter and append `?loop=1` when true
+The Carousel wrapper itself can stay as `h-full` since it's a direct child of the outer fixed-height div. Only CarouselContent and CarouselItem need explicit heights because they're downstream of Embla's intermediate wrapper.
 
-All changes are purely additive -- adding one boolean prop to existing `<video>` tags and one query param to YouTube URLs.
+Four line changes across two files. The `overflow-hidden` on the outer container stays to prevent the original duplication bug.
 
