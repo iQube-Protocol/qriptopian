@@ -199,7 +199,7 @@ export default function ContentEditor() {
         modalities.read = { text: readText, duration: readDuration };
       }
       if (watchUrl) {
-        modalities.watch = { video_url: watchUrl, duration: watchDuration };
+        modalities.watch = { video_url: watchUrl, duration: watchDuration, loop: watchLoop };
       }
       if (listenUrl) {
         modalities.listen = { audio_url: listenUrl, duration: listenDuration };
