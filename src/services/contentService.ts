@@ -21,6 +21,7 @@ export interface ContentModalities {
     video_url: string;
     duration?: string;
     thumbnail?: string;
+    loop?: boolean;
   };
   listen?: {
     audio_url: string;

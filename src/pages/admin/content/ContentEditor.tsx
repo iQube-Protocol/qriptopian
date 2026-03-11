@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, Save, Upload, Eye, CheckCircle } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { ArticleRenderer } from '@/components/content/ArticleRenderer';
 
@@ -33,6 +34,7 @@ export default function ContentEditor() {
   const [listenDuration, setListenDuration] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
   const [linkAllowEmbed, setLinkAllowEmbed] = useState(true);
+  const [watchLoop, setWatchLoop] = useState(false);
   const [issueRef, setIssueRef] = useState('');
   const [uploading, setUploading] = useState(false);
   const [imagePosition, setImagePosition] = useState('center');
@@ -72,6 +74,7 @@ export default function ContentEditor() {
       if (modalities.watch) {
         setWatchUrl(modalities.watch.video_url || '');
         setWatchDuration(modalities.watch.duration || '');
+        setWatchLoop(modalities.watch.loop === true);
       }
       if (modalities.listen) {
         setListenUrl(modalities.listen.audio_url || '');
@@ -196,7 +199,7 @@ export default function ContentEditor() {
         modalities.read = { text: readText, duration: readDuration };
       }
       if (watchUrl) {
-        modalities.watch = { video_url: watchUrl, duration: watchDuration };
+        modalities.watch = { video_url: watchUrl, duration: watchDuration, loop: watchLoop };
       }
       if (listenUrl) {
         modalities.listen = { audio_url: listenUrl, duration: listenDuration };
@@ -497,6 +500,17 @@ HTML elements:
                       onChange={(e) => setWatchDuration(e.target.value)}
                       placeholder="e.g., 15:30"
                       disabled
+                    />
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-border p-3">
+                    <div>
+                      <Label htmlFor="watchLoop" className="text-sm font-medium">Loop Video</Label>
+                      <p className="text-xs text-muted-foreground">Video will restart automatically when it ends</p>
+                    </div>
+                    <Switch
+                      id="watchLoop"
+                      checked={watchLoop}
+                      onCheckedChange={setWatchLoop}
                     />
                   </div>
                 </TabsContent>
