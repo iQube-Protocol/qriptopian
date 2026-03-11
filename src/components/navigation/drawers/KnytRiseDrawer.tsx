@@ -6,6 +6,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { BookOpen, Play, Headphones, RotateCcw, ChevronRight, ChevronLeft, Eye, Share2 } from "lucide-react";
 import { contentService, type Content, ContentModalities } from "@/services/contentService";
 import { ArticleRenderer } from "@/components/content/ArticleRenderer";
+import { getYouTubeEmbedUrl } from "@/lib/videoUtils";
 
 interface KnytRiseDrawerProps {
   isOpen: boolean;
