@@ -34,6 +34,7 @@ export default function ContentEditor() {
   const [listenDuration, setListenDuration] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
   const [linkAllowEmbed, setLinkAllowEmbed] = useState(true);
+  const [watchLoop, setWatchLoop] = useState(false);
   const [issueRef, setIssueRef] = useState('');
   const [uploading, setUploading] = useState(false);
   const [imagePosition, setImagePosition] = useState('center');
