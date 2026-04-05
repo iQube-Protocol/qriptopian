@@ -628,6 +628,7 @@ HTML elements:
               </div>
             </Card>
 
+            <Card className="p-6">
               <h3 className="text-lg font-semibold mb-4">Image Positioning</h3>
               <div className="space-y-4">
                 <div>
