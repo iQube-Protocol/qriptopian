@@ -215,11 +215,20 @@ export default function ContentEditor() {
         modalities.link = { url: linkUrl, allow_embed: linkAllowEmbed };
       }
 
+      // Build market_data with pricing
+      const marketData: any = {};
+      if (priceQcent !== '' && priceQcent > 0) {
+        marketData.pricing_model = {
+          tiers: [{ amount: Number(priceQcent), currency: 'QCT' }]
+        };
+      }
+
       const contentData = {
         title,
         excerpt,
         thumbnail,
         modalities,
+        market_data: Object.keys(marketData).length > 0 ? marketData : null,
         placement: { section, tab, imagePosition, imageScale, imageX, imageY, position },
         status: publish ? ('published' as const) : ('draft' as const),
         domain: 'qriptopian',
