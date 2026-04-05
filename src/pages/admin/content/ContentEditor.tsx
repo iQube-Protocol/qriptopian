@@ -35,6 +35,7 @@ export default function ContentEditor() {
   const [linkUrl, setLinkUrl] = useState('');
   const [linkAllowEmbed, setLinkAllowEmbed] = useState(true);
   const [watchLoop, setWatchLoop] = useState(false);
+  const [priceQcent, setPriceQcent] = useState<number | ''>('');
   const [issueRef, setIssueRef] = useState('');
   const [uploading, setUploading] = useState(false);
   const [imagePosition, setImagePosition] = useState('center');
@@ -83,6 +84,12 @@ export default function ContentEditor() {
       if (modalities.link) {
         setLinkUrl(modalities.link.url || '');
         setLinkAllowEmbed(modalities.link.allow_embed !== false);
+      }
+
+      const marketData = content.market_data as any || {};
+      const tierAmount = marketData?.pricing_model?.tiers?.[0]?.amount;
+      if (tierAmount !== undefined && tierAmount !== null) {
+        setPriceQcent(tierAmount);
       }
     } catch (error) {
       console.error('Error loading content:', error);
@@ -208,11 +215,20 @@ export default function ContentEditor() {
         modalities.link = { url: linkUrl, allow_embed: linkAllowEmbed };
       }
 
+      // Build market_data with pricing
+      const marketData: any = {};
+      if (priceQcent !== '' && priceQcent > 0) {
+        marketData.pricing_model = {
+          tiers: [{ amount: Number(priceQcent), currency: 'QCT' }]
+        };
+      }
+
       const contentData = {
         title,
         excerpt,
         thumbnail,
         modalities,
+        market_data: Object.keys(marketData).length > 0 ? marketData : null,
         placement: { section, tab, imagePosition, imageScale, imageX, imageY, position },
         status: publish ? ('published' as const) : ('draft' as const),
         domain: 'qriptopian',
@@ -593,6 +609,25 @@ HTML elements:
           </div>
 
           <div className="space-y-6">
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Pricing</h3>
+              <div className="space-y-2">
+                <Label htmlFor="priceQcent">Q¢ Price</Label>
+                <Input
+                  id="priceQcent"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={priceQcent}
+                  onChange={(e) => setPriceQcent(e.target.value === '' ? '' : Number(e.target.value))}
+                  placeholder="0 = free"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Set a Q¢ price to gate this content. Leave at 0 or empty for free access.
+                </p>
+              </div>
+            </Card>
+
             <Card className="p-6">
               <h3 className="text-lg font-semibold mb-4">Image Positioning</h3>
               <div className="space-y-4">
