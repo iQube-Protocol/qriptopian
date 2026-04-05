@@ -35,6 +35,7 @@ export default function ContentEditor() {
   const [linkUrl, setLinkUrl] = useState('');
   const [linkAllowEmbed, setLinkAllowEmbed] = useState(true);
   const [watchLoop, setWatchLoop] = useState(false);
+  const [priceQcent, setPriceQcent] = useState<number | ''>('');
   const [issueRef, setIssueRef] = useState('');
   const [uploading, setUploading] = useState(false);
   const [imagePosition, setImagePosition] = useState('center');
