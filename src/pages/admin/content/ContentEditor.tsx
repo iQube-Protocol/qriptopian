@@ -85,6 +85,12 @@ export default function ContentEditor() {
         setLinkUrl(modalities.link.url || '');
         setLinkAllowEmbed(modalities.link.allow_embed !== false);
       }
+
+      const marketData = content.market_data as any || {};
+      const tierAmount = marketData?.pricing_model?.tiers?.[0]?.amount;
+      if (tierAmount !== undefined && tierAmount !== null) {
+        setPriceQcent(tierAmount);
+      }
     } catch (error) {
       console.error('Error loading content:', error);
       toast.error('Failed to load content');
