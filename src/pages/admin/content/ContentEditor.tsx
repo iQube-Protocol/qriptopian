@@ -610,6 +610,24 @@ HTML elements:
 
           <div className="space-y-6">
             <Card className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Pricing</h3>
+              <div className="space-y-2">
+                <Label htmlFor="priceQcent">Q¢ Price</Label>
+                <Input
+                  id="priceQcent"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={priceQcent}
+                  onChange={(e) => setPriceQcent(e.target.value === '' ? '' : Number(e.target.value))}
+                  placeholder="0 = free"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Set a Q¢ price to gate this content. Leave at 0 or empty for free access.
+                </p>
+              </div>
+            </Card>
+
               <h3 className="text-lg font-semibold mb-4">Image Positioning</h3>
               <div className="space-y-4">
                 <div>
