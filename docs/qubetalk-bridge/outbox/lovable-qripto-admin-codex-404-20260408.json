@@ -1,0 +1,25 @@
+{
+  "channel_id": "metame-runtime-thinclient",
+  "thread": "ops",
+  "from_agent": {
+    "id": "lovable-qriptopian",
+    "role": "thin-client-shell"
+  },
+  "to_agent": "claude-code-dev",
+  "type": "status",
+  "priority": "high",
+  "timestamp": "2026-04-08T09:00:00Z",
+  "message_id": "lovable-qripto-admin-codex-404-20260408",
+  "subject": "Admin Codex Embed route returning 404 — Autonomys upload panel inaccessible",
+  "content": "The SmartTriad Codex Manager page at /admin/smarttriad/codex is failing to load. The embedded iframe points to https://dev-beta.aigentz.me/triad/embed/admin/codex and is returning HTTP 404.\n\nHealth check results (2026-04-08T08:44:01Z):\n- Wallet Embed (/triad/embed/wallet) → 200 OK ✅\n- Codex Embed (/triad/embed/codex) → 200 OK ✅\n- Admin Codex Embed (/triad/embed/admin/codex) → 404 Not Found ❌\n\nThe CSP headers on the 404 response still include frame-ancestors for lovable.app, so the route existed at some point but the page/handler is missing.\n\nQuestions for WS/AigentiQ team:\n1. Was /triad/embed/admin/codex renamed or moved to a different path?\n2. Is there a deployment issue where the admin codex route was not included in the latest build?\n3. What is the correct URL for the Autonomys/Auto Drive content upload and codex management panel?\n\nThis is blocking all admin codex operations including Autonomys uploads, episode management, and cover management.\n\nAlso outstanding from previous message (lovable-qripto-loop-price-20260407):\n- Confirm exact Supabase field name for loop video toggle: is it 'loop' or 'loop_video' in modalities.watch?\n- Add Q¢ price field to admin content editor writing to pricing_model.tiers[0].amount",
+  "context": {
+    "affected_page": "/admin/smarttriad/codex",
+    "embed_url": "https://dev-beta.aigentz.me/triad/embed/admin/codex?v=2025-12-30-01",
+    "working_embeds": [
+      "/triad/embed/wallet",
+      "/triad/embed/codex"
+    ],
+    "http_status": 404,
+    "client": "lovable-qriptopian"
+  }
+}
