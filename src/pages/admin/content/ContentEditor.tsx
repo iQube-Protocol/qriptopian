@@ -206,8 +206,8 @@ export default function ContentEditor() {
       }
 
       const modalities: any = {};
-      if (readText) {
-        modalities.read = { text: readText, duration: readDuration };
+      if (readText || readPdfUrl) {
+        modalities.read = { text: readText, duration: readDuration, pdf_url: readPdfUrl || undefined };
       }
       if (watchUrl) {
         modalities.watch = { video_url: watchUrl, duration: watchDuration, loop: watchLoop };
