@@ -801,6 +801,7 @@ HTML elements:
         title={title || 'Untitled Article'}
         excerpt={excerpt}
         duration={readDuration}
+        pdfUrl={readPdfUrl || undefined}
         onClose={() => setShowArticlePreview(false)}
       />
     )}
