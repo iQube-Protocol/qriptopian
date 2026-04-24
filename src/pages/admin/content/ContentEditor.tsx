@@ -176,6 +176,8 @@ export default function ContentEditor() {
         setListenUrl(publicUrl);
         const duration = await extractMediaDuration(file, 'audio');
         if (duration) setListenDuration(duration);
+      } else if (type === 'pdf') {
+        setReadPdfUrl(publicUrl);
       }
 
       toast.success('File uploaded successfully');
