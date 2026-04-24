@@ -2,6 +2,25 @@ import React, { useState } from 'react';
 import { Markdown } from '@/lib/markdown';
 import { FileText, BookOpen, ExternalLink } from 'lucide-react';
 
+/**
+ * Rewrites a Supabase storage URL to force inline rendering instead of download.
+ * Supabase public PDF URLs often default to Content-Disposition: attachment, which
+ * makes browsers download the file. Adding `download=false` tells Supabase to serve
+ * it inline so the browser's PDF viewer renders it.
+ */
+function getInlinePdfUrl(url: string): string {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    if (u.pathname.includes('/storage/v1/object/')) {
+      u.searchParams.set('download', 'false');
+    }
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 interface ArticleRendererProps {
   content: string;
   title?: string;
@@ -96,15 +115,22 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
           {view === 'pdf' && hasPdf ? (
             <div className="p-2 sm:p-3">
               <div className="w-full h-[70vh] sm:h-[75vh] rounded-md overflow-hidden border border-gray-800 bg-black">
-                <iframe
-                  src={`${pdfUrl}#toolbar=1&navpanes=0`}
-                  title={title ? `${title} (PDF)` : 'PDF document'}
+                <object
+                  data={`${getInlinePdfUrl(pdfUrl!)}#toolbar=1&navpanes=0&view=FitH`}
+                  type="application/pdf"
                   className="w-full h-full"
-                />
+                  aria-label={title ? `${title} (PDF)` : 'PDF document'}
+                >
+                  <iframe
+                    src={`https://docs.google.com/viewer?url=${encodeURIComponent(getInlinePdfUrl(pdfUrl!))}&embedded=true`}
+                    title={title ? `${title} (PDF)` : 'PDF document'}
+                    className="w-full h-full"
+                  />
+                </object>
               </div>
               <div className="px-2 py-2 flex justify-end">
                 <a
-                  href={pdfUrl}
+                  href={getInlinePdfUrl(pdfUrl!)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-xs text-qripto-cyan hover:underline"
