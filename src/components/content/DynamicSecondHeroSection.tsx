@@ -181,6 +181,7 @@ export function DynamicSecondHeroSection() {
           title={currentArticle.title}
           excerpt={currentArticle.excerpt}
           duration={currentModalities.read.duration}
+          pdfUrl={currentModalities.read.pdf_url}
         />
       )}
 
