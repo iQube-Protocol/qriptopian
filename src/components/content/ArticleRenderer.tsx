@@ -2,6 +2,25 @@ import React, { useState } from 'react';
 import { Markdown } from '@/lib/markdown';
 import { FileText, BookOpen, ExternalLink } from 'lucide-react';
 
+/**
+ * Rewrites a Supabase storage URL to force inline rendering instead of download.
+ * Supabase public PDF URLs often default to Content-Disposition: attachment, which
+ * makes browsers download the file. Adding `download=false` tells Supabase to serve
+ * it inline so the browser's PDF viewer renders it.
+ */
+function getInlinePdfUrl(url: string): string {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    if (u.pathname.includes('/storage/v1/object/')) {
+      u.searchParams.set('download', 'false');
+    }
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 interface ArticleRendererProps {
   content: string;
   title?: string;
