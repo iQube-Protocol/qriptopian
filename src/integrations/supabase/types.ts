@@ -2070,6 +2070,36 @@ export type Database = {
         }
         Relationships: []
       }
+      conversation_summaries: {
+        Row: {
+          conversation_type: string
+          created_at: string
+          id: string
+          included_interaction_ids: string[]
+          summary_text: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          conversation_type: string
+          created_at?: string
+          id?: string
+          included_interaction_ids?: string[]
+          summary_text: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          conversation_type?: string
+          created_at?: string
+          id?: string
+          included_interaction_ids?: string[]
+          summary_text?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       crm_admin_categories: {
         Row: {
           color: string | null
@@ -5293,6 +5323,69 @@ export type Database = {
         }
         Relationships: []
       }
+      identity_iqubes: {
+        Row: {
+          addresses: Json
+          created_at: string
+          date_of_birth: string
+          driving_license_expiry: string
+          driving_license_number: string
+          driving_license_state: string
+          emails: Json
+          fio_handle: string
+          first_name: string
+          id: string
+          last_name: string
+          middle_name: string
+          mint_status: string
+          mint_stub_id: string | null
+          personas: Json
+          phones: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          addresses?: Json
+          created_at?: string
+          date_of_birth?: string
+          driving_license_expiry?: string
+          driving_license_number?: string
+          driving_license_state?: string
+          emails?: Json
+          fio_handle?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          middle_name?: string
+          mint_status?: string
+          mint_stub_id?: string | null
+          personas?: Json
+          phones?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          addresses?: Json
+          created_at?: string
+          date_of_birth?: string
+          driving_license_expiry?: string
+          driving_license_number?: string
+          driving_license_state?: string
+          emails?: Json
+          fio_handle?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          middle_name?: string
+          mint_status?: string
+          mint_stub_id?: string | null
+          personas?: Json
+          phones?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       iq_blak_qubes: {
         Row: {
           checksum: string | null
@@ -5380,6 +5473,10 @@ export type Database = {
       iq_token_qubes: {
         Row: {
           access_policy: Json | null
+          chain_id: number | null
+          chain_minter: string | null
+          chain_token_id: number | null
+          chain_tx_hash: string | null
           created_at: string | null
           id: string
           key_ciphertext: string
@@ -5389,6 +5486,10 @@ export type Database = {
         }
         Insert: {
           access_policy?: Json | null
+          chain_id?: number | null
+          chain_minter?: string | null
+          chain_token_id?: number | null
+          chain_tx_hash?: string | null
           created_at?: string | null
           id?: string
           key_ciphertext: string
@@ -5398,6 +5499,10 @@ export type Database = {
         }
         Update: {
           access_policy?: Json | null
+          chain_id?: number | null
+          chain_minter?: string | null
+          chain_token_id?: number | null
+          chain_tx_hash?: string | null
           created_at?: string | null
           id?: string
           key_ciphertext?: string
@@ -5518,6 +5623,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      iqube_mint_stubs: {
+        Row: {
+          autonomys_cid: string | null
+          blakqube_ciphertext: string | null
+          blakqube_iv: string | null
+          chain_tx: string | null
+          created_at: string
+          id: string
+          iqube_type: string
+          metaqube_payload: Json | null
+          status: string
+          template_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          autonomys_cid?: string | null
+          blakqube_ciphertext?: string | null
+          blakqube_iv?: string | null
+          chain_tx?: string | null
+          created_at?: string
+          id?: string
+          iqube_type: string
+          metaqube_payload?: Json | null
+          status?: string
+          template_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          autonomys_cid?: string | null
+          blakqube_ciphertext?: string | null
+          blakqube_iv?: string | null
+          chain_tx?: string | null
+          created_at?: string
+          id?: string
+          iqube_type?: string
+          metaqube_payload?: Json | null
+          status?: string
+          template_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       iqube_shares: {
         Row: {
@@ -8720,11 +8870,13 @@ export type Database = {
           csv_other_nfts: string | null
           csv_transaction_count: number | null
           csv_transfer_methods: string | null
+          "Digital-Cards-Owned": string | null
           "Digital-Comics-Owned": string | null
           "Discord-Handle": string | null
           Email: string | null
           "EVM-Public-Key": string | null
           "Facebook-ID": string | null
+          fio_handle: string | null
           "First-Name": string | null
           id: string
           "Instagram-Handle": string | null
@@ -8736,8 +8888,10 @@ export type Database = {
           is_steward: boolean
           kickstarter_backed_at: string | null
           kickstarter_clicked_at: string | null
+          knyt_handle: string | null
           "KNYT-Cards-Owned": string | null
           "KNYT-COYN-Owned": string | null
+          "KNYT-COYN-Qripto-Owned": string | null
           "KNYT-ID": string | null
           "KNYT-Posters-Owned": string | null
           ks_backer: boolean
@@ -8751,6 +8905,7 @@ export type Database = {
           message_angle: string | null
           "Metaiye-Shares-Owned": string | null
           "MetaKeep-Public-Key": string | null
+          metaknyts_iqubes_owned: string | null
           "Motion-Comics-Owned": string | null
           offer_fit: string | null
           "OM-Member-Since": string | null
@@ -8762,10 +8917,14 @@ export type Database = {
           platform_engagement_score: number
           preferred_channel_primary: string | null
           preferred_channel_secondary: string | null
+          print_episodes_owned: string | null
+          "Print-Cards-Owned": string | null
+          "Print-Comics-Owned": string | null
           Profession: string | null
           profile_image_url: string | null
           reactivation_potential: string | null
           remix_count: number
+          "Solana-Public-Key": string | null
           "Telegram-Handle": string | null
           "ThirdWeb-Public-Key": string | null
           "TikTok-Handle": string | null
@@ -8798,11 +8957,13 @@ export type Database = {
           csv_other_nfts?: string | null
           csv_transaction_count?: number | null
           csv_transfer_methods?: string | null
+          "Digital-Cards-Owned"?: string | null
           "Digital-Comics-Owned"?: string | null
           "Discord-Handle"?: string | null
           Email?: string | null
           "EVM-Public-Key"?: string | null
           "Facebook-ID"?: string | null
+          fio_handle?: string | null
           "First-Name"?: string | null
           id?: string
           "Instagram-Handle"?: string | null
@@ -8814,8 +8975,10 @@ export type Database = {
           is_steward?: boolean
           kickstarter_backed_at?: string | null
           kickstarter_clicked_at?: string | null
+          knyt_handle?: string | null
           "KNYT-Cards-Owned"?: string | null
           "KNYT-COYN-Owned"?: string | null
+          "KNYT-COYN-Qripto-Owned"?: string | null
           "KNYT-ID"?: string | null
           "KNYT-Posters-Owned"?: string | null
           ks_backer?: boolean
@@ -8829,6 +8992,7 @@ export type Database = {
           message_angle?: string | null
           "Metaiye-Shares-Owned"?: string | null
           "MetaKeep-Public-Key"?: string | null
+          metaknyts_iqubes_owned?: string | null
           "Motion-Comics-Owned"?: string | null
           offer_fit?: string | null
           "OM-Member-Since"?: string | null
@@ -8840,10 +9004,14 @@ export type Database = {
           platform_engagement_score?: number
           preferred_channel_primary?: string | null
           preferred_channel_secondary?: string | null
+          print_episodes_owned?: string | null
+          "Print-Cards-Owned"?: string | null
+          "Print-Comics-Owned"?: string | null
           Profession?: string | null
           profile_image_url?: string | null
           reactivation_potential?: string | null
           remix_count?: number
+          "Solana-Public-Key"?: string | null
           "Telegram-Handle"?: string | null
           "ThirdWeb-Public-Key"?: string | null
           "TikTok-Handle"?: string | null
@@ -8876,11 +9044,13 @@ export type Database = {
           csv_other_nfts?: string | null
           csv_transaction_count?: number | null
           csv_transfer_methods?: string | null
+          "Digital-Cards-Owned"?: string | null
           "Digital-Comics-Owned"?: string | null
           "Discord-Handle"?: string | null
           Email?: string | null
           "EVM-Public-Key"?: string | null
           "Facebook-ID"?: string | null
+          fio_handle?: string | null
           "First-Name"?: string | null
           id?: string
           "Instagram-Handle"?: string | null
@@ -8892,8 +9062,10 @@ export type Database = {
           is_steward?: boolean
           kickstarter_backed_at?: string | null
           kickstarter_clicked_at?: string | null
+          knyt_handle?: string | null
           "KNYT-Cards-Owned"?: string | null
           "KNYT-COYN-Owned"?: string | null
+          "KNYT-COYN-Qripto-Owned"?: string | null
           "KNYT-ID"?: string | null
           "KNYT-Posters-Owned"?: string | null
           ks_backer?: boolean
@@ -8907,6 +9079,7 @@ export type Database = {
           message_angle?: string | null
           "Metaiye-Shares-Owned"?: string | null
           "MetaKeep-Public-Key"?: string | null
+          metaknyts_iqubes_owned?: string | null
           "Motion-Comics-Owned"?: string | null
           offer_fit?: string | null
           "OM-Member-Since"?: string | null
@@ -8918,10 +9091,14 @@ export type Database = {
           platform_engagement_score?: number
           preferred_channel_primary?: string | null
           preferred_channel_secondary?: string | null
+          print_episodes_owned?: string | null
+          "Print-Cards-Owned"?: string | null
+          "Print-Comics-Owned"?: string | null
           Profession?: string | null
           profile_image_url?: string | null
           reactivation_potential?: string | null
           remix_count?: number
+          "Solana-Public-Key"?: string | null
           "Telegram-Handle"?: string | null
           "ThirdWeb-Public-Key"?: string | null
           "TikTok-Handle"?: string | null
@@ -9215,10 +9392,12 @@ export type Database = {
           Email: string | null
           "EVM-Public-Key": string | null
           "Facebook-ID": string | null
+          fio_handle: string | null
           "First-Name": string | null
           "GitHub-Handle": string | null
           id: string
           "Instagram-Handle": string | null
+          knyt_handle: string | null
           "Last-Name": string | null
           "LinkedIn-ID": string | null
           "LinkedIn-Profile-URL": string | null
@@ -9226,12 +9405,13 @@ export type Database = {
           Profession: string | null
           profile_image_url: string | null
           "Qripto-ID": string | null
+          "Solana-Public-Key": string | null
           "Telegram-Handle": string | null
           "TikTok-Handle": string | null
           "Tokens-of-Interest": string[] | null
           "Twitter-Handle": string | null
           updated_at: string
-          user_id: string
+          user_id: string | null
           "Wallets-of-Interest": string[] | null
           "Web3-Interests": string[] | null
           "YouTube-ID": string | null
@@ -9244,10 +9424,12 @@ export type Database = {
           Email?: string | null
           "EVM-Public-Key"?: string | null
           "Facebook-ID"?: string | null
+          fio_handle?: string | null
           "First-Name"?: string | null
           "GitHub-Handle"?: string | null
           id?: string
           "Instagram-Handle"?: string | null
+          knyt_handle?: string | null
           "Last-Name"?: string | null
           "LinkedIn-ID"?: string | null
           "LinkedIn-Profile-URL"?: string | null
@@ -9255,12 +9437,13 @@ export type Database = {
           Profession?: string | null
           profile_image_url?: string | null
           "Qripto-ID"?: string | null
+          "Solana-Public-Key"?: string | null
           "Telegram-Handle"?: string | null
           "TikTok-Handle"?: string | null
           "Tokens-of-Interest"?: string[] | null
           "Twitter-Handle"?: string | null
           updated_at?: string
-          user_id: string
+          user_id?: string | null
           "Wallets-of-Interest"?: string[] | null
           "Web3-Interests"?: string[] | null
           "YouTube-ID"?: string | null
@@ -9273,10 +9456,12 @@ export type Database = {
           Email?: string | null
           "EVM-Public-Key"?: string | null
           "Facebook-ID"?: string | null
+          fio_handle?: string | null
           "First-Name"?: string | null
           "GitHub-Handle"?: string | null
           id?: string
           "Instagram-Handle"?: string | null
+          knyt_handle?: string | null
           "Last-Name"?: string | null
           "LinkedIn-ID"?: string | null
           "LinkedIn-Profile-URL"?: string | null
@@ -9284,12 +9469,13 @@ export type Database = {
           Profession?: string | null
           profile_image_url?: string | null
           "Qripto-ID"?: string | null
+          "Solana-Public-Key"?: string | null
           "Telegram-Handle"?: string | null
           "TikTok-Handle"?: string | null
           "Tokens-of-Interest"?: string[] | null
           "Twitter-Handle"?: string | null
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
           "Wallets-of-Interest"?: string[] | null
           "Web3-Interests"?: string[] | null
           "YouTube-ID"?: string | null
@@ -13260,6 +13446,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_interactions: {
+        Row: {
+          created_at: string
+          id: string
+          interaction_type: string
+          metadata: Json | null
+          query: string
+          response: string
+          summarized: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interaction_type: string
+          metadata?: Json | null
+          query: string
+          response: string
+          summarized?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interaction_type?: string
+          metadata?: Json | null
+          query?: string
+          response?: string
+          summarized?: boolean
+          user_id?: string
+        }
+        Relationships: []
       }
       user_iqubes: {
         Row: {
