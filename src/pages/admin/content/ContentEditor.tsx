@@ -130,7 +130,7 @@ export default function ContentEditor() {
     });
   }
 
-  async function handleFileUpload(file: File, type: 'thumbnail' | 'video' | 'audio') {
+  async function handleFileUpload(file: File, type: 'thumbnail' | 'video' | 'audio' | 'pdf') {
     setUploading(true);
     
     // Check file size and show appropriate message
