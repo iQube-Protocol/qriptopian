@@ -720,6 +720,7 @@ const tx = await qiri.send({
           title={content[selectedItemIndex]?.title}
           excerpt={content[selectedItemIndex]?.excerpt}
           duration={(content[selectedItemIndex].modalities as ContentModalities).read?.duration}
+          pdfUrl={(content[selectedItemIndex].modalities as ContentModalities).read?.pdf_url}
           onClose={() => setActiveMode(null)}
         />
       )}
