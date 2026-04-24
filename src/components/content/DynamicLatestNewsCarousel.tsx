@@ -232,6 +232,7 @@ export function DynamicLatestNewsCarousel() {
           title={selectedArticle.title}
           excerpt={selectedArticle.excerpt || undefined}
           duration={selectedArticle.duration || undefined}
+          pdfUrl={(contentService.getModality(selectedArticle, 'read') as { pdf_url?: string })?.pdf_url}
           onClose={closeModal}
         />
       )}
