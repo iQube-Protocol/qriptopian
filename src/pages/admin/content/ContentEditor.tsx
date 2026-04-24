@@ -479,6 +479,49 @@ HTML elements:
                       disabled
                     />
                   </div>
+                  <div>
+                    <Label htmlFor="readPdfUrl">Companion PDF (optional)</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="readPdfUrl"
+                        value={readPdfUrl}
+                        onChange={(e) => setReadPdfUrl(e.target.value)}
+                        placeholder="https://... (PDF URL)"
+                        className="flex-1"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        disabled={uploading}
+                        onClick={() => {
+                          const input = document.createElement('input');
+                          input.type = 'file';
+                          input.accept = 'application/pdf,.pdf';
+                          input.onchange = (e) => {
+                            const file = (e.target as HTMLInputElement).files?.[0];
+                            if (file) handleFileUpload(file, 'pdf');
+                          };
+                          input.click();
+                        }}
+                      >
+                        <Upload className="h-4 w-4" />
+                      </Button>
+                      {readPdfUrl && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setReadPdfUrl('')}
+                        >
+                          Clear
+                        </Button>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When present, readers will see a "Read PDF" toggle alongside the article text. PDF opens in the in-app viewer.
+                    </p>
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="watch" className="space-y-4 mt-4">
