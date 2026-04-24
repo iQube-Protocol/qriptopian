@@ -28,6 +28,7 @@ export default function ContentEditor() {
   const [thumbnail, setThumbnail] = useState('');
   const [readText, setReadText] = useState('');
   const [readDuration, setReadDuration] = useState('');
+  const [readPdfUrl, setReadPdfUrl] = useState('');
   const [watchUrl, setWatchUrl] = useState('');
   const [watchDuration, setWatchDuration] = useState('');
   const [listenUrl, setListenUrl] = useState('');
