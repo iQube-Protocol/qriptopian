@@ -16,6 +16,7 @@ export interface ContentModalities {
   read?: {
     text: string;
     duration?: string;
+    pdf_url?: string;
   };
   watch?: {
     video_url: string;
