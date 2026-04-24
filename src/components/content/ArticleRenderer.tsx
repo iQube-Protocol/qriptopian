@@ -1,33 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Markdown } from '@/lib/markdown';
+import { FileText, BookOpen, ExternalLink } from 'lucide-react';
 
 interface ArticleRendererProps {
   content: string;
   title?: string;
   excerpt?: string;
   duration?: string;
+  pdfUrl?: string;
   onClose?: () => void;
 }
 
 /**
  * ArticleRenderer - Full-screen article modal with Markdown + HTML support
- * 
+ *
  * Supports:
  * - Standard Markdown (headings, lists, quotes, code, etc.)
  * - Raw HTML tables, links, and other allowed elements
  * - XSS sanitization for security
+ * - Optional PDF companion document via in-app PDF viewer
  * - Qriptopian themed styling (cyan/purple gradients)
- * 
+ *
  * See docs/QRIPTOPIAN_STYLE_GUIDE.md for design details
  * See src/lib/markdown.tsx for the allowlist configuration
  */
-export const ArticleRenderer: React.FC<ArticleRendererProps> = ({ 
-  content, 
-  title, 
-  excerpt, 
+export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
+  content,
+  title,
+  excerpt,
   duration,
-  onClose 
+  pdfUrl,
+  onClose,
 }) => {
+  const [view, setView] = useState<'article' | 'pdf'>('article');
+  const hasPdf = !!pdfUrl;
+  const hasArticle = !!content?.trim();
+
+  // If no article content but a PDF exists, default to PDF view
+  React.useEffect(() => {
+    if (!hasArticle && hasPdf) setView('pdf');
+  }, [hasArticle, hasPdf]);
+
   return (
     <div className="fixed inset-0 z-[9999] bg-black/95 overflow-y-auto">
       <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
@@ -49,17 +62,68 @@ export const ArticleRenderer: React.FC<ArticleRendererProps> = ({
                 {duration}
               </span>
             )}
+
+            {/* View toggle — only shown when both modes are available */}
+            {hasPdf && hasArticle && (
+              <div className="flex gap-2 mt-4">
+                <button
+                  onClick={() => setView('article')}
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors border ${
+                    view === 'article'
+                      ? 'bg-qripto-cyan/20 text-qripto-cyan border-qripto-cyan/40'
+                      : 'bg-transparent text-gray-300 border-gray-700 hover:bg-gray-800'
+                  }`}
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Read Article
+                </button>
+                <button
+                  onClick={() => setView('pdf')}
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors border ${
+                    view === 'pdf'
+                      ? 'bg-qripto-cyan/20 text-qripto-cyan border-qripto-cyan/40'
+                      : 'bg-transparent text-gray-300 border-gray-700 hover:bg-gray-800'
+                  }`}
+                >
+                  <FileText className="h-4 w-4" />
+                  Read PDF
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Article Content with Markdown + HTML support */}
-          <div 
-            className="p-4 sm:p-6 max-h-[60vh] sm:max-h-[65vh] overflow-y-auto article-content"
-            style={{ 
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-            }}
-          >
-            <Markdown>{content}</Markdown>
-          </div>
+          {/* Content Area */}
+          {view === 'pdf' && hasPdf ? (
+            <div className="p-2 sm:p-3">
+              <div className="w-full h-[70vh] sm:h-[75vh] rounded-md overflow-hidden border border-gray-800 bg-black">
+                <iframe
+                  src={`${pdfUrl}#toolbar=1&navpanes=0`}
+                  title={title ? `${title} (PDF)` : 'PDF document'}
+                  className="w-full h-full"
+                />
+              </div>
+              <div className="px-2 py-2 flex justify-end">
+                <a
+                  href={pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs text-qripto-cyan hover:underline"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                  Open PDF in new tab
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div
+              className="p-4 sm:p-6 max-h-[60vh] sm:max-h-[65vh] overflow-y-auto article-content"
+              style={{
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              }}
+            >
+              <Markdown>{content}</Markdown>
+            </div>
+          )}
 
           {/* Close Button */}
           <div className="border-t border-gray-800 p-4 flex justify-end">

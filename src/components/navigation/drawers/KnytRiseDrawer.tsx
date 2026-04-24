@@ -439,6 +439,7 @@ export function ScrollsDrawer({ isOpen, onClose }: KnytRiseDrawerProps) {
           title={currentContent?.title}
           excerpt={currentContent?.excerpt}
           duration={currentModalities.read.duration}
+          pdfUrl={currentModalities.read.pdf_url}
           onClose={() => setActiveMode(null)}
         />
       )}

@@ -179,6 +179,7 @@ export function DynamicHeroSection() {
           title={currentArticle.title}
           excerpt={currentArticle.excerpt}
           duration={currentModalities.read.duration}
+          pdfUrl={currentModalities.read.pdf_url}
         />
       )}
 

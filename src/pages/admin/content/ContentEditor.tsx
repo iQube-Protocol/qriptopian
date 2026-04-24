@@ -28,6 +28,7 @@ export default function ContentEditor() {
   const [thumbnail, setThumbnail] = useState('');
   const [readText, setReadText] = useState('');
   const [readDuration, setReadDuration] = useState('');
+  const [readPdfUrl, setReadPdfUrl] = useState('');
   const [watchUrl, setWatchUrl] = useState('');
   const [watchDuration, setWatchDuration] = useState('');
   const [listenUrl, setListenUrl] = useState('');
@@ -71,6 +72,7 @@ export default function ContentEditor() {
       if (modalities.read) {
         setReadText(modalities.read.text || '');
         setReadDuration(modalities.read.duration || '');
+        setReadPdfUrl(modalities.read.pdf_url || '');
       }
       if (modalities.watch) {
         setWatchUrl(modalities.watch.video_url || '');
@@ -128,7 +130,7 @@ export default function ContentEditor() {
     });
   }
 
-  async function handleFileUpload(file: File, type: 'thumbnail' | 'video' | 'audio') {
+  async function handleFileUpload(file: File, type: 'thumbnail' | 'video' | 'audio' | 'pdf') {
     setUploading(true);
     
     // Check file size and show appropriate message
@@ -174,6 +176,8 @@ export default function ContentEditor() {
         setListenUrl(publicUrl);
         const duration = await extractMediaDuration(file, 'audio');
         if (duration) setListenDuration(duration);
+      } else if (type === 'pdf') {
+        setReadPdfUrl(publicUrl);
       }
 
       toast.success('File uploaded successfully');
@@ -202,8 +206,8 @@ export default function ContentEditor() {
       }
 
       const modalities: any = {};
-      if (readText) {
-        modalities.read = { text: readText, duration: readDuration };
+      if (readText || readPdfUrl) {
+        modalities.read = { text: readText, duration: readDuration, pdf_url: readPdfUrl || undefined };
       }
       if (watchUrl) {
         modalities.watch = { video_url: watchUrl, duration: watchDuration, loop: watchLoop };
@@ -474,6 +478,49 @@ HTML elements:
                       placeholder="e.g., 12 min read"
                       disabled
                     />
+                  </div>
+                  <div>
+                    <Label htmlFor="readPdfUrl">Companion PDF (optional)</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="readPdfUrl"
+                        value={readPdfUrl}
+                        onChange={(e) => setReadPdfUrl(e.target.value)}
+                        placeholder="https://... (PDF URL)"
+                        className="flex-1"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        disabled={uploading}
+                        onClick={() => {
+                          const input = document.createElement('input');
+                          input.type = 'file';
+                          input.accept = 'application/pdf,.pdf';
+                          input.onchange = (e) => {
+                            const file = (e.target as HTMLInputElement).files?.[0];
+                            if (file) handleFileUpload(file, 'pdf');
+                          };
+                          input.click();
+                        }}
+                      >
+                        <Upload className="h-4 w-4" />
+                      </Button>
+                      {readPdfUrl && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setReadPdfUrl('')}
+                        >
+                          Clear
+                        </Button>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When present, readers will see a "Read PDF" toggle alongside the article text. PDF opens in the in-app viewer.
+                    </p>
                   </div>
                 </TabsContent>
 
@@ -754,6 +801,7 @@ HTML elements:
         title={title || 'Untitled Article'}
         excerpt={excerpt}
         duration={readDuration}
+        pdfUrl={readPdfUrl || undefined}
         onClose={() => setShowArticlePreview(false)}
       />
     )}

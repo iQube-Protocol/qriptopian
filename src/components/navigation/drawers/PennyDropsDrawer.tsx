@@ -380,6 +380,7 @@ export function PennyDropsDrawer({ isOpen, onClose }: PennyDropsDrawerProps) {
           title={currentContent?.title}
           excerpt={currentContent?.excerpt}
           duration={currentModalities.read.duration}
+          pdfUrl={currentModalities.read.pdf_url}
           onClose={() => setActiveMode(null)}
         />
       )}
