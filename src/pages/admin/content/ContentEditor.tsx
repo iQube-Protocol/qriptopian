@@ -72,6 +72,7 @@ export default function ContentEditor() {
       if (modalities.read) {
         setReadText(modalities.read.text || '');
         setReadDuration(modalities.read.duration || '');
+        setReadPdfUrl(modalities.read.pdf_url || '');
       }
       if (modalities.watch) {
         setWatchUrl(modalities.watch.video_url || '');
