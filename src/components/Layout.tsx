@@ -21,20 +21,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen bg-[#020818]">
       <TopHeader />
-      
       <div className="flex w-full pt-[88px]">
-        <main className="flex-1 overflow-hidden">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
-
-      <MoneyPennyNav 
-        activeDomain={activeDomain} 
-        onDomainClick={handleDomainClick}
-        onAIClick={() => setIsAIOpen(true)}
-      />
-
-      {/* Domain Drawers */}
+      <MoneyPennyNav activeDomain={activeDomain} onDomainClick={handleDomainClick} onAIClick={() => setIsAIOpen(true)} />
       <SignalsDrawer isOpen={activeDomain === 'signals'} onClose={() => setActiveDomain(null)} />
       <MythosDrawer isOpen={activeDomain === 'mythos'} onClose={() => setActiveDomain(null)} />
       <LogosDrawer isOpen={activeDomain === 'logos'} onClose={() => setActiveDomain(null)} />
@@ -42,8 +32,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <BuildersDrawer isOpen={activeDomain === 'builders'} onClose={() => setActiveDomain(null)} />
       <CityDrawer isOpen={activeDomain === 'city'} onClose={() => setActiveDomain(null)} />
       <DispatchesDrawer isOpen={activeDomain === 'dispatches'} onClose={() => setActiveDomain(null)} />
-      
-      {/* Aigent Drawer */}
       <AigentDrawer isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
     </div>
   );
